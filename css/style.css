@@ -1,0 +1,34 @@
+body {
+  background-color: #01426A;
+}
+
+.card {
+  box-shadow: 0 10px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)
+}
+
+a {
+  color: #0057B8;
+}
+
+h6 {
+  font-weight: normal;
+}
+
+body {
+  margin: 2%;
+}
+
+.card {
+  margin-bottom: 15px;
+}
+
+.card-header {
+  background-color: white;
+  border: none;
+  text-align: left;
+}
+
+hr {
+  border-color: #CEB888;
+  border-width: 5px;
+}

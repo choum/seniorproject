@@ -1,0 +1,200 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    body {
+      margin: 2%;
+    }
+
+    .card {
+      margin-bottom: 15px;
+    }
+
+    .card-header {
+      background-color: white;
+      border: none;
+      text-align: left;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="row">
+    <div class="col-md-3">
+      <!--nav bar-->
+      <div class="card text-center">
+        <div class="card-header">
+          <ul class="nav nav-pills card-header-pills">
+            <li class="nav-item">
+              <a class="nav-link" href="#">Dashboard</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Profile</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Logout</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="card">
+        <img class="card-img-top" src="https://www.cpp.edu//img/Billy-Bronco-studio4.jpg" alt="Profile Image">
+        <div class="card-body">
+          <h3 class="card-title">Billy Bronco</h3>
+          <p class="card-text">Hi my name is Billy. I like to code. This is my profile page and where I can put all my projects</p>
+          <p class="card-text">Contact: bbronco@cpp.edu</p>
+        </div>
+        <div class="card-body">
+          <a href="https://www.linkedin.com/feed/" class="card-link">Resume</a>
+          <a href="http://www.cpp.edu/" class="card-link">Personal Website</a>
+        </div>
+      </div>
+
+    </div>
+    <div class="col-md-9">
+      <!--class & projects tab-->
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Classes & Projects</h3>
+        </div>
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+          <li class="nav-item">
+            <a class="nav-link" id="3090-tab" data-toggle="tab" href="#3090" role="tab" aria-controls="3090" aria-selected="false">CIS 3090</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="424-tab" data-toggle="tab" href="#424" role="tab" aria-controls="4260" aria-selected="false">CIS 424</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="4260-tab" data-toggle="tab" href="#4260" role="tab" aria-controls="4260" aria-selected="false">CIS 4260</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" id="4910-tab" data-toggle="tab" href="#4910" role="tab" aria-controls="contact" aria-selected="true">CIS 4910</a>
+          </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+          <div class="tab-pane fade" id="3090" role="tabpanel" aria-labelledby="3090-tab">
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item"><strong>Assignment 1</strong> - Description will go here about the project</li>
+              <li class="list-group-item"><strong>Assignment 2</strong> - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi gravida.</li>
+              <li class="list-group-item"><strong>Project</strong> - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi gravida.</li>
+            </ul>
+          </div>
+          <div class="tab-pane fade" id="424" role="tabpanel" aria-labelledby="4260-tab">
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item"><strong>Final Project</strong> - Description will go here about the project</li>
+            </ul>
+          </div>
+          <div class="tab-pane fade" id="4260" role="tabpanel" aria-labelledby="4260-tab">
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item"><strong>Assignment 1</strong> - Description will go here about the project</li>
+              <li class="list-group-item"><strong>Assignment 2</strong> - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi gravida.</li>
+              <li class="list-group-item"><strong>Project</strong> - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi gravida.</li>
+            </ul>
+          </div>
+          <div class="tab-pane fade show active" id="4910" role="tabpanel" aria-labelledby="4910-tab">
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item"><strong>Final Project</strong> - Description will go here about the project</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <!--project column 1-->
+      <div class="row">
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title">CIS 4910 - Final Project</h4>
+              <h6><a href="#">Project Link</a></h6>
+              <hr/>
+              <p class="card-text">Project description will go here. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tincidunt tellus sed varius commodo. Morbi id ante eu lectus maximus faucibus in vel diam. Ut sit amet nibh at tellus vehicula imperdiet quis
+                in mauris. Nunc rutrum scelerisque erat at egestas. Praesent consectetur iaculis diam, sit amet aliquet nisi aliquet quis. Curabitur et fermentum magna. Maecenas id dictum velit, quis lobortis lectus.</p>
+
+              <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner">
+                  <div class="carousel-item active">
+                    <img class="d-block w-100" src="hhtran/img/download.png" alt="First slide">
+                  </div>
+                  <div class="carousel-item">
+                    <img class="d-block w-100" src="hhtran/img/download2.png" alt="Second slide">
+                  </div>
+                  <div class="carousel-item">
+                    <img class="d-block w-100" src="hhtran/img/download3.png" alt="Third slide">
+                  </div>
+                </div>
+                <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="sr-only">Previous</span>
+            </a>
+                <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="sr-only">Next</span>
+            </a>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title">CIS 4260 - Assignment 1</h4>
+              <h6><a href="#">Project Link</a></h6>
+              <hr/>
+              <p class="card-text">Project description will go here. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tincidunt tellus sed varius commodo. Morbi id ante eu lectus maximus faucibus in vel diam. Ut sit amet nibh at tellus vehicula imperdiet quis
+                in mauris. Nunc rutrum scelerisque erat at egestas. Praesent consectetur iaculis diam, sit amet aliquet nisi aliquet quis. Curabitur et fermentum magna. Maecenas id dictum velit, quis lobortis lectus.</p>
+            </div>
+          </div>
+        </div>
+        <!--project column 2-->
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title">CIS 4260 - Assignment 2</h4>
+              <h6><a href="#">Project Link</a></h6>
+              <hr/>
+              <p class="card-text">Project description will go here. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tincidunt tellus sed varius commodo. Morbi id ante eu lectus maximus faucibus in vel diam. Ut sit amet nibh at tellus vehicula imperdiet quis
+                in mauris. Nunc rutrum scelerisque erat at egestas. Praesent consectetur iaculis diam, sit amet aliquet nisi aliquet quis. Curabitur et fermentum magna. Maecenas id dictum velit, quis lobortis lectus.</p>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title">CIS 424 - Final Project</h4>
+              <h6><a href="#">Project Link</a></h6>
+              <hr/>
+              <p class="card-text">Project description will go here. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tincidunt tellus sed varius commodo. Morbi id ante eu lectus maximus faucibus in vel diam. Ut sit amet nibh at tellus vehicula imperdiet quis
+                in mauris. Nunc rutrum scelerisque erat at egestas. Praesent consectetur iaculis diam, sit amet aliquet nisi aliquet quis. Curabitur et fermentum magna. Maecenas id dictum velit, quis lobortis lectus.</p>
+
+              <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner">
+                  <div class="carousel-item active">
+                    <img class="d-block w-100" src="hhtran/img/download4.png" alt="First slide">
+                  </div>
+                  <div class="carousel-item">
+                    <img class="d-block w-100" src="hhtran/img/download5.png" alt="Second slide">
+                  </div>
+                  <div class="carousel-item">
+                    <img class="d-block w-100" src="hhtran/img/download6.png" alt="Third slide">
+                  </div>
+                </div>
+                <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+              </a>
+                <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+              </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+</body>
+
+</html>

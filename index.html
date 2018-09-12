@@ -1,0 +1,105 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    #search {
+      background-color: #fff;
+    }
+
+    a {
+      color: #01426A;
+    }
+
+    label {
+      font-size: 13pt;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="row">
+    <div class="col-md-8">
+      <div class="card">
+        <nav class="navbar navbar-expand-lg">
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav nav nav-pills card-header-pills mr-auto">
+              <li class="nav-item">
+                <a class="nav-link" href="#">Dashboard</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Profile</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Logout</a>
+              </li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+              <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+              <button class="btn my-2 my-sm-0" type="submit" id="search">Search</button>
+            </form>
+          </div>
+        </nav>
+      </div>
+    </div>
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-header">
+          <hr>
+          <h4 class="card-title">Edit Profile</h4>
+        </div>
+        <div class="card-body" style="padding-top: 0px;">
+          <form>
+            <div class="form-group">
+              <label for="about">About Me</label>
+              <textarea class="form-control" id="about" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+              <label for="resume">Resume Link</label>
+              <input type="url" class="form-control" id="resume" placeholder="LinkedIn or Online Resume">
+            </div>
+            <div class="form-group">
+              <label for="website">Personal Website</label>
+              <input type="url" class="form-control" id="website" placeholder="Portfolio Website">
+            </div>
+            <div class="form-group">
+              <label for="picture">Profile Picture</label>
+              <input type="file" class="form-control-file" id="picture" aria-describedby="fileHelp">
+              <small id="fileHelp" class="form-text text-muted">Only supports PNG, JPG.</small>
+            </div>
+
+            <input type="submit" class="btn">
+          </form>
+          <hr />
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-header">
+          <hr>
+          <h4 class="card-title">Upload Project</h4>
+        </div>
+        <div class="card-body">
+          <hr>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-header">
+        </div>
+        <div class="card-body">
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
