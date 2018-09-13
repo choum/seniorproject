@@ -32,3 +32,11 @@ hr {
   border-color: #CEB888;
   border-width: 5px;
 }
+
+.card-vertical-borders {
+  margin: 20px;
+  border-left: #CEB888 5px solid;
+  border-right: #CEB888 5px solid;
+}
+
+#nav {}
