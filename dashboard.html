@@ -176,12 +176,23 @@
         <div class="card-body" style="padding-top: 0px;">
           <form method="post" enctype="multipart/form-data">
             <div class="form-group">
-              <label for="zip">Project Files</label></br>
+              <label>Class:</label><br />
+              <select>
+                  <option>CIS 3090 Fall 2018</option>
+                  <option>CIS 4260 Fall 2018</option>
+                  <option>CIS 4290 Fall 2018</option>
+                </select>
+            </div>
+            <div class="form-group">
+              <label for="zip">Project Files:</label><br />
               <input name="zip" id="zip" type="file" />
             </div>
             <div class="form-group">
-              <label for="filesToUpload[]">Images for Carousel Display</label></br>
+              <label for="filesToUpload[]">Images for Carousel Display:</label><br/>
               <input name="filesToUpload[]" id="filesToUpload" type="file" multiple="" /><br />
+            </div>
+            <div class="form-group">
+              <p>Is this a group project? <input type="checkbox" name="group" value=""></p>
             </div>
             <div class="form-group">
               <button type="submit" class="btn">Upload</button>
