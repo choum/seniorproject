@@ -99,10 +99,6 @@
       .card .nav {
         float: left;
       }
-      .col-md-4 {
-        max-width: 100% !important;
-        width: 100% !important;
-      }
     }
 
     @media (max-width: 575px) {
@@ -177,30 +173,30 @@
           <hr>
         </div>
         <div class="card-body" style="padding-top: 0px;">
-          <form method="post" enctype="multipart/form-data">
+          <form>
             <div class="form-group">
               <label>Class:</label><br />
               <select>
-                  <option>CIS 3090 Fall 2018</option>
-                  <option>CIS 4260 Fall 2018</option>
-                  <option>CIS 4290 Fall 2018</option>
-                </select>
+                <option>CIS 3090 Fall 2018</option>
+                <option>CIS 4260 Fall 2018</option>
+                <option>CIS 4290 Fall 2018</option>
+              </select>
             </div>
             <div class="form-group">
               <label>Assignment Name</label><br />
               <select>
-                  <option>Project 1</option>
-                  <option>Project 2</option>
-                  <option>Final Project</option>
-                </select>
+                <option>Project 1</option>
+                <option>Project 2</option>
+                <option>Final Project</option>
+                            </select>
             </div>
             <div class="form-group">
-              <label for="zip">Project Files:</label><br />
-              <input name="zip" id="zip" type="file" />
+              <label for="zip">Project Files:</label>
+              <input type="file" class="form-control-file" name="zip" id="zip" aria-describedby="fileHelp">
             </div>
             <div class="form-group">
               <label for="filesToUpload[]">Images for Carousel Display:</label><br/>
-              <input name="filesToUpload[]" id="filesToUpload" type="file" multiple="" /><br />
+              <input name="filesToUpload[]" class="form-control-file" id="filesToUpload" type="file" multiple="" /><br />
             </div>
             <div class="form-group">
               <p>Is this a group project? <input type="checkbox" name="group" value=""></p>
@@ -208,10 +204,8 @@
             <div class="form-group">
               <button type="submit" class="btn" value="Upload">Upload</button>
             </div>
+
           </form>
-          <hr />
-          <p class="card-text">FTP Access: bbronco@test.com</p>
-          <p class="card-text">File Directory: <img height="50px" width="50px" src="img/file.png" /></p>
           <hr />
         </div>
       </div>
