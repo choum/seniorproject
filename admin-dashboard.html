@@ -128,24 +128,24 @@
         <div class="card-body" style="padding-top: 0px;">
           <form>
             <div class="form-group">
-              <label for="classname">Class Name</label>
-              <input type="text" class="form-control" id="classname" placeholder="EX: CIS 4290">
+              <label for="classname">Course ID</label>
+              <input type="text" class="form-control" id="courseid" placeholder="EX: CIS 4290">
             </div>
             <div class="form-group">
               <label for="classname">Section Number</label>
               <input type="number" class="form-control" id="section" min="1" placeholder="EX: 1">
             </div>
             <div class="form-group">
-              <label for="classname">Quarter</label>
+              <label for="classname">Term</label>
               <select>
-                    <option>Fall</option>
-                    <option>Spring</option>
-                    <option>Summer</option>
+                    <option>Fall 2018</option>
+                    <option>Spring 2019</option>
+                    <option>Summer 2019</option>
                   </select>
             </div>
             <div class="form-group">
-              <label for="description">Class Description</label>
-              <textarea class="form-control" id="description" rows="3"></textarea>
+              <label for="description">Class Title</label>
+              <input type="text" class="form-control" id="courseid" placeholder="EX: Intro to Computing">
             </div>
             <div class="form-group">
               <label>Professor</label>
@@ -190,69 +190,71 @@
           </p>
         </div>
         <div class="card-body">
-          <table class="table table-responsive" style="margin: 0px auto;">
-            <thead>
-              <tr>
-                <th>Course ID</th>
-                <th>Name</th>
-                <th>Instructor</th>
-                <th>Term</th>
-                <th colspan="2">Assignment List</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>CIS 3090.01</td>
-                <td>Object-Oriented Programming for Business</td>
-                <td>Zhongming Ma</td>
-                <td>Fall 2018</td>
-                <td colspan="2">
-                  <ul>
-                    <li>Assignment 1</li>
-                    <li>Assignment 2</li>
-                    <li>Project</li>
-                  </ul>
-                </td>
-              </tr>
-              <tr>
-                <td>CIS 4260.01</td>
-                <td>Server-side Web Development</td>
-                <td>Zhongming Ma</td>
-                <td>Fall 2018</td>
-                <td colspan="2">
-                  <ul>
-                    <li>Assignment 1</li>
-                    <li>PHP Project</li>
-                    <li>Assignment 2</li>
-                    <li>JSP Project</li>
-                  </ul>
-                </td>
-              </tr>
-              <tr>
-                <td>CIS 4290.01</td>
-                <td>IS Project Management and Development</td>
-                <td>Hui Shi</td>
-                <td>Fall 2018</td>
-                <td colspan="2">
-                  <ul>
-                    <li>Senior Project</li>
-                  </ul>
-                </td>
-              </tr>
-              <tr>
-                <td>CIS 4270.01</td>
-                <td>Secure Web Applications</td>
-                <td>John Miller</td>
-                <td>Fall 2018</td>
-                <td colspan="2">
-                  <ul>
-                    <li>Final Project</li>
-                  </ul>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <hr />
+          <div class="table-responsive">
+            <table class="table" style="margin: 0px auto;">
+              <thead>
+                <tr>
+                  <th>Course ID</th>
+                  <th>Name</th>
+                  <th>Instructor</th>
+                  <th>Term</th>
+                  <th colspan="2">Assignment List</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>CIS 3090.01</td>
+                  <td>Object-Oriented Programming for Business</td>
+                  <td>Zhongming Ma</td>
+                  <td>Fall 2018</td>
+                  <td colspan="2">
+                    <ul>
+                      <li>Assignment 1</li>
+                      <li>Assignment 2</li>
+                      <li>Project</li>
+                    </ul>
+                  </td>
+                </tr>
+                <tr>
+                  <td>CIS 4260.01</td>
+                  <td>Server-side Web Development</td>
+                  <td>Zhongming Ma</td>
+                  <td>Fall 2018</td>
+                  <td colspan="2">
+                    <ul>
+                      <li>Assignment 1</li>
+                      <li>PHP Project</li>
+                      <li>Assignment 2</li>
+                      <li>JSP Project</li>
+                    </ul>
+                  </td>
+                </tr>
+                <tr>
+                  <td>CIS 4290.01</td>
+                  <td>IS Project Management and Development</td>
+                  <td>Hui Shi</td>
+                  <td>Fall 2018</td>
+                  <td colspan="2">
+                    <ul>
+                      <li>Senior Project</li>
+                    </ul>
+                  </td>
+                </tr>
+                <tr>
+                  <td>CIS 4270.01</td>
+                  <td>Secure Web Applications</td>
+                  <td>John Miller</td>
+                  <td>Fall 2018</td>
+                  <td colspan="2">
+                    <ul>
+                      <li>Final Project</li>
+                    </ul>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <hr />
+          </div>
         </div>
       </div>
 
