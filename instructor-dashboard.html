@@ -73,6 +73,13 @@
       }
     }
 
+    @media (max-width: 870px) {
+      .col-md.4 {
+        max-width: 100% !important;
+        width: 100% !important;
+      }
+    }
+
     @media (max-width: 650px) {
       #welcome {
         margin: 0;
@@ -124,7 +131,7 @@
   <div class="row">
     <!--edit profile-->
     <div class="col-md-4">
-      <div class="card">
+      <div class="card" style="overflow: auto;">
         <div class="card-header">
           <h4 class="card-title">Add Project</h4>
           <hr>
@@ -134,8 +141,8 @@
             <div class="form-group">
               <p style="margin: 0;"><label for="classList">List of Available Classes:</label></p>
               <select name="classList">
-                  <option value="3090">CIS 3090</option>
-                  <option value="4260">CIS 4260</option>
+                  <option value="3090">CIS 3090.01 Fall 2018</option>
+                  <option value="4260">CIS 4260.01 Fall 2018</option>
                 </select>
             </div>
             <div class="form-group">
@@ -147,10 +154,10 @@
               <textarea class="form-control" id="pDescription" rows="3"></textarea>
             </div>
             <div class="form-group">
-              <label for="zip">Upload Project Instructions:</label></br>
+              <label for="zip">Upload files</label></br>
               <input name="zip" id="zip" type="file" />
             </div>
-            <input type="submit" class="btn">
+            <input type="submit" class="btn" value="Submit">
           </form>
           <hr>
         </div>
@@ -164,8 +171,8 @@
           <hr/>
           <p class="card-text" style="float: right;">Sort by:
             <select>
-              <option>Year</option>
-              <option>Course ID</option>
+              <option>Fall 2018</option>
+              <option>Spring 2019</option>
             </select>
           </p>
         </div>
@@ -176,14 +183,16 @@
                 <th>Course ID</th>
                 <th>Name</th>
                 <th>Instructor</th>
+                <th>Term</th>
                 <th>Assignment List</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td>CIS 3090 Fall 2018</td>
+                <td>CIS 3090.01</td>
                 <td>Object-Oriented Programming for Business</td>
                 <td>Zhongming Ma</td>
+                <td>Fall 2018</td>
                 <td>
                   <ul>
                     <li>Assignment 1</li>
@@ -193,9 +202,10 @@
                 </td>
               </tr>
               <tr>
-                <td>CIS 4260 Fall 2018</td>
+                <td>CIS 4260.01 Fall 2018</td>
                 <td>Server-side Web Development</td>
                 <td>Zhongming Ma</td>
+                <td>Fall 2018</td>
                 <td>
                   <ul>
                     <li>Assignment 1</li>
