@@ -107,15 +107,6 @@
             <li class="nav-item">
               <a class="nav-link" href="#">Logout</a>
             </li>
-
-            <form class="form-inline my-2 my-lg-0 search">
-              <li class="nav-item">
-                <input class="form-control mr-sm-2" id="search-input" type="search" placeholder="Search" aria-label="Search">
-              </li>
-              <li class="nav-item">
-                <button class="btn my-2 my-sm-0" type="submit" id="search">Search</button>
-              </li>
-            </form>
           </ul>
         </div>
       </div>
@@ -124,35 +115,38 @@
   <div class="row">
     <!--edit profile-->
     <div class="col-md-4">
-      <div class="card" style="overflow: auto;">
+      <div class="card">
         <div class="card-header">
           <h4 class="card-title">Add Project</h4>
           <hr>
         </div>
-        <div class="card-body">
+        <div class="card-body" style="padding-top: 0px;">
           <form>
             <div class="form-group">
-              <p style="margin: 0;"><label for="classList">List of Available Classes:</label></p>
-              <select name="classList">
-                  <option value="3090">CIS 3090.01 Fall 2018</option>
-                  <option value="4260">CIS 4260.01 Fall 2018</option>
-                </select>
+              <p><label for="classname">Available Classes</label></p>
+              <select>
+                    <option>CIS 3090.01 Fall 2018</option>
+                    <option>CIS 4260.01 Fall 2018</option>
+              </select>
             </div>
             <div class="form-group">
-              <label for="projectname">Project Name:</label>
-              <input type="text" class="form-control" id="projectname" placeholder="EX: Project 1">
+              <label for="projectname">Project Name</label>
+              <input type="text" class="form-control" id="section" placeholder="EX: Project 1">
             </div>
             <div class="form-group">
-              <label for="pDescription">Project Description:</label>
-              <textarea class="form-control" id="pDescription" rows="3"></textarea>
+              <label for="description">Class Description</label>
+              <textarea class="form-control" id="description" rows="3"></textarea>
             </div>
             <div class="form-group">
-              <label for="zip">Upload files</label></br>
-              <input name="zip" id="zip" type="file" />
+              <label>Professor</label>
+              <select>
+                    <option>Zhongming Ma</option>
+                    <option>Hui Shi</option>
+                  </select>
             </div>
             <input type="submit" class="btn" value="Submit">
           </form>
-          <hr>
+          <hr />
         </div>
       </div>
     </div>
@@ -214,7 +208,7 @@
         </div>
       </div>
     </div>
-
+  </div>
 </body>
 
 </html>
