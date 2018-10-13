@@ -138,10 +138,10 @@
             <div class="form-group">
               <label for="classname">Term</label>
               <select>
-                    <option>Fall 2018</option>
-                    <option>Spring 2019</option>
-                    <option>Summer 2019</option>
-                  </select>
+                <option>Fall 2018</option>
+                <option>Spring 2019</option>
+                <option>Summer 2019</option>
+              </select>
             </div>
             <div class="form-group">
               <label for="description">Class Title</label>
@@ -150,11 +150,56 @@
             <div class="form-group">
               <label>Professor</label>
               <select>
-                    <option>Zhongming Ma</option>
-                    <option>Hui Shi</option>
-                  </select>
+                <option>Zhongming Ma</option>
+                <option>Hui Shi</option>
+              </select>
             </div>
             <input type="submit" class="btn" value="Add Class">
+          </form>
+          <hr />
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">Update Class</h4>
+          <hr>
+        </div>
+        <div class="card-body">
+          <label>Select existing class</label>
+          <select>
+            <option>CIS 3090</option>
+            <option selected>CIS 4260</option>
+            <option>CIS 4290</option>
+          </select>
+          <form>
+            <div class="form-group">
+              <label for="classname">Course ID</label>
+              <input type="text" class="form-control" id="courseid" value="CIS 4290">
+            </div>
+            <div class="form-group">
+              <label for="classname">Section Number</label>
+              <input type="number" class="form-control" id="section" min="1" value="1">
+            </div>
+            <div class="form-group">
+              <label for="classname">Term</label>
+              <select>
+                <option selected>Fall 2018</option>
+                <option>Spring 2019</option>
+                <option>Summer 2019</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="description">Class Title</label>
+              <input type="text" class="form-control" id="courseid" value="Serverside Web Development">
+            </div>
+            <div class="form-group">
+              <label>Professor</label>
+              <select>
+                <option selected>Zhongming Ma</option>
+                <option>Hui Shi</option>
+              </select>
+            </div>
+            <input type="submit" class="btn" value="Update Class">
           </form>
           <hr />
         </div>
@@ -175,13 +220,35 @@
           <hr />
         </div>
       </div>
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">Update Instructor</h4>
+          <hr>
+        </div>
+        <div class="card-body" style="padding-top: 0px;">
+          <label>Select existing professor</label>
+          <select>
+            <option>Hui Shi</option>
+            <option selected>Zhongming Ma</option>
+            <option>John Miller</option>
+          </select>
+          <form>
+            <div class="form-group">
+              <label for="classname">Instructor Name</label>
+              <input type="text" class="form-control" id="classname" value="Zhongming Ma">
+            </div>
+            <input type="submit" class="btn" value="Add Instructor">
+          </form>
+          <hr />
+        </div>
+      </div>
     </div>
     <!--my projects-->
     <div class="col-md-8">
       <div class="card">
         <div class="card-header">
           <h4 class="card-title">List of All Classes</h4>
-          <hr/>
+          <hr />
           <p class="card-text" style="float: right;">Sort by:
             <select>
               <option>Fall 2018</option>
