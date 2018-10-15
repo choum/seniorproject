@@ -13,19 +13,20 @@
                 $db  =  new  PDO($dsn,  $username,  $password);  
             } catch  (PDOException  $e)    {   
 
-                $error_message  =  $e->getMessage();                 
-                include('database_error.php');                 
-                exit();          
+                $error_message  =  $e->getMessage();                         
             }  
         }
 
         function addUser() {}
         function updateUser() {}
         function addInstructor() {}
-        function updateInstructor() {}    
+        function updateInstructor() {}  
+        function addCourse() {}
+        function updateCourse() {}  
         function getInstructors() {}
         function getCourses() {}
         function getTerms() {}
+        
 
     }
 ?>

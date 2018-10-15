@@ -7,7 +7,9 @@
         $thisTerm = "FALL 2000";
         $title = "Computing";
         $instructor = "Dr. Professor";
+        $assignments = [$assign1, $assign2];
         
+        //empty con
         function __construct() {
 
         }

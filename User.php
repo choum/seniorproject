@@ -16,15 +16,18 @@
         $lastLog = "11/11/2017";
 
 
+        //empty constructor
         function __construct() {
 
         }
 
+        //constructor with only name for instructors
         function __construct($name) {
 
             $lastName = $name;
         }
 
+        //constructor with all the info
         function __construct($usr , $first , $last , $t , $b , $image , $linked , $site , $r , $s , $create , $last) {
 
             $userName = $user;
