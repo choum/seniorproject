@@ -39,9 +39,9 @@
         //create an instance of the User class
         $instructor = new $User($instructorName)
 
-        //create an instance of the Database class
+        //create an instance of the SQLHelper class
         //add user to database
-        $db = new $Database
+        $db = new $SQLHelper
         $result = $db.addUser($instructor);
 
 
@@ -57,9 +57,9 @@
         //create an instance of the User class
         $instructor = new $User($instructorName);
 
-        //create an instance of the Database class
+        //create an instance of the SQLHelper class
         //update user in database
-        $db = new $Database
+        $db = new $SQLHelper
         $result = $db.updateUser($instructorName , $instructor);
 
 
@@ -78,9 +78,9 @@
         //create an instance of the Course class
         $courseSection = new $CourseSection($courseID , $sectionNumber , $term , $classTitle , $classInstructor);
 
-        //create an instance of the Database class
+        //create an instance of the SQLHelper class
         //add CourseSection to database
-        $db = new $Database
+        $db = new $SQLHelper
         $result = $db.addCourseSection($courseSection);
 
 
@@ -99,9 +99,9 @@
         //create an instance of the Course class
         $courseSection = new $CourseSection($courseID , $sectionNumber , $term , $classTitle , $classInstructor);
 
-        //create an instance of the Database class
+        //create an instance of the SQLHelper class
         //update CourseSection in database
-        $db = new $Database
+        $db = new $SQLHelper
         $result = $db.updateCourseSection($courseID , $courseSection);
 
 
