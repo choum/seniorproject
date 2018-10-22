@@ -257,7 +257,7 @@ require_once("./Database.php");
 
         //Returns list of assignment for singular course based on its id, very limited. 
         //Done in multiple dashboards.
-        function getAssignmentList($courseID){
+        function getAssignments($courseID){
             try{
                 $dbObj = new Database();
                 $db = $dbObj->db;
