@@ -160,9 +160,9 @@
               <label for="classname">Term</label>
               <select>
 
-              <?php 
+              <?php
                 foreach($terms as $term){
-                  echo "<option>" , $term , "</option>";
+                  echo "<option value='$term'>" , $term , "</option>";
                 }
                 <!---
                 <option>Fall 2018</option>
@@ -180,9 +180,9 @@
             <div class="form-group">
               <label>Professor</label>
               <select>
-              <?php 
+              <?php
                 foreach($instructors as $instructor) {
-                  echo "<option>" , $instructor , "<option>";
+                  echo "<option value='$instructor'>" , $instructor , "<option>";
                 }
                 <!--
                   <option>Zhongming Ma</option>
@@ -205,9 +205,9 @@
           <label>Select existing class</label>
           <select>
 
-            <?php 
+            <?php
               foreach($courses as $course) {
-                echo "<option>" , $course , "<option>";
+                echo "<option value='$course'>" , $course , "<option>";
               }
             ?>
 
@@ -232,7 +232,7 @@
               <select>
               <?php
                 foreach($terms as $term) {
-                  echo "<option>" , $term , "<option>";
+                  echo "<option value='$term'>" , $term , "<option>";
                 }
               ?>
               <!--
@@ -244,7 +244,7 @@
             </div>
             <div class="form-group">
               <label for="description">Class Title</label>
-              <input type="text" class="form-control" id="courseid" value="Serverside Web Development">
+              <input type="text" class="form-control" id="courseid" value="Serverside Web Developmen">
             </div>
             <div class="form-group">
               <label>Professor</label>
@@ -252,7 +252,7 @@
 
               <?php
                 foreach($instructors as $instructor) {
-                  echo "<option>" , $instructor , "<option>";
+                  echo "<option value='$instructor'>" , $instructor , "<option>";
                 }
               ?>
               <!--
@@ -292,7 +292,7 @@
           <select>
             <?php
               foreach($instructors as $instructor) {
-                echo "<option>" , $instructor , "<option>";
+                echo "<option value='$instructor'>" , $instructor , "<option>";
               }
             ?>
             <!--
@@ -320,8 +320,11 @@
           <hr />
           <p class="card-text" style="float: right;">Sort by:
             <select>
-              <option>Fall 2018</option>
-              <option>Spring 2019</option>
+              <?php
+                foreach($terms as $term) {
+                  echo "<option value='$term'>" , $term , "<option>";
+                }
+              ?>
             </select>
           </p>
         </div>
