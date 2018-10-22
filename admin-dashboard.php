@@ -159,9 +159,18 @@
             <div class="form-group">
               <label for="classname">Term</label>
               <select>
+
+              <?php
+                foreach($terms as $term){
+                  echo "<option value='$term'>" , $term , "</option>";
+                }
+                <!---
                 <option>Fall 2018</option>
                 <option>Spring 2019</option>
                 <option>Summer 2019</option>
+                --->
+              ?>
+
               </select>
             </div>
             <div class="form-group">
@@ -171,8 +180,15 @@
             <div class="form-group">
               <label>Professor</label>
               <select>
-                <option>Zhongming Ma</option>
-                <option>Hui Shi</option>
+              <?php
+                foreach($instructors as $instructor) {
+                  echo "<option value='$instructor'>" , $instructor , "<option>";
+                }
+                <!--
+                  <option>Zhongming Ma</option>
+                  <option>Hui Shi</option>
+                -->
+              ?>
               </select>
             </div>
             <input type="submit" class="btn" value="Add Class">
@@ -188,9 +204,19 @@
         <div class="card-body">
           <label>Select existing class</label>
           <select>
+
+            <?php
+              foreach($courses as $course) {
+                echo "<option value='$course'>" , $course , "<option>";
+              }
+            ?>
+
+            <!--
             <option>CIS 3090</option>
             <option selected>CIS 4260</option>
             <option>CIS 4290</option>
+            -->
+
           </select>
           <form>
             <div class="form-group">
@@ -204,20 +230,35 @@
             <div class="form-group">
               <label for="classname">Term</label>
               <select>
+              <?php
+                foreach($terms as $term) {
+                  echo "<option value='$term'>" , $term , "<option>";
+                }
+              ?>
+              <!--
                 <option selected>Fall 2018</option>
                 <option>Spring 2019</option>
                 <option>Summer 2019</option>
+              -->
               </select>
             </div>
             <div class="form-group">
               <label for="description">Class Title</label>
-              <input type="text" class="form-control" id="courseid" value="Serverside Web Development">
+              <input type="text" class="form-control" id="courseid" value="Serverside Web Developmen">
             </div>
             <div class="form-group">
               <label>Professor</label>
               <select>
+
+              <?php
+                foreach($instructors as $instructor) {
+                  echo "<option value='$instructor'>" , $instructor , "<option>";
+                }
+              ?>
+              <!--
                 <option selected>Zhongming Ma</option>
                 <option>Hui Shi</option>
+              -->
               </select>
             </div>
             <input type="submit" class="btn" value="Update Class">
@@ -249,9 +290,16 @@
         <div class="card-body" style="padding-top: 0px;">
           <label>Select existing professor</label>
           <select>
+            <?php
+              foreach($instructors as $instructor) {
+                echo "<option value='$instructor'>" , $instructor , "<option>";
+              }
+            ?>
+            <!--
             <option>Hui Shi</option>
             <option selected>Zhongming Ma</option>
             <option>John Miller</option>
+            -->
           </select>
           <form>
             <div class="form-group">
@@ -272,8 +320,11 @@
           <hr />
           <p class="card-text" style="float: right;">Sort by:
             <select>
-              <option>Fall 2018</option>
-              <option>Spring 2019</option>
+              <?php
+                foreach($terms as $term) {
+                  echo "<option value='$term'>" , $term , "<option>";
+                }
+              ?>
             </select>
           </p>
         </div>
