@@ -28,20 +28,20 @@
     if(!empty($result)) {
         $error = $result;
     }
-    
+
 
     //add instructor
     function addInstructor() {
 
         //get the variable from the request
-        $instructorName = filter_input(INPUT_POST ,'instructorName'); 
+        $instructorName = filter_input(INPUT_POST ,'instructorName');
 
         //create an instance of the User class
-        $instructor = new $User($instructorName)
+        $instructor = new User($instructorName)
 
         //create an instance of the SQLHelper class
         //add user to database
-        $db = new $SQLHelper
+        $db = new SQLHelper
         $result = $db.addUser($instructor);
 
 
@@ -51,15 +51,15 @@
     function updateInstructor() {
 
         //get the variable from the request
-        $instructorName = filter_input(INPUT_POST ,'instructorName'); 
-        $changeName = filter_input(INPUT_POST ,'changeName'); 
+        $instructorName = filter_input(INPUT_POST ,'instructorName');
+        $changeName = filter_input(INPUT_POST ,'changeName');
 
         //create an instance of the User class
-        $instructor = new $User($instructorName);
+        $instructor = new User($instructorName);
 
         //create an instance of the SQLHelper class
         //update user in database
-        $db = new $SQLHelper
+        $db = new SQLHelper
         $result = $db.updateUser($instructorName , $instructor);
 
 
@@ -76,11 +76,11 @@
         $classInstructor = filter_input(INPUT_POST ,'classInstructor');
 
         //create an instance of the Course class
-        $courseSection = new $CourseSection($courseID , $sectionNumber , $term , $classTitle , $classInstructor);
+        $courseSection = new CourseSection($courseID , $sectionNumber , $term , $classTitle , $classInstructor);
 
         //create an instance of the SQLHelper class
         //add CourseSection to database
-        $db = new $SQLHelper
+        $db = new SQLHelper
         $result = $db.addCourseSection($courseSection);
 
 
@@ -97,11 +97,11 @@
         $classInstructorr = filter_input(INPUT_POST ,'classInstructor');
 
         //create an instance of the Course class
-        $courseSection = new $CourseSection($courseID , $sectionNumber , $term , $classTitle , $classInstructor);
+        $courseSection = new CourseSection($courseID , $sectionNumber , $term , $classTitle , $classInstructor);
 
         //create an instance of the SQLHelper class
         //update CourseSection in database
-        $db = new $SQLHelper
+        $db = new SQLHelper
         $result = $db.updateCourseSection($courseID , $courseSection);
 
 
