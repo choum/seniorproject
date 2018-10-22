@@ -1,17 +1,33 @@
 <?php
 
-    //create an istance of SQLHelper to get data from database
-    //load the arrays to use on the UI
-    $db = new SQLHelper();
-    //create an array of instructors from the database
-    $instructors = $db->getInstructors();
-    //create an array of terms from the database
-    $terms = $db->getTerms();
-    //create an array of courses from the database
-    $courses = $db->getCourses();
+  //check if user is logged in
+  if(isset($_SESSION)) {
+    //get the username from session
+    $username = $_SESSION["user"];
+    //load the variables arrays for dashboard
+    loadVariables();
+  }
 
-    //get the action form the request
-    $action = filter_input(INPUT_POST , 'action');
+    function loadVariables() {
+      //create an istance of SQLHelper to get data from database
+      //load the arrays to use on the UI
+      $db = new SQLHelper();
+      //create an array of instructors from the database
+      $instructors = $db->getInstructors();
+      //create an array of terms from the database
+      $terms = $db->getTerms();
+      //create an array of courses from the database
+      $courses = $db->getCourses();
+
+      //get current user
+      $current_user = $db->getUser($username);
+      $current_user_courses = $db->getAdminCourses($current_user["id"]);
+
+      //get the action form the request
+      $action = filter_input(INPUT_POST , 'action');
+    }//end of loadVariables
+
+
 
     //run the appropriate function depending on request
     if($action == 'addInstructor') {
