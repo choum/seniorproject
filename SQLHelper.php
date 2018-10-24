@@ -1,7 +1,11 @@
 <?php
+<<<<<<< HEAD
 
     require_once("./Database.php");
 
+=======
+require_once("private/Database.php");
+>>>>>>> master
     Class SQLHelper
     {
 
@@ -15,7 +19,7 @@
             try
             {
                 $dbObj = new Database();
-                $db = $dbObj->db;
+                $db = $dbObj->getConnection();
                 $query = "Insert into UserAccount "
                         . "(UserID, Username, Password, FirstName, LastName, Title,"
                         . " Bio, ImageLink, Linkedin, Website, UserRole, "
@@ -62,7 +66,7 @@
             try
             {
                 $dbObj = new Database();
-                $db = $dbObj->db;
+                $db = $dbObj->getConnection();
                 $query = "Update UserAccount "
                         . "SET Bio=:bio, ImageLink=:image, "
                         . "LinkedIn=:linkedin, Website=:website "
@@ -121,7 +125,7 @@
             try
             {
                 $dbObj = new Database();
-                $db = $dbObj->db;
+                $db = $dbObj->getConnection();
                 $query = "Insert into UserAccount "
                         . "(UserID, Username, Password, FirstName, LastName, Title, "
                         . "UserRole, Suspended, DateCreated, LastLoggedIn) "
@@ -159,7 +163,7 @@
             try
             {
                 $dbObj = new Database();
-                $db = $dbObj->db;
+                $db = $dbObj->getConnection();
                 $query = "Update UserAccount "
                         . "SET FirstName=:fName, LastName=:lName "
                         . "WHERE UserID=:uid;";
@@ -246,7 +250,7 @@
             try
             {
                 $dbObj = new Database();
-                $db = $dbObj->db;
+                $db = $dbObj->getConnection();
                 $query = "INSERT INTO Courses"
                         . "(CourseID, CourseTitle, CourseNumber, CourseSection, "
                         . "Term, Description, Closed, EnrollmentTotal, AdminID, "
@@ -281,6 +285,7 @@
 
         //Update of specific columns in the Courses Table
         //Done on admin side.
+<<<<<<< HEAD
         function updateCourse($courseID, $courseTitle, $courseNumber,
                 $courseSection, $courseTerm, $adminID, $teacherID)
         {
@@ -288,6 +293,13 @@
             {
                 $dbObj = new Database();
                 $db = $dbObj->db;
+=======
+        function updateCourse($courseID, $courseTitle,  $courseNumber, $courseSection, 
+                $courseTerm, $adminID, $teacherID) {
+            try{
+                $dbObj = new Database();
+                $db = $dbObj->getConnection();
+>>>>>>> master
                 $query = "Update Courses "
                         . "SET CourseTitle=:cTitle, CourseNumber=:cNumber, "
                         . "CourseSection=:cSection, Term=:cTerm, "
@@ -320,11 +332,18 @@
             try
             {
                 $dbObj = new Database();
+<<<<<<< HEAD
                 $db = $dbObj->db;
                 $query = "Select CourseTitle, CourseNumber, "
                         . "CourseSection, Term, Description, TeacherID "
                         . "FROM Courses "
                         . "Where CourseID = :cid";
+=======
+                $db = $dbObj->getConnection();
+                $query = "Select UserID, FirstName, LastName "
+                        . "From UserAccount "
+                        . "Where UserRole = :role";
+>>>>>>> master
                 $statement = $db->prepare($query);
                 $statement->bindValue(':cid', $courseID, PDO::PARAM_INT);
                 $result = $statement->execute();
@@ -344,12 +363,19 @@
 
         //Retrieves list of all coursess to be inserted into the list of all classes
         //card on admin dashboard. Instructor displayed based on teacherid
+<<<<<<< HEAD
         function getCourses()
         {
             try
             {
                 $dbObj = new Database();
                 $db = $dbObj->db;
+=======
+        function getCourses() {
+            try{
+                $dbObj = new Database();
+                $db = $dbObj->getConnection();
+>>>>>>> master
                 $query = "Select CourseID, CourseTitle, CourseNumber, "
                         . "CourseSection, Term, Description, TeacherID "
                         . "FROM Courses";
@@ -483,7 +509,7 @@
             try
             {
                 $dbObj = new Database();
-                $db = $dbObj->db;
+                $db = $dbObj->getConnection();
                 $query = "Select AssignmentID, AssignmentName "
                         . "From Assignments Where CourseID= :cID;";
                 $statement = $db->prepare($query);
