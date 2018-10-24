@@ -36,10 +36,10 @@
             }
         }
 
-        //Use this function to get the database object
-        public function getConnection(){
-            return $this->db;
-        }
+//        //Use this function to get the database object
+//        public function getConnection(){
+//            return $this->db;
+//        }
 
     }
 

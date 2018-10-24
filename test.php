@@ -6,10 +6,10 @@
 
     $ftp = new CreateFTP();
 
-    $ftp->createUser('t8','t8');
+    $ftp->createUser('t7','t7');
 
-//    $createDB =  new CreateDB();
-//    $createDB::createDBUser('t7', 't7');
+    $createDB =  new CreateDB();
+    $createDB::createDBUser('a3', 'a3');
 
 
 
