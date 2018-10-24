@@ -37,11 +37,10 @@
         }
 
         //Use this function to get the database object
-        public static function getConnection(){
-            return self::$db;
+        public function getConnection(){
+            return $this->db;
         }
 
     }
 
 
-?>
