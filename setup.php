@@ -36,7 +36,7 @@ create_csrf_token();
       <li>Personal Details</li>
     </ul>
     <!-- fieldsets -->
-    <input name="csrf_token" type="hidden" value="<?php echo csrf_token_tag(); ?>" />
+    <?php echo csrf_token_tag(); ?>
     <fieldset>
       <h2 class="fs-title">Create Account</h2>
       <label for="username">Username</label>
