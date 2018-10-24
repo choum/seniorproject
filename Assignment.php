@@ -2,21 +2,21 @@
   class Assignment {
 
     //instance variables
-    $assignmentID;
-    $assingmentName;
+    $ID;
+    $name;
     $description;
-    $assingmentDate;
-    $PDFLocation;
+    $date;
+    $pdf;
     $CourseID;
     $teacherID;
 
     //constructor
-    function __construct($ID , $Name , $desc , $date , $pdf , $course , $teacher) {
-      $assignmentID = $ID;
-      $assingmentName = $name;
+    function __construct($aID , $aName , $desc , $adate , $apdf , $course , $teacher) {
+      $ID = $aID;
+      $name = $aname;
       $description = $desc;
-      $assingmentDate = $date;
-      $PDFLocation = $pdf;
+      $date = $adate;
+      $pdf = $apdf;
       $CourseID = $course;
       $teacherID = $teacher;
     }

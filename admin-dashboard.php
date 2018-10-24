@@ -162,14 +162,14 @@
 
               <?php
                 foreach($terms as $term){
-                  echo "<option value='$term'>" , $term , "</option>";
+                  echo "<option value='$term'>" . $term . "</option>";
                 }
+              ?>
                 <!---
                 <option>Fall 2018</option>
                 <option>Spring 2019</option>
                 <option>Summer 2019</option>
                 --->
-              ?>
 
               </select>
             </div>
@@ -182,7 +182,7 @@
               <select>
               <?php
                 foreach($instructors as $instructor) {
-                  echo "<option value='$instructor'>" , $instructor , "<option>";
+                  echo "<option value='$instructor'>" . $instructor . "<option>";
                 }
               ?>
                 <!--
@@ -208,7 +208,7 @@
 
             <?php
               foreach($courses as $course) {
-                echo "<option value='$course'>" , $course , "<option>";
+                echo "<option value='$course'>" . $course . "<option>";
               }
             ?>
 
@@ -233,7 +233,7 @@
               <select>
               <?php
                 foreach($terms as $term) {
-                  echo "<option value='$term'>" , $term , "<option>";
+                  echo "<option value='$term'>" . $term . "<option>";
                 }
               ?>
               <!--
@@ -253,7 +253,7 @@
 
               <?php
                 foreach($instructors as $instructor) {
-                  echo "<option value='$instructor'>" , $instructor , "<option>";
+                  echo "<option value='$instructor'>" . $instructor . "<option>";
                 }
               ?>
               <!--
@@ -293,7 +293,7 @@
           <select>
             <?php
               foreach($instructors as $instructor) {
-                echo "<option value='$instructor'>" , $instructor , "<option>";
+                echo "<option value='$instructor'>" . $instructor . "<option>";
               }
             ?>
             <!--
@@ -323,7 +323,7 @@
             <select>
               <?php
                 foreach($terms as $term) {
-                  echo "<option value='$term'>" , $term , "<option>";
+                  echo "<option value='$term'>" . $term . "<option>";
                 }
               ?>
             </select>
@@ -344,21 +344,26 @@
               <tbody>
                 <?php
                   foreach ($current_user_courses as $user_course) {
-                    <tr>
-                      <td>echo $user_course->name</td>
-                      <td>echo $user_course->description</td>
-                      <td>echo $user_course->teacherID</td>
-                      <td>echo $user_course->term</td>
-                      <td colspan="2">
-                        <ul>
-                        foreach ($assignments as $assignment) {
-                          echo "<li>", $assignment->name , "</li>";
+                    echo "<tr>";
+                      echo "<td>" . $user_course->$name . "</td>";
+                      echo "<td>" . $user_course->$description . "</td>";
+                      echo "<td>" . $user_course->$teacherID . "</td>";
+                      echo "<td>" . $user_course->$term . "</td>";
+                      echo "<td colspan="2">";
+                        echo "<ul>";
+                            foreach ($current_user->$assignments as $assignment) {
+                              echo "</li>
+                                      <form action='project-view.php'>
+                                        <input type='hidden' name='Course' value='" . $user_course . "'>
+                                        <input type='hidden' name='Assignment' value='" . $assignment->$name . "'>
+                                        <input type='Submit' value='" . $assignment->$name . "'>
+                                      </form>
+                                    </li>";
 
-                        }
-                        </ul>
-                      </td>
-                    </tr>
-                    <tr>
+                            }
+                        echo "</ul>
+                          </td>
+                          </tr>";
                   }
                  ?>
 
