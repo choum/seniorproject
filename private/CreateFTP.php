@@ -15,12 +15,15 @@ class CreateFTP {
     }
 
     function createUser($user, $pass){
+
+        $config = parse_ini_file('ssh.ini');
+
         $username = $user;
         $password = $pass;
-        set_include_path(get_include_path() . PATH_SEPARATOR . 'ssh');
-        include('ssh/Net/SSH2.php');
-        $ssh = new Net_SSH2('172.16.33.106');
-        $ssh->login('root', 'portfolio4290') or die ("Login failed");
+        set_include_path(get_include_path() . PATH_SEPARATOR . 'private/ssh');
+        include('private/ssh/Net/SSH2.php');
+        $ssh = new Net_SSH2(''.$config['servername'].'');
+        $ssh->login(''.$config['username'].'', ''.$config['password'].'') or die ("Login failed");
         $directory = '../var/www/html/'.$username;
         $ssh->exec('mkdir '. $directory);
         $ssh->exec('useradd -m -d /var/www/html/'.$username.' '.$username);
