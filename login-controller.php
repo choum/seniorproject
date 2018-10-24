@@ -32,15 +32,15 @@ switch ($post) {
     //make sure user is only
     $sUser = hPOST("username");
     if ( !preg_match('/^[A-Za-z][A-Za-z0-9]{5,31}$/', $sUser) ) {
-      $error += "Username should only be alphanumeric characters length greater than 5 and less than 31";
+      $error += "Username should only be alphanumeric characters length greater than 5 and less than 31 <br/>";
     }
 
 
     $sPass = hPOST("password");
     if ( !preg_match('/^[A-Za-z][A-Za-z0-9]{5,31}$/', $sPass) ) {
-      $error += "Password should only be alphanumeric characters length greater than 5 and less than 31";
+      $error += "Password should only be alphanumeric characters length greater than 5 and less than 31 <br/>";
     } else {
-      //hash the password 
+      //hash the password
       $sPass = password_hash($sPass, PASSWORD_BCRYPT);
     }
 
@@ -54,8 +54,23 @@ switch ($post) {
         $error += "Last name should be only alphabet characters <br/>";
     }
 
+    //FTP
+    if (empty($_POST['$ftpPass'])) {
+      $ftpPass = hPOST("ftpPass");
+      if (!preg_match('/[^A-Za-z]/', $ftpPass)) {
+        $error += "FTP Password should be only alphanumeric characters <br/>";
+      }
+    }
 
-    //sanitize Profile
+    //SQL
+    if (empty($_POST['$sqlPass'])) {
+      $sqlPass = hPOST("sqlPass");
+      if (!preg_match('/[^A-Za-z]/', $sqlPass)) {
+        $error += "SQL Password should be only alphanumeric characters <br/>";
+      }
+    }
+
+    //Profile
     if (empty($_POST['resume'])) {
       $sResume = NULL;
     } else {
@@ -75,11 +90,14 @@ switch ($post) {
     }
 
     //validate
-    //store in db
+    if (!empty($error)) {
+      include 'setup.php';
+    } else {
+      //store in db
+      //take to dashboard
+      include 'dashboard.html';
+    }
   }
-
-  //take to dashboard
-  include 'dashboard.html';
   break;
 
   default:

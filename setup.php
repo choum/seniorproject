@@ -52,20 +52,20 @@ create_csrf_token();
     <fieldset>
       <h2 class="fs-title">SQL Account Setup</h2>
       <h3 class="fs-subtitle">Your username will be your BroncoID</h3>
-      <label for="pass">Password</label>
-      <input type="password" name="pass" placeholder="Password" />
+      <label for="SQLpass">Password</label>
+      <input type="password" name="sqlPass" placeholder="Password" />
       <label for="cpass">Confirm Password</label>
-      <input type="password" name="cpass" placeholder="Confirm Password" />
+      <input type="password" name="SQLcpass" placeholder="Confirm Password" />
       <input type="button" name="previous" class="previous action-button" value="Previous" />
       <input type="button" name="next" class="next action-button" value="Next" />
     </fieldset>
     <fieldset>
       <h2 class="fs-title">FTP Account Setup</h2>
       <h3 class="fs-subtitle">Your username will be your BroncoID</h3>
-      <label for="pass">Password</label>
-      <input type="password" name="pass" placeholder="Password" />
+      <label for="FTPpass">Password</label>
+      <input type="password" name="ftpPass" placeholder="Password" />
       <label for="cpass">Confirm Password</label>
-      <input type="password" name="cpass" placeholder="Confirm Password" />
+      <input type="password" name="ftpCpass" placeholder="Confirm Password" />
       <input type="button" name="previous" class="previous action-button" value="Previous" />
       <input type="button" name="next" class="next action-button" value="Next" />
     </fieldset>
