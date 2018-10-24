@@ -36,15 +36,15 @@ create_csrf_token();
       <li>Personal Details</li>
     </ul>
     <!-- fieldsets -->
-    <input name="token" type="hidden" value="<?php echo csrf_token_tag(); ?>" />
+    <input name="csrf_token" type="hidden" value="<?php echo csrf_token_tag(); ?>" />
     <fieldset>
       <h2 class="fs-title">Create Account</h2>
       <label for="username">Username</label>
-      <input type="username" name="username" placeholder="Username" />
+      <input type="text" name="username" placeholder="Username" />
       <label for="firstname">First Name</label>
-      <input type="firstname" name="username" placeholder="Username" />
+      <input type="text" name="firstname" placeholder="Username" />
       <label for="lastname">Last Name</label>
-      <input type="username" name="username" placeholder="Username" />
+      <input type="text" name="lastname" placeholder="Username" />
       <label for="pass">Password</label>
       <input type="password" name="pass" placeholder="Password" />
       <input type="button" name="next" class="next action-button" value="Next" />
