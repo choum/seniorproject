@@ -7,7 +7,7 @@
 
         //Insertion of new student user to be added to the UserAccount Table
         //Done at first login.
-        function addUser($userid, $username, $password, $firstName, $lastName,
+        function addUser($username, $password, $firstName, $lastName,
                 $title, $userRole, $suspended, $dateCreated, $bio = NULL,
                 $imageLink = NULL, $linkedin = NULL, $website = NULL,
                 $lastLoginDate = NULL)
@@ -114,7 +114,7 @@
         //Insertion of new instructor user to be added to the UserAccount Table
         //Done at first login.
         //TODO If query passes return empty string if fails, should go to catch return error statement
-        function addInstructor($userid, $username, $password, $firstName,
+        function addInstructor($username, $password, $firstName,
                 $lastName, $title, $userRole, $suspended, $dateCreated,
                 $lastLoginDate = null)
         {
@@ -239,7 +239,7 @@
 
         //Insertion of new course info to the Courses table
         //Done on admin side.
-        function addCourse($courseID, $courseTitle, $courseNumber,
+        function addCourse($courseTitle, $courseNumber,
                 $courseSection, $term, $description, $closed, $enrollment,
                 $adminID, $teacherID)
         {
@@ -369,7 +369,7 @@
             }
         }
 
-        function addAssignment($assignmentID, $assignmentName, $description,
+        function addAssignment($assignmentName, $description,
                 $date, $courseID, $teacherID, $pdf = NULL)
         {
             try
@@ -551,6 +551,31 @@
             }
         }
 
+        function getUserAuth($username)
+        {
+            try
+            {
+                $dbObj = new Database();
+                $db = $dbObj->db;
+                $query = "Select Password From UserAccount "
+                        . "Where Username= :uname";
+                $statement = $db->prepare($query);
+                $statement->bindValue(':uname', $username, PDO::PARAM_STR);
+                $result = $statement->execute();
+                $userPass = $statement->fetch();
+                $statement->closeCursor();
+                echo $result;
+                if ($result)
+                    Return $userPass;
+                else
+                    Return "Could not retrieve user password";
+            } catch (PDOException $e)
+            {
+                $error_message = $e->getMessage();
+                error_log($error_message);
+                echo $error_message;
+            }
+        }
     }
 
 ?>
