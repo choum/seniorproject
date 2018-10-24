@@ -38,7 +38,7 @@ create_csrf_token();
         <br />
         <form method="post">
           <input name="action" type="hidden" value="login" />
-          <input name="csrf_token" type="hidden" value="<?php echo csrf_token_tag(); ?>" />
+          <?php echo csrf_token_tag(); ?>
           <div class="form-group">
             <label for="username">Username</label>
             <input type="text" class="form-control" id="username" placeholder="Bronco ID" required>
