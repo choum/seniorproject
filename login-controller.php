@@ -34,10 +34,16 @@ switch ($post) {
     if ( !preg_match('/^[A-Za-z][A-Za-z0-9]{5,31}$/', $sUser) ) {
       $error += "Username should only be alphanumeric characters length greater than 5 and less than 31";
     }
+
+
     $sPass = hPOST("password");
     if ( !preg_match('/^[A-Za-z][A-Za-z0-9]{5,31}$/', $sPass) ) {
       $error += "Password should only be alphanumeric characters length greater than 5 and less than 31";
+    } else {
+      //hash the password 
+      $sPass = password_hash($sPass, PASSWORD_BCRYPT);
     }
+
     //make sure both are only chars
     $sFirst = hPOST("firstname");
     $sLast = hPOST("lastname");
