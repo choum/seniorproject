@@ -1,11 +1,7 @@
 <?php
-<<<<<<< HEAD
 
-    require_once("./Database.php");
+    require_once("./private/Database.php");
 
-=======
-require_once("private/Database.php");
->>>>>>> master
     Class SQLHelper
     {
 
@@ -19,16 +15,15 @@ require_once("private/Database.php");
             try
             {
                 $dbObj = new Database();
-                $db = $dbObj->getConnection();
+                $db = $dbObj->db;
                 $query = "Insert into UserAccount "
-                        . "(UserID, Username, Password, FirstName, LastName, Title,"
+                        . "(Username, Password, FirstName, LastName, Title,"
                         . " Bio, ImageLink, Linkedin, Website, UserRole, "
                         . "Suspended, DateCreated, LastLoggedIn) "
-                        . "VALUES (:uid, :username, :password, :fName, :lName, :title,"
+                        . "VALUES (:username, :password, :fName, :lName, :title,"
                         . " :bio, :image, :linkedin, :website, :role, "
                         . ":suspend, :creation, :lastLogin);";
                 $statement = $db->prepare($query);
-                $statement->bindValue(':uid', $userid, PDO::PARAM_INT);
                 $statement->bindValue(':username', $username, PDO::PARAM_STR);
                 $statement->bindValue(':password', $password, PDO::PARAM_STR);
                 $statement->bindValue(':fName', $firstName, PDO::PARAM_STR);
@@ -66,7 +61,7 @@ require_once("private/Database.php");
             try
             {
                 $dbObj = new Database();
-                $db = $dbObj->getConnection();
+                $db = $dbObj->db;
                 $query = "Update UserAccount "
                         . "SET Bio=:bio, ImageLink=:image, "
                         . "LinkedIn=:linkedin, Website=:website "
@@ -125,14 +120,13 @@ require_once("private/Database.php");
             try
             {
                 $dbObj = new Database();
-                $db = $dbObj->getConnection();
+                $db = $dbObj->db;
                 $query = "Insert into UserAccount "
-                        . "(UserID, Username, Password, FirstName, LastName, Title, "
+                        . "(Username, Password, FirstName, LastName, Title, "
                         . "UserRole, Suspended, DateCreated, LastLoggedIn) "
-                        . "VALUES (:uid, :username, :password, :fName, :lName, :title,"
+                        . "VALUES (:username, :password, :fName, :lName, :title,"
                         . " :role, :suspend, :creation, :lastLogin)";
                 $statement = $db->prepare($query);
-                $statement->bindValue(':uid', $userid, PDO::PARAM_INT);
                 $statement->bindValue(':username', $username, PDO::PARAM_STR);
                 $statement->bindValue(':password', $password, PDO::PARAM_STR);
                 $statement->bindValue(':fName', $firstName, PDO::PARAM_STR);
@@ -163,7 +157,7 @@ require_once("private/Database.php");
             try
             {
                 $dbObj = new Database();
-                $db = $dbObj->getConnection();
+                $db = $dbObj->db;
                 $query = "Update UserAccount "
                         . "SET FirstName=:fName, LastName=:lName "
                         . "WHERE UserID=:uid;";
@@ -250,15 +244,14 @@ require_once("private/Database.php");
             try
             {
                 $dbObj = new Database();
-                $db = $dbObj->getConnection();
+                $db = $dbObj->db;
                 $query = "INSERT INTO Courses"
-                        . "(CourseID, CourseTitle, CourseNumber, CourseSection, "
+                        . "(CourseTitle, CourseNumber, CourseSection, "
                         . "Term, Description, Closed, EnrollmentTotal, AdminID, "
                         . "TeacherID)"
-                        . "VALUES(:cID, :cTitle, :cNumber, :cSection, :term, "
+                        . "VALUES(:cTitle, :cNumber, :cSection, :term, "
                         . ":desc, :closed, :enrolled, :adminID, :teacherID);";
                 $statement = $db->prepare($query);
-                $statement->bindValue(':cID', $courseID, PDO::PARAM_INT);
                 $statement->bindValue(':cTitle', $courseTitle, PDO::PARAM_STR);
                 $statement->bindValue(':cNumber', $courseNumber, PDO::PARAM_INT);
                 $statement->bindValue(':cSection', $courseSection,
@@ -285,7 +278,6 @@ require_once("private/Database.php");
 
         //Update of specific columns in the Courses Table
         //Done on admin side.
-<<<<<<< HEAD
         function updateCourse($courseID, $courseTitle, $courseNumber,
                 $courseSection, $courseTerm, $adminID, $teacherID)
         {
@@ -293,13 +285,6 @@ require_once("private/Database.php");
             {
                 $dbObj = new Database();
                 $db = $dbObj->db;
-=======
-        function updateCourse($courseID, $courseTitle,  $courseNumber, $courseSection, 
-                $courseTerm, $adminID, $teacherID) {
-            try{
-                $dbObj = new Database();
-                $db = $dbObj->getConnection();
->>>>>>> master
                 $query = "Update Courses "
                         . "SET CourseTitle=:cTitle, CourseNumber=:cNumber, "
                         . "CourseSection=:cSection, Term=:cTerm, "
@@ -332,18 +317,11 @@ require_once("private/Database.php");
             try
             {
                 $dbObj = new Database();
-<<<<<<< HEAD
                 $db = $dbObj->db;
                 $query = "Select CourseTitle, CourseNumber, "
                         . "CourseSection, Term, Description, TeacherID "
                         . "FROM Courses "
                         . "Where CourseID = :cid";
-=======
-                $db = $dbObj->getConnection();
-                $query = "Select UserID, FirstName, LastName "
-                        . "From UserAccount "
-                        . "Where UserRole = :role";
->>>>>>> master
                 $statement = $db->prepare($query);
                 $statement->bindValue(':cid', $courseID, PDO::PARAM_INT);
                 $result = $statement->execute();
@@ -363,19 +341,12 @@ require_once("private/Database.php");
 
         //Retrieves list of all coursess to be inserted into the list of all classes
         //card on admin dashboard. Instructor displayed based on teacherid
-<<<<<<< HEAD
         function getCourses()
         {
             try
             {
                 $dbObj = new Database();
                 $db = $dbObj->db;
-=======
-        function getCourses() {
-            try{
-                $dbObj = new Database();
-                $db = $dbObj->getConnection();
->>>>>>> master
                 $query = "Select CourseID, CourseTitle, CourseNumber, "
                         . "CourseSection, Term, Description, TeacherID "
                         . "FROM Courses";
@@ -403,11 +374,10 @@ require_once("private/Database.php");
                 $dbObj = new Database();
                 $db = $dbObj->db;
                 $query = "INSERT INTO Assignments "
-                        . "(AssignmentID, AssignmentName, Description, "
+                        . "(AssignmentName, Description, "
                         . "AssignmentDate, PDFLocation, CourseID, TeacherID) "
                         . "VALUES(:aID, :aName, :desc, :aDate, :pdf, :cID, :tID);";
                 $statement = $db->prepare($query);
-                $statement->bindValue(':aID', $assignmentID, PDO::PARAM_INT);
                 $statement->bindValue(':aName', $assignmentName, PDO::PARAM_STR);
                 $statement->bindValue(':desc', $description, PDO::PARAM_STR);
                 $statement->bindValue(':aDate', $date);
@@ -509,7 +479,7 @@ require_once("private/Database.php");
             try
             {
                 $dbObj = new Database();
-                $db = $dbObj->getConnection();
+                $db = $dbObj->db;
                 $query = "Select AssignmentID, AssignmentName "
                         . "From Assignments Where CourseID= :cID;";
                 $statement = $db->prepare($query);
@@ -597,9 +567,9 @@ require_once("private/Database.php");
                     Return "Could not retrieve user password";
             } catch (PDOException $e)
             {
+                echo $e->getMessage();
                 $error_message = $e->getMessage();
-                error_log($error_message);
-                echo $error_message;
+                error_log($error_message);        
             }
         }
     }
