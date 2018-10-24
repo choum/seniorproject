@@ -1,3 +1,7 @@
+<?php
+include 'includes/csrf_token_functions.php';
+create_csrf_token();
+?>
 <html>
 
 <head>
@@ -26,11 +30,25 @@
   <form id="msform">
     <!-- progressbar -->
     <ul id="progressbar">
-      <li class="active">Account Setup</li>
-      <li>Social Profiles</li>
+      <li class="active">Personal Account Setup</li>
+      <li>SQL Account Setup</li>
+      <li>FTP Account Setup</li>
       <li>Personal Details</li>
     </ul>
     <!-- fieldsets -->
+    <input name="token" type="hidden" value="<?php echo csrf_token_tag(); ?>" />
+    <fieldset>
+      <h2 class="fs-title">Create Account</h2>
+      <label for="username">Username</label>
+      <input type="username" name="username" placeholder="Username" />
+      <label for="firstname">First Name</label>
+      <input type="firstname" name="username" placeholder="Username" />
+      <label for="lastname">Last Name</label>
+      <input type="username" name="username" placeholder="Username" />
+      <label for="pass">Password</label>
+      <input type="password" name="pass" placeholder="Password" />
+      <input type="button" name="next" class="next action-button" value="Next" />
+    </fieldset>
     <fieldset>
       <h2 class="fs-title">SQL Account Setup</h2>
       <h3 class="fs-subtitle">Your username will be your BroncoID</h3>
@@ -38,6 +56,7 @@
       <input type="password" name="pass" placeholder="Password" />
       <label for="cpass">Confirm Password</label>
       <input type="password" name="cpass" placeholder="Confirm Password" />
+      <input type="button" name="previous" class="previous action-button" value="Previous" />
       <input type="button" name="next" class="next action-button" value="Next" />
     </fieldset>
     <fieldset>
