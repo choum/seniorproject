@@ -2,12 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4901a90d-3e1a-4ce2-8847-a39338d34f86" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CreateFTP.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/private/Database.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/private/db.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CreateFTP.php" beforeDir="false" afterPath="$PROJECT_DIR$/CreateFTP.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Database.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin-controller.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin-controller.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -17,7 +14,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file leaf-file-name="Database.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/private/Database.php">
           <provider selected="true" editor-type-id="text-editor">
@@ -30,8 +27,8 @@
       <file leaf-file-name="CreateFTP.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/CreateFTP.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="17" column="67" selection-start-line="17" selection-start-column="67" selection-end-line="17" selection-end-column="67" />
+            <state relative-caret-position="390">
+              <caret line="26" column="34" lean-forward="true" selection-start-line="26" selection-start-column="20" selection-end-line="26" selection-end-column="34" />
               <folding>
                 <element signature="e#6#87#0#PHP" expanded="true" />
               </folding>
@@ -42,15 +39,10 @@
       <file leaf-file-name="SSH2.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ssh/Net/SSH2.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="439">
-              <caret line="948" lean-forward="true" selection-start-line="948" selection-end-line="948" />
+            <state relative-caret-position="13260">
+              <caret line="948" selection-start-line="948" selection-end-line="948" />
             </state>
           </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="BigInteger.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/ssh/Math/BigInteger.php">
-          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
       <file leaf-file-name="User.php" pinned="false" current-in-tab="false">
@@ -69,11 +61,6 @@
               <caret line="43" column="28" selection-start-line="43" selection-start-column="28" selection-end-line="43" selection-end-column="28" />
             </state>
           </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SQLHelper.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/SQLHelper.php">
-          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
       <file leaf-file-name="db.ini" pinned="false" current-in-tab="false">
@@ -117,10 +104,10 @@
   <component name="NodePackageJsonFileManager">
     <packageJsonPaths />
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="238" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="-293" />
     <option name="y" value="23" />
-    <option name="width" value="1442" />
+    <option name="width" value="1475" />
     <option name="height" value="1027" />
   </component>
   <component name="ProjectView">
@@ -134,28 +121,6 @@
             <path>
               <item name="seniorproject" type="b2602c69:ProjectViewProjectNode" />
               <item name="seniorproject" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="seniorproject" type="b2602c69:ProjectViewProjectNode" />
-              <item name="seniorproject" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="private" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="seniorproject" type="b2602c69:ProjectViewProjectNode" />
-              <item name="seniorproject" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="ssh" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="seniorproject" type="b2602c69:ProjectViewProjectNode" />
-              <item name="seniorproject" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="ssh" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="Math" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="seniorproject" type="b2602c69:ProjectViewProjectNode" />
-              <item name="seniorproject" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="ssh" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="Net" type="2a2b976b:PhpTreeStructureProvider$1" />
             </path>
           </expand>
           <select />
@@ -198,36 +163,37 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1540235314064</updated>
-      <workItem from="1540235315843" duration="5211000" />
+      <workItem from="1540235315843" duration="8299000" />
+      <workItem from="1540265731922" duration="618000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="5211000" />
+    <option name="totallyTimeSpent" value="8917000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1680" height="1027" extended-state="6" />
+    <frame x="-293" y="23" width="1475" height="1027" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.28474575" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Event Log" side_tool="true" />
-      <window_info anchor="right" id="Database" />
-      <window_info anchor="bottom" id="Database Changes" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
+      <window_info anchor="right" id="Database" order="3" />
+      <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Run" order="2" />
-      <window_info anchor="bottom" id="Version Control" />
+      <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Terminal" />
+      <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
-      <window_info id="Favorites" side_tool="true" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Find" order="1" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -237,8 +203,19 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/SQLHelper.php">
-      <provider selected="true" editor-type-id="text-editor" />
+    <entry file="file://$PROJECT_DIR$/private/Database.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" column="17" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ssh/Net/SSH2.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="14220">
+          <caret line="948" lean-forward="true" selection-start-line="948" selection-end-line="948" />
+        </state>
+      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/User.php">
       <provider selected="true" editor-type-id="text-editor">
@@ -247,8 +224,36 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/profile.html">
-      <provider selected="true" editor-type-id="text-editor" />
+    <entry file="file://$PROJECT_DIR$/admin-controller.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="645">
+          <caret line="43" column="28" selection-start-line="43" selection-start-column="28" selection-end-line="43" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/private/db.ini">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" column="26" selection-start-line="1" selection-start-column="13" selection-end-line="1" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CreateFTP.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="18" column="31" selection-start-line="18" selection-start-column="31" selection-end-line="18" selection-end-column="31" />
+          <folding>
+            <element signature="e#6#87#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/User.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="23" column="44" selection-start-line="23" selection-start-column="44" selection-end-line="23" selection-end-column="44" />
+        </state>
+      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/admin-controller.php">
       <provider selected="true" editor-type-id="text-editor">
@@ -273,18 +278,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/ssh/Net/SSH2.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="439">
-          <caret line="948" lean-forward="true" selection-start-line="948" selection-end-line="948" />
+        <state relative-caret-position="13260">
+          <caret line="948" selection-start-line="948" selection-end-line="948" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ssh/Math/BigInteger.php">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/CreateFTP.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="17" column="67" selection-start-line="17" selection-start-column="67" selection-end-line="17" selection-end-column="67" />
+        <state relative-caret-position="390">
+          <caret line="26" column="34" lean-forward="true" selection-start-line="26" selection-start-column="20" selection-end-line="26" selection-end-column="34" />
           <folding>
             <element signature="e#6#87#0#PHP" expanded="true" />
           </folding>
