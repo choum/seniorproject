@@ -116,7 +116,7 @@
     <div class="col-md-12">
       <div class="card">
         <div class="card-header">
-          <p id="welcome" class="nav-link">Welcome: Zhongming Ma</p>
+          <p id="welcome" class="nav-link">Welcome: <?php echo $current_user_name; ?></p>
           <ul class="nav nav-pills card-header-pills">
             <li class="nav-item">
               <a class="nav-link" href="#">Logout</a>
@@ -184,11 +184,12 @@
                 foreach($instructors as $instructor) {
                   echo "<option value='$instructor'>" , $instructor , "<option>";
                 }
+              ?>
                 <!--
                   <option>Zhongming Ma</option>
                   <option>Hui Shi</option>
                 -->
-              ?>
+
               </select>
             </div>
             <input type="submit" class="btn" value="Add Class">
@@ -341,6 +342,27 @@
                 </tr>
               </thead>
               <tbody>
+                <?php
+                  foreach ($current_user_courses as $user_course) {
+                    <tr>
+                      <td>echo $user_course->name</td>
+                      <td>echo $user_course->description</td>
+                      <td>echo $user_course->teacherID</td>
+                      <td>echo $user_course->term</td>
+                      <td colspan="2">
+                        <ul>
+                        foreach ($assignments as $assignment) {
+                          echo "<li>", $assignment->name , "</li>";
+
+                        }
+                        </ul>
+                      </td>
+                    </tr>
+                    <tr>
+                  }
+                 ?>
+
+                <!--
                 <tr>
                   <td>CIS 3090.01</td>
                   <td>Object-Oriented Programming for Business</td>
@@ -390,6 +412,8 @@
                     </ul>
                   </td>
                 </tr>
+                --->
+
               </tbody>
             </table>
             <hr />

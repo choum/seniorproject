@@ -21,6 +21,7 @@
 
       //get current user
       $current_user = $db->getUser($username);
+      $current_user_name = $current_user->firstName , " " , $current_user ->lastName;
       $current_user_courses = $db->getAdminCourses($current_user["id"]);
 
       //get the action form the request
