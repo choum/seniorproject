@@ -15,7 +15,7 @@
             try
             {
                 $dbObj = new Database();
-                $db = $dbObj->db;
+                $db = $dbObj->getConnection();
                 $query = "Insert into UserAccount "
                         . "(UserID, Username, Password, FirstName, LastName, Title,"
                         . " Bio, ImageLink, Linkedin, Website, UserRole, "
@@ -62,7 +62,7 @@
             try
             {
                 $dbObj = new Database();
-                $db = $dbObj->db;
+                $db = $dbObj->getConnection();
                 $query = "Update UserAccount "
                         . "SET Bio=:bio, ImageLink=:image, "
                         . "LinkedIn=:linkedin, Website=:website "
@@ -121,7 +121,7 @@
             try
             {
                 $dbObj = new Database();
-                $db = $dbObj->db;
+                $db = $dbObj->getConnection();
                 $query = "Insert into UserAccount "
                         . "(UserID, Username, Password, FirstName, LastName, Title, "
                         . "UserRole, Suspended, DateCreated, LastLoggedIn) "
@@ -159,7 +159,7 @@
             try
             {
                 $dbObj = new Database();
-                $db = $dbObj->db;
+                $db = $dbObj->getConnection();
                 $query = "Update UserAccount "
                         . "SET FirstName=:fName, LastName=:lName "
                         . "WHERE UserID=:uid;";
@@ -246,7 +246,7 @@
             try
             {
                 $dbObj = new Database();
-                $db = $dbObj->db;
+                $db = $dbObj->getConnection();
                 $query = "INSERT INTO Courses"
                         . "(CourseID, CourseTitle, CourseNumber, CourseSection, "
                         . "Term, Description, Closed, EnrollmentTotal, AdminID, "
@@ -483,7 +483,7 @@
             try
             {
                 $dbObj = new Database();
-                $db = $dbObj->db;
+                $db = $dbObj->getConnection();
                 $query = "Select AssignmentID, AssignmentName "
                         . "From Assignments Where CourseID= :cID;";
                 $statement = $db->prepare($query);
