@@ -36,12 +36,11 @@
             }
         }
 
-        //Use this function to get the database object
-        public static function getConnection(){
-            return self::$db;
-        }
+//        //Use this function to get the database object
+//        public function getConnection(){
+//            return $this->db;
+//        }
 
     }
 
 
-?>

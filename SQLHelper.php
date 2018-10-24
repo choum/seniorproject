@@ -1,5 +1,5 @@
 <?php
-require_once("./Database.php");
+require_once("private/Database.php");
     Class SQLHelper
     {
         //Insertion of new student user to be added to the UserAccount Table
@@ -10,7 +10,7 @@ require_once("./Database.php");
                 $lastLoginDate = NULL) {
             try{
                 $dbObj = new Database();
-                $db = $dbObj->db;
+                $db = $dbObj->getConnection();
                 $query = "Insert into UserAccount "
                         . "(UserID, Username, Password, FirstName, LastName, Title,"
                         . " Bio, ImageLink, Linkedin, Website, UserRole, "
@@ -54,7 +54,7 @@ require_once("./Database.php");
                 $linkedin = null, $website = null) {
             try{
                 $dbObj = new Database();
-                $db = $dbObj->db;
+                $db = $dbObj->getConnection();
                 $query = "Update UserAccount "
                         . "SET Bio=:bio, ImageLink=:image, "
                         . "LinkedIn=:linkedin, Website=:website "
@@ -84,7 +84,7 @@ require_once("./Database.php");
                 $userRole, $suspended, $dateCreated, $lastLoginDate = null) {
             try{
                 $dbObj = new Database();
-                $db = $dbObj->db;
+                $db = $dbObj->getConnection();
                 $query = "Insert into UserAccount "
                         . "(UserID, Username, Password, FirstName, LastName, Title, "
                         . "UserRole, Suspended, DateCreated, LastLoggedIn) "
@@ -118,7 +118,7 @@ require_once("./Database.php");
         function updateInstructor($userID, $firstName, $lastName) {
             try{
                 $dbObj = new Database();
-                $db = $dbObj->db;
+                $db = $dbObj->getConnection();
                 $query = "Update UserAccount "
                         . "SET FirstName=:fName, LastName=:lName "
                         . "WHERE UserID=:uid;";
@@ -144,7 +144,7 @@ require_once("./Database.php");
                 $term, $description, $closed, $enrollment, $adminID, $teacherID) {
             try{
                 $dbObj = new Database();
-                $db = $dbObj->db;
+                $db = $dbObj->getConnection();
                 $query = "INSERT INTO Courses"
                         . "(CourseID, CourseTitle, CourseNumber, CourseSection, "
                         . "Term, Description, Closed, EnrollmentTotal, AdminID, "
@@ -179,8 +179,8 @@ require_once("./Database.php");
         function updateCourse($courseID, $courseTitle,  $courseNumber, $courseSection, 
                 $courseTerm, $adminID, $teacherID) {
             try{
-                $dbObj = new Database(); 
-                $db = $dbObj->db;
+                $dbObj = new Database();
+                $db = $dbObj->getConnection();
                 $query = "Update Courses "
                         . "SET CourseTitle=:cTitle, CourseNumber=:cNumber, "
                         . "CourseSection=:cSection, Term=:cTerm, "
@@ -212,7 +212,7 @@ require_once("./Database.php");
             $instructorRoleNum = 1;
             try{
                 $dbObj = new Database();
-                $db = $dbObj->db;
+                $db = $dbObj->getConnection();
                 $query = "Select UserID, FirstName, LastName "
                         . "From UserAccount "
                         . "Where UserRole = :role";
@@ -235,8 +235,8 @@ require_once("./Database.php");
         //card on admin dashboard. Instructor displayed based on teacherid
         function getCourses() {
             try{
-                $dbObj = new Database(); 
-                $db = $dbObj->db;
+                $dbObj = new Database();
+                $db = $dbObj->getConnection();
                 $query = "Select CourseID, CourseTitle, CourseNumber, "
                         . "CourseSection, Term, Description, TeacherID "
                         . "FROM Courses";
@@ -260,7 +260,7 @@ require_once("./Database.php");
         function getAssignmentList($courseID){
             try{
                 $dbObj = new Database();
-                $db = $dbObj->db;
+                $db = $dbObj->getConnection();
                 $query = "Select AssignmentID, AssignmentName "
                         . "From Assignments Where CourseID= :cID;";
                 $statement = $db->prepare($query);
