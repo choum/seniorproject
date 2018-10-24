@@ -5,19 +5,19 @@ include_once("./SQLHelper.php");
 
 $querys = new SQLHelper();
 /*//for testing add user function
-$returna = $querys->addUser(991, "username", "password", "firstName", "lastName", "title", 1, 0, date("Y/m/d"),NULL, NULL, NULL. NULL, NULL);
+$returna = $querys->addUser("username", "password", "firstName", "lastName", "title", 1, 0, date("Y/m/d"),NULL, NULL, NULL. NULL, NULL);
 echo $returna;
 //for testing update user function
 $returnb = $querys->updateUser(992, "AH", "AB", "AS", "AF");
 echo "<br/>" . $returnb;
 //for testing add instructor function, which performs the same as user currently
-$returnc = $querys->addInstructor(993, "username", "password", "firstName", "lastName", "title", 1, 0, date("Y/m/d"));
+$returnc = $querys->addInstructor("username", "password", "firstName", "lastName", "title", 1, 0, date("Y/m/d"));
 echo "<br/>" . $returnc;
 //for testing update instructor function
 $returnc = $querys->updateInstructor(993, "firstName1", "lastName2");
 echo "<br/>" . $returnc;
 //for testing create course function
-$returnd = $querys->addCourse(1113, "Intro to Accounting", 127, 012, "Fall 2018", "Description", 0, 20, 991, 993);
+$returnd = $querys->addCourse("Intro to Accounting", 127, 012, "Fall 2018", "Description", 0, 20, 991, 993);
 echo "<br/>" . $returnd;
 //for testing update course function CURRENTLY NOT WORKING
 $returne = $querys->updateCourse(1234, "Apple", 123, 02, "Fall 2019", 991, 993);
