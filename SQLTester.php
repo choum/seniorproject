@@ -4,7 +4,7 @@
 include_once("./SQLHelper.php");
 
 $querys = new SQLHelper();
-//for testing add user function
+/*//for testing add user function
 $returna = $querys->addUser(991, "username", "password", "firstName", "lastName", "title", 1, 0, date("Y/m/d"),NULL, NULL, NULL. NULL, NULL);
 echo $returna;
 //for testing update user function
@@ -59,3 +59,11 @@ if(is_array($returnh)){
 }
 else
     echo "<br/>" . $returnh;
+ * 
+ */
+
+$return = $querys->getUserAuth("password");
+if(is_array($return))
+    print_r($return);
+else
+    echo $return;
