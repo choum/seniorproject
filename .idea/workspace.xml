@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4901a90d-3e1a-4ce2-8847-a39338d34f86" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CreateFTP.php" beforeDir="false" afterPath="$PROJECT_DIR$/CreateFTP.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Database.php" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -28,7 +26,7 @@
         <entry file="file://$PROJECT_DIR$/CreateFTP.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="390">
-              <caret line="26" column="34" lean-forward="true" selection-start-line="26" selection-start-column="20" selection-end-line="26" selection-end-column="34" />
+              <caret line="26" column="51" selection-start-line="26" selection-start-column="51" selection-end-line="26" selection-end-column="51" />
               <folding>
                 <element signature="e#6#87#0#PHP" expanded="true" />
               </folding>
@@ -105,9 +103,9 @@
     <packageJsonPaths />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-293" />
-    <option name="y" value="23" />
-    <option name="width" value="1475" />
+    <option name="x" value="378" />
+    <option name="y" value="49" />
+    <option name="width" value="1105" />
     <option name="height" value="1027" />
   </component>
   <component name="ProjectView">
@@ -164,18 +162,18 @@
       <option name="presentableId" value="Default" />
       <updated>1540235314064</updated>
       <workItem from="1540235315843" duration="8299000" />
-      <workItem from="1540265731922" duration="618000" />
+      <workItem from="1540265731922" duration="2735000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="8917000" />
+    <option name="totallyTimeSpent" value="11034000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-293" y="23" width="1475" height="1027" extended-state="0" />
+    <frame x="378" y="49" width="1105" height="1027" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.28474575" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.15113123" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
@@ -286,7 +284,7 @@
     <entry file="file://$PROJECT_DIR$/CreateFTP.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="390">
-          <caret line="26" column="34" lean-forward="true" selection-start-line="26" selection-start-column="20" selection-end-line="26" selection-end-column="34" />
+          <caret line="26" column="51" selection-start-line="26" selection-start-column="51" selection-end-line="26" selection-end-column="51" />
           <folding>
             <element signature="e#6#87#0#PHP" expanded="true" />
           </folding>
