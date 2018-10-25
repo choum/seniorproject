@@ -37,7 +37,8 @@ create_csrf_token();
         <h3 class="card-title">Login</h3>
         <br />
         <form method="post">
-          <input name="token" type="hidden" value="<?php echo csrf_token_tag(); ?>" />
+          <input name="action" type="hidden" value="login" />
+          <?php echo csrf_token_tag(); ?>
           <div class="form-group">
             <label for="username">Username</label>
             <input type="text" class="form-control" id="username" placeholder="Bronco ID" required>

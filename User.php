@@ -1,7 +1,8 @@
-<?php 
+<?php
 
     class User {
 
+        $id;
         $userName = "user";
         $firstName = "first";
         $lastName = "last";
