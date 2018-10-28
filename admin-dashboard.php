@@ -127,7 +127,6 @@
     </div>
   </div>
 
-
   <div class="row">
     <!--edit profile-->
     <div class="col-md-4">
@@ -159,18 +158,11 @@
             <div class="form-group">
               <label for="classname">Term</label>
               <select>
-
               <?php
                 foreach($terms as $term){
                   echo "<option value='$term'>" . $term . "</option>";
                 }
               ?>
-                <!---
-                <option>Fall 2018</option>
-                <option>Spring 2019</option>
-                <option>Summer 2019</option>
-                --->
-
               </select>
             </div>
             <div class="form-group">
@@ -185,11 +177,6 @@
                   echo "<option value='$instructor'>" . $instructor . "<option>";
                 }
               ?>
-                <!--
-                  <option>Zhongming Ma</option>
-                  <option>Hui Shi</option>
-                -->
-
               </select>
             </div>
             <input type="submit" class="btn" value="Add Class">
@@ -205,19 +192,11 @@
         <div class="card-body">
           <label>Select existing class</label>
           <select>
-
             <?php
               foreach($courses as $course) {
                 echo "<option value='$course'>" . $course . "<option>";
               }
             ?>
-
-            <!--
-            <option>CIS 3090</option>
-            <option selected>CIS 4260</option>
-            <option>CIS 4290</option>
-            -->
-
           </select>
           <form>
             <div class="form-group">
@@ -236,11 +215,6 @@
                   echo "<option value='$term'>" . $term . "<option>";
                 }
               ?>
-              <!--
-                <option selected>Fall 2018</option>
-                <option>Spring 2019</option>
-                <option>Summer 2019</option>
-              -->
               </select>
             </div>
             <div class="form-group">
@@ -256,10 +230,6 @@
                   echo "<option value='$instructor'>" . $instructor . "<option>";
                 }
               ?>
-              <!--
-                <option selected>Zhongming Ma</option>
-                <option>Hui Shi</option>
-              -->
               </select>
             </div>
             <input type="submit" class="btn" value="Update Class">
@@ -296,11 +266,6 @@
                 echo "<option value='$instructor'>" . $instructor . "<option>";
               }
             ?>
-            <!--
-            <option>Hui Shi</option>
-            <option selected>Zhongming Ma</option>
-            <option>John Miller</option>
-            -->
           </select>
           <form>
             <div class="form-group">
@@ -359,66 +324,12 @@
                                         <input type='Submit' value='" . $assignment->$name . "'>
                                       </form>
                                     </li>";
-
                             }
                         echo "</ul>
-                          </td>
+                            </td>
                           </tr>";
                   }
                  ?>
-
-                <!--
-                <tr>
-                  <td>CIS 3090.01</td>
-                  <td>Object-Oriented Programming for Business</td>
-                  <td>Zhongming Ma</td>
-                  <td>Fall 2018</td>
-                  <td colspan="2">
-                    <ul>
-                      <li>Assignment 1</li>
-                      <li>Assignment 2</li>
-                      <li>Project</li>
-                    </ul>
-                  </td>
-                </tr>
-                <tr>
-                  <td>CIS 4260.01</td>
-                  <td>Server-side Web Development</td>
-                  <td>Zhongming Ma</td>
-                  <td>Fall 2018</td>
-                  <td colspan="2">
-                    <ul>
-                      <li>Assignment 1</li>
-                      <li>PHP Project</li>
-                      <li>Assignment 2</li>
-                      <li>JSP Project</li>
-                    </ul>
-                  </td>
-                </tr>
-                <tr>
-                  <td>CIS 4290.01</td>
-                  <td>IS Project Management and Development</td>
-                  <td>Hui Shi</td>
-                  <td>Fall 2018</td>
-                  <td colspan="2">
-                    <ul>
-                      <li>Senior Project</li>
-                    </ul>
-                  </td>
-                </tr>
-                <tr>
-                  <td>CIS 4270.01</td>
-                  <td>Secure Web Applications</td>
-                  <td>John Miller</td>
-                  <td>Fall 2018</td>
-                  <td colspan="2">
-                    <ul>
-                      <li>Final Project</li>
-                    </ul>
-                  </td>
-                </tr>
-                --->
-
               </tbody>
             </table>
             <hr />
