@@ -16,7 +16,7 @@
             try
             {
                 $dbObj = new Database();
-                $db = $dbObj->db;
+                $db = $dbObj->getConnection();
                 $query = "Insert into UserAccount "
                         . "(Username, Password, FirstName, LastName, Title,"
                         . " Bio, ImageLink, Linkedin, Website, UserRole, "
@@ -38,17 +38,15 @@
                 $statement->bindValue(':suspend', $suspended, PDO::PARAM_BOOL);
                 $statement->bindValue(':creation', $dateCreated);
                 $statement->bindValue(':lastLogin', $lastLoginDate);
-                $result = $statement->execute();
+                $statement->execute();
                 $statement->closeCursor();
 
-                if ($result)
-                    Return "User created";
-                else
-                    Return "User not created";
+                return "User created";
             } catch (PDOException $e)
             {
-                $error_message = $e->getMessage();
-                error_log($error_message);
+                //$error_message = $e->getMessage();
+                //error_log($error_message, (int)0,"./error.txt");
+                return "User not created";
             }
         }
 
@@ -62,7 +60,7 @@
             try
             {
                 $dbObj = new Database();
-                $db = $dbObj->db;
+                $db = $dbObj->getConnection();
                 $query = "Update UserAccount "
                         . "SET Bio=:bio, ImageLink=:image, "
                         . "LinkedIn=:linkedin, Website=:website "
@@ -73,17 +71,15 @@
                 $statement->bindValue(':linkedin', $linkedin, PDO::PARAM_STR);
                 $statement->bindValue(':website', $website, PDO::PARAM_STR);
                 $statement->bindValue(':uid', $userID, PDO::PARAM_INT);
-                $result = $statement->execute();
+                $statement->execute();
                 $statement->closeCursor();
 
-                if ($result)
-                    Return "User updated";
-                else
-                    Return "User not updated";
+                return "User updated";
             } catch (PDOException $e)
             {
-                $error_message = $e->getMessage();
-                error_log($error_message);
+                //$error_message = $e->getMessage();
+                //error_log($error_message, (int)0,"./error.txt");
+                return "User not updated";
             }
         }
 
@@ -92,22 +88,20 @@
             try
             {
                 $dbObj = new Database();
-                $db = $dbObj->db;
+                $db = $dbObj->getConnection();
                 $query = "Select * From UserAccounts Where Username = :uname;";
                 $statement = $db->prepare($query);
                 $statement->bindValue(':uname', $username, PDO::PARAM_STR);
-                $result = $statement->execute();
+                $statement->execute();
                 $user = $statement->fetch();
                 $statement->closeCursor();
 
-                if ($result)
-                    return $user;
-                else
-                    return "Could not retrieve user data";
+                return $user;
             } catch (PDOException $e)
             {
-                $error_message = $e->getMessage();
-                error_log($error_message);
+                //$error_message = $e->getMessage();
+                //error_log($error_message, (int)0,"./error.txt");
+                return "Could not retrieve user data";
             }
         }
 
@@ -122,7 +116,7 @@
             try
             {
                 $dbObj = new Database();
-                $db = $dbObj->db;
+                $db = $dbObj->getConnection();
                 $query = "Insert into UserAccount "
                         . "(Username, Password, FirstName, LastName, Title, "
                         . "UserRole, Suspended, DateCreated, LastLoggedIn) "
@@ -138,16 +132,15 @@
                 $statement->bindValue(':suspend', $suspended, PDO::PARAM_BOOL);
                 $statement->bindValue(':creation', $dateCreated);
                 $statement->bindValue(':lastLogin', $lastLoginDate);
-                $result = $statement->execute();
+                $statement->execute();
                 $statement->closeCursor();
-                if ($result)
-                    Return "Instructor created";
-                else
-                    Return "Instructor not created";
+
+                return "Instructor created";
             } catch (PDOException $e)
             {
-                $error_message = $e->getMessage();
-                error_log($error_message);
+                //$error_message = $e->getMessage();
+                //error_log($error_message, (int)0,"./error.txt");
+                return "Instructor not created";
             }
         }
 
@@ -161,7 +154,7 @@
             try
             {
                 $dbObj = new Database();
-                $db = $dbObj->db;
+                $db = $dbObj->getConnection();
                 $query = "Update UserAccount "
                         . "SET FirstName=:fName, LastName=:lName "
                         . "WHERE UserID=:uid;";
@@ -169,17 +162,15 @@
                 $statement->bindValue(':fName', $firstName, PDO::PARAM_STR);
                 $statement->bindValue(':lName', $lastName, PDO::PARAM_STR);
                 $statement->bindValue(':uid', $userID, PDO::PARAM_INT);
-                $results = $statement->execute();
+                $statement->execute();
                 $statement->closeCursor();
 
-                if ($results)
-                    Return "Instructor updated";
-                else
-                    Return "Instructor not updated";
+                return "Instructor updated";
             } catch (PDOException $e)
             {
-                $error_message = $e->getMessage();
-                error_log($error_message);
+                //$error_message = $e->getMessage();
+                //error_log($error_message, (int)0,"./error.txt");
+                return "Instructor not updated";
             }
         }
 
@@ -188,23 +179,21 @@
             try
             {
                 $dbObj = new Database();
-                $db = $dbObj->db;
+                $db = $dbObj->getConnection();
                 $query = "Select * From UserAccount "
                         . "Where UserID = :uid";
                 $statement = $db->prepare($query);
                 $statement->bindValue(':uid', $userID, PDO::PARAM_INT);
-                $result = $statement->execute();
+                $statement->execute();
                 $instructor = $statement->fetch();
                 $statement->closeCursor();
 
-                if ($result)
-                    return $instructor;
-                else
-                    Return "Could not retrieve instructor";
+                return $instructor;
             } catch (PDOException $e)
             {
-                $error_message = $e->getMessage();
-                error_log($error_message);
+                //$error_message = $e->getMessage();
+                //error_log($error_message, (int)0,"./error.txt");
+                return "Could not retrieve instructor";
             }
         }
 
@@ -218,25 +207,23 @@
             try
             {
                 $dbObj = new Database();
-                $db = $dbObj->db;
+                $db = $dbObj->getConnection();
                 $query = "Select UserID, FirstName, LastName "
                         . "From UserAccount "
                         . "Where UserRole = :role";
                 $statement = $db->prepare($query);
                 $statement->bindValue(':role', $instructorRoleNum,
                         PDO::PARAM_INT);
-                $result = $statement->execute();
+                $statement->execute();
                 $instructors = $statement->fetchAll();
                 $statement->closeCursor();
 
-                if ($result)
-                    return $instructors;
-                else
-                    Return "Could not retrieve instructor list";
+                return $instructors;
             } catch (PDOException $e)
             {
-                $error_message = $e->getMessage();
-                error_log($error_message);
+                //$error_message = $e->getMessage();
+                //error_log($error_message, (int)0,"./error.txt");
+                return "Could not retrieve instructor list";
             }
         }
 
@@ -251,7 +238,7 @@
             try
             {
                 $dbObj = new Database();
-                $db = $dbObj->db;
+                $db = $dbObj->getConnection();
                 $query = "INSERT INTO Courses"
                         . "(CourseTitle, CourseNumber, CourseSection, "
                         . "Term, Description, Closed, EnrollmentTotal, AdminID, "
@@ -269,17 +256,15 @@
                 $statement->bindValue(':enrolled', $enrollment, PDO::PARAM_INT);
                 $statement->bindValue(':adminID', $adminID, PDO::PARAM_INT);
                 $statement->bindValue(':teacherID', $teacherID, PDO::PARAM_INT);
-                $result = $statement->execute();
+                $statement->execute();
                 $statement->closeCursor();
 
-                if ($result)
-                    Return "Course created";
-                else
-                    Return "Course not created";
+                return "Course created";
             } catch (PDOException $e)
             {
-                $error_message = $e->getMessage();
-                error_log($error_message);
+                //$error_message = $e->getMessage();
+                //error_log($error_message, (int)0,"./error.txt");
+                return "Course not created";
             }
         }
 
@@ -290,7 +275,7 @@
             try
             {
                 $dbObj = new Database();
-                $db = $dbObj->db;
+                $db = $dbObj->getConnection();
                 $query = "Update Courses "
                         . "SET CourseTitle=:cTitle, CourseNumber=:cNumber, "
                         . "CourseSection=:cSection, Term=:term, "
@@ -310,16 +295,15 @@
                 $statement->bindValue(':aID', $adminID, PDO::PARAM_INT);
                 $statement->bindValue(':tID', $teacherID, PDO::PARAM_INT);
                 $statement->bindValue(':cID', $courseID, PDO::PARAM_INT);
-                $result = $statement->execute();
+                $statement->execute();
                 $statement->closeCursor();
-                if ($result)
-                    Return "Course updated";
-                else
-                    Return "Course not updated";
+
+                return "Course updated";
             } catch (PDOException $e)
             {
-                $error_message = $e->getMessage();
-                error_log($error_message);
+                //$error_message = $e->getMessage();
+                //error_log($error_message, (int)0,"./error.txt");
+                return "Course not updated";
             }
         }
 
@@ -328,23 +312,21 @@
             try
             {
                 $dbObj = new Database();
-                $db = $dbObj->db;
+                $db = $dbObj->getConnection();
                 $query = "Select * FROM Courses "
                         . "Where CourseID = :cid";
                 $statement = $db->prepare($query);
                 $statement->bindValue(':cid', $courseID, PDO::PARAM_INT);
-                $result = $statement->execute();
+                $statement->execute();
                 $course = $statement->fetch();
                 $statement->closeCursor();
 
-                if ($result)
-                    return $course;
-                else
-                    Return "Could not retrieve course";
+                return $course;
             } catch (PDOException $e)
             {
-                $error_message = $e->getMessage();
-                error_log($error_message);
+                //$error_message = $e->getMessage();
+                //error_log($error_message, (int)0,"./error.txt");
+                return "Could not retrieve course";
             }
         }
 
@@ -357,21 +339,19 @@
             try
             {
                 $dbObj = new Database();
-                $db = $dbObj->db;
+                $db = $dbObj->getConnection();
                 $query = "Select CourseID FROM Courses";
                 $statement = $db->prepare($query);
-                $result = $statement->execute();
+                $statement->execute();
                 $courses = $statement->fetchAll();
                 $statement->closeCursor();
 
-                if ($result)
-                    return $courses;
-                else
-                    Return "Could not retrieve complete course list";
+                return $courses;
             } catch (PDOException $e)
             {
-                $error_message = $e->getMessage();
-                error_log($error_message);
+                //$error_message = $e->getMessage();
+                //error_log($error_message, (int)0,"./error.txt");
+                return "Could not retrieve complete course list";
             }
         }
 
@@ -380,23 +360,21 @@
             try
             {
                 $dbObj = new Database();
-                $db = $dbObj->db;
+                $db = $dbObj->getConnection();
                 $query = "Select CourseID FROM Courses "
                         . "Where TeacherID = :tID";
                 $statement = $db->prepare($query);
                 $statement->bindValue(':tID', $teacherID, PDO::PARAM_INT);
-                $result = $statement->execute();
+                $statement->execute();
                 $courses = $statement->fetchAll();
                 $statement->closeCursor();
 
-                if ($result)
-                    return $courses;
-                else
-                    Return "Could not retrieve instructor's course list";
+                return $courses;
             } catch (PDOException $e)
             {
-                $error_message = $e->getMessage();
-                error_log($error_message);
+                //$error_message = $e->getMessage();
+                //error_log($error_message, (int)0,"./error.txt");
+                return "Could not retrieve instructor's course list";
             }
         }
 
@@ -405,22 +383,20 @@
             try
             {
                 $dbObj = new Database();
-                $db = $dbObj->db;
+                $db = $dbObj->getConnection();
                 $query = "Select Term From Courses "
                         . "Group By Term";
                 $statement = $db->prepare($query);
-                $result = $statement->execute();
+                $statement->execute();
                 $terms = $statement->fetchAll();
                 $statement->closeCursor();
 
-                if ($result)
-                    Return $terms;
-                else
-                    Return "Could not retrieve list of terms";
+                return $terms;
             } catch (PDOException $e)
             {
-                $error_message = $e->getMessage();
-                error_log($error_message);
+                //$error_message = $e->getMessage();
+                //error_log($error_message, (int)0,"./error.txt");
+                return "Could not retrieve list of terms";
             }
         }
 
@@ -429,23 +405,21 @@
             try
             {
                 $dbObj = new Database();
-                $db = $dbObj->db;
+                $db = $dbObj->getConnection();
                 $query = "Select CourseID From Courses "
                         . "Where Term = :term";
                 $statement = $db->prepare($query);
                 $statement->bindValue(':term', $tterm, PDO::PARAM_STR);
-                $result = $statement->execute();
+                $statement->execute();
                 $terms = $statement->fetchAll();
                 $statement->closeCursor();
 
-                if ($result)
-                    Return $courses;
-                else
-                    Return "Could not retrieve courses of $term term";
+                return $courses;
             } catch (PDOException $e)
             {
-                $error_message = $e->getMessage();
-                error_log($error_message);
+                //$error_message = $e->getMessage();
+                //error_log($error_message, (int)0,"./error.txt");
+                return "Could not retrieve courses of $term term";
             }
         }
 
@@ -455,7 +429,7 @@
             try
             {
                 $dbObj = new Database();
-                $db = $dbObj->db;
+                $db = $dbObj->getConnection();
                 $query = "INSERT INTO Assignments "
                         . "(AssignmentName, Description, "
                         . "AssignmentDate, PDFLocation, CourseID, TeacherID) "
@@ -467,17 +441,15 @@
                 $statement->bindValue(':pdf', $pdf, PDO::PARAM_STR);
                 $statement->bindValue(':cID', $courseID, PDO::PARAM_INT);
                 $statement->bindValue(':tID', $teacherID, PDO::PARAM_INT);
-                $result = $statement->execute();
+                $statement->execute();
                 $statement->closeCursor();
 
-                if ($result)
-                    Return "Assignment created";
-                else
-                    Return "Assignment not created";
+                return "Assignment created";
             } catch (PDOException $e)
             {
-                $error_message = $e->getMessage();
-                error_log($error_message);
+                //$error_message = $e->getMessage();
+                //error_log($error_message, (int)0,"./error.txt");
+                return "Assignment not created";
             }
         }
 
@@ -487,7 +459,7 @@
             try
             {
                 $dbObj = new Database();
-                $db = $dbObj->db;
+                $db = $dbObj->getConnection();
                 $query = "Update Assignments "
                         . "Set AssignmentName=:aName, Description=:desc, "
                         . "AssignmentDate=:date, PDFLocation=:pdf, CourseID=:cID, "
@@ -501,17 +473,15 @@
                 $statement->bindValue(':pdf', $pdf, PDO::PARAM_STR);
                 $statement->bindValue(':cID', $courseID, PDO::PARAM_INT);
                 $statement->bindValue(':tID', $teacherID, PDO::PARAM_INT);
-                $result = $statement->execute();
+                $statement->execute();
                 $statement->closeCursor();
 
-                if ($result)
-                    Return "Assignment updated";
-                else
-                    Return "Assignment not updated";
+                return "Assignment updated";
             } catch (PDOException $e)
             {
-                $error_message = $e->getMessage();
-                error_log($error_message);
+                //$error_message = $e->getMessage();
+                //error_log($error_message, (int)0,"./error.txt");
+                return "Assignment not updated";
             }
         }
 
@@ -520,49 +490,46 @@
             try
             {
                 $dbObj = new Database();
-                $db = $dbObj->db;
+                $db = $dbObj->getConnection();
                 $query = "Select * From Assignments "
                         . "Where AssignmentID = :aID;";
                 $statement = $db->prepare($query);
                 $statement->bindValue(':aID', $assignmentID, PDO::PARAM_INT);
-                $result = $statement->execute();
+                $statement->execute();
                 $assignment = $statement->fetch();
                 $statement->closeCursor();
 
-                if ($result)
-                    Return $assignment;
-                else
-                    Return "Could not retrieve assignment";
+                return $assignment;
             } catch (PDOException $e)
             {
-                $error_message = $e->getMessage();
-                error_log($error_message);
+                //$error_message = $e->getMessage();
+                //error_log($error_message, (int)0,"./error.txt");
+                return "Could not retrieve assignment";
             }
         }
 
-        //Returns list of assignment for singular course based on its id, very limited.
+        //returns list of assignment for singular course based on its id, very limited.
         //Done in multiple dashboards.
         function getAssignments($courseID)
         {
             try
             {
                 $dbObj = new Database();
-                $db = $dbObj->db;
+                $db = $dbObj->getConnection();
                 $query = "Select AssignmentID, AssignmentName "
                         . "From Assignments Where CourseID= :cID;";
                 $statement = $db->prepare($query);
                 $statement->bindValue(':cID', $courseID, PDO::PARAM_INT);
-                $result = $statement->execute();
+                $statement->execute();
                 $assignments = $statement->fetchAll();
                 $statement->closeCursor();
-                if ($result)
-                    return $assignments;
-                else
-                    Return "Could not retreive assignment list";
+
+                return $assignments;
             } catch (PDOException $e)
             {
-                $error_message = $e->getMessage();
-                error_log($error_message);
+                //$error_message = $e->getMessage();
+                //error_log($error_message, (int)0,"./error.txt");
+                return "Could not retreive assignment list";
             }
         }
 
@@ -573,7 +540,7 @@
             try
             {
                 $dbObj = new Database();
-                $db = $dbObj->db;
+                $db = $dbObj->getConnection();
                 $query = "INSERT INTO Student_Assignment "
                         . "(StudentID, AssignmentID, Description, Directory, "
                         . "DateCreated, Screenshot, Featured, Group) "
@@ -588,17 +555,15 @@
                 $statement->bindValue(':screen', $screenshot, PDO::PARAM_STR);
                 $statement->bindValue(':featured', $featured, PDO::PARAM_BOOL);
                 $statement->bindValue(':group', $group, PDO::PARAM_BOOL);
-                $result = $statement->execute();
+                $statement->execute();
                 $statement->closeCursor();
 
-                if ($result)
-                    Return "Studnet ssignment created";
-                else
-                    Return "Student assignment not created";
+                return "Student ssignment created";
             } catch (PDOException $e)
             {
-                $error_message = $e->getMessage();
-                error_log($error_message);
+                //$error_message = $e->getMessage();
+                //error_log($error_message, (int)0,"./error.txt");
+                return "Student assignment not created";
             }
         }
 
@@ -609,7 +574,7 @@
             try
             {
                 $dbObj = new Database();
-                $db = $dbObj->db;
+                $db = $dbObj->getConnection();
                 $query = "Update Student_Assignment "
                         . "Set Description=:desc, Directory=:dir, "
                         . "DateCreated=:date, Screenshot=:screen, "
@@ -624,17 +589,16 @@
                 $statement->bindValue(':group', $group, PDO::PARAM_BOOL);
                 $statement->bindValue(':sID', $studentID, PDO::PARAM_INT);
                 $statement->bindValue(':aID', $assignmentID, PDO::PARAM_INT);
-                $result = $statement->execute();
+                $statement->execute();
                 $statement->closeCursor();
 
-                if ($result)
-                    Return "Studnet ssignment updated";
-                else
-                    Return "Student assignment not updated";
+
+                return "Studnet ssignment updated";
             } catch (PDOException $e)
             {
-                $error_message = $e->getMessage();
-                error_log($error_message);
+                //$error_message = $e->getMessage();
+                //error_log($error_message, (int)0,"./error.txt");
+                return "Student assignment not updated";
             }
         }
 
@@ -643,24 +607,22 @@
             try
             {
                 $dbObj = new Database();
-                $db = $dbObj->db;
+                $db = $dbObj->getConnection();
                 $query = "Select * From Student_Assignment "
                         . "Where StudentID = :sID, AssignmentID = :aID;";
                 $statement = $db->prepare($query);
                 $statement->bindValue(':sID', $studentID, PDO::PARAM_INT);
                 $statement->bindValue(':aID', $assignmentID, PDO::PARAM_INT);
-                $result = $statement->execute();
+                $statement->execute();
                 $assignment = $statement->fetch();
                 $statement->closeCursor();
 
-                if ($result)
-                    Return $assignment;
-                else
-                    Return "Could not retrieve student assignment";
+                return $assignment;
             } catch (PDOException $e)
             {
-                $error_message = $e->getMessage();
-                error_log($error_message);
+                //$error_message = $e->getMessage();
+                //error_log($error_message, (int)0,"./error.txt");
+                return "Could not retrieve student assignment";
             }
         }
 
@@ -669,23 +631,21 @@
             try
             {
                 $dbObj = new Database();
-                $db = $dbObj->db;
+                $db = $dbObj->getConnection();
                 $query = "Select AssignmentID From Student_Assignment "
                         . "Where StudentID = :sID";
                 $statement = $db->prepare($query);
                 $statement->bindValue(':sID', $studentID, PDO::PARAM_INT);
-                $result = $statement->execute();
+                $statement->execute();
                 $assignments = $statement->fetchAll();
                 $statement->closeCursor();
 
-                if ($result)
-                    Return $assignments;
-                else
-                    Return "Could not retrieve student assignments";
+                return $assignments;
             } catch (PDOException $e)
             {
-                $error_message = $e->getMessage();
-                error_log($error_message);
+                //$error_message = $e->getMessage();
+                //error_log($error_message, (int)0,"./error.txt");
+                return "Could not retrieve student assignments";
             }
         }
 
@@ -694,23 +654,21 @@
             try
             {
                 $dbObj = new Database();
-                $db = $dbObj->db;
+                $db = $dbObj->getConnection();
                 $query = "Select StudentID From Student_Assignment "
                         . "Where AssignmentID = :aID";
                 $statement = $db->prepare($query);
                 $statement->bindValue(':aID', $assignmentID, PDO::PARAM_INT);
-                $result = $statement->execute();
+                $statement->execute();
                 $students = $statement->fetchAll();
                 $statement->closeCursor();
 
-                if ($result)
-                    Return $students;
-                else
-                    Return "Could not retrieve student assignment submissions";
+                return $students;
             } catch (PDOException $e)
             {
-                $error_message = $e->getMessage();
-                error_log($error_message);
+                //$error_message = $e->getMessage();
+                //error_log($error_message, (int)0,"./error.txt");
+                return "Could not retrieve student assignment submissions";
             }
         }
 
@@ -719,7 +677,7 @@
             try
             {
                 $dbObj = new Database();
-                $db = $dbObj->db;
+                $db = $dbObj->getConnection();
                 $query = "INSERT INTO Student_Course "
                         . "(StudentID, CourseID, DateAdded) "
                         . "VALUES(:sID, :cID, :date);";
@@ -727,17 +685,15 @@
                 $statement->bindValue(':sID', $studentID, PDO::PARAM_INT);
                 $statement->bindValue(':cID', $courseID, PDO::PARAM_INT);
                 $statement->bindValue(':date', $date);
-                $result = $statement->execute();
+                $statement->execute();
                 $statement->closeCursor();
 
-                if ($result)
-                    Return "Student added to course";
-                else
-                    Return "Student not added to course";
+                return "Student added to course";
             } catch (PDOException $e)
             {
-                $error_message = $e->getMessage();
-                error_log($error_message);
+                //$error_message = $e->getMessage();
+                //error_log($error_message, (int)0,"./error.txt");
+                return "Student not added to course";
             }
         }
 
@@ -746,24 +702,22 @@
             try
             {
                 $dbObj = new Database();
-                $db = $dbObj->db;
+                $db = $dbObj->getConnection();
                 $query = "Select * From Student_Course "
                         . "Where StudentID = :uID AND CourseID = :cID;";
                 $statement = $db->prepare($query);
                 $statement->bindValue(':sID', $studentID, PDO::PARAM_INT);
                 $statement->bindValue(':cID', $courseID, PDO::PARAM_INT);
-                $result = $statement->execute();
+                $statement->execute();
                 $studentCourse = $statement->fetch();
                 $statement->closeCursor();
 
-                if ($result)
-                    Return "$studentCourse";
-                else
-                    Return "Assignment not updated";
+                return "$studentCourse";
             } catch (PDOException $e)
             {
-                $error_message = $e->getMessage();
-                error_log($error_message);
+                //$error_message = $e->getMessage();
+                //error_log($error_message, (int)0,"./error.txt");
+                return "Assignment not updated";
             }
         }
 
@@ -772,23 +726,21 @@
             try
             {
                 $dbObj = new Database();
-                $db = $dbObj->db;
+                $db = $dbObj->getConnection();
                 $query = "Select * From Student_Course "
                         . "Where StudentID = :uID";
                 $statement = $db->prepare($query);
                 $statement->bindValue(':sID', $studentID, PDO::PARAM_INT);
-                $result = $statement->execute();
+                $statement->execute();
                 $studentCourses = $statement->fetchAll();
                 $statement->closeCursor();
 
-                if ($result)
-                    Return "$studentCourses";
-                else
-                    Return "Could not retrieve student courses";
+                return $studentCourses;
             } catch (PDOException $e)
             {
-                $error_message = $e->getMessage();
-                error_log($error_message);
+                //$error_message = $e->getMessage();
+                //error_log($error_message, (int)0,"./error.txt");
+                return "Could not retrieve student courses";
             }
         }
 
@@ -797,23 +749,22 @@
             try
             {
                 $dbObj = new Database();
-                $db = $dbObj->db;
+                $db = $dbObj->getConnection();
                 $query = "Select * From Student_Course "
                         . "CourseID = :cID;";
                 $statement = $db->prepare($query);
                 $statement->bindValue(':cID', $courseID, PDO::PARAM_INT);
-                $result = $statement->execute();
+                $statement->execute();
                 $studentEnrollment = $statement->fetchAll();
                 $statement->closeCursor();
 
-                if ($result)
-                    Return "$studentEnrollment";
-                else
-                    Return "Could not retrieve students enrolled in course";
+
+                return "$studentEnrollment";
             } catch (PDOException $e)
             {
-                $error_message = $e->getMessage();
-                error_log($error_message);
+                //$error_message = $e->getMessage();
+                //error_log($error_message, (int)0,"./error.txt");
+                return "Could not retrieve students enrolled in course";
             }
         }
 
@@ -822,24 +773,22 @@
             try
             {
                 $dbObj = new Database();
-                $db = $dbObj->db;
+                $db = $dbObj->getConnection();
                 $query = "Select Password From UserAccount "
                         . "Where Username= :uname";
                 $statement = $db->prepare($query);
                 $statement->bindValue(':uname', $username, PDO::PARAM_STR);
-                $result = $statement->execute();
+                $statement->execute();
                 $userPass = $statement->fetch();
                 $statement->closeCursor();
-                echo $result;
-                if ($result)
-                    Return $userPass;
-                else
-                    Return "Could not retrieve user password";
+
+                return $userPass;
             } catch (PDOException $e)
             {
                 echo $e->getMessage();
-                $error_message = $e->getMessage();
-                error_log($error_message);
+                //$error_message = $e->getMessage();
+                //error_log($error_message, (int)0,"./error.txt");
+                return "Could not retrieve user password";
             }
         }
 

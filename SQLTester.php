@@ -5,36 +5,36 @@ include_once("./SQLHelper.php");
 
 $querys = new SQLHelper();
 //for testing add user function
-$returna = $querys->addUser("username", "password", "firstName", "lastName", "title", 1, 0, date("Y/m/d"),NULL, NULL, NULL. NULL, NULL);
-echo $returna;
+$return = $querys->addUser("username", "password", "firstName", "lastName", "title", 1, 0, date("Y/m/d"),NULL, NULL, NULL. NULL, NULL);
+echo $return;
 //for testing update user function
-$returnb = $querys->updateUser(992, "AH", "AB", "AS", "AF");
-echo "<br/>" . $returnb;
+$return = $querys->updateUser(992, "AH", "AB", "AS", "AF");
+echo "<br/>" . $return;
 //for testing add instructor function, which performs the same as user currently
-$returnc = $querys->addInstructor("username", "password", "firstName", "lastName", "title", 1, 0, date("Y/m/d"));
-echo "<br/>" . $returnc;
+$return = $querys->addInstructor("username", "password", "firstName", "lastName", "title", 1, 0, date("Y/m/d"));
+echo "<br/>" . $return;
 //for testing update instructor function
-$returnc = $querys->updateInstructor(993, "firstName1", "lastName2");
-echo "<br/>" . $returnc;
+$return = $querys->updateInstructor(993, "firstName1", "lastName2");
+echo "<br/>" . $return;
 //for testing create course function
-$returnd = $querys->addCourse("Intro to Accounting", 127, 012, "Fall 2018", "Description", 0, 20, 991, 993);
-echo "<br/>" . $returnd;
+$return = $querys->addCourse("Intro to Accounting", 127, 012, "Fall 2018", "Description", 0, 20, 991, 993);
+echo "<br/>" . $return;
 //for testing update course function CURRENTLY NOT WORKING
-$returne = $querys->updateCourse(1234, "Apple", 123, 02, "Fall 2019", 991, 993);
-echo "<br/>" . $returne;
+$return = $querys->updateCourse(1234, "Apple", 123, 02, "Fall 2019", 991, 993);
+echo "<br/>" . $return;
 //for testing get instructors function
-$returnf = $querys->getInstructors();
-if(is_array($returnf)){
-    foreach($returnf as $instructor):
+$return = $querys->getInstructors();
+if(is_array($return)){
+    foreach($return as $instructor):
         echo "<br/>" . $instructor[0] . " " . $instructor[1] . " " . $instructor[2];
     endforeach;
 }
 else
-    echo "<br/>" . $returnf;
+    echo "<br/>" . $return;
 //for testing get courses function
-$returng = $querys->getCourses();
-if(is_array($returng)){
-    foreach($returng as $course):
+$return = $querys->getCourses();
+if(is_array($return)){
+    foreach($return as $course):
         echo "<br/>";
         foreach($course as $key => $column):
             if(is_int($key) == FALSE)
@@ -43,13 +43,13 @@ if(is_array($returng)){
     endforeach;
 }
 else
-    echo "<br/>" . $returng;
+    echo "<br/>" . $return;
 //for testing get assignment list. Needs a complimentary create & update assignment query
 //In normal cases it would use a presupplied courseid, from either getCourses or a single course fetch
 //Assignment table needs to be renamed for this to work
-$returnh = $querys->getAssignmentList(1113);
-if(is_array($returnh)){
-    foreach($returnh as $assignment):
+$return = $querys->getAssignmentList(1113);
+if(is_array($return)){
+    foreach($return as $assignment):
         echo "<br/>";
         foreach($assignment as $key => $column):
             if(is_int($key) == FALSE)
@@ -58,7 +58,7 @@ if(is_array($returnh)){
     endforeach;
 }
 else
-    echo "<br/>" . $returnh;
+    echo "<br/>" . $return;
 
-$returni = $querys->getUserAuth("password");
-echo returni;
+$return = $querys->getUserAuth("password");
+echo $return;
