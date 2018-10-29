@@ -36,6 +36,11 @@ create_csrf_token();
     <div class="card">
       <div class="card-body">
         <h3 class="card-title">Login</h3>
+        <?php
+        if (!empty($error)) {
+          echo $error;
+        }
+        ?>
         <br />
         <form method="post">
           <input name="action" type="hidden" value="login" />

@@ -10,15 +10,18 @@ switch ($post) {
   if (csrf_token_is_valid()) {
     //validate via DB and get user type
     $username = hPOST('username');
-    $pass = hPOST('password');
+    $password = hPOST('password');
     $saltedPass = password_hash($pass, PASSWORD_BCRYPT);
     $results = getUserAuth($username);
 
     $role = $results['UserRole'];
     $pass = $results['Password'];
 
-
-    if ($saltedPass == $pass) {
+    //check if passwords are salted
+    if ($password == $pass) {
+      session_start();
+      $_SESSION['user'] = $username;
+      is_session_valid();
         if ($role == 1) {
           //redirect to student
           include 'dashboard.html';
@@ -34,7 +37,9 @@ switch ($post) {
         }
       }
     } else {
-
+      $error = "Username and password combination does not exist";
+      include 'login.html';
+      end_session();
     }
   break;
 
