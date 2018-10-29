@@ -5,6 +5,7 @@ $post = hPost('action');
 $error = "";
 switch ($post) {
   case 'login':
+  var_dump("we in the case");
   //check to see form tokens are equal
   if (csrf_token_is_valid()) {
     //validate via DB and get user type
