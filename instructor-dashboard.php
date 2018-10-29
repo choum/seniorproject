@@ -127,7 +127,7 @@
             <div class="form-group">
               <p><label for="classname">Available Classes</label></p>
               <select>
-                <?php 
+                <?php
                   foreach ($current_user_terms as $term) {
                     echo "<option value='" . $term . "'>" . $term . "</option>"
                   }
@@ -167,8 +167,11 @@
           <hr />
           <p class="card-text" style="float: right;">Sort by:
             <select>
-              <option>Fall 2018</option>
-              <option>Spring 2019</option>
+              <?php
+                foreach ($current_user_terms as $term) {
+                  echo "<option value='" . $term . "'>" . $term . "</option>"
+                }
+              ?>
             </select>
           </p>
         </div>
@@ -196,10 +199,10 @@
                         echo "<ul>";
                             foreach ($current_user->$assignments as $assignment) {
                               echo "</li>
-                                      <form action='project-view.php'>
+                                      <form action='project-view.php' method='POST'>
                                         <input type='hidden' name='Course' value='" . $user_course . "'>
                                         <input type='hidden' name='Assignment' value='" . $assignment->$name . "'>
-                                        <input type='Submit' value='" . $assignment->$name . "'>
+                                        <input type='Submit'>
                                       </form>
                                     </li>";
                             }
