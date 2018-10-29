@@ -164,11 +164,10 @@
                 foreach($terms as $term){
                   echo "<option value='$term'>" , $term , "</option>";
                 }
-                <!---
-                <option>Fall 2018</option>
-                <option>Spring 2019</option>
-                <option>Summer 2019</option>
-                --->
+
+                //<option>Fall 2018</option>
+                //<option>Spring 2019</option>
+                //<option>Summer 2019</option>
               ?>
 
               </select>
@@ -184,10 +183,8 @@
                 foreach($instructors as $instructor) {
                   echo "<option value='$instructor'>" , $instructor , "<option>";
                 }
-                <!--
-                  <option>Zhongming Ma</option>
-                  <option>Hui Shi</option>
-                -->
+                  //<option>Zhongming Ma</option>
+                  //<option>Hui Shi</option>
               ?>
               </select>
             </div>
