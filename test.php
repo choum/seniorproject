@@ -9,7 +9,7 @@
     $ftp->createUser('t7','t7');
 
     $createDB =  new CreateDB();
-    $createDB::createDBUser('a3', 'a3');
+    $createDB::createDBUser('b1', 'b1');
 
 
 

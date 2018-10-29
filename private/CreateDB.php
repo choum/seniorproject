@@ -2,11 +2,11 @@
 
     class CreateDB{
 
-        public static function createDBUser($user, $pass){
+        public function createDBUser($user, $pass){
 
             include 'Database.php';
             $db = new Database();
-            $conn = $db->db;
+            $conn = $db->getConnection();
 
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $dbName = $user;
