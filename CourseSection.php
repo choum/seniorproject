@@ -1,26 +1,23 @@
-<?php 
+<?php
 
     class CourseSection {
-      
-        $id = "123";
-        $number = "CIS 000";
-        $thisTerm = "FALL 2000";
-        $title = "Computing";
-        $instructor = "Dr. Professor";
-        $assignments = [$assign1, $assign2];
-        
-        //empty con
-        function __construct() {
 
-        }
+        $id;
+        $number;
+        $thisTerm;
+        $title;
+        $instructor;
+        $assignments;
 
-        function __construct($courseID , $sectionNumber , $term , $classTitle , $classInstructor) {
+        //constructor
+        function __construct($courseID , $sectionNumber , $term , $classTitle , $classInstructor , $aList) {
 
             $id = $courseID;
             $number = $sectionNumber;
             $thisTerm = $term;
             $title = $classTitle;
             $instructor = $classInstructor;
+            $assignments = $alist;
 
         }
     }
