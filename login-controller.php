@@ -8,20 +8,33 @@ switch ($post) {
   //check to see form tokens are equal
   if (csrf_token_is_valid()) {
     //validate via DB and get user type
-    if () {
-      //redirect to student
-      include 'dashboard.html';
-    } else if () {
-      //redirect to instructor
-      include 'instructor-dashboard.html';
-    } else if () {
-      //redirect to admin
-      include 'admin-dashboard.html';
+    $username = hPOST('username');
+    $pass = hPOST('password');
+    $saltedPass = password_hash($pass, PASSWORD_BCRYPT);
+    $results = getUserAuth($username);
+
+    $role = $results['UserRole'];
+    $pass = $results['Password'];
+
+
+    if ($saltedPass == $pass) {
+        if ($role == 1) {
+          //redirect to student
+          include 'dashboard.html';
+        } else if ($role == 2) {
+          //redirect to instructor
+          include 'instructor-dashboard.html';
+        } else if ($role == 3) {
+          //redirect to admin
+          include 'admin-dashboard.html';
+        } else {
+          include 'login.html';
+          end_session();
+        }
+      }
     } else {
-      include 'login.html';
-      end_session();
+
     }
-  }
   break;
 
   case 'register':

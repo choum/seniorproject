@@ -459,17 +459,17 @@
 
         function addStudentAssignment()
         {
-            
+
         }
 
         function updateStudentAssignment()
         {
-            
+
         }
 
         function getStudentAssignments($studentID)
         {
-            
+
         }
 
         //Returns list of assignment for singular course based on its id, very limited.
@@ -553,23 +553,23 @@
             {
                 $dbObj = new Database();
                 $db = $dbObj->db;
-                $query = "Select Password From UserAccount "
+                $query = "Select Password, UserRole From UserAccount "
                         . "Where Username= :uname";
                 $statement = $db->prepare($query);
                 $statement->bindValue(':uname', $username, PDO::PARAM_STR);
                 $result = $statement->execute();
-                $userPass = $statement->fetch();
+                $user = $statement->fetch();
                 $statement->closeCursor();
                 echo $result;
                 if ($result)
-                    Return $userPass;
+                    Return $user;
                 else
-                    Return "Could not retrieve user password";
+                    Return "Could not retrieve user role and password";
             } catch (PDOException $e)
             {
                 echo $e->getMessage();
                 $error_message = $e->getMessage();
-                error_log($error_message);        
+                error_log($error_message);
             }
         }
     }
