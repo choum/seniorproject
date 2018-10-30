@@ -319,10 +319,11 @@
                         echo "<ul>";
                             foreach ($current_user->$assignments as $assignment) {
                               echo "</li>
-                                      <form action='project-view.php'>
+                                      <form action='.'>
+                                        <input type='hidden' name='action' value='project'>
                                         <input type='hidden' name='Course' value='" . $user_course . "'>
                                         <input type='hidden' name='Assignment' value='" . $assignment->$name . "'>
-                                        <input type='Submit' value='" . $assignment->$name . "'>
+                                        <input type='Submit' class='btn btn-link' value='" . $assignment->$name . "'>
                                       </form>
                                     </li>";
                             }

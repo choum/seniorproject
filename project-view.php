@@ -1,4 +1,4 @@
-<?php
+<?php ?>
 <html>
 
 <head>
@@ -56,26 +56,14 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>hhtran</td>
-            <td><a href="#">test.com</a></td>
-          </tr>
-          <tr>
-            <td>hhtran</td>
-            <td><a href="#">test.com</a></td>
-          </tr>
-          <tr>
-            <td>hhtran</td>
-            <td><a href="#">test.com</a></td>
-          </tr>
-          <tr>
-            <td>hhtran</td>
-            <td><a href="#">test.com</a></td>
-          </tr>
-          <tr>
-            <td>hhtran</td>
-            <td><a href="#">test.com</a></td>
-          </tr>
+        <?php
+        if (!empty($users)) {
+          foreach ($users as $user) {
+            echo('<td>' . $user->$username; . '</td>');
+            echo('<td><a href="sdc.cpp.edu/cap/' . $user->$username . '/' . $course . '/' . $assignment . '"</a></td>');
+          }
+        }
+        ?>
         </tbody>
       </table>
     </div>
