@@ -1,49 +1,48 @@
 <?php
 
-    class User {
+    class User
+    {
 
-        $id;
-        $userName = "user";
-        $firstName = "first";
-        $lastName = "last";
-        $title = "Dr.";
-        $bio = "This is a sample bio.";
-        $imageLink = "/123.jpg";
-        $linkedin = "abc123";
-        $website = "www.google.com";
-        $role = "Instructor";
-        $suspended = 0;
-        $created = "11/11/2001";
-        $lastLog = "11/11/2017";
-
-
-        //empty constructor
-        function __construct() {
-
-        }
-
-        //constructor with only name for instructors
-        function __construct($name) {
-
-            $lastName = $name;
-        }
+        public $id;
+        public $username;
+        public $password;
+        public $firstName;
+        public $lastName;
+        public $title;
+        public $bio;
+        public $imageLink;
+        public $linkedin;
+        public $website;
+        public $role;
+        public $suspended;
+        public $dateCreated;
+        public $lastLoginDate;
 
         //constructor with all the info
-        function __construct($usr , $first , $last , $t , $b , $image , $linked , $site , $r , $s , $create , $last) {
+        function __construct($user, $password, $first, $last, $title, $bio,
+                $image, $linked, $site, $role, $suspended, $create, $lastlog)
+        {
 
-            $userName = $user;
-            $firstName = $first;
-            $lastName = $last;
-            $title = $t;
-            $bio = $b;
-            $imageLink = $iamge;
-            $linkedin = $linked;
-            $website = $site;
-            $role = $r;
-            $suspended = $s;
-            $created = $create;
-            $lastLog = $last;
+            $this->username = $user;
+            $this->password = $password;
+            $this->firstName = $first;
+            $this->lastName = $last;
+            $this->title = $title;
+            $this->bio = $bio;
+            $this->imageLink = $image;
+            $this->linkedin = $linked;
+            $this->website = $site;
+            $this->role = $role;
+            $this->suspended = $suspended;
+            $this->dateCreated = $create;
+            $this->lastLoginDate = $lastlog;
         }
+        
+        function setID($userID)
+        {
+            $this->id = $userID;
+        }
+
     }
 
 ?>
