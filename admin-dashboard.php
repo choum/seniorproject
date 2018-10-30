@@ -116,7 +116,7 @@
     <div class="col-md-12">
       <div class="card">
         <div class="card-header">
-          <p id="welcome" class="nav-link">Welcome: <?php echo $current_user_name; ?></p>
+          <p id="welcome" class="nav-link">Welcome: <?php if (!empty($current_user_name)) { echo $current_user_name; } ?></p>
           <ul class="nav nav-pills card-header-pills">
             <li class="nav-item">
               <a class="nav-link" href="#">Logout</a>
@@ -308,6 +308,7 @@
               </thead>
               <tbody>
                 <?php
+                if (!empty($current_user_courses)) {
                   foreach ($current_user_courses as $user_course) {
                     echo "<tr>";
                       echo "<td>" . $user_course->$name . "</td>";
@@ -329,6 +330,7 @@
                             </td>
                           </tr>";
                   }
+                }
                  ?>
               </tbody>
             </table>

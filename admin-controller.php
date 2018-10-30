@@ -24,7 +24,7 @@
 
       //get current user
       $current_user = $db->getUser($username);
-      $current_user_name = $current_user->firstName , " " , $current_user ->lastName;
+      $current_user_name = $current_user->firstName . " " . $current_user ->lastName;
       $current_user_courses = $db->getAdminCourses($current_user["id"]);
 
       //get the action form the request
@@ -34,7 +34,10 @@
 
 
     //run the appropriate function depending on request
-    if($action == 'addInstructor') {
+    if (empty($action)) {
+      
+    }
+      elseif($action == 'addInstructor') {
         addInstructor();
     } elseif($action == 'updateInstructor') {
         updateInstructor();
@@ -100,7 +103,7 @@
 
         //create an instance of the SQLHelper class
         //add CourseSection to database
-        $db = new SQLHelper
+        $db = new SQLHelper;
         $result = $db.addCourseSection($courseSection);
 
 

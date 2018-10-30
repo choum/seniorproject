@@ -16,7 +16,7 @@ function loadVariables() {
   //get user object from database
   $current_user = $db->getUser($username);
   //concat first and lasat name for display
-  $current_user_name = $current_user->$firstName , " " , $current_user->$lastName;
+  $current_user_name = $current_user->$firstName . " " . $current_user->$lastName;
   //get array of user courses
   $current_user_courses = $db->getUserCourses($current_user->$ID);
   //get array of user terms
