@@ -122,7 +122,7 @@ switch ($post) {
   default:
   end_session();
   //end session
-  include 'login.php';
+  include 'index.php';
 }
 
 
