@@ -1,5 +1,6 @@
 <?php
 include 'login-controller.php';
+include_once 'includes/cis4270CommonIncludes.php';
 create_csrf_token();
 ?>
 <html lang="en">
@@ -47,11 +48,11 @@ create_csrf_token();
           var_dump("we made it to the tag")?>
           <div class="form-group">
             <label for="username">Username</label>
-            <input type="text" class="form-control" id="username" placeholder="Bronco ID" required>
+            <input type="text" class="form-control" id="username" name="username" placeholder="Bronco ID" required>
           </div>
           <div class="form-group">
             <label for="password">Password</label>
-            <input type="password" class="form-control" id="password" placeholder="Password" required>
+            <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
           </div>
           <button type="submit" class="btn" id="btn1">Login</button>
         </form>

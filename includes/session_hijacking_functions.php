@@ -1,13 +1,11 @@
 <?php
+session_start();
 // Useful php.ini file settings:
 // session.cookie_lifetime = 0
 // session.cookie_secure = 1
 // session.cookie_httponly = 1
 // session.use_only_cookies = 1
 // session.entropy_file = "/dev/urandom"
-
-session_start();
-
 // Function to forcibly end the session
 function end_session() {
 	// Use both for compatibility with all browsers
@@ -78,8 +76,8 @@ function is_session_valid() {
 function confirm_session_is_valid() {
 	if(!is_session_valid()) {
 		end_session();
-		// Note that header redirection requires output buffering 
-		// to be turned on or requires nothing has been output 
+		// Note that header redirection requires output buffering
+		// to be turned on or requires nothing has been output
 		// (not even whitespace).
 		exit;
 	}
@@ -95,8 +93,8 @@ function is_logged_in() {
 function confirm_user_logged_in() {
 	if(!is_logged_in()) {
 		end_session();
-		// Note that header redirection requires output buffering 
-		// to be turned on or requires nothing has been output 
+		// Note that header redirection requires output buffering
+		// to be turned on or requires nothing has been output
 		// (not even whitespace).
 		exit;
 	}
@@ -108,14 +106,14 @@ function after_successful_login() {
 	// Regenerate session ID to invalidate the old one.
 	// Super important to prevent session hijacking/fixation.
 	session_regenerate_id();
-	
+
 	$_SESSION['logged_in'] = true;
 
-	// Save these values in the session, even when checks aren't enabled 
+	// Save these values in the session, even when checks aren't enabled
   $_SESSION['ip'] = $_SERVER['REMOTE_ADDR'];
   $_SESSION['user_agent'] = $_SERVER['HTTP_USER_AGENT'];
 	$_SESSION['last_login'] = time();
-	
+
 }
 
 // Actions to preform after every successful logout
@@ -124,7 +122,7 @@ function after_successful_logout() {
 	end_session();
 }
 
-// Actions to preform before giving access to any 
+// Actions to preform before giving access to any
 // access-restricted page.
 function before_every_protected_page() {
 	confirm_user_logged_in();
@@ -141,8 +139,8 @@ function before_every_protected_page() {
 // 	if($_GET['action'] == "logout") {
 // 		after_successful_logout();
 // 	}
-// } 
-// 
+// }
+//
 // echo "Session ID: " . session_id() . "<br />";
 // echo "Logged in: " . (is_logged_in() ? 'true' : 'false') . "<br />";
 // echo "Session valid: " . (is_session_valid() ? 'true' : 'false') . "<br />";
@@ -151,7 +149,7 @@ function before_every_protected_page() {
 // var_dump($_SESSION);
 // echo "--------------------<br />";
 // echo "<br />";
-// 
+//
 // echo "<a href=\"?action=new_page\">Simulate a new page request</a><br />";
 // echo "<a href=\"?action=login\">Simulate a log in</a><br />";
 // echo "<a href=\"?action=logout\">Simulate a log out</a>";

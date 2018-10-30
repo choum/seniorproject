@@ -1,25 +1,23 @@
 <?php
-include 'includes/cis4270CommonIncludes.php';
-include 'SQLHelper.php';
+include_once 'includes/cis4270CommonIncludes.php';
+include_once 'SQLHelper.php';
 $post = hPost('action');
 $error = "";
 switch ($post) {
   case 'login':
-  var_dump("we in the case");
   //check to see form tokens are equal
   if (csrf_token_is_valid()) {
     //validate via DB and get user type
     $username = hPOST('username');
     $password = hPOST('password');
-    $saltedPass = password_hash($pass, PASSWORD_BCRYPT);
+    $saltedPass = password_hash($password, PASSWORD_BCRYPT);
     $results = getUserAuth($username);
-
+    var_dump($results);
     $role = $results['UserRole'];
     $pass = $results['Password'];
 
     //check if passwords are salted
     if ($password == $pass) {
-      session_start();
       $_SESSION['user'] = $username;
       is_session_valid();
         if ($role == 1) {
@@ -33,13 +31,13 @@ switch ($post) {
           include 'admin-dashboard.html';
         } else {
           include 'login.html';
-          end_session();
+          if (isset($_SESSION)) {
+            end_session();
+          }
         }
       }
     } else {
       $error = "Username and password combination does not exist";
-      include 'login.html';
-      end_session();
     }
   break;
 
@@ -114,15 +112,12 @@ switch ($post) {
     } else {
       //store in db
       //take to dashboard
-      include 'dashboard.html';
+      include 'dashboard.php';
     }
   }
   break;
 
   default:
-  end_session();
-  //end session
-  include 'index.php';
 }
 
 
