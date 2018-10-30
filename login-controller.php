@@ -1,6 +1,7 @@
 <?php
 include_once 'includes/cis4270CommonIncludes.php';
 include_once 'SQLHelper.php';
+$sql = new SQLHelper;
 $post = hPost('action');
 $error = "";
 switch ($post) {
@@ -11,7 +12,7 @@ switch ($post) {
     $username = hPOST('username');
     $password = hPOST('password');
     $saltedPass = password_hash($password, PASSWORD_BCRYPT);
-    $results = getUserAuth($username);
+    $results = $sql->getUserAuth($username);
     var_dump($results);
     $role = $results['UserRole'];
     $pass = $results['Password'];
