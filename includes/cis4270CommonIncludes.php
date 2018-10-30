@@ -9,4 +9,4 @@ include_once('csrf_token_functions.php');
 include_once('general_functions.php');
 include_once('request_forgery_functions.php');
 include_once('session_hijacking_functions.php');
-include_once('common/includes/csrf_request_type_functions.php');
+include_once('csrf_request_type_functions.php');

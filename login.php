@@ -1,5 +1,4 @@
 <?php
-include 'includes/csrf_token_functions.php';
 include 'login-controller.php';
 create_csrf_token();
 ?>
