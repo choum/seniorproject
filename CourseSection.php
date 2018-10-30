@@ -1,28 +1,38 @@
-<?php 
+<?php
 
-    class CourseSection {
-      
-        $id = "123";
-        $number = "CIS 000";
-        $thisTerm = "FALL 2000";
-        $title = "Computing";
-        $instructor = "Dr. Professor";
-        $assignments = [$assign1, $assign2];
+    class Course
+    {
+
+        public $courseID;
+        public $courseTitle;
+        public $courseNumber;
+        public $courseSection;
+        public $term;
+        public $description;
+        public $closed;
+        public $enrollment;
+        public $adminID;
+        public $teacherID;
+
+        function __construct($title, $number, $section, $term, $desc, $closed,
+                $enroll, $admin, $teacher)
+        {
+            $this->courseTitle = $title;
+            $this->courseNumber = $number;
+            $this->courseSection = $section;
+            $this->term = $term;
+            $this->description = $desc;
+            $this->closed = $closed;
+            $this->enrollment = $enroll;
+            $this->adminID = $admin;
+            $this->teacherID = $teacher;
+        }
         
-        //empty con
-        function __construct() {
-
+        function setID($courseID)
+        {
+            $this->courseID = $courseID;
         }
 
-        function __construct($courseID , $sectionNumber , $term , $classTitle , $classInstructor) {
-
-            $id = $courseID;
-            $number = $sectionNumber;
-            $thisTerm = $term;
-            $title = $classTitle;
-            $instructor = $classInstructor;
-
-        }
     }
 
 ?>
