@@ -4,9 +4,12 @@
   if(isset($_SESSION)) {
     //get the username from session
     $username = $_SESSION["user"];
+    $username = "admin";
     //load the variables arrays for dashboard
     loadVariables();
   }
+//TESTING THE ADMIN CONTROLLER
+  $username = "admin";
 
     function loadVariables() {
       //create an istance of SQLHelper to get data from database

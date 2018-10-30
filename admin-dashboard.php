@@ -314,7 +314,7 @@
                       echo "<td>" . $user_course->$description . "</td>";
                       echo "<td>" . $user_course->$teacherID . "</td>";
                       echo "<td>" . $user_course->$term . "</td>";
-                      echo "<td colspan="2">";
+                      echo "<td colspan='2'>";
                         echo "<ul>";
                             foreach ($current_user->$assignments as $assignment) {
                               echo "</li>

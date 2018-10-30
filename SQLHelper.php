@@ -8,6 +8,11 @@
          * Done at account registration.
          */
 
+         function __construct()
+         {
+
+         }
+
         function addUser(User $user)
         {
             try
@@ -191,7 +196,7 @@
                 $statement->execute();
                 $user = $statement->fetch();
                 $statement->closeCursor();
-                
+
                 $return = new User($user[1], $user[2], $user[3], $user[4],
                         $user[5], $user[6], $user[7], $user[8], $user[9],
                         $user[10], $user[11], $user[12], $user[13]);
@@ -326,7 +331,7 @@
                 $statement->execute();
                 $course = $statement->fetch();
                 $statement->closeCursor();
-                
+
                 $return = new Course($course[1],$course[2],
                         $course[3],$course[4],$course[5],$course[6],$course[7],
                         $course[8],$course[9]);
