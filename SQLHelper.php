@@ -1,4 +1,5 @@
 <?php
+
     require_once("./private/Database.php");
 
     Class SQLHelper
@@ -521,9 +522,6 @@
         //Done in multiple dashboards.
         function getAssignments($courseID)
         {
-<<<<<<< HEAD
-
-=======
             try
             {
                 $dbObj = new Database();
@@ -612,14 +610,10 @@
                 //error_log($error_message, (int)0,"./error.txt");
                 return "Student assignment not updated";
             }
->>>>>>> justin
         }
 
         function getStudentAssignemnt($studentID, $assignmentID)
         {
-<<<<<<< HEAD
-
-=======
             try
             {
                 $dbObj = new Database();
@@ -640,14 +634,10 @@
                 //error_log($error_message, (int)0,"./error.txt");
                 return "Could not retrieve student assignment";
             }
->>>>>>> justin
         }
 
         function getStudentAssignments($studentID)
         {
-<<<<<<< HEAD
-
-=======
             try
             {
                 $dbObj = new Database();
@@ -690,7 +680,6 @@
                 //error_log($error_message, (int)0,"./error.txt");
                 return "Could not retrieve student assignment submissions";
             }
->>>>>>> justin
         }
 
         function addStudentCourse($studentID, $courseID, $date)
@@ -794,30 +783,11 @@
             try
             {
                 $dbObj = new Database();
-<<<<<<< HEAD
-                $db = $dbObj->db;
-=======
                 $db = $dbObj->getConnection();
->>>>>>> justin
                 $query = "Select Password, UserRole From UserAccount "
                         . "Where Username= :uname";
                 $statement = $db->prepare($query);
                 $statement->bindValue(':uname', $username, PDO::PARAM_STR);
-<<<<<<< HEAD
-                $result = $statement->execute();
-                $user = $statement->fetch();
-                $statement->closeCursor();
-                echo $result;
-                if ($result)
-                    Return $user;
-                else
-                    Return "Could not retrieve user role and password";
-            } catch (PDOException $e)
-            {
-                echo $e->getMessage();
-                $error_message = $e->getMessage();
-                error_log($error_message);
-=======
                 $statement->execute();
                 $userPass = $statement->fetch();
                 $statement->closeCursor();
@@ -829,7 +799,6 @@
                 //$error_message = $e->getMessage();
                 //error_log($error_message, (int)0,"./error.txt");
                 return "Could not retrieve user password";
->>>>>>> justin
             }
         }
 
