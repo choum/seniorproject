@@ -1,4 +1,3 @@
-<?php ?>
 <html>
 
 <head>
@@ -45,8 +44,8 @@
     <div class="card-header">
     </div>
     <div class="card-body">
-      <h4 class="card-title">CIS 4260 - Server-side Web Development</h4>
-      <p class="card-text" style="text-align:center;">Assignment 1</p>
+      <h4 class="card-title"><?php if (!empty($course )) { echo $course; } ?></h4>
+      <p class="card-text" style="text-align:center;"><?php if (!empty($assignment)) { echo $assignment; } ?></p>
       <hr/>
       <table class="table">
         <thead>
@@ -59,7 +58,7 @@
         <?php
         if (!empty($users)) {
           foreach ($users as $user) {
-            echo('<td>' . $user->$username; . '</td>');
+            echo('<td>' . $user->$username . '</td>');
             echo('<td><a href="sdc.cpp.edu/cap/' . $user->$username . '/' . $course . '/' . $assignment . '"</a></td>');
           }
         }

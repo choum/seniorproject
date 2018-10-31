@@ -1,5 +1,6 @@
 <?php
-
+  include_once 'includes/cis4270CommonIncludes.php';
+  include_once 'SQLHelper.php';
   //check if user is logged in
   if(is_session_valid()) {
     //get the username from session
