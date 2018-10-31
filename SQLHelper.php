@@ -818,6 +818,46 @@
                 return "Could not retrieve students enrolled in course";
             }
         }
+        
+        function getSubmissionsOfCourse($courseID)
+        {
+            $dbObj = new Database();
+            $db = $dbObj->getConnection();
+            $query = "Select AssignmentID From Assignments "
+                    . "Where CourseID=:cID";
+            $statement = $db->prepare($query);
+            $statement->bindValue(':cID', $courseID, PDO::PARAM_INT);
+            $result = $statement->execute();
+            $assignments = $statement->fetchAll();
+            $statement->closeCursor();
+            
+            if($result){
+                $listOfStudentAssignments = array();
+                foreach($assignments as $assignment)
+                {
+                    $students = $this->getStudentsOfAssignment($assignment[0]);
+                    if(is_array($students))
+                    {
+                        
+                        foreach($students as $student)
+                        {
+                            $studentAssignment = $this->getStudentAssignemnt($student[0],$assignment[0]);
+                            if(is_array($studentAssignment))
+                            {
+                                array_push($listOfStudentAssignments, $studentAssignment);
+                            }
+                            else
+                                return "Could not retrieve student $student[0]'s assignment $assignment[0]";
+                        }
+                    }
+                    else
+                        return "Could not retrieve students of assignment $assignment[0]";
+                }
+                return $listOfStudentAssignments;
+            }
+            else
+                return "Could not retrieve assignment ID's based on course id $courseID"; 
+        }
 
         function getUserAuth($username)
         {
