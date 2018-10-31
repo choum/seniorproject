@@ -1,4 +1,7 @@
-<?php include('admin-controller.php'); ?>
+<?php
+  include('login-controller.php');
+  include('admin-controller.php');
+?>
 
 <!DOCTYPE HTML>
 <html lang="en">
@@ -153,7 +156,7 @@
           <hr>
         </div>
         <div class="card-body" style="padding-top: 0px;">
-          <form>
+          <form action='admin-dashboard.php' method="POST">
             <div class="form-group">
               <label for="classname">Course ID</label>
               <input type="text" class="form-control" id="courseid" placeholder="EX: CIS 4290">
@@ -186,6 +189,7 @@
               ?>
               </select>
             </div>
+            <input type='hidden' name='action' value='add_class' >
             <input type="submit" class="btn" value="Add Class">
           </form>
           <hr />
@@ -205,7 +209,7 @@
               }
             ?>
           </select>
-          <form>
+          <form action='admin-dashboard.php' method="POST">
             <div class="form-group">
               <label for="classname">Course ID</label>
               <input type="text" class="form-control" id="courseid" value="CIS 4290">
@@ -239,6 +243,7 @@
               ?>
               </select>
             </div>
+            <input type='hidden' name='action' value='update_class' >
             <input type="submit" class="btn" value="Update Class">
           </form>
           <hr />
@@ -250,11 +255,12 @@
           <hr>
         </div>
         <div class="card-body" style="padding-top: 0px;">
-          <form>
+          <form action='admin-dashboard.php' method="POST">
             <div class="form-group">
               <label for="classname">Instructor Name</label>
               <input type="text" class="form-control" id="classname">
             </div>
+            <input type='hidden' name='action' value='add_instructor' >
             <input type="submit" class="btn" value="Add Instructor">
           </form>
           <hr />
@@ -274,11 +280,12 @@
               }
             ?>
           </select>
-          <form>
+          <form action='admin-dashboard.php' method="POST">
             <div class="form-group">
               <label for="classname">Instructor Name</label>
               <input type="text" class="form-control" id="classname" value="Zhongming Ma">
             </div>
+            <input type='hidden' name='action' value='add_instructor' >
             <input type="submit" class="btn" value="Add Instructor">
           </form>
           <hr />
@@ -297,11 +304,11 @@
                 foreach($terms as $term) {
                   //check if the term was selected or is current if none was selected
                   if($term == $semester_year) {
-                    echo   echo "<option value='$term' selected>" . $term . "<option>";
+                    echo    "<option value='$term' selected>" . $term . "<option>";
                   } else {
                       echo "<option value='$term'>" . $term . "<option>";
                   }
-                }//end of foreach 
+                }//end of foreach
               ?>
             </select>
           </p>

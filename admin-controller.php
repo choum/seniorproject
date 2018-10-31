@@ -19,9 +19,10 @@
       $db = new SQLHelper();
       //create an array of instructors from the database
       $instructors = [];
-      $instructor_string = $db->getInstructors(1);
+      $instructor_string = $db->getInstructors(2);
       foreach ($instructor_string as $instructor) {
-        array_push($instructors , $instructor[1]);
+        $tempstr = $instructor[1] . " " . $instructor[2];
+        array_push($instructors , $tempstr);
       }
 
       //create an array of terms from the database
@@ -57,13 +58,13 @@
     if (empty($action)) {
 
     }
-      elseif($action == 'addInstructor') {
+      elseif($action == 'add_instructor') {
         addInstructor();
-    } elseif($action == 'updateInstructor') {
+    } elseif($action == 'update_instructor') {
         updateInstructor();
-    } elseif($action == 'addClass') {
+    } elseif($action == 'add_class') {
         addClass();
-    } elseif($action == 'updateClass') {
+    } elseif($action == 'update_class') {
         updateClass();
     } else if($action == 'project') {
        viewProject();
@@ -73,6 +74,7 @@
     if(!empty($result)) {
         $error = $result;
     }
+
 
 
     //add instructor
@@ -87,10 +89,10 @@
         //create an instance of the SQLHelper class
         //add user to database
         $db = new SQLHelper();
-        $result = $db.addUser($instructor);
+        $result = $db->addUser($instructor);
 
 
-    }//end of add instructor
+    }//end of
 
     //update instructor
     function updateInstructor() {
@@ -105,7 +107,7 @@
         //create an instance of the SQLHelper class
         //update user in database
         $db = new SQLHelper();
-        $result = $db.updateUser($instructorName , $instructor);
+        $result = $db->updateUser($instructorName , $instructor);
 
 
     }//end of edit instructor
@@ -126,7 +128,7 @@
         //create an instance of the SQLHelper class
         //add CourseSection to database
         $db = new SQLHelper();
-        $result = $db.addCourseSection($courseSection);
+        $result = $db->addCourseSection($courseSection);
 
 
     }// end of add class function
@@ -147,7 +149,7 @@
         //create an instance of the SQLHelper class
         //update CourseSection in database
         $db = new SQLHelper();
-        $result = $db.updateCourseSection($courseID , $courseSection);
+        $result = $db->updateCourseSection($courseID , $courseSection);
 
 
     }// end of update class function
@@ -160,5 +162,6 @@
        //sql statement
       include 'project-view.php';
     }
+
 
 ?>
