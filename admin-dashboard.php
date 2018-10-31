@@ -288,8 +288,13 @@
             <select>
               <?php
                 foreach($terms as $term) {
-                  echo "<option value='$term'>" . $term . "<option>";
-                }
+                  //check if the term was selected or is current if none was selected
+                  if($term == $semester_year) {
+                    echo   echo "<option value='$term' selected>" . $term . "<option>";
+                  } else {
+                      echo "<option value='$term'>" . $term . "<option>";
+                  }
+                }//end of foreach 
               ?>
             </select>
           </p>
