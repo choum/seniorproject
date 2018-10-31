@@ -1,6 +1,8 @@
 <?php
 
     require_once("private/Database.php");
+    require "User.php";
+    require "Course.php";
 
     Class SQLHelper
     {
@@ -376,6 +378,33 @@
                 return "Could not retrieve complete course list";
             }
         }
+
+        //retrieve the courses of a term by instructor
+        function getCoursesInstructorTerm($teacherID , $term)
+        {
+            try
+            {
+                $dbObj = new Database();
+                $db = $dbObj->getConnection();
+                $query = "Select CourseID FROM Courses "
+                        . "Where TeacherID = :tID "
+                        . "And Term = :term";
+                $statement = $db->prepare($query);
+                $statement->bindValue(':tID', $teacherID, PDO::PARAM_INT);
+                $statement->bindValue(':term', $term, PDO::PARAM_STR);
+                $statement->execute();
+                $courses = $statement->fetchAll();
+                $statement->closeCursor();
+
+                return $courses;
+            } catch (PDOException $e)
+            {
+                //$error_message = $e->getMessage();
+                //error_log($error_message, (int)0,"./error.txt");
+                return "Could not retrieve complete course list";
+            }
+        }
+
 
         function getInstuctorCourses($teacherID)
         {
