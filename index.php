@@ -36,16 +36,13 @@ create_csrf_token();
     <div class="card">
       <div class="card-body">
         <h3 class="card-title">Login</h3>
-        <?php
-        if (!empty($error)) {
-          echo $error;
-        }
-        ?>
         <br />
         <form method="post">
           <input name="action" type="hidden" value="login" />
           <?php echo csrf_token_tag();
-          var_dump("we made it to the tag")?>
+          if (!empty($error)) {
+            echo $error;
+          }?>
           <div class="form-group">
             <label for="username">Username</label>
             <input type="text" class="form-control" id="username" name="username" placeholder="Bronco ID" required>

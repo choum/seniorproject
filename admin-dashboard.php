@@ -119,7 +119,14 @@
           <p id="welcome" class="nav-link">Welcome: <?php if (!empty($current_user_name)) { echo $current_user_name; } ?></p>
           <ul class="nav nav-pills card-header-pills">
             <li class="nav-item">
-              <a class="nav-link" href="#">Logout</a>
+              <form method="post" action=".">
+                <input type="hidden" name="action" value="change" />
+                <input type="submit" class="btn btn-link" value="Change Password"/>
+              </form>
+              <form method="post" action=".">
+                <input type="hidden" name="action" value="logout" />
+                <input type="submit" class="btn btn-link" value="Logout"/>
+              </form>
             </li>
           </ul>
         </div>
@@ -324,10 +331,11 @@
                         echo "<ul>";
                             foreach ($current_user->$assignments as $assignment) {
                               echo "</li>
-                                      <form action='project-view.php'>
+                                      <form action='.'>
+                                        <input type='hidden' name='action' value='project'>
                                         <input type='hidden' name='Course' value='" . $user_course . "'>
                                         <input type='hidden' name='Assignment' value='" . $assignment->$name . "'>
-                                        <input type='Submit' value='" . $assignment->$name . "'>
+                                        <input type='Submit' class='btn btn-link' value='" . $assignment->$name . "'>
                                       </form>
                                     </li>";
                             }

@@ -65,6 +65,8 @@
         addClass();
     } elseif($action == 'updateClass') {
         updateClass();
+    } else if($action == 'project') {
+       viewProject();
     }
 
     //if any of the quesries could not run create an error to display
@@ -150,5 +152,13 @@
 
     }// end of update class function
 
+    function viewProject() {
+      //get project variables
+      $course = filter_input(INPUT_POST, 'Course');
+      $assignment = filter_input(INPUT_POST, 'Assignment');
+
+       //sql statement
+      include 'project-view.php';
+    }
 
 ?>

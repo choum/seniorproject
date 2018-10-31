@@ -11,7 +11,7 @@
             date("Y/m/d"), NULL);
     $return = $querys->addUser($user);
     echo $return;*/
-    echo "Temporarily disabling user creation";
+    echo "<br/>Temporarily disabling user creation";
 //for testing update user function
     $return = $querys->updateUser(992, "AH", "AB", "AS", "AF");
     echo "<br/>" . $return;
@@ -95,11 +95,39 @@
     }
     else
         echo "<br/>" . $return;
+//for testing get terms function, should return each term in courses one time
+    $return = $querys->getTerms();
+    if (is_array($return))
+    {
+        echo "<br/>";
+        foreach ($return as $term):
+            echo $term[0] . ", ";
+        endforeach;
+    }
+    else
+        echo "<br/>" . $return;
+//for testing get course by term, returns all course id's for specific term
+    $return = $querys->getCoursesOfTerm("Fall 2019");
+    if (is_array($return))
+    {
+        echo "<br/>";
+        foreach ($return as $course):
+            echo $course[0] . ", ";
+        endforeach;
+    }
+    else
+        echo "<br/>" . $return;
+    
+    
+    
+    
+    
+    
 //for testing add assignment function
     /* $return = $querys->addAssignment("Assignment".rand(1,5),"description",
       date("Y/m/d"), 1113, 1264, NULL);
       echo "<br/>" . $return; */
-    echo "Temporarily disabling assignment creation";
+    echo "<br/>Temporarily disabling assignment creation";
 //for testing update assignment function
     $return = $querys->updateAssignment(1, "Assignment10", "description",
             date("Y/m/d"), 1113, 993, NULL);

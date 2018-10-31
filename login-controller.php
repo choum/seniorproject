@@ -13,25 +13,29 @@ switch ($post) {
     $password = hPOST('password');
     $saltedPass = password_hash($password, PASSWORD_BCRYPT);
     $results = $sql->getUserAuth($username);
-    var_dump($results);
-    $role = $results['UserRole'];
-    $pass = $results['Password'];
-
+    if (!empty($results)) {
+      $pass = $results['Password'];
+      $role = $results['UserRole'];
+    } else {
+      $pass = "";
+      $role = "";
+    }
     //check if passwords are salted
     if ($password == $pass) {
       $_SESSION['user'] = $username;
-      is_session_valid();
+      after_successful_login();
+      if (is_session_valid()) {
         if ($role == 1) {
           //redirect to student
-          include 'dashboard.html';
+          include 'dashboard.php';
         } else if ($role == 2) {
           //redirect to instructor
-          include 'instructor-dashboard.html';
+          include 'instructor-dashboard.php';
         } else if ($role == 3) {
           //redirect to admin
-          include 'admin-dashboard.html';
+          include 'admin-dashboard.php';
         } else {
-          include 'login.html';
+          include 'index.php';
           if (isset($_SESSION)) {
             end_session();
           }
@@ -40,6 +44,7 @@ switch ($post) {
     } else {
       $error = "Username and password combination does not exist";
     }
+  }
   break;
 
   case 'register':
@@ -118,6 +123,19 @@ switch ($post) {
   }
   break;
 
+  case 'logout':
+  end_session();
+  include 'index.php';
+  break;
+
+  case 'change':
+  if (is_session_valid()) {
+        include 'changePass.php';
+  } else {
+    end_session();
+    include 'index.php';
+  }
+  break;
   default:
 }
 

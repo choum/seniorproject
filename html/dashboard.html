@@ -126,7 +126,14 @@
               <a class="nav-link" href="profile.html">Profile</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Logout</a>
+              <form method="post" action=".">
+                <input type="hidden" name="action" value="change" />
+                <input type="submit" class="btn btn-link" value="Change Password" />
+              </form>
+              <form method="post" action=".">
+                <input type="hidden" name="action" value="logout" />
+                <input type="submit" class="btn btn-link" value="Logout" />
+              </form>
             </li>
 
           </ul>
