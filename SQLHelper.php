@@ -419,9 +419,9 @@
                 $query = "Select CourseID From Courses "
                         . "Where Term = :term";
                 $statement = $db->prepare($query);
-                $statement->bindValue(':term', $tterm, PDO::PARAM_STR);
+                $statement->bindValue(':term', $term, PDO::PARAM_STR);
                 $statement->execute();
-                $terms = $statement->fetchAll();
+                $courses = $statement->fetchAll();
                 $statement->closeCursor();
 
                 return $courses;
@@ -795,7 +795,6 @@
                 return $userPass;
             } catch (PDOException $e)
             {
-                //$error_message = $e->getMessage();
                 //$error_message = $e->getMessage();
                 //error_log($error_message, (int)0,"./error.txt");
                 return "Could not retrieve user password";
