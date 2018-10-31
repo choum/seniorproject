@@ -37,7 +37,7 @@
             $this->dateCreated = $create;
             $this->lastLoginDate = $lastlog;
         }
-        
+
         function setID($userID)
         {
             $this->id = $userID;
