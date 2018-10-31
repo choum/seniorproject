@@ -52,9 +52,17 @@
                 return "User created";
             } catch (PDOException $e)
             {
-                //$error_message = $e->getMessage();
+                /*Specific error message for: 
+                 * SQL ERROR 1062 (Duplicate entry for unique field)
+                 * SQL ERROR 1048 (Null entry for non-null field)
+                 */
+                if(strpos($e->getMessage(), "Integrity constraint violation: 1062") !== FALSE)
+                    return "Username unavailable.";
+                else if(strpos($e->getMessage(), "Integrity constraint violation: 1048") !== FALSE)
+                    return "Null entry where not allowed.";
+                else
+                    return "User not created.";
                 //error_log($error_message, (int)0,"./error.txt");
-                return "User not created";
             }
         }
 
