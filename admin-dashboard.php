@@ -1,5 +1,4 @@
 <?php
-  include('login-controller.php');
   include('admin-controller.php');
 ?>
 
