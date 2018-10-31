@@ -1,10 +1,9 @@
 <?php
 
   //check if user is logged in
-  if(isset($_SESSION)) {
+  if(is_session_valid()) {
     //get the username from session
     $username = $_SESSION["user"];
-    $username = "admin";
     //load the variables arrays for dashboard
     loadVariables();
   }

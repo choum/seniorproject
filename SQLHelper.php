@@ -214,7 +214,7 @@
          * Retrive all user information based on instructor user role
          */
 
-        function getInstructors($role)
+        function getInstructors()
         {
             try
             {
@@ -222,9 +222,8 @@
                 $db = $dbObj->getConnection();
                 $query = "Select UserID, FirstName, LastName "
                         . "From UserAccount "
-                        . "Where UserRole = :role";
+                        . "Where UserRole = 2";
                 $statement = $db->prepare($query);
-                $statement->bindValue(':role', $role, PDO::PARAM_INT);
                 $statement->execute();
                 $instructors = $statement->fetchAll();
                 $statement->closeCursor();
