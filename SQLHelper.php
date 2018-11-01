@@ -302,10 +302,10 @@
                 $statement->bindValue(':enrolled', $course->enrollment, PDO::PARAM_INT);
                 $statement->bindValue(':adminID', $course->adminID, PDO::PARAM_INT);
                 $statement->bindValue(':teacherID', $course->teacherID, PDO::PARAM_INT);
-                $statement->execute();
+                $output = $statement->execute();
                 $statement->closeCursor();
 
-                return "Course created";
+                return $output;
             } catch (PDOException $e)
             {
                 //$error_message = $e->getMessage();
@@ -432,7 +432,7 @@
             }
         }
 
-        //retrieve the courses of a term 
+        //retrieve the courses of a term
         function getCoursesByTerm( $term)
         {
             try

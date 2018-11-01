@@ -8,6 +8,7 @@
     if(isset($_SESSION)) {
       $username = $_SESSION["user"];
     }
+    $username = $_SESSION["user"];
 
     //create object of dates class and get the current semester and year
     $dateOB = new Dates;
@@ -15,8 +16,9 @@
 
     //if user selected a term to view for courses
     //else use current session
-    if(isset($_SESSION['selected_term'])) {
-      $semester_year = $_SESSION['selected_term'];
+    $temp_sem = filter_input(INPUT_POST , 'user_selected_term');
+    if($temp_sem != NULL) {
+      $semester_year = $temp_sem;
     }
 
       //create an istance of SQLHelper to get data from database
@@ -67,8 +69,6 @@
       //get the action form the request
       $action = filter_input(INPUT_POST , 'action');
 
-
-
     //run the appropriate function depending on request
     if (empty($action)) {
 
@@ -96,15 +96,28 @@
     function addInstructor() {
 
         //get the variable from the request
-        $instructorName = filter_input(INPUT_POST ,'instructorName');
+        $firstName = filter_input(INPUT_POST ,'firstName');
+        $lastName = filter_input(INPUT_POST ,'lastName');
 
         //create an instance of the User class
-        $instructor = new User($instructorName);
+        $temp_user = new User(substr($firstName , 0 , 1) . $lastName ,
+                              "password" ,
+                              $firstName ,
+                              $lastName ,
+                              "title" ,
+                              "bio" ,
+                              "img" ,
+                              "linked" ,
+                              "site" ,
+                              2 ,
+                              0 ,
+                              "create" ,
+                              "");
 
         //create an instance of the SQLHelper class
         //add user to database
         $db = new SQLHelper();
-        $result = $db->addUser($instructor);
+        $result = $db->addUser($temp_user);
 
 
     }//end of
@@ -114,10 +127,23 @@
 
         //get the variable from the request
         $instructorName = filter_input(INPUT_POST ,'instructorName');
-        $changeName = filter_input(INPUT_POST ,'changeName');
+        $firstName = filter_input(INPUT_POST ,'firstName');
+        $lastName = filter_input(INPUT_POST ,'lastName');
 
         //create an instance of the User class
-        $instructor = new User($instructorName);
+        $temp_user = new User(substr($firstName , 0 , 1) . $lastName ,
+                              "password" ,
+                              $firstName ,
+                              $lastName ,
+                              "title" ,
+                              "bio" ,
+                              "img" ,
+                              "linked" ,
+                              "site" ,
+                              2 ,
+                              0 ,
+                              "create" ,
+                              "");
 
         //create an instance of the SQLHelper class
         //update user in database
@@ -139,7 +165,7 @@
 
         //create an instance of the Course class
         $course = new Course( $classTitle , $courseID , $sectionNumber , $term , $classTitle , "0" , "0" , "0" , $classInstructor);
-
+        echo $course->term;
         //create an instance of the SQLHelper class
         //add CourseSection to database
         $db = new SQLHelper();
