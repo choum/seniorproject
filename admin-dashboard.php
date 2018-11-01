@@ -155,7 +155,7 @@
           <hr>
         </div>
         <div class="card-body" style="padding-top: 0px;">
-          <form action='admin-dashboard.php' method="POST">
+          <form  method="POST">
             <div class="form-group">
               <label for="classname">Course ID</label>
               <input type="text" class="form-control" id="courseid" placeholder="EX: CIS 4290">
@@ -183,7 +183,7 @@
               <select>
               <?php
                 foreach($instructors as $instructor) {
-                  echo "<option value='$instructor'>" . $instructor . "<option>";
+                  echo "<option value='$instructor[1]'>" . $instructor[0] . "</option>";
                 }
               ?>
               </select>
@@ -204,7 +204,7 @@
           <select>
             <?php
               foreach($courses as $course) {
-                echo "<option value='$course'>" . $course . "<option>";
+                echo "<option value='$course'>" . $course . "</option>";
               }
             ?>
           </select>
@@ -222,7 +222,7 @@
               <select>
               <?php
                 foreach($terms as $term) {
-                  echo "<option value='$term'>" . $term . "<option>";
+                  echo "<option value='$term'>" . $term . "</option>";
                 }
               ?>
               </select>
@@ -237,7 +237,7 @@
 
               <?php
                 foreach($instructors as $instructor) {
-                  echo "<option value='$instructor'>" . $instructor . "<option>";
+                  echo "<option value='$instructor[1]'>" . $instructor[0] . "</option>";
                 }
               ?>
               </select>
@@ -275,7 +275,7 @@
           <select>
             <?php
               foreach($instructors as $instructor) {
-                echo "<option value='$instructor'>" . $instructor . "<option>";
+                echo "<option value='$instructor[1]'>" . $instructor[0] . "</option>";
               }
             ?>
           </select>
@@ -303,9 +303,9 @@
                 foreach($terms as $term) {
                   //check if the term was selected or is current if none was selected
                   if($term == $semester_year) {
-                    echo    "<option value='$term' selected>" . $term . "<option>";
+                    echo    "<option value='$term' selected>" . $term . "</option>";
                   } else {
-                      echo "<option value='$term'>" . $term . "<option>";
+                      echo "<option value='$term'>" . $term . "</option>";
                   }
                 }//end of foreach
               ?>
@@ -329,19 +329,19 @@
                 if (!empty($current_user_courses)) {
                   foreach ($current_user_courses as $user_course) {
                     echo "<tr>";
-                      echo "<td>" . $user_course->$name . "</td>";
-                      echo "<td>" . $user_course->$description . "</td>";
-                      echo "<td>" . $user_course->$teacherID . "</td>";
-                      echo "<td>" . $user_course->$term . "</td>";
+                      echo "<td>CIS " . $user_course[0]->courseNumber . "</td>";
+                      echo "<td>" . $user_course[0]->courseTitle . "</td>";
+                      echo "<td>" . $user_course[1] . "</td>";
+                      echo "<td>" . $user_course[0]->term . "</td>";
                       echo "<td colspan='2'>";
                         echo "<ul>";
-                            foreach ($current_user->$assignments as $assignment) {
+                            foreach ($user_course[2] as $assignment) {
                               echo "</li>
-                                      <form action='.'>
+                                      <form action='.' method='POST'>
                                         <input type='hidden' name='action' value='project'>
-                                        <input type='hidden' name='Course' value='" . $user_course . "'>
-                                        <input type='hidden' name='Assignment' value='" . $assignment->$name . "'>
-                                        <input type='Submit' class='btn btn-link' value='" . $assignment->$name . "'>
+                                        <input type='hidden' name='Course' value='" . $user_course[0]->courseID . "'>
+                                        <input type='hidden' name='Assignment' value='" . $assignment[0] . "'>
+                                        <input type='Submit' class='btn btn-link' value='" . $assignment[1] . "'>
                                       </form>
                                     </li>";
                             }

@@ -52,7 +52,7 @@
                 return "User created";
             } catch (PDOException $e)
             {
-                /*Specific error message for: 
+                /*Specific error message for:
                  * SQL ERROR 1062 (Duplicate entry for unique field)
                  * SQL ERROR 1048 (Null entry for non-null field)
                  */
@@ -108,6 +108,33 @@
                 $query = "Select * From UserAccount Where Username = :uname;";
                 $statement = $db->prepare($query);
                 $statement->bindValue(':uname', $username, PDO::PARAM_STR);
+                $statement->execute();
+                $user = $statement->fetch();
+                $statement->closeCursor();
+
+                $return = new User($user[1], $user[2], $user[3], $user[4],
+                        $user[5], $user[6], $user[7], $user[8], $user[9],
+                        $user[10], $user[11], $user[12], $user[13]);
+                $return->setID($user[0]);
+                return $return;
+            } catch (PDOException $e)
+            {
+                //$error_message = $e->getMessage();
+                //error_log($error_message, (int)0,"./error.txt");
+
+                return "Could not retrieve user data";
+            }
+        }
+
+        function getUserByID($id)
+        {
+            try
+            {
+                $dbObj = new Database();
+                $db = $dbObj->getConnection();
+                $query = "Select * From UserAccount Where UserID = :uid;";
+                $statement = $db->prepare($query);
+                $statement->bindValue(':uid', $id, PDO::PARAM_INT);
                 $statement->execute();
                 $user = $statement->fetch();
                 $statement->closeCursor();
@@ -391,6 +418,30 @@
                         . "And Term = :term";
                 $statement = $db->prepare($query);
                 $statement->bindValue(':tID', $teacherID, PDO::PARAM_INT);
+                $statement->bindValue(':term', $term, PDO::PARAM_STR);
+                $statement->execute();
+                $courses = $statement->fetchAll();
+                $statement->closeCursor();
+
+                return $courses;
+            } catch (PDOException $e)
+            {
+                //$error_message = $e->getMessage();
+                //error_log($error_message, (int)0,"./error.txt");
+                return "Could not retrieve complete course list";
+            }
+        }
+
+        //retrieve the courses of a term 
+        function getCoursesByTerm( $term)
+        {
+            try
+            {
+                $dbObj = new Database();
+                $db = $dbObj->getConnection();
+                $query = "Select CourseID FROM Courses "
+                        . "Where Term = :term ";
+                $statement = $db->prepare($query);
                 $statement->bindValue(':term', $term, PDO::PARAM_STR);
                 $statement->execute();
                 $courses = $statement->fetchAll();
@@ -818,7 +869,7 @@
                 return "Could not retrieve students enrolled in course";
             }
         }
-        
+
         function getSubmissionsOfCourse($courseID)
         {
             $dbObj = new Database();
@@ -830,7 +881,7 @@
             $result = $statement->execute();
             $assignments = $statement->fetchAll();
             $statement->closeCursor();
-            
+
             if($result){
                 $listOfStudentAssignments = array();
                 foreach($assignments as $assignment)
@@ -838,7 +889,7 @@
                     $students = $this->getStudentsOfAssignment($assignment[0]);
                     if(is_array($students))
                     {
-                        
+
                         foreach($students as $student)
                         {
                             $studentAssignment = $this->getStudentAssignemnt($student[0],$assignment[0]);
@@ -856,7 +907,7 @@
                 return $listOfStudentAssignments;
             }
             else
-                return "Could not retrieve assignment ID's based on course id $courseID"; 
+                return "Could not retrieve assignment ID's based on course id $courseID";
         }
 
         function getUserAuth($username)
