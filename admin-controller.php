@@ -45,6 +45,7 @@
       array_push($courses , $db->getCourse($course[0])->courseTitle);
     }
     $current_selected_course = $db->getCourse($courses[0]);
+    echo $current_selected_course->courseNumber;
 
     echo $current_selected_course->courseTitle;
 
