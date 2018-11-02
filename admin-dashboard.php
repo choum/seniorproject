@@ -158,15 +158,15 @@
           <form  method="post">
             <div class="form-group">
               <label for="classname">Course ID</label>
-              <input type="text" class="form-control" id="courseid" placeholder="EX: CIS 4290">
+              <input type="text" class="form-control" name='courseID' id="courseid" placeholder="EX: 4290">
             </div>
             <div class="form-group">
               <label for="classname">Section Number</label>
-              <input type="number" class="form-control" id="section" min="1" placeholder="EX: 1">
+              <input type="number" class="form-control" name='sectionNumber' id="section" min="1" placeholder="EX: 1">
             </div>
             <div class="form-group">
               <label for="classname">Term</label>
-              <select>
+              <select name='term'>
               <?php
                 foreach($terms as $term){
                   echo "<option value='$term'>" . $term . "</option>";
@@ -176,11 +176,15 @@
             </div>
             <div class="form-group">
               <label for="description">Class Title</label>
-              <input type="text" class="form-control" id="courseid" placeholder="EX: Intro to Computing">
+              <input type="text" class="form-control" name='classTitle' id="courseid" placeholder="EX: Intro to Computing">
+            </div>
+            <div class="form-group">
+              <label for="description">Class Description</label>
+              <textarea type="text" class="form-control" name='classDescription' id="courseid" placeholder="EX: Learn the basics of computing using current methods."></textarea>
             </div>
             <div class="form-group">
               <label>Professor</label>
-              <select>
+              <select name='classInstructor'>
               <?php
                 foreach($instructors as $instructor) {
                   echo "<option value='$instructor[1]'>" . $instructor[0] . "</option>";
@@ -201,7 +205,7 @@
         </div>
         <div class="card-body">
           <label>Select existing class</label>
-          <form method="post" action='#updateClass'>
+          <form method="post">
             <select onchange='this.form.submit()' name='course_change_select'>
               <?php
                 foreach($courses as $course) {
@@ -210,14 +214,14 @@
               ?>
             </select>
         </form>
-          <form action='admin-dashboard.php' method="post">
+          <form method="post">
             <div class="form-group">
               <label for="classname">Course ID</label>
-              <input type="text" class="form-control" id="courseid" value="CIS 4290">
+              <input type="text" class="form-control" id="courseid" value="<?php echo $current_selected_course->courseID; ?>">
             </div>
             <div class="form-group">
               <label for="classname">Section Number</label>
-              <input type="number" class="form-control" id="section" min="1" value="1">
+              <input type="number" class="form-control" id="section" min="1" value="<?php echo $current_selected_course->courseNumber; ?>">
             </div>
             <div class="form-group">
               <label for="classname">Term</label>
@@ -231,7 +235,7 @@
             </div>
             <div class="form-group">
               <label for="description">Class Title</label>
-              <input type="text" class="form-control" id="courseid" value="Serverside Web Developmen">
+              <input type="text" class="form-control" id="courseid" value="<?php echo $current_selected_course->courseTitle; ?>">
             </div>
             <div class="form-group">
               <label>Professor</label>
@@ -275,23 +279,23 @@
           <hr>
         </div>
         <div class="card-body" style="padding-top: 0px;">
-          <label>Select existing professor</label>
-          <select>
-            <?php
-              foreach($instructors as $instructor) {
-                echo "<option value='$instructor[1]'>" . $instructor[0] . "</option>";
-              }
-            ?>
-          </select>
           <form  method="post">
+            <label>Select existing professor</label>
+            <select name='instructorID'>
+              <?php
+                foreach($instructors as $instructor) {
+                  echo "<option value='$instructor[1]'>" . $instructor[0] . "</option>";
+                }
+              ?>
+            </select>
             <div class="form-group">
               <label for="classname">First Name</label>
               <input type="text" class="form-control" name='firstName' id="classname" value="">
               <label for="classname">Last Name</label>
               <input type="text" class="form-control" name='lastName' id="classname" value="">
             </div>
-            <input type='hidden' name='action' value='add_instructor' >
-            <input type="submit" class="btn" value="Add Instructor">
+            <input type='hidden' name='action' value='update_instructor' >
+            <input type="submit" class="btn" value="Update Instructor">
           </form>
           <hr />
         </div>

@@ -10,9 +10,48 @@
     }
     $username = $_SESSION["user"];
 
+    //create an istance of SQLHelper to get data from database
+    //load the arrays to use on the UI
+    $db = new SQLHelper();
+
     //create object of dates class and get the current semester and year
     $dateOB = new Dates;
     $semester_year = $dateOB->getSemesterYear();
+
+    //create an array of instructors from the database
+    $instructors = [];
+    $instructor_string = $db->getInstructors(2);
+    foreach ($instructor_string as $instructor) {
+      $tempstr = $instructor[1] . " " . $instructor[2];
+      $temp_id = $instructor[0];
+      $temp_arr = [$tempstr , $temp_id];
+      array_push($instructors , $temp_arr);
+    }
+
+    //create an array of terms from the database
+    $terms = [];
+    $term_string = $db->getTerms();
+    foreach ($term_string as $term) {
+      array_push($terms , $term[0]);
+    }
+
+    //get current user
+    $current_user = $db->getUser($username);
+    $current_user_name = $current_user->firstName . " " . $current_user ->lastName;
+
+    $courses = [];
+    $course_string = $db->getAllCourses();
+    foreach ($course_string as $course) {
+      array_push($courses , $db->getCourse($course[0])->courseTitle);
+    }
+    $current_selected_course = $db->getCourse($courses[0]);
+
+    echo $current_selected_course->courseTitle;
+
+    $temp_courseID = filter_input(INPUT_POST , 'user_selected_courseID');
+    if($temp_courseID != NULL) {
+      $current_selected_course = $db->getCourse($temp_courseID);
+    }
 
     //if user selected a term to view for courses
     //else use current session
@@ -20,38 +59,6 @@
     if($temp_sem != NULL) {
       $semester_year = $temp_sem;
     }
-
-      //create an istance of SQLHelper to get data from database
-      //load the arrays to use on the UI
-      $db = new SQLHelper();
-
-
-      //create an array of instructors from the database
-      $instructors = [];
-      $instructor_string = $db->getInstructors(2);
-      foreach ($instructor_string as $instructor) {
-        $tempstr = $instructor[1] . " " . $instructor[2];
-        $temp_id = $instructor[0];
-        $temp_arr = [$tempstr , $temp_id];
-        array_push($instructors , $temp_arr);
-      }
-
-      //create an array of terms from the database
-      $terms = [];
-      $term_string = $db->getTerms();
-      foreach ($term_string as $term) {
-        array_push($terms , $term[0]);
-      }
-
-      //get current user
-      $current_user = $db->getUser($username);
-      $current_user_name = $current_user->firstName . " " . $current_user ->lastName;
-
-      $courses = [];
-      $course_string = $db->getAllCourses();
-      foreach ($course_string as $course) {
-        array_push($courses , $db->getCourse($course[0])->courseTitle);
-      }
 
 
       //create an array of courses from the database
@@ -126,29 +133,14 @@
     function updateInstructor() {
 
         //get the variable from the request
-        $instructorName = filter_input(INPUT_POST ,'instructorName');
+        $instructorID = filter_input(INPUT_POST ,'instructorID');
         $firstName = filter_input(INPUT_POST ,'firstName');
         $lastName = filter_input(INPUT_POST ,'lastName');
-
-        //create an instance of the User class
-        $temp_user = new User(substr($firstName , 0 , 1) . $lastName ,
-                              "password" ,
-                              $firstName ,
-                              $lastName ,
-                              "title" ,
-                              "bio" ,
-                              "img" ,
-                              "linked" ,
-                              "site" ,
-                              2 ,
-                              0 ,
-                              "create" ,
-                              "");
 
         //create an instance of the SQLHelper class
         //update user in database
         $db = new SQLHelper();
-        $result = $db->updateUser($instructorName , $instructor);
+        $result = $db->updateInstructor($instructorID , $firstName , $lastName);
 
 
     }//end of edit instructor
@@ -162,10 +154,17 @@
         $term = filter_input(INPUT_POST ,'term');
         $classTitle = filter_input(INPUT_POST ,'classTitle');
         $classInstructor = filter_input(INPUT_POST ,'classInstructor');
+        $classDescription = filter_input(INPUT_POST , 'classDescription');
 
         //create an instance of the Course class
-        $course = new Course( $classTitle , $courseID , $sectionNumber , $term , $classTitle , "0" , "0" , "0" , $classInstructor);
-        echo $course->term;
+        $course = new Course( $classTitle ,
+                              $courseID ,
+                              $sectionNumber ,
+                              $term ,
+                              $classDescription ,
+                              0 , 10 , 991 ,
+                              $classInstructor);
+        echo $course->teacherID;
         //create an instance of the SQLHelper class
         //add CourseSection to database
         $db = new SQLHelper();
