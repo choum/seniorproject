@@ -155,7 +155,7 @@
           <hr>
         </div>
         <div class="card-body" style="padding-top: 0px;">
-          <form action='admin-dashboard.php' method="POST">
+          <form  method="post">
             <div class="form-group">
               <label for="classname">Course ID</label>
               <input type="text" class="form-control" id="courseid" placeholder="EX: CIS 4290">
@@ -183,7 +183,7 @@
               <select>
               <?php
                 foreach($instructors as $instructor) {
-                  echo "<option value='$instructor'>" . $instructor . "<option>";
+                  echo "<option value='$instructor[1]'>" . $instructor[0] . "</option>";
                 }
               ?>
               </select>
@@ -201,14 +201,16 @@
         </div>
         <div class="card-body">
           <label>Select existing class</label>
-          <select>
-            <?php
-              foreach($courses as $course) {
-                echo "<option value='$course'>" . $course . "<option>";
-              }
-            ?>
-          </select>
-          <form action='admin-dashboard.php' method="POST">
+          <form method="post" action='#updateClass'>
+            <select onchange='this.form.submit()' name='course_change_select'>
+              <?php
+                foreach($courses as $course) {
+                  echo "<option value='$course'>" . $course . "</option>";
+                }
+              ?>
+            </select>
+        </form>
+          <form action='admin-dashboard.php' method="post">
             <div class="form-group">
               <label for="classname">Course ID</label>
               <input type="text" class="form-control" id="courseid" value="CIS 4290">
@@ -222,7 +224,7 @@
               <select>
               <?php
                 foreach($terms as $term) {
-                  echo "<option value='$term'>" . $term . "<option>";
+                  echo "<option value='$term'>" . $term . "</option>";
                 }
               ?>
               </select>
@@ -237,7 +239,7 @@
 
               <?php
                 foreach($instructors as $instructor) {
-                  echo "<option value='$instructor'>" . $instructor . "<option>";
+                  echo "<option value='$instructor[1]'>" . $instructor[0] . "</option>";
                 }
               ?>
               </select>
@@ -254,10 +256,12 @@
           <hr>
         </div>
         <div class="card-body" style="padding-top: 0px;">
-          <form action='admin-dashboard.php' method="POST">
+          <form method="post">
             <div class="form-group">
-              <label for="classname">Instructor Name</label>
-              <input type="text" class="form-control" id="classname">
+              <label for="classname">First Name</label>
+              <input type="text" name='firstName' class="form-control" id="classname">
+              <label for="classname">Last Name</label>
+              <input type="text" name='lastName' class="form-control" id="classname">
             </div>
             <input type='hidden' name='action' value='add_instructor' >
             <input type="submit" class="btn" value="Add Instructor">
@@ -275,14 +279,16 @@
           <select>
             <?php
               foreach($instructors as $instructor) {
-                echo "<option value='$instructor'>" . $instructor . "<option>";
+                echo "<option value='$instructor[1]'>" . $instructor[0] . "</option>";
               }
             ?>
           </select>
-          <form action='admin-dashboard.php' method="POST">
+          <form  method="post">
             <div class="form-group">
-              <label for="classname">Instructor Name</label>
-              <input type="text" class="form-control" id="classname" value="Zhongming Ma">
+              <label for="classname">First Name</label>
+              <input type="text" class="form-control" name='firstName' id="classname" value="">
+              <label for="classname">Last Name</label>
+              <input type="text" class="form-control" name='lastName' id="classname" value="">
             </div>
             <input type='hidden' name='action' value='add_instructor' >
             <input type="submit" class="btn" value="Add Instructor">
@@ -297,20 +303,24 @@
         <div class="card-header">
           <h4 class="card-title">List of All Classes</h4>
           <hr />
-          <p class="card-text" style="float: right;">Sort by:
-            <select>
-              <?php
-                foreach($terms as $term) {
-                  //check if the term was selected or is current if none was selected
-                  if($term == $semester_year) {
-                    echo    "<option value='$term' selected>" . $term . "<option>";
-                  } else {
-                      echo "<option value='$term'>" . $term . "<option>";
-                  }
-                }//end of foreach
-              ?>
-            </select>
-          </p>
+          <div style="float: right;">
+            <p class="card-text" >Sort by:
+              <form method='post'>
+              <select onchange='this.form.submit()' name='user_selected_term'>
+                <?php
+                  foreach($terms as $term) {
+                    //check if the term was selected or is current if none was selected
+                    if($term == $semester_year) {
+                      echo    "<option value='$term' selected>" . $term . "</option>";
+                    } else {
+                        echo "<option value='$term'>" . $term . "</option>";
+                    }
+                  }//end of foreach
+                ?>
+              </select>
+            </form>
+            </p>
+        </div>
         </div>
         <div class="card-body">
           <div class="table-responsive">
@@ -329,19 +339,19 @@
                 if (!empty($current_user_courses)) {
                   foreach ($current_user_courses as $user_course) {
                     echo "<tr>";
-                      echo "<td>" . $user_course->$name . "</td>";
-                      echo "<td>" . $user_course->$description . "</td>";
-                      echo "<td>" . $user_course->$teacherID . "</td>";
-                      echo "<td>" . $user_course->$term . "</td>";
+                      echo "<td>CIS " . $user_course[0]->courseNumber . "</td>";
+                      echo "<td>" . $user_course[0]->courseTitle . "</td>";
+                      echo "<td>" . $user_course[1] . "</td>";
+                      echo "<td>" . $user_course[0]->term . "</td>";
                       echo "<td colspan='2'>";
                         echo "<ul>";
-                            foreach ($current_user->$assignments as $assignment) {
+                            foreach ($user_course[2] as $assignment) {
                               echo "</li>
-                                      <form action='.'>
+                                      <form action='.' method='post'>
                                         <input type='hidden' name='action' value='project'>
-                                        <input type='hidden' name='Course' value='" . $user_course . "'>
-                                        <input type='hidden' name='Assignment' value='" . $assignment->$name . "'>
-                                        <input type='Submit' class='btn btn-link' value='" . $assignment->$name . "'>
+                                        <input type='hidden' name='Course' value='" . $user_course[0]->courseID . "'>
+                                        <input type='hidden' name='Assignment' value='" . $assignment[0] . "'>
+                                        <input type='Submit' class='btn btn-link' value='" . $assignment[1] . "'>
                                       </form>
                                     </li>";
                             }
