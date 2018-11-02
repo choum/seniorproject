@@ -1,6 +1,5 @@
 <?php
 include 'login-controller.php';
-include_once 'includes/cis4270CommonIncludes.php';
 create_csrf_token();
 ?>
 <html lang="en">

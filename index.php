@@ -23,16 +23,20 @@ switch ($post) {
     //check if passwords are salted
     if ($password == $pass) {
       $_SESSION['user'] = $username;
+      $_SESSION['role'] = $role;
       after_successful_login();
       if (is_session_valid()) {
         if ($role == 1) {
           //redirect to student
+          before_every_protected_page();
           require 'dashboard.php';
         } else if ($role == 2) {
           //redirect to instructor
+          before_every_protected_page();
           include 'instructor-dashboard.php';
         } else if ($role == 3) {
           //redirect to admin
+          before_every_protected_page();
           include 'admin-dashboard.php';
         }
       }
@@ -120,7 +124,10 @@ switch ($post) {
   break;
 
   case 'logout':
+  session_start();
+  if (isset($_SESSION)) {
   end_session();
+  }
   include 'login.php';
   break;
 
@@ -133,7 +140,28 @@ switch ($post) {
   }
   break;
   default:
-  include 'login.php';
+  if (is_logged_in()) {
+    $role = $_SESSION['role'];
+    if ($role == 1) {
+      //redirect to student
+      before_every_protected_page();
+      require 'dashboard.php';
+    } else if ($role == 2) {
+      //redirect to instructor
+      before_every_protected_page();
+      include 'instructor-dashboard.php';
+    } else if ($role == 3) {
+      //redirect to admin
+      before_every_protected_page();
+      include 'admin-dashboard.php';
+    } else {
+      include 'login.php';
+      end_session();
+    }
+
+  } else {
+    include 'login.php';
+  }
 }
 
 
