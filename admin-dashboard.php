@@ -205,11 +205,15 @@
         </div>
         <div class="card-body">
           <label>Select existing class</label>
-          <form method="post">
+          <form method="post" action='#updateClass'>
             <select onchange='this.form.submit()' name='course_change_select'>
               <?php
                 foreach($courses as $course) {
-                  echo "<option value='$course'>" . $course . "</option>";
+                  if($course->courseID == $current_selected_course->courseID) {
+                    echo "<option  value='$course->courseID' selected >" . $course->courseNumber . "---" . $course->courseTitle . "---" . $course->term .  "</option>";
+                  } else {
+                    echo "<option value='$course->courseID'>" . $course->courseNumber . "---" . $course->courseTitle . "---" . $course->term .  "</option>";
+                  }
                 }
               ?>
             </select>
@@ -217,33 +221,45 @@
           <form method="post">
             <div class="form-group">
               <label for="classname">Course ID</label>
-              <input type="text" class="form-control" id="courseid" value="<?php echo $current_selected_course->courseID; ?>">
+              <input type="text" class="form-control" name='courseNumber' id="courseid" value="<?php echo $current_selected_course->courseNumber; ?>">
             </div>
             <div class="form-group">
               <label for="classname">Section Number</label>
-              <input type="number" class="form-control" id="section" min="1" value="<?php echo $current_selected_course->courseNumber; ?>">
+              <input type="number" class="form-control" name='sectionNumber' id="section" min="1" value="<?php echo $current_selected_course->courseSection; ?>">
             </div>
             <div class="form-group">
               <label for="classname">Term</label>
-              <select>
+              <select name='term'>
               <?php
                 foreach($terms as $term) {
-                  echo "<option value='$term'>" . $term . "</option>";
+                  if($term == $current_selected_course->term) {
+                    echo "<option value='$term' selected >" . $term . "</option>";
+                  } else {
+                    echo "<option value='$term'>" . $term . "</option>";
+                  }
                 }
               ?>
               </select>
             </div>
             <div class="form-group">
               <label for="description">Class Title</label>
-              <input type="text" class="form-control" id="courseid" value="<?php echo $current_selected_course->courseTitle; ?>">
+              <input type="text" class="form-control" name='classTitle' id="courseid" value="<?php echo $current_selected_course->courseTitle; ?>">
+            </div>
+            <div class="form-group">
+              <label for="description">Class Description</label>
+              <textarea type="text" class="form-control" name='classDescription' id="courseid" placeholder=""><?php echo $current_selected_course->description; ?></textarea>
             </div>
             <div class="form-group">
               <label>Professor</label>
-              <select>
+              <select name='classInstructor'>
 
               <?php
                 foreach($instructors as $instructor) {
-                  echo "<option value='$instructor[1]'>" . $instructor[0] . "</option>";
+                  if($instructor[1] == $current_selected_course->teacherID) {
+                    echo "<option value='$instructor[1]' selected >" . $instructor[0] . "</option>";
+                  } else {
+                    echo "<option value='$instructor[1]'>" . $instructor[0] . "</option>";
+                  }
                 }
               ?>
               </select>

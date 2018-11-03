@@ -42,14 +42,13 @@
     $courses = [];
     $course_string = $db->getAllCourses();
     foreach ($course_string as $course) {
-      array_push($courses , $db->getCourse($course[0])->courseTitle);
+      //echo $course[0];
+      array_push($courses , $db->getCourse($course[0]));
     }
-    $current_selected_course = $db->getCourse($courses[0]);
-    echo $current_selected_course->courseNumber;
+    $current_selected_course = $db->getCourse($courses[0]->courseID);
 
-    echo $current_selected_course->courseTitle;
 
-    $temp_courseID = filter_input(INPUT_POST , 'user_selected_courseID');
+    $temp_courseID = filter_input(INPUT_POST , 'course_change_select');
     if($temp_courseID != NULL) {
       $current_selected_course = $db->getCourse($temp_courseID);
     }
@@ -165,7 +164,7 @@
                               $classDescription ,
                               0 , 10 , 991 ,
                               $classInstructor);
-        echo $course->teacherID;
+
         //create an instance of the SQLHelper class
         //add CourseSection to database
         $db = new SQLHelper();
@@ -177,20 +176,36 @@
     function updateClass() {
 
         //get the variable from the request
-        $courseID = filter_input(INPUT_POST ,'courseID');
+        $courseID = filter_input(INPUT_POST , 'course_change_select');
+        $courseNumber = filter_input(INPUT_POST ,'courseNumber');
         $sectionNumber = filter_input(INPUT_POST ,'sectionNumber');
         $term = filter_input(INPUT_POST ,'term');
         $classTitle = filter_input(INPUT_POST ,'classTitle');
-        $classInstructorr = filter_input(INPUT_POST ,'classInstructor');
+        $description = filter_input(INPUT_POST ,'classDescription');
+        $teacherID = filter_input(INPUT_POST ,'classInstructor');
 
         //create an instance of the Course class
-        $courseSection = new CourseSection($courseID , $sectionNumber , $term , $classTitle , $classInstructor);
+        /*$course = new Course( $classTitle ,
+                              $courseID ,
+                              $sectionNumber ,
+                              $term ,
+                              $classDescription ,
+                              0 , 10 , 991 ,
+                              $classInstructor);*/
 
         //create an instance of the SQLHelper class
         //update CourseSection in database
         $db = new SQLHelper();
-        $result = $db->updateCourseSection($courseID , $courseSection);
+        $result = $db->updateCourse($courseID ,
+                                    $classTitle ,
+                                    $courseNumber ,
+                                    $sectionNumber ,
+                                    $term ,
+                                    $description ,
+                                    0 ,  15 ,  991 ,
+                                    $teacherID);
 
+        echo $courseID;
 
     }// end of update class function
 
