@@ -4,6 +4,25 @@
   require_once "SQLHelper.php";
   require_once "Course.php";
 
+  //get the action form the request
+  $action = filter_input(INPUT_POST , 'action');
+
+  //run the appropriate function depending on request
+  if (empty($action)) {
+
+  }
+    elseif($action == 'add_instructor') {
+      addInstructor();
+  } elseif($action == 'update_instructor') {
+      updateInstructor();
+  } elseif($action == 'add_class') {
+      addClass();
+  } elseif($action == 'update_class') {
+      updateClass();
+  } else if($action == 'project') {
+     viewProject();
+  }
+
     //get the username from session
     if(isset($_SESSION)) {
       $username = $_SESSION["user"];
@@ -73,24 +92,6 @@
         array_push($current_user_courses, $temp_arr);
       }
 
-      //get the action form the request
-      $action = filter_input(INPUT_POST , 'action');
-
-    //run the appropriate function depending on request
-    if (empty($action)) {
-
-    }
-      elseif($action == 'add_instructor') {
-        addInstructor();
-    } elseif($action == 'update_instructor') {
-        updateInstructor();
-    } elseif($action == 'add_class') {
-        addClass();
-    } elseif($action == 'update_class') {
-        updateClass();
-    } else if($action == 'project') {
-       viewProject();
-    }
 
     //if any of the quesries could not run create an error to display
     if(!empty($result)) {
@@ -183,7 +184,6 @@
         $classTitle = filter_input(INPUT_POST ,'classTitle');
         $description = filter_input(INPUT_POST ,'classDescription');
         $teacherID = filter_input(INPUT_POST ,'classInstructor');
-
         //create an instance of the Course class
         /*$course = new Course( $classTitle ,
                               $courseID ,
@@ -205,7 +205,6 @@
                                     0 ,  15 ,  991 ,
                                     $teacherID);
 
-        echo $courseID;
 
     }// end of update class function
 

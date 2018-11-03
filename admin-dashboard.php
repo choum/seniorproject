@@ -210,15 +210,16 @@
               <?php
                 foreach($courses as $course) {
                   if($course->courseID == $current_selected_course->courseID) {
-                    echo "<option  value='$course->courseID' selected >" . $course->courseNumber . "---" . $course->courseTitle . "---" . $course->term .  "</option>";
+                    echo "<option  value='$course->courseID' selected >" . $course->term . "---" . $course->courseNumber . "." . $course->courseSection . "---" . $course->courseTitle .  "</option>";
                   } else {
-                    echo "<option value='$course->courseID'>" . $course->courseNumber . "---" . $course->courseTitle . "---" . $course->term .  "</option>";
+                    echo "<option value='$course->courseID'>" . $course->term . "---" . $course->courseNumber . "." . $course->courseSection . "---" . $course->courseTitle .  "</option>";
                   }
                 }
               ?>
             </select>
         </form>
           <form method="post">
+            <input type='hidden' name='course_change_select' value='<?php echo $current_selected_course->courseID; ?>'>
             <div class="form-group">
               <label for="classname">Course ID</label>
               <input type="text" class="form-control" name='courseNumber' id="courseid" value="<?php echo $current_selected_course->courseNumber; ?>">
@@ -326,19 +327,19 @@
           <div style="float: right;">
             <p class="card-text" >Sort by:
               <form method='post'>
-              <select onchange='this.form.submit()' name='user_selected_term'>
-                <?php
-                  foreach($terms as $term) {
-                    //check if the term was selected or is current if none was selected
-                    if($term == $semester_year) {
-                      echo    "<option value='$term' selected>" . $term . "</option>";
-                    } else {
-                        echo "<option value='$term'>" . $term . "</option>";
-                    }
-                  }//end of foreach
-                ?>
-              </select>
-            </form>
+                  <select onchange='this.form.submit()' name='user_selected_term'>
+                    <?php
+                      foreach($terms as $term) {
+                        //check if the term was selected or is current if none was selected
+                        if($term == $semester_year) {
+                          echo    "<option value='$term' selected>" . $term . "</option>";
+                        } else {
+                            echo "<option value='$term'>" . $term . "</option>";
+                        }
+                      }//end of foreach
+                    ?>
+                  </select>
+              </form>
             </p>
         </div>
         </div>
