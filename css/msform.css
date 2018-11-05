@@ -18,7 +18,7 @@ body {
 /*form styles*/
 #msform {
 	width: 400px;
-	margin: 50px auto;
+	margin: 20px auto;
 	text-align: center;
 	position: relative;
 }
@@ -90,8 +90,8 @@ body {
 	list-style-type: none;
 	color: white;
 	text-transform: uppercase;
-	font-size: 7px;
-	width: 25%;
+	font-size: 10px;
+	width: 50%;
 	float: left;
 	position: relative;
 }

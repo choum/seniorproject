@@ -21,43 +21,52 @@ create_csrf_token();
       text-align: left;
       font-size: 14px;
     }
+    h1 {
+      margin-top: 30px;
+      text-align: center;
+      color: white;
+      font-size: 25pt;
+    }
   </style>
 </head>
-
 <body>
+  <h1>Register</h1>
   <!-- multistep form -->
   <form id="msform">
     <!-- progressbar -->
     <ul id="progressbar">
-      <li class="active">SQL Account Setup</li>
-      <li>FTP Account Setup</li>
+      <li class="active">Personal Account Setup</li>
+      <li>Personal Details</li>
     </ul>
-    <!-- fieldsets -->
     <?php echo csrf_token_tag(); ?>
     <fieldset>
-      <h2 class="fs-title">SQL Account Setup</h2>
-      <h3 class="fs-subtitle">Your username will be your BroncoID</h3>
-      <label for="SQLpass">Password</label>
-      <input type="password" name="sqlPass" placeholder="Password" />
-      <label for="cpass">Confirm Password</label>
-      <input type="password" name="SQLcpass" placeholder="Confirm Password" />
+      <h2 class="fs-title">Create Account</h2>
+      <label for="username">Username</label>
+      <input type="text" name="username" placeholder="Username" />
+      <label for="firstname">First Name</label>
+      <input type="text" name="firstname" placeholder="Username" />
+      <label for="lastname">Last Name</label>
+      <input type="text" name="lastname" placeholder="Username" />
+      <label for="pass">Password</label>
+      <input type="password" name="pass" placeholder="Password" />
       <input type="button" name="next" class="next action-button" value="Next" />
     </fieldset>
     <fieldset>
-      <h2 class="fs-title">FTP Account Setup</h2>
-      <h3 class="fs-subtitle">Your username will be your BroncoID</h3>
-      <label for="FTPpass">Password</label>
-      <input type="password" name="ftpPass" placeholder="Password" />
-      <label for="cpass">Confirm Password</label>
-      <input type="password" name="ftpCpass" placeholder="Confirm Password" />
+      <h2 class="fs-title">Profile Details</h2>
+      <label for="about">About Me</label>
+      <textarea class="form-control" id="about" rows="3"></textarea>
+      <label for="resume">Resume Link</label>
+      <input type="url" class="form-control" id="resume" placeholder="LinkedIn or Online Resume">
+      <label for="website">Personal Website</label>
+      <input type="url" class="form-control" id="website" placeholder="Portfolio Website">
+      <label for="picture">Profile Picture</label>
+      <input type="file" class="form-control-file" id="picture" aria-describedby="fileHelp">
+      <small id="fileHelp" class="form-text text-muted">Only supports PNG, JPG.</small>
       <input type="button" name="previous" class="previous action-button" value="Previous" />
       <input type="submit" name="submit" class="submit action-button" value="Submit" />
     </fieldset>
   </form>
 </body>
-
-</html>
-
 <script>
   //jQuery time
   var current_fs, next_fs, previous_fs; //fieldsets
