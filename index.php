@@ -1,6 +1,6 @@
 <?php
-include_once 'includes/cis4270CommonIncludes.php';
-include_once 'SQLHelper.php';
+require_once 'requires/cis4270Commonrequires.php';
+require_once 'SQLHelper.php';
 $sql = new SQLHelper;
 $post = hPost('action');
 $error = "";
@@ -33,11 +33,11 @@ switch ($post) {
         } else if ($role == 2) {
           //redirect to instructor
           before_every_protected_page();
-          include 'instructor-dashboard.php';
+          require 'instructor-dashboard.php';
         } else if ($role == 3) {
           //redirect to admin
           before_every_protected_page();
-          include 'admin-dashboard.php';
+          require 'admin-dashboard.php';
         }
       }
 
@@ -77,22 +77,6 @@ switch ($post) {
         $error += "Last name should be only alphabet characters <br/>";
     }
 
-    //FTP
-    if (empty($_POST['$ftpPass'])) {
-      $ftpPass = hPOST("ftpPass");
-      if (!preg_match('/[^A-Za-z]/', $ftpPass)) {
-        $error += "FTP Password should be only alphanumeric characters <br/>";
-      }
-    }
-
-    //SQL
-    if (empty($_POST['$sqlPass'])) {
-      $sqlPass = hPOST("sqlPass");
-      if (!preg_match('/[^A-Za-z]/', $sqlPass)) {
-        $error += "SQL Password should be only alphanumeric characters <br/>";
-      }
-    }
-
     //Profile
     if (empty($_POST['resume'])) {
       $sResume = NULL;
@@ -114,28 +98,42 @@ switch ($post) {
 
     //validate
     if (!empty($error)) {
-      include 'setup.php';
+      require 'register.php';
     } else {
+      //salt password
+      $saltedPass = password_hash($sPass, PASSWORD_BCRYPT);
       //store in db
+      $user = array(
+        'username' => $sUser,
+        'password' => $saltedPass,
+        'first' => $sFirst,
+        'last' => $sLast,
+        'phone' => hPOST('phone'),
+        'bio' => $sAbout,
+        'image' => hPOST('streetName'),
+        'website' => $sWebsite,
+        'linkedin' => $sResume,
+        'role' => 1
+      );
       //take to dashboard
-      include 'dashboard.php';
+      require 'dashboard.php';
     }
   }
   break;
 
   case 'logout':
   if (is_logged_in() && is_session_valid()) {
-  include 'login.php';
+  require 'login.php';
   after_successful_logout();
   }
   break;
 
   case 'change':
   if (is_session_valid()) {
-        include 'changePass.php';
+        require 'changePass.php';
   } else {
     end_session();
-    include 'login.php';
+    require 'login.php';
   }
   break;
   default:
@@ -148,18 +146,18 @@ switch ($post) {
     } else if ($role == 2) {
       //redirect to instructor
       before_every_protected_page();
-      include 'instructor-dashboard.php';
+      require 'instructor-dashboard.php';
     } else if ($role == 3) {
       //redirect to admin
       before_every_protected_page();
-      include 'admin-dashboard.php';
+      require 'admin-dashboard.php';
     } else {
-      include 'login.php';
+      require 'login.php';
       end_session();
     }
 
   } else {
-    include 'login.php';
+    require 'login.php';
   }
 }
 

@@ -106,7 +106,7 @@
         <div class="card-header">
           <p id="welcome" class="nav-link">Welcome: <?php if (!empty($current_user_name)) { echo $current_user_name; } ?></p>
           <ul class="nav nav-pills card-header-pills">
-            <li class="nav-item">
+            <li class="nav-item" id="menu">
               <form method="post" action=".">
                 <input type="hidden" name="action" value="change" />
                 <input type="submit" class="btn btn-link" value="Change Password"/>

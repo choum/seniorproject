@@ -39,4 +39,6 @@ hr {
   border-right: #CEB888 5px solid;
 }
 
-#nav {}
+#menu li form {
+  display: inline;
+}

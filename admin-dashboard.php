@@ -119,7 +119,7 @@
       <div class="card">
         <div class="card-header">
           <p id="welcome" class="nav-link">Welcome: <?php if (!empty($current_user_name)) { echo $current_user_name; } ?></p>
-          <ul class="nav nav-pills card-header-pills">
+          <ul class="nav nav-pills card-header-pills" id="menu">
             <li class="nav-item">
               <form method="post" action=".">
                 <input type="hidden" name="action" value="change" />
