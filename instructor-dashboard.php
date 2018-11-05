@@ -159,8 +159,8 @@
               <div class="form-group">
                 <p><label for="classname">Type of Project</label></p>
                 <select name='type'>
-                  <option>PHP</option>
-                  <option>JSP/Java</option>
+                  <option value='PHP'>PHP</option>
+                  <option value='JSP/Java'>JSP/Java</option>
                 </select>
               </div>
               <div class="form-group">

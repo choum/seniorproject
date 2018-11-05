@@ -9,7 +9,7 @@
 
         function __construct()
         {
-            
+
         }
 
         function addUser(User $user)
@@ -531,7 +531,7 @@
         }
 
         function addAssignment($assignmentName, $description, $date, $courseID,
-                $teacherID, $pdf = NULL)
+                $teacherID, $pdf = NULL , $type)
         {
             try
             {
@@ -539,8 +539,8 @@
                 $db = $dbObj->getConnection();
                 $query = "INSERT INTO Assignments "
                         . "(AssignmentName, Description, "
-                        . "AssignmentDate, PDFLocation, CourseID, TeacherID) "
-                        . "VALUES(:aName, :desc, :aDate, :pdf, :cID, :tID);";
+                        . "AssignmentDate, PDFLocation, CourseID, TeacherID , Type) "
+                        . "VALUES(:aName, :desc, :aDate, :pdf, :cID, :tID , :type);";
                 $statement = $db->prepare($query);
                 $statement->bindValue(':aName', $assignmentName, PDO::PARAM_STR);
                 $statement->bindValue(':desc', $description, PDO::PARAM_STR);
@@ -548,9 +548,9 @@
                 $statement->bindValue(':pdf', $pdf, PDO::PARAM_STR);
                 $statement->bindValue(':cID', $courseID, PDO::PARAM_INT);
                 $statement->bindValue(':tID', $teacherID, PDO::PARAM_INT);
+                $statement->bindValue(':type', $type, PDO::PARAM_STR);
                 $statement->execute();
                 $statement->closeCursor();
-
                 return "Assignment created";
             } catch (PDOException $e)
             {
@@ -939,7 +939,7 @@
                 return "Could not retrieve user password";
             }
         }
-        
+
         function changePassword($username, $password, $newPassword)
         {
             try
@@ -954,7 +954,7 @@
                 $statement->execute();
                 $count = $statement->rowCount();
                 $statement->closeCursor();
-                
+
                 if($count === 1):
                     $query = "Update UserAccount "
                         . "Set Password= :newPass "
@@ -964,7 +964,7 @@
                     $statement->bindValue(':pword', $password, PDO::PARAM_STR);
                     $statement->bindValue(':newPass', $newPassword, PDO::PARAM_STR);
                     $result = $statement->execute();
-                    
+
                     if($result == TRUE):
                         return "Password changed.";
                     else:
