@@ -1,6 +1,9 @@
 <?php
 require_once 'includes/cis4270CommonIncludes.php';
 require_once 'SQLHelper.php';
+if (!isset($_SESSION)) {
+  session_start();
+}
 $sql = new SQLHelper;
 $post = hPost('action');
 $error = "";
@@ -44,7 +47,11 @@ case 'login':
 
     } else {
       $error = "Username and password combination does not exist";
+      require 'login.php';
     }
+  } else {
+    $error = "Form token error";
+    require 'login.php';
   }
   break;
 case 'register':
@@ -116,21 +123,57 @@ case 'register':
     }
   }
   break;
+
 case 'registerPage':
   require 'register.php';
   break;
 case 'logout':
-  if (is_logged_in() && is_session_valid()) {
-  require 'login.php';
   after_successful_logout();
-  }
+  require 'login.php';
+  header("Refresh:0");
   break;
-case 'change':
+case 'changePage':
   if (is_session_valid()) {
         require 'changePass.php';
   } else {
-    end_session();
+    if (isset($_SESSION)) {
+      end_session();
+    }
     require 'login.php';
+  }
+  break;
+//change password
+case 'change':
+  if (is_logged_in() && is_session_valid()) {
+    $user = $_SESSION["user"];
+    $pass = hPOST('currentPass');
+    //$pass = password_hash($pass, PASSWORD_BCRYPT);
+    $results = $sql->getUserAuth($user  );
+    if ($results['Password'] == $pass) {
+      $newPass = hPOST('newPass');
+      $comfPass = hPOST('comfPass');
+      if ($newPass == $comfPass) {
+        if (!preg_match('/^[A-Za-z][A-Za-z0-9]{5,31}$/', $newPass) ) {
+          $error += "Password should only be alphanumeric characters length greater than 5 and less than 31 <br/>";
+          require 'changePass.php';
+        } else {
+          $sql->changePassword($user, $pass, $newPass);
+          after_successful_logout();
+          $error = "Password successfully changed. Please log back in again.";
+          require 'login.php';
+
+        }
+      } else {
+        $error = "Passwords do not match.";
+        require 'changePass.php';
+      }
+    } else {
+      $error = "Invalid Password";
+      require 'changePass.php';
+    }
+  } else {
+    require 'login.php';
+    after_successful_logout();
   }
   break;
 default:
@@ -150,12 +193,14 @@ default:
       require 'admin-dashboard.php';
     } else {
       require 'login.php';
-      end_session();
+      if (isset($_SESSION)) {
+        end_session();
+      }
+
     }
 
   } else {
     require 'login.php';
-    end_session();
   }
 }
 

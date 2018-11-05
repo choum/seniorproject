@@ -1,4 +1,5 @@
-<?php ?>
+<?php
+?>
 
 <!DOCTYPE HTML>
 <html lang="en">
@@ -33,20 +34,21 @@
   <div class="main a">
     <div class="card">
       <div class="card-body">
-        <h3 class="card-title">Login</h3>
-        <br />
-        <form method="post">
+        <h3 class="card-title">Change Password</h3>
+        <?php if (isset($error)) {echo "<p style='color: red;'>". $error . "<p>";} ?>
+        <form method="post" action=.>
+        <input type="hidden" class="form-control" name="action" value="change">
           <div class="form-group">
             <label for="currentPass">Current Password</label>
-            <input type="password" class="form-control" id="currentPass" placeholder="Current Password" required>
+            <input type="password" class="form-control" name="currentPass" id="currentPass" placeholder="Current Password" required>
           </div>
           <div class="form-group">
             <label for="password">Password</label>
-            <input type="password" class="form-control" id="password" placeholder="New Password" required>
+            <input type="password" class="form-control" name="newPass" id="password" placeholder="New Password" required>
           </div>
           <div class="form-group">
             <label for="comfPass">Password</label>
-            <input type="password" class="form-control" id="comfPass" placeholder="Confirm Password" required>
+            <input type="password" class="form-control" name="comfPass" id="comfPass" placeholder="Confirm Password" required>
           </div>
           <button type="submit" class="btn" id="btn1">Change Password</button>
         </form>
