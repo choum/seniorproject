@@ -1,5 +1,4 @@
 <?php
-include 'login-controller.php';
 create_csrf_token();
 ?>
 <html lang="en">

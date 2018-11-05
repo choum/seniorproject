@@ -124,11 +124,10 @@ switch ($post) {
   break;
 
   case 'logout':
-  session_start();
-  if (isset($_SESSION)) {
-  end_session();
-  }
+  if (is_logged_in() && is_session_valid()) {
   include 'login.php';
+  after_successful_logout();
+  }
   break;
 
   case 'change':
