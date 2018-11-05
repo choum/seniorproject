@@ -192,6 +192,10 @@
               ?>
               </select>
             </div>
+            <div class="form-group">
+              <label for='date'>Close Date</label>
+              <input type="date" name='date'/>
+            </div>
             <input type='hidden' name='action' value='add_class' >
             <input type="submit" class="btn" value="Add Class">
           </form>
@@ -264,6 +268,10 @@
                 }
               ?>
               </select>
+            </div>
+            <div class="form-group">
+              <label for='date'>Close Date</label>
+              <input type="date" name='date'/>
             </div>
             <input type='hidden' name='action' value='update_class' >
             <input type="submit" class="btn" value="Update Class">
