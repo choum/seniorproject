@@ -1,19 +1,16 @@
 <?php
 
     require_once("private/Database.php");
-    require "User.php";
-    require "Course.php";
+    require("./User.php");
+    require("./Course.php");
 
     Class SQLHelper
     {
-        /* Insertion of new student user to be added to the UserAccount Table
-         * Done at account registration.
-         */
 
-         function __construct()
-         {
-
-         }
+        function __construct()
+        {
+            
+        }
 
         function addUser(User $user)
         {
@@ -52,13 +49,13 @@
                 return "User created";
             } catch (PDOException $e)
             {
-                /*Specific error message for:
+                /* Specific error message for:
                  * SQL ERROR 1062 (Duplicate entry for unique field)
                  * SQL ERROR 1048 (Null entry for non-null field)
                  */
-                if(strpos($e->getMessage(), "Integrity constraint violation: 1062") !== FALSE)
+                if (strpos($e->getMessage(), "Integrity constraint violation: 1062") !== FALSE)
                     return "Username unavailable.";
-                else if(strpos($e->getMessage(), "Integrity constraint violation: 1048") !== FALSE)
+                else if (strpos($e->getMessage(), "Integrity constraint violation: 1048") !== FALSE)
                     return "Null entry where not allowed.";
                 else
                     return "User not created.";
@@ -169,13 +166,16 @@
                         . "VALUES (:username, :password, :fName, :lName, :title,"
                         . " :role, :suspend, :creation, :lastLogin)";
                 $statement = $db->prepare($query);
-                $statement->bindValue(':username', $user->username, PDO::PARAM_STR);
-                $statement->bindValue(':password', $user->password, PDO::PARAM_STR);
+                $statement->bindValue(':username', $user->username,
+                        PDO::PARAM_STR);
+                $statement->bindValue(':password', $user->password,
+                        PDO::PARAM_STR);
                 $statement->bindValue(':fName', $user->firstName, PDO::PARAM_STR);
                 $statement->bindValue(':lName', $user->lastName, PDO::PARAM_STR);
                 $statement->bindValue(':title', $user->title, PDO::PARAM_STR);
                 $statement->bindValue(':role', $user->role, PDO::PARAM_INT);
-                $statement->bindValue(':suspend', $user->suspended, PDO::PARAM_BOOL);
+                $statement->bindValue(':suspend', $user->suspended,
+                        PDO::PARAM_BOOL);
                 $statement->bindValue(':creation', $user->dateCreated);
                 $statement->bindValue(':lastLogin', $user->lastLoginDate);
                 $statement->execute();
@@ -292,17 +292,24 @@
                         . "VALUES(:cTitle, :cNumber, :cSection, :term, "
                         . ":desc, :closed, :enrolled, :adminID, :teacherID);";
                 $statement = $db->prepare($query);
-                $statement->bindValue(':cTitle', $course->courseTitle, PDO::PARAM_STR);
-                $statement->bindValue(':cNumber', $course->courseNumber, PDO::PARAM_INT);
+                $statement->bindValue(':cTitle', $course->courseTitle,
+                        PDO::PARAM_STR);
+                $statement->bindValue(':cNumber', $course->courseNumber,
+                        PDO::PARAM_INT);
                 $statement->bindValue(':cSection', $course->courseSection,
                         PDO::PARAM_INT);
                 $statement->bindValue(':term', $course->term, PDO::PARAM_STR);
-                $statement->bindValue(':desc', $course->description, PDO::PARAM_STR);
-                $statement->bindValue(':closed', $course->closed, PDO::PARAM_BOOL);
-                $statement->bindValue(':enrolled', $course->enrollment, PDO::PARAM_INT);
-                $statement->bindValue(':adminID', $course->adminID, PDO::PARAM_INT);
-                $statement->bindValue(':teacherID', $course->teacherID, PDO::PARAM_INT);
-                $output = $statement->execute();
+                $statement->bindValue(':desc', $course->description,
+                        PDO::PARAM_STR);
+                $statement->bindValue(':closed', $course->closed,
+                        PDO::PARAM_BOOL);
+                $statement->bindValue(':enrolled', $course->enrollment,
+                        PDO::PARAM_INT);
+                $statement->bindValue(':adminID', $course->adminID,
+                        PDO::PARAM_INT);
+                $statement->bindValue(':teacherID', $course->teacherID,
+                        PDO::PARAM_INT);
+                $statement->execute();
                 $statement->closeCursor();
 
                 return $output;
@@ -368,9 +375,9 @@
                 $course = $statement->fetch();
                 $statement->closeCursor();
 
-                $return = new Course($course[1],$course[2],
-                        $course[3],$course[4],$course[5],$course[6],$course[7],
-                        $course[8],$course[9]);
+                $return = new Course($course[1], $course[2], $course[3],
+                        $course[4], $course[5], $course[6], $course[7],
+                        $course[8], $course[9]);
                 $return->setID($course[0]);
                 return $return;
             } catch (PDOException $e)
@@ -407,7 +414,7 @@
         }
 
         //retrieve the courses of a term by instructor
-        function getCoursesInstructorTerm($teacherID , $term)
+        function getCoursesInstructorTerm($teacherID, $term)
         {
             try
             {
@@ -455,8 +462,6 @@
                 return "Could not retrieve complete course list";
             }
         }
-
-
         function getInstuctorCourses($teacherID)
         {
             try
@@ -704,7 +709,7 @@
             }
         }
 
-        function getStudentAssignemnt($studentID, $assignmentID)
+        function getStudentAssignment($studentID, $assignmentID)
         {
             try
             {
@@ -882,20 +887,22 @@
             $assignments = $statement->fetchAll();
             $statement->closeCursor();
 
-            if($result){
+            if ($result)
+            {
                 $listOfStudentAssignments = array();
-                foreach($assignments as $assignment)
+                foreach ($assignments as $assignment)
                 {
                     $students = $this->getStudentsOfAssignment($assignment[0]);
-                    if(is_array($students))
+                    if (is_array($students))
                     {
-
-                        foreach($students as $student)
+                        foreach ($students as $student)
                         {
-                            $studentAssignment = $this->getStudentAssignemnt($student[0],$assignment[0]);
-                            if(is_array($studentAssignment))
+                            $studentAssignment = $this->getStudentAssignemnt($student[0],
+                                    $assignment[0]);
+                            if (is_array($studentAssignment))
                             {
-                                array_push($listOfStudentAssignments, $studentAssignment);
+                                array_push($listOfStudentAssignments,
+                                        $studentAssignment);
                             }
                             else
                                 return "Could not retrieve student $student[0]'s assignment $assignment[0]";
@@ -930,6 +937,48 @@
                 //$error_message = $e->getMessage();
                 //error_log($error_message, (int)0,"./error.txt");
                 return "Could not retrieve user password";
+            }
+        }
+        
+        function changePassword($username, $password, $newPassword)
+        {
+            try
+            {
+                $dbObj = new Database();
+                $db = $dbObj->getConnection();
+                $query = "Select username From UserAccount "
+                        . "Where Username= :uname AND Password = :pword";
+                $statement = $db->prepare($query);
+                $statement->bindValue(':uname', $username, PDO::PARAM_STR);
+                $statement->bindValue(':pword', $password, PDO::PARAM_STR);
+                $statement->execute();
+                $count = $statement->rowCount();
+                $statement->closeCursor();
+                
+                if($count === 1):
+                    $query = "Update UserAccount "
+                        . "Set Password= :newPass "
+                        . "Where Username= :uname AND Password = :pword";
+                    $statement = $db->prepare($query);
+                    $statement->bindValue(':uname', $username, PDO::PARAM_STR);
+                    $statement->bindValue(':pword', $password, PDO::PARAM_STR);
+                    $statement->bindValue(':newPass', $newPassword, PDO::PARAM_STR);
+                    $result = $statement->execute();
+                    
+                    if($result == TRUE):
+                        return "Password changed.";
+                    else:
+                        return "Password not changed.";
+                    endif;
+                else:
+                    return "Username/password credentials incorrect.";
+                endif;
+
+            } catch (PDOException $e)
+            {
+                echo "<br/>" . $e;
+                //error_log($error_message, (int)0,"./error.txt");
+                //return "Could not retrieve user password";
             }
         }
 
