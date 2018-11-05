@@ -2,33 +2,12 @@
 
     include_once("./SQLHelper.php");
     include_once("./User.php");
-    include_once("./CourseSection.php");
+    include_once("./Course.php");
 
     $querys = new SQLHelper();
     
-    $return = $querys->getSubmissionsOfCourse(1113);
-    print_r($return);
-    if(is_array($return)){
-        echo "<br/>";
-        foreach($return as $studentAssignment):
-            if(is_array($studentAssignment)){
-                echo "<br/>";
-                foreach($studentAssignment as $key=>$column):
-                    if(is_numeric($key)){
-                        echo $column . ", ";
-                    }
-                endforeach;
-            }
-            else{
-                foreach($return as $key=>$column):
-                    if(is_numeric($key)){
-                        echo $column . ", ";
-                    }
-                endforeach;
-            }
-            
-        endforeach;
-    }
+    $return = $querys->changePassword("username3453", "password", "password");
+    echo $return;
 ////for testing add user function
 //    /*$user = new User("username" . rand(0, 100), "password", "firstName",
 //            "lastName", "title", "bio", "image", "linkedin", "website", 1, 0,
@@ -271,7 +250,29 @@
 //    }
 //    else
 //        echo "<br/>" . $return;
+//  $return = $querys->getSubmissionsOfCourse(1113);
+//    print_r($return);
+//    if(is_array($return)){
+//        echo "<br/>";
+//        foreach($return as $studentAssignment):
+//            if(is_array($studentAssignment)){
+//                echo "<br/>";
+//                foreach($studentAssignment as $key=>$column):
+//                    if(is_numeric($key)){
+//                        echo $column . ", ";
+//                    }
+//                endforeach;
+//            }
+//            else{
+//                foreach($return as $key=>$column):
+//                    if(is_numeric($key)){
+//                        echo $column . ", ";
+//                    }
+//                endforeach;
+//            }
 //
+//        endforeach;
+//    }
 //
 //
 //

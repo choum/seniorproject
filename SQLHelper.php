@@ -1,8 +1,8 @@
 <?php
 
     require_once("private/Database.php");
-    require "User.php";
-    require "Course.php";
+    require("./User.php");
+    require("./Course.php");
 
     Class SQLHelper
     {
@@ -888,6 +888,48 @@
                 //$error_message = $e->getMessage();
                 //error_log($error_message, (int)0,"./error.txt");
                 return "Could not retrieve user password";
+            }
+        }
+        
+        function changePassword($username, $password, $newPassword)
+        {
+            try
+            {
+                $dbObj = new Database();
+                $db = $dbObj->getConnection();
+                $query = "Select username From UserAccount "
+                        . "Where Username= :uname AND Password = :pword";
+                $statement = $db->prepare($query);
+                $statement->bindValue(':uname', $username, PDO::PARAM_STR);
+                $statement->bindValue(':pword', $password, PDO::PARAM_STR);
+                $statement->execute();
+                $count = $statement->rowCount();
+                $statement->closeCursor();
+                
+                if($count === 1):
+                    $query = "Update UserAccount "
+                        . "Set Password= :newPass "
+                        . "Where Username= :uname AND Password = :pword";
+                    $statement = $db->prepare($query);
+                    $statement->bindValue(':uname', $username, PDO::PARAM_STR);
+                    $statement->bindValue(':pword', $password, PDO::PARAM_STR);
+                    $statement->bindValue(':newPass', $newPassword, PDO::PARAM_STR);
+                    $result = $statement->execute();
+                    
+                    if($result == TRUE):
+                        return "Password changed.";
+                    else:
+                        return "Password not changed.";
+                    endif;
+                else:
+                    return "Username/password credentials incorrect.";
+                endif;
+
+            } catch (PDOException $e)
+            {
+                echo "<br/>" . $e;
+                //error_log($error_message, (int)0,"./error.txt");
+                //return "Could not retrieve user password";
             }
         }
 

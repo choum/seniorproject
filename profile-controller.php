@@ -23,10 +23,21 @@
         die();
     }
     $loggedIn;
+    $dashboardLink = "";
     if(isset($_SESSION) == FALSE OR isset($_SESSION) == NULL){
         $loggedIn = FALSE;
     }
-    else{ $loggedIn=true; }
+    else{ 
+        $loggedIn= TRUE; 
+        if($user->role === 1):
+            $dashboardLink = 'dashboard.php';
+        elseif($user->role === 2):
+            $dashboardLink = 'instructor-dashboard.php';
+        elseif($user->role === 3):
+            $dashboardLink = 'admin-dashboard.php';
+        endif;
+    }
+    if($dashboardLink == "") { $loggedIn = FALSE; }
     //basic user info
     $firstName = $user->firstName;
     $lastName = $user->lastName;
@@ -61,18 +72,27 @@
     endforeach;
     //Assignments tied to assignmentIDs in student_assignment
     $courseids = array();
-    $assignmentNames = array();
+    $assignments = array();
     foreach($assignmentids as $assignmentID):
         $assignment = $db->getAssignment($assignmentID);
         array_push($courseids, $assignment[5]);
-        array_push($assignmentNames, $assignment[1]);
+        array_push($assignments, $assignment);
+        echo "<br/>";
+        foreach($assignment as $key=>$column):
+                if(is_numeric($key))
+                echo $column . " ";
+        endforeach;
     endforeach;
     
     //Courses tied to courseIDs in assignments
     $courses = array();
     foreach($courseids as $courseID):
         $course = $db->getCourse($courseID);
-        array_push($courses, $course);
+        $exists = FALSE;
+        foreach($courses as $tempCourse):
+            if($course->courseID == $tempCourse->courseID){$exists = true; }
+        endforeach;
+        if($exists != true) { array_push($courses, $course); }
     endforeach;
      //To be used for course number and title (ex. cis 4270 & "OOP for Business")
     echo "<br/>Course Info: Course name, number, section, etc.";
@@ -94,6 +114,8 @@
         echo "<br/>No featured assignment";
     }
     else{
+        //Also store featured course number, project link/dir, group project
+        //description
         $featuredAssignmentID = $featuredAssignment[1];
         $featuredAssignmentName = $db->getAssignment($featuredAssignmentID)[1];
         $featuredCourseID = $db->getAssignment($featuredAssignmentID)[5];
