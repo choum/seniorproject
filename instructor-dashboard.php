@@ -130,37 +130,45 @@
           <hr>
         </div>
         <div class="card-body" style="padding-top: 0px;">
-          <form>
             <div class="form-group">
               <p><label for="classname">Available Classes</label></p>
-              <select>
-                <?php
-                  foreach ($current_user_terms as $term) {
-                    echo "<option value='" . $term . "'>" . $term . "</option>";
-                  }
-                ?>
-              </select>
+              <form method="post">
+                <select onchange='this.form.submit()' name='course'>
+                  <?php
+                    foreach($courses as $course) {
+                      if($course->courseID == $current_selected_course->courseID) {
+                        echo "<option  value='$course->courseID' selected >" . $course->term . "---" . $course->courseNumber . "." . $course->courseSection . "---" . $course->courseTitle .  "</option>";
+                      } else {
+                        echo "<option value='$course->courseID'>" . $course->term . "---" . $course->courseNumber . "." . $course->courseSection . "---" . $course->courseTitle .  "</option>";
+                      }
+                    }
+                  ?>
+                </select>
+            </form>
             </div>
-            <div class="form-group">
-              <label for="projectname">Project Name</label>
-              <input type="text" class="form-control" id="section" placeholder="EX: Project 1">
-            </div>
-            <div class="form-group">
-              <label for="description">Brief Project Description</label>
-              <textarea class="form-control" id="description" rows="3"></textarea>
-            </div>
-            <div class="form-group">
-              <p><label for="classname">Type of Project</label></p>
-              <select>
-                <option>PHP</option>
-                <option>JSP/Java</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="picture">Upload Project Instructions</label>
-              <input type="file" class="form-control-file" id="picture" aria-describedby="fileHelp">
-            </div>
-            <input type="submit" class="btn" value="Add Project">
+            <form method='post'>
+              <input  type='hidden' name='courseID' value='$current_selected_course->courseID' >
+              <div class="form-group">
+                <label for="projectname">Project Name</label>
+                <input required type="text" name='name' class="form-control" id="section" placeholder="EX: Project 1">
+              </div>
+              <div class="form-group">
+                <label for="description">Brief Project Description</label>
+                <textarea class="form-control" name='description' id="description" rows="3"></textarea>
+              </div>
+              <div class="form-group">
+                <p><label for="classname">Type of Project</label></p>
+                <select name='type'>
+                  <option>PHP</option>
+                  <option>JSP/Java</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="picture">Upload Project Instructions</label>
+                <input type="file" class="form-control-file" id="picture" aria-describedby="fileHelp">
+              </div>
+              <input type='hidden' name='action' value='add_project' >
+              <input type="submit" class="btn" value="Add Project">
           </form>
           <hr />
         </div>
@@ -172,15 +180,24 @@
         <div class="card-header">
           <h4 class="card-title">List of Your Classes</h4>
           <hr />
-          <p class="card-text" style="float: right;">Sort by:
-            <select>
-              <?php
-                foreach ($current_user_terms as $term) {
-                  echo "<option value='" . $term . "'>" . $term . "</option>";
-                }
-              ?>
-            </select>
-          </p>
+          <div style="float: right;">
+            <p class="card-text">Filter by:
+              <form method='post'>
+                  <select onchange='this.form.submit()' name='user_selected_term'>
+                    <?php
+                      foreach($terms as $term) {
+                        //check if the term was selected or is current if none was selected
+                        if($term == $semester_year) {
+                          echo    "<option value='$term' selected>" . $term . "</option>";
+                        } else {
+                            echo "<option value='$term'>" . $term . "</option>";
+                        }
+                      }//end of foreach
+                    ?>
+                  </select>
+              </form>
+            </p>
+          </div>
         </div>
         <div class="card-body">
           <div class="table-responsive">
@@ -199,26 +216,27 @@
                 if (!empty($current_user_courses)) {
                   foreach ($current_user_courses as $user_course) {
                     echo "<tr>";
-                      echo "<td>" . $user_course->$name . "</td>";
-                      echo "<td>" . $user_course->$description . "</td>";
-                      echo "<td>" . $user_course->$teacherID . "</td>";
-                      echo "<td>" . $user_course->$term . "</td>";
+                      echo "<td>CIS " . $user_course[0]->courseNumber . "." . $user_course[0]->courseSection . "</td>";
+                      echo "<td>" . $user_course[0]->courseTitle . "</td>";
+                      echo "<td>" . $user_course[1] . "</td>";
+                      echo "<td>" . $user_course[0]->term . "</td>";
                       echo "<td colspan='2'>";
                         echo "<ul>";
-                            foreach ($current_user->$assignments as $assignment) {
+                            foreach ($user_course[2] as $assignment) {
                               echo "</li>
-                                      <form action='project-view.php' method='POST'>
-                                        <input type='hidden' name='Course' value='" . $user_course . "'>
-                                        <input type='hidden' name='Assignment' value='" . $assignment->$name . "'>
-                                        <input type='Submit'>
+                                      <form  method='post'>
+                                        <input type='hidden' name='action' value='project'>
+                                        <input type='hidden' name='Course' value='" . $user_course[0]->courseID . "'>
+                                        <input type='hidden' name='Assignment' value='" . $assignment[0] . "'>
+                                        <input type='Submit' class='btn btn-link' value='" . $assignment[1] . "'>
                                       </form>
                                     </li>";
                             }
                         echo "</ul>
                             </td>
                           </tr>";
-                   }
-                 }
+                  }
+                }
                  ?>
               </tbody>
             </table>
