@@ -155,14 +155,14 @@
           <hr>
         </div>
         <div class="card-body" style="padding-top: 0px;">
-          <form  method="post">
+          <form  method="post" >
             <div class="form-group">
               <label for="classname">Course ID</label>
-              <input type="text" class="form-control" name='courseID' id="courseid" placeholder="EX: 4290">
+              <input required type="number" min="1" max="9999" step="1" class="form-control" name='courseID' id="courseid" placeholder="EX: 4290">
             </div>
             <div class="form-group">
               <label for="classname">Section Number</label>
-              <input type="number" class="form-control" name='sectionNumber' id="section" min="1" placeholder="EX: 1">
+              <input required type="number" min="1" max="99" step="1" class="form-control" name='sectionNumber' id="section" min="1" placeholder="EX: 1">
             </div>
             <div class="form-group">
               <label for="classname">Term</label>
@@ -176,11 +176,11 @@
             </div>
             <div class="form-group">
               <label for="description">Class Title</label>
-              <input type="text" class="form-control" name='classTitle' id="courseid" placeholder="EX: Intro to Computing">
+              <input required type="text" class="form-control" name='classTitle' id="courseid" placeholder="EX: Intro to Computing">
             </div>
             <div class="form-group">
               <label for="description">Class Description</label>
-              <textarea type="text" class="form-control" name='classDescription' id="courseid" placeholder="EX: Learn the basics of computing using current methods."></textarea>
+              <textarea type="text" class="form-control" name='classDescription' id="courseid" placeholder="EX: Learn the basics of computing using current methods. (Optional)"></textarea>
             </div>
             <div class="form-group">
               <label>Professor</label>
@@ -218,15 +218,15 @@
               ?>
             </select>
         </form>
-          <form method="post">
+          <form method="post" >
             <input type='hidden' name='course_change_select' value='<?php echo $current_selected_course->courseID; ?>'>
             <div class="form-group">
               <label for="classname">Course ID</label>
-              <input type="text" class="form-control" name='courseNumber' id="courseid" value="<?php echo $current_selected_course->courseNumber; ?>">
+              <input required type="number" min="1" max="9999" step="1" class="form-control" name='courseNumber' id="courseid" value="<?php echo $current_selected_course->courseNumber; ?>">
             </div>
             <div class="form-group">
               <label for="classname">Section Number</label>
-              <input type="number" class="form-control" name='sectionNumber' id="section" min="1" value="<?php echo $current_selected_course->courseSection; ?>">
+              <input required type="number" min="1" max="99" step="1" class="form-control" name='sectionNumber' id="section" min="1" value="<?php echo $current_selected_course->courseSection; ?>">
             </div>
             <div class="form-group">
               <label for="classname">Term</label>
@@ -244,11 +244,11 @@
             </div>
             <div class="form-group">
               <label for="description">Class Title</label>
-              <input type="text" class="form-control" name='classTitle' id="courseid" value="<?php echo $current_selected_course->courseTitle; ?>">
+              <input required type="text" class="form-control" name='classTitle' id="courseid" value="<?php echo $current_selected_course->courseTitle; ?>">
             </div>
             <div class="form-group">
               <label for="description">Class Description</label>
-              <textarea type="text" class="form-control" name='classDescription' id="courseid" placeholder=""><?php echo $current_selected_course->description; ?></textarea>
+              <textarea type="text" class="form-control" name='classDescription' placeholder="(Optional)" id="courseid" placeholder=""><?php if(!empty($current_selected_course->description)) {echo $current_selected_course->description;} ?></textarea>
             </div>
             <div class="form-group">
               <label>Professor</label>
@@ -277,12 +277,12 @@
           <hr>
         </div>
         <div class="card-body" style="padding-top: 0px;">
-          <form method="post">
+          <form method="post" >
             <div class="form-group">
               <label for="classname">First Name</label>
-              <input type="text" name='firstName' class="form-control" id="classname">
+              <input required type="text" name='firstName' class="form-control" id="classname">
               <label for="classname">Last Name</label>
-              <input type="text" name='lastName' class="form-control" id="classname">
+              <input required type="text" name='lastName' class="form-control" id="classname">
             </div>
             <input type='hidden' name='action' value='add_instructor' >
             <input type="submit" class="btn" value="Add Instructor">
@@ -296,7 +296,7 @@
           <hr>
         </div>
         <div class="card-body" style="padding-top: 0px;">
-          <form  method="post">
+          <form  method="post" >
             <label>Select existing professor</label>
             <select name='instructorID'>
               <?php
@@ -307,9 +307,9 @@
             </select>
             <div class="form-group">
               <label for="classname">First Name</label>
-              <input type="text" class="form-control" name='firstName' id="classname" value="">
+              <input required type="text" class="form-control" name='firstName' id="classname" value="">
               <label for="classname">Last Name</label>
-              <input type="text" class="form-control" name='lastName' id="classname" value="">
+              <input required type="text" class="form-control" name='lastName' id="classname" value="">
             </div>
             <input type='hidden' name='action' value='update_instructor' >
             <input type="submit" class="btn" value="Update Instructor">
@@ -325,7 +325,7 @@
           <h4 class="card-title">List of All Classes</h4>
           <hr />
           <div style="float: right;">
-            <p class="card-text" >Sort by:
+            <p class="card-text" >Filter by:
               <form method='post'>
                   <select onchange='this.form.submit()' name='user_selected_term'>
                     <?php
@@ -360,7 +360,7 @@
                 if (!empty($current_user_courses)) {
                   foreach ($current_user_courses as $user_course) {
                     echo "<tr>";
-                      echo "<td>CIS " . $user_course[0]->courseNumber . "</td>";
+                      echo "<td>CIS " . $user_course[0]->courseNumber . "." . $user_course[0]->courseSection . "</td>";
                       echo "<td>" . $user_course[0]->courseTitle . "</td>";
                       echo "<td>" . $user_course[1] . "</td>";
                       echo "<td>" . $user_course[0]->term . "</td>";
@@ -368,7 +368,7 @@
                         echo "<ul>";
                             foreach ($user_course[2] as $assignment) {
                               echo "</li>
-                                      <form action='.' method='post'>
+                                      <form  method='post'>
                                         <input type='hidden' name='action' value='project'>
                                         <input type='hidden' name='Course' value='" . $user_course[0]->courseID . "'>
                                         <input type='hidden' name='Assignment' value='" . $assignment[0] . "'>
