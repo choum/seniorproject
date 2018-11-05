@@ -26,6 +26,13 @@ create_csrf_token();
       text-align: center;
 
     }
+    #reg {
+      display: inline;
+      float: right;
+    }
+    form {
+      display: inline;
+    }
   </style>
 </head>
 
@@ -50,6 +57,10 @@ create_csrf_token();
             <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
           </div>
           <button type="submit" class="btn" id="btn1">Login</button>
+        </form>
+        <form method="post" action=".">
+          <input name="action" type="hidden" value="registerPage" />
+          <button type="submit" class="btn btn-dark" id="reg">Register</button>
         </form>
       </div>
     </div>

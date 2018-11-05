@@ -1,11 +1,12 @@
 <?php
-require_once 'requires/cis4270Commonrequires.php';
+require_once 'includes/cis4270CommonIncludes.php';
 require_once 'SQLHelper.php';
 $sql = new SQLHelper;
 $post = hPost('action');
 $error = "";
 switch ($post) {
-  case 'login':
+
+case 'login':
   //check to see form tokens are equal
   if (csrf_token_is_valid()) {
     //validate via DB and get user type
@@ -46,19 +47,15 @@ switch ($post) {
     }
   }
   break;
-
-  case 'register':
+case 'register':
   //check to form tokens
   if (csrf_token_is_valid()) {
-    //sanitize & validate user/password
-
+  //sanitize & validate user/password
     //make sure user is only
     $sUser = hPOST("username");
     if ( !preg_match('/^[A-Za-z][A-Za-z0-9]{5,31}$/', $sUser) ) {
       $error += "Username should only be alphanumeric characters length greater than 5 and less than 31 <br/>";
     }
-
-
     $sPass = hPOST("password");
     if ( !preg_match('/^[A-Za-z][A-Za-z0-9]{5,31}$/', $sPass) ) {
       $error += "Password should only be alphanumeric characters length greater than 5 and less than 31 <br/>";
@@ -78,6 +75,7 @@ switch ($post) {
     }
 
     //Profile
+    //ADD IMAGE CHECK
     if (empty($_POST['resume'])) {
       $sResume = NULL;
     } else {
@@ -100,12 +98,10 @@ switch ($post) {
     if (!empty($error)) {
       require 'register.php';
     } else {
-      //salt password
-      $saltedPass = password_hash($sPass, PASSWORD_BCRYPT);
       //store in db
       $user = array(
         'username' => $sUser,
-        'password' => $saltedPass,
+        'password' => $sPass,
         'first' => $sFirst,
         'last' => $sLast,
         'phone' => hPOST('phone'),
@@ -120,15 +116,16 @@ switch ($post) {
     }
   }
   break;
-
-  case 'logout':
+case 'registerPage':
+  require 'register.php';
+  break;
+case 'logout':
   if (is_logged_in() && is_session_valid()) {
   require 'login.php';
   after_successful_logout();
   }
   break;
-
-  case 'change':
+case 'change':
   if (is_session_valid()) {
         require 'changePass.php';
   } else {
@@ -136,7 +133,7 @@ switch ($post) {
     require 'login.php';
   }
   break;
-  default:
+default:
   if (is_logged_in()) {
     $role = $_SESSION['role'];
     if ($role == 1) {
@@ -158,6 +155,7 @@ switch ($post) {
 
   } else {
     require 'login.php';
+    end_session();
   }
 }
 

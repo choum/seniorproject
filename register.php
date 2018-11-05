@@ -1,5 +1,4 @@
 <?php
-include 'includes/csrf_token_functions.php';
 create_csrf_token();
 ?>
 <html>
@@ -38,23 +37,24 @@ create_csrf_token();
       <li class="active">Personal Account Setup</li>
       <li>Personal Details</li>
     </ul>
-    <?php echo csrf_token_tag(); ?>
+    <?php echo csrf_token_tag();
+    if (isset($error) {echo $error;})?>
     <fieldset>
       <h2 class="fs-title">Create Account</h2>
       <label for="username">Username</label>
-      <input type="text" name="username" placeholder="Username" />
+      <input type="text" name="username" placeholder="Username" required/>
       <label for="firstname">First Name</label>
-      <input type="text" name="firstname" placeholder="Username" />
+      <input type="text" name="firstname" placeholder="First Name" required/>
       <label for="lastname">Last Name</label>
-      <input type="text" name="lastname" placeholder="Username" />
+      <input type="text" name="lastname" placeholder="Last Name" required/>
       <label for="pass">Password</label>
-      <input type="password" name="pass" placeholder="Password" />
+      <input type="password" name="pass" placeholder="Password" required/>
       <input type="button" name="next" class="next action-button" value="Next" />
     </fieldset>
     <fieldset>
       <h2 class="fs-title">Profile Details</h2>
       <label for="about">About Me</label>
-      <textarea class="form-control" id="about" rows="3"></textarea>
+      <textarea class="form-control" id="about" rows="3" placeholder="Type a little bit about yourself..."></textarea>
       <label for="resume">Resume Link</label>
       <input type="url" class="form-control" id="resume" placeholder="LinkedIn or Online Resume">
       <label for="website">Personal Website</label>
