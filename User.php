@@ -10,6 +10,7 @@
         public $lastName;
         public $title;
         public $bio;
+        public $email;
         public $imageLink;
         public $linkedin;
         public $website;
@@ -20,7 +21,7 @@
 
         //constructor with all the info
         function __construct($user, $password, $first, $last, $title, $bio,
-                $image, $linked, $site, $role, $suspended, $create, $lastlog)
+                $email, $image, $linked, $site, $role, $suspended, $create, $lastlog)
         {
 
             $this->username = $user;
@@ -29,6 +30,7 @@
             $this->lastName = $last;
             $this->title = $title;
             $this->bio = $bio;
+            $this->email = $email;
             $this->imageLink = $image;
             $this->linkedin = $linked;
             $this->website = $site;
