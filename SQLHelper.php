@@ -20,10 +20,10 @@
                 $db = $dbObj->getConnection();
                 $query = "Insert into UserAccount "
                         . "(Username, Password, FirstName, LastName, Title,"
-                        . " Bio, ImageLink, Linkedin, Website, UserRole, "
+                        . " Bio, Email, ImageLink, Linkedin, Website, UserRole, "
                         . "Suspended, DateCreated, LastLoggedIn) "
                         . "VALUES (:username, :password, :fName, :lName, :title,"
-                        . " :bio, :image, :linkedin, :website, :role, "
+                        . " :bio, :email, :image, :linkedin, :website, :role, "
                         . ":suspend, :creation, :lastLogin);";
                 $statement = $db->prepare($query);
                 $statement->bindValue(':username', $user->username,
@@ -34,6 +34,7 @@
                 $statement->bindValue(':lName', $user->lastName, PDO::PARAM_STR);
                 $statement->bindValue(':title', $user->title, PDO::PARAM_STR);
                 $statement->bindValue(':bio', $user->bio, PDO::PARAM_STR);
+                $statement->bindValue(':email', $user->email, PDO::PARAM_STR);
                 $statement->bindValue(':image', $user->imageLink, PDO::PARAM_STR);
                 $statement->bindValue(':linkedin', $user->linkedin,
                         PDO::PARAM_STR);
@@ -111,7 +112,7 @@
 
                 $return = new User($user[1], $user[2], $user[3], $user[4],
                         $user[5], $user[6], $user[7], $user[8], $user[9],
-                        $user[10], $user[11], $user[12], $user[13]);
+                        $user[10], $user[11], $user[12], $user[13], $user[14]);
                 $return->setID($user[0]);
                 return $return;
             } catch (PDOException $e)

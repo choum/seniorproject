@@ -41,11 +41,11 @@
                     </div>
                 </div>
                 <div class="card" style="">
-                    <img class="card-img-top" src="<?php echo imageLink; ?>" alt="Profile Picture">
+                    <img class="card-img-top" src="<?php echo $picture ?>" alt="Profile Picture">
                     <div class="card-body">
                         <h3 class="card-title"><?php echo "$firstName $lastName"; ?></h3>
                         <p class="card-text"><?php echo $bio; ?></p>
-                        <p class="card-text">No contact info in DB</p>
+                        <p class="card-text">Email: <?php echo $email; ?></p>
                     </div>
                     <div class="card-body">
                         <a href="<?php echo $linkedin; ?>" class="card-link">Linkedin</a>
@@ -84,7 +84,15 @@
                                     <?php foreach ($assignments as
                                                 $assignment):
                                         ?>
-                                    <li class="list-group-item"><strong> <?php echo $assignment[1]; ?></strong> - <?php echo $assignment[2]; ?></li>
+                                    <li class="list-group-item"><strong> <?php echo $assignment[1]; ?></strong> - <?php echo $assignment[2]; ?>
+                                    <?php if($featuredAssignment[7]): ?>
+                                        <span style="float:right;"> Group Project</span>
+                                        <i class="fas fa-users" style="float:right; color: #01426A; margin-top: 2px; margin-right: 5px;"></i>
+                                    <?php endif; ?>
+                                    <?php if($featuredAssignment[8]): ?>
+                                        <i class="fas fa-star" style="float:right; color:#FFB500;"></i>
+                                    <?php endif; ?>
+                                    </li>
                                     <?php endforeach; ?>
                                 </ul>
                             </div>
@@ -92,7 +100,9 @@
                         <div class="tab-pane fade show active" id="4270" role="tabpanel" aria-labelledby="4270-tab">
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item" style="text-align:center;"><strong>Secure Web Applications</strong></li>
-                                <li class="list-group-item"><strong>Final Project</strong> - Description will go here about the project <span style="float:right;"> Group Project</span><i class="fas fa-users" style="float:right; color: #01426A; margin-top: 2px; margin-right: 5px;"></i>
+                                <li class="list-group-item"><strong>Final Project</strong> - Description will go here about the project 
+                                    <span style="float:right;"> Group Project</span>
+                                    <i class="fas fa-users" style="float:right; color: #01426A; margin-top: 2px; margin-right: 5px;"></i>
                                     <i class="fas fa-star" style="float:right; color:#FFB500;"></i>
                                 </li>
                             </ul>

@@ -4,12 +4,7 @@
     $db = new SQLHelper();
     $user;
     $username = filter_input(INPUT_GET, "user", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-    if($username == NULL OR $username == FALSE){
-        $username = filter_input(INPUT_POST, "user", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-        if($username == NULL OR $username == FALSE){
-            $username = INPUT_SESSION["user"];
-        }
-    }
+    
     if($username == NULL OR $username == FALSE ){
         header('Location:' . './index.php');
         die();
@@ -42,15 +37,11 @@
     $firstName = $user->firstName;
     $lastName = $user->lastName;
     $bio = $user->bio;
-    //$email = $user->email; //DOESN'T EXIST YET ANYWHERE
-    //$resume = $user->resume; //DOESN'T EXIST YET ANYWHERE
+    $email = $user->email;
     $website = $user->website;
     $linkedin = $user->linkedin;
     $picture = $user->imageLink;
     $userID = $user->id;
-    echo "User Info:";
-    echo "<br/>$loggedIn, $firstName, $lastName, $bio, "//$email, $resume, "
-            . "$website, $linkedin, $picture, $userID";
     //student assignments tied to studentID in student_assignment
     $studentAssignmentids = $db->getStudentAssignments($userID);
     $assignmentids = array();
@@ -63,13 +54,7 @@
         array_push($studentAssignments, $studentAssignment);
     endforeach;
      //To be used for directory, screenshot, featured, and group. (desc too?)
-    echo "<br/>Student Submission Info: Includes, ss, group, and featured. (Maybe null)";
-    foreach($studentAssignments as $studentAssignment):
-        echo "<br/>";
-        foreach($studentAssignment as $key=>$column):
-            if(is_numeric($key)){ echo $column . " "; }
-        endforeach;
-    endforeach;
+
     //Assignments tied to assignmentIDs in student_assignment
     $courseids = array();
     $assignments = array();
@@ -77,11 +62,6 @@
         $assignment = $db->getAssignment($assignmentID);
         array_push($courseids, $assignment[5]);
         array_push($assignments, $assignment);
-        echo "<br/>";
-        foreach($assignment as $key=>$column):
-                if(is_numeric($key))
-                echo $column . " ";
-        endforeach;
     endforeach;
     
     //Courses tied to courseIDs in assignments
@@ -95,13 +75,7 @@
         if($exists != true) { array_push($courses, $course); }
     endforeach;
      //To be used for course number and title (ex. cis 4270 & "OOP for Business")
-    echo "<br/>Course Info: Course name, number, section, etc.";
-    foreach($courses as $course):
-        echo "<br/>";
-        foreach($course as $column):
-                echo $column . " ";
-        endforeach;
-    endforeach;
+
     //Featured assignment info
     $featuredAssignment;
     foreach($studentAssignments as $studentAssignment):
@@ -111,7 +85,7 @@
         else{$featuredAssignment = NULL; }
     endforeach;
     if($featuredAssignment == NULL OR $featuredAssignment == FALSE){
-        echo "<br/>No featured assignment";
+
     }
     else{
         //Also store featured course number, project link/dir, group project
@@ -122,6 +96,4 @@
         $featuredCourseInfo = $db->getCourse($featuredCourseID);
         $screenshots = split('~', $featuredAssignment[6]);
 
-        echo "<br/>$featuredAssignmentID, $featuredAssignmentName, "
-                . "$featuredCourseID, $featuredCourseInfo, $screenshots";
     }
