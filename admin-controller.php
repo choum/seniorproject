@@ -104,7 +104,7 @@
         //get the variable from the request
         $firstName = filter_input(INPUT_POST ,'firstName');
         $lastName = filter_input(INPUT_POST ,'lastName');
-
+        $email = filter_input(INPUT_POST ,'email', FILTER_VALIDATE_EMAIL);
         //create an instance of the User class
         $temp_user = new User(substr($firstName , 0 , 1) . $lastName ,
                               "password" ,
@@ -112,6 +112,7 @@
                               $lastName ,
                               "title" ,
                               "bio" ,
+                              $email,
                               "img" ,
                               "linked" ,
                               "site" ,
