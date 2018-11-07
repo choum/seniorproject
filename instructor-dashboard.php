@@ -133,7 +133,7 @@
             <div class="form-group">
               <p><label for="classname">Available Classes</label></p>
               <form method="post">
-                <select onchange='this.form.submit()' name='course'>
+                <select onchange='this.form.submit()' name='current_selected_course'>
                   <?php
                     foreach($courses as $course) {
                       if($course->courseID == $current_selected_course->courseID) {
@@ -147,7 +147,7 @@
             </form>
             </div>
             <form method='post'>
-              <input  type='hidden' name='courseID' value='$current_selected_course->courseID' >
+              <input  type='hidden' name='course' value='<?php echo $current_selected_course->courseID; ?>' >
               <div class="form-group">
                 <label for="projectname">Project Name</label>
                 <input required type="text" name='name' class="form-control" id="section" placeholder="EX: Project 1">
