@@ -16,7 +16,6 @@ case 'login':
     //validate via DB and get user type
     $username = hPOST('username');
     $password = hPOST('password');
-    $saltedPass = password_hash($password, PASSWORD_BCRYPT);
     $results = $sql->getUserAuth($username);
     if (!empty($results)) {
       $pass = $results['Password'];
@@ -131,7 +130,16 @@ case 'register':
     }
   }
   break;
-
+case 'instructorDash':
+  if (is_session_valid()) {
+    require 'instructor-dashboard.php';
+  } else {
+    if (isset($_SESSION)) {
+      end_session();
+    }
+    require 'login.php';
+   }
+  break;
 case 'registerPage':
   require 'register.php';
   break;
