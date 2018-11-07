@@ -47,7 +47,7 @@
             <input type="password" class="form-control" name="newPass" id="password" placeholder="New Password" required>
           </div>
           <div class="form-group">
-            <label for="comfPass">Password</label>
+            <label for="comfPass">Confirm Password</label>
             <input type="password" class="form-control" name="comfPass" id="comfPass" placeholder="Confirm Password" required>
           </div>
           <button type="submit" class="btn" id="btn1">Change Password</button>

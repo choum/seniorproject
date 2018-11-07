@@ -29,21 +29,7 @@ case 'login':
       $_SESSION['user'] = $username;
       $_SESSION['role'] = $role;
       after_successful_login();
-      if (is_session_valid()) {
-        if ($role == 1) {
-          //redirect to student
-          before_every_protected_page();
-          require 'dashboard.php';
-        } else if ($role == 2) {
-          //redirect to instructor
-          before_every_protected_page();
-          require 'instructor-dashboard.php';
-        } else if ($role == 3) {
-          //redirect to admin
-          before_every_protected_page();
-          require 'admin-dashboard.php';
-        }
-      }
+      redirect();
 
     } else {
       $error = "Username and password combination does not exist";
@@ -163,9 +149,9 @@ case 'change':
   if (is_logged_in() && is_session_valid()) {
     $user = $_SESSION["user"];
     $pass = hPOST('currentPass');
-    //$pass = password_hash($pass, PASSWORD_BCRYPT);
-    $results = $sql->getUserAuth($user  );
-    if ($results['Password'] == $pass) {
+    $results = $sql->getUserAuth($user);
+    $error = "";
+    if ($results['Password'] == $pass || password_verify($pass, $results['Password'])) {
       $newPass = hPOST('newPass');
       $comfPass = hPOST('comfPass');
       if ($newPass == $comfPass) {
@@ -173,23 +159,25 @@ case 'change':
           $error += "Password should only be alphanumeric characters length greater than 5 and less than 31 <br/>";
           require 'changePass.php';
         } else {
-          $sql->changePassword($user, $pass, $newPass);
-          after_successful_logout();
-          $error = "Password successfully changed. Please log back in again.";
-          require 'login.php';
+          $newPass = password_hash($newPass, PASSWORD_BCRYPT);
+          $sql->changePassword($user, $results['Password'], $newPass);
+          alert("Password successfully changed. Please log back in again.");
+          logout();
 
         }
       } else {
         $error = "Passwords do not match.";
         require 'changePass.php';
       }
+    } else if (empty($pass)) {
+      $error ="";
+      require 'changePass.php';
     } else {
       $error = "Invalid Password";
       require 'changePass.php';
     }
   } else {
-    require 'login.php';
-    after_successful_logout();
+    logout();
   }
   break;
 case 'project':
@@ -202,6 +190,19 @@ case 'project':
   break;
 
 default:
+  redirect();
+}
+
+//functions for alerting, logging out, redirecting to dash
+function logout() {
+  after_successful_logout();
+  require 'login.php';
+  header("Refresh:0");
+}
+function alert($msg) {
+    echo "<script type='text/javascript'>alert('$msg');</script>";
+}
+function redirect() {
   if (is_logged_in()) {
     $role = $_SESSION['role'];
     if ($role == 1) {
@@ -228,6 +229,4 @@ default:
     require 'login.php';
   }
 }
-
-
 ?>
