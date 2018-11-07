@@ -531,7 +531,7 @@
             }
         }
 
-        function addAssignment($assignmentName, $description, $date, $courseID,
+        function addAssignment($assignmentName, $description, $type, $date, $courseID,
                 $teacherID, $pdf = NULL)
         {
             try
@@ -539,12 +539,13 @@
                 $dbObj = new Database();
                 $db = $dbObj->getConnection();
                 $query = "INSERT INTO Assignments "
-                        . "(AssignmentName, Description, "
+                        . "(AssignmentName, Description, Type "
                         . "AssignmentDate, PDFLocation, CourseID, TeacherID) "
-                        . "VALUES(:aName, :desc, :aDate, :pdf, :cID, :tID);";
+                        . "VALUES(:aName, :desc, :type, :aDate, :pdf, :cID, :tID);";
                 $statement = $db->prepare($query);
                 $statement->bindValue(':aName', $assignmentName, PDO::PARAM_STR);
                 $statement->bindValue(':desc', $description, PDO::PARAM_STR);
+                $statement->bindValule(':type', $type, PDO::PARAM_STR);
                 $statement->bindValue(':aDate', $date);
                 $statement->bindValue(':pdf', $pdf, PDO::PARAM_STR);
                 $statement->bindValue(':cID', $courseID, PDO::PARAM_INT);
