@@ -319,14 +319,14 @@
       </div>
     </div>
     <!--my projects-->
-    <div class="col-md-8">
+    <div class="col-md-8" >
       <div class="card">
         <div class="card-header">
           <h4 class="card-title">List of All Classes</h4>
           <hr />
           <div style="float: right;">
             <p class="card-text" >Filter by:
-              <form method='post'>
+              <form method='post'action='#welcome'>
                   <select onchange='this.form.submit()' name='user_selected_term'>
                     <?php
                       foreach($terms as $term) {

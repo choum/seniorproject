@@ -9,7 +9,7 @@
 
         function __construct()
         {
-
+            
         }
 
         function addUser(User $user)
@@ -139,7 +139,7 @@
 
                 $return = new User($user[1], $user[2], $user[3], $user[4],
                         $user[5], $user[6], $user[7], $user[8], $user[9],
-                        $user[10], $user[11], $user[12], $user[13]);
+                        $user[10], $user[11], $user[12], $user[13] , $user[14]);
                 $return->setID($user[0]);
                 return $return;
             } catch (PDOException $e)
@@ -310,7 +310,7 @@
                         PDO::PARAM_INT);
                 $statement->bindValue(':teacherID', $course->teacherID,
                         PDO::PARAM_INT);
-                $statement->execute();
+                $output = $statement->execute();
                 $statement->closeCursor();
 
                 return $output;
@@ -532,7 +532,7 @@
         }
 
         function addAssignment($assignmentName, $description, $date, $courseID,
-                $teacherID, $pdf = NULL , $type)
+                $teacherID, $pdf = NULL)
         {
             try
             {
@@ -540,8 +540,8 @@
                 $db = $dbObj->getConnection();
                 $query = "INSERT INTO Assignments "
                         . "(AssignmentName, Description, "
-                        . "AssignmentDate, PDFLocation, CourseID, TeacherID , Type) "
-                        . "VALUES(:aName, :desc, :aDate, :pdf, :cID, :tID , :type);";
+                        . "AssignmentDate, PDFLocation, CourseID, TeacherID) "
+                        . "VALUES(:aName, :desc, :aDate, :pdf, :cID, :tID);";
                 $statement = $db->prepare($query);
                 $statement->bindValue(':aName', $assignmentName, PDO::PARAM_STR);
                 $statement->bindValue(':desc', $description, PDO::PARAM_STR);
@@ -549,9 +549,9 @@
                 $statement->bindValue(':pdf', $pdf, PDO::PARAM_STR);
                 $statement->bindValue(':cID', $courseID, PDO::PARAM_INT);
                 $statement->bindValue(':tID', $teacherID, PDO::PARAM_INT);
-                $statement->bindValue(':type', $type, PDO::PARAM_STR);
                 $statement->execute();
                 $statement->closeCursor();
+
                 return "Assignment created";
             } catch (PDOException $e)
             {
@@ -940,7 +940,7 @@
                 return "Could not retrieve user password";
             }
         }
-
+        
         function changePassword($username, $password, $newPassword)
         {
             try
@@ -955,7 +955,7 @@
                 $statement->execute();
                 $count = $statement->rowCount();
                 $statement->closeCursor();
-
+                
                 if($count === 1):
                     $query = "Update UserAccount "
                         . "Set Password= :newPass "
@@ -965,7 +965,7 @@
                     $statement->bindValue(':pword', $password, PDO::PARAM_STR);
                     $statement->bindValue(':newPass', $newPassword, PDO::PARAM_STR);
                     $result = $statement->execute();
-
+                    
                     if($result == TRUE):
                         return "Password changed.";
                     else:
@@ -978,6 +978,43 @@
             } catch (PDOException $e)
             {
                 echo "<br/>" . $e;
+                //error_log($error_message, (int)0,"./error.txt");
+                //return "Could not retrieve user password";
+            }
+        }
+        
+        function updateLastLoggedIn($username, $loggedIn)
+        {
+            try
+            {
+                $dbObj = new Database();
+                $db = $dbObj->getConnection();
+                $query = "Select LastLoggedIn from UserAccount "
+                        . "Where Username= :uname";
+                $statement = $db->prepare($query);
+                $statement->bindValue(':uname', $username, PDO::PARAM_STR);
+                $statement->execute();
+                $lastLoggedIn = $statement->fetch();
+                $statement->closeCursor();
+                
+                $query = "UPDATE `UserAccount` "
+                        . "SET `LastLoggedIn` = :loggedIn "
+                        . "WHERE `Username` = :uname";
+                $statement = $db->prepare($query);
+                $statement->bindValue(':uname', $username, PDO::PARAM_STR);
+                $statement->bindValue(':loggedIn', $loggedIn);
+                $statement->execute();
+                $statement->closeCursor();
+                
+                if($lastLoggedIn[0] == NULL OR $lastLoggedIn[0] == '0000-00-00 00:00:00'):
+                    return "Welcome, this is the first time you've logged in!";
+                else:
+                    return "Welcome back, you last logged in at $lastLoggedIn[0] Pacific Time";
+                endif;
+                
+            } catch (PDOException $e)
+            {
+                echo "<br/>" . $e->getMessage();
                 //error_log($error_message, (int)0,"./error.txt");
                 //return "Could not retrieve user password";
             }
