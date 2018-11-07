@@ -75,7 +75,7 @@
         <div class="card-body">
           <label>Select existing class</label>
           <form method="post" action='#updateClass'>
-            <select onchange='this.form.submit()' name='course_change_select'>
+            <select onchange='this.form.submit()' name='course_change_select' class="form-control">
               <?php
                 foreach($courses as $course) {
                   if($course->courseID == $current_selected_course->courseID) {
