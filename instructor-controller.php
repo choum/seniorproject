@@ -73,14 +73,14 @@ foreach ($courseString as $courseID ) {
 }
 
 function addProject($id) {
-  $today = date("m/d/Y");
+  $today = date("Y/m/d");
   $name = filter_input(INPUT_POST , 'name');
   $description = filter_input(INPUT_POST , 'description');
   $course = filter_input( INPUT_POST , 'course');
   $type = filter_input(INPUT_POST , 'type');
 
   $db = new SQLHelper();
-  $results = $db->addAssignment($name , $description , $today , $course , $id , NULL);
+  $results = $db->addAssignment($name , $description , $today , $course , $id , NULL , $type);
 }
 
 function viewProject() {

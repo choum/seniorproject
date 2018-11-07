@@ -108,7 +108,7 @@
           <ul class="nav nav-pills card-header-pills">
             <li class="nav-item" id="menu">
               <form method="post" action=".">
-                <input type="hidden" name="action" value="change" />
+                <input type="hidden" name="action" value="changePage" />
                 <input type="submit" class="btn btn-link" value="Change Password"/>
               </form>
               <form method="post" action=".">
@@ -159,8 +159,8 @@
               <div class="form-group">
                 <p><label for="classname">Type of Project</label></p>
                 <select name='type'>
-                  <option>PHP</option>
-                  <option>JSP/Java</option>
+                  <option value='PHP'>PHP</option>
+                  <option value='JSP/Java'>JSP/Java</option>
                 </select>
               </div>
               <div class="form-group">

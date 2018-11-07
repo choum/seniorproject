@@ -122,7 +122,7 @@
           <ul class="nav nav-pills card-header-pills" id="menu">
             <li class="nav-item">
               <form method="post" action=".">
-                <input type="hidden" name="action" value="change" />
+                <input type="hidden" name="action" value="changePage" />
                 <input type="submit" class="btn btn-link" value="Change Password"/>
               </form>
               <form method="post" action=".">

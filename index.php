@@ -1,6 +1,10 @@
 <?php
 require_once 'includes/cis4270CommonIncludes.php';
 require_once 'SQLHelper.php';
+require_once 'User.php';
+if (!isset($_SESSION)) {
+  session_start();
+}
 $sql = new SQLHelper;
 $post = hPost('action');
 $error = "";
@@ -44,7 +48,11 @@ case 'login':
 
     } else {
       $error = "Username and password combination does not exist";
+      require 'login.php';
     }
+  } else {
+    $error = "Form token error";
+    require 'login.php';
   }
   break;
 case 'register':
@@ -74,6 +82,11 @@ case 'register':
         $error += "Last name should be only alphabet characters <br/>";
     }
 
+    //email
+    $sEmail = hPOST("email");
+    if (!filter_var($sEmail, FILTER_VALIDATE_EMAIL) ) {
+      $error += "Email is invalid <br/>";
+    }
     //Profile
     //ADD IMAGE CHECK
     if (empty($_POST['resume'])) {
@@ -99,40 +112,75 @@ case 'register':
       require 'register.php';
     } else {
       //store in db
-      $user = array(
-        'username' => $sUser,
-        'password' => $sPass,
-        'first' => $sFirst,
-        'last' => $sLast,
-        'phone' => hPOST('phone'),
-        'bio' => $sAbout,
-        'image' => hPOST('streetName'),
-        'website' => $sWebsite,
-        'linkedin' => $sResume,
-        'role' => 1
-      );
+      $user = new User($sUser, $sPass, $sFirst, $sLast, "student", $sAbout, $sEmail, NULL, $sResume, $sWebsite, 1, 0, date("Y-m-d"), NULL);
+      $result = $sql->addUser($user);
       //take to dashboard
-      require 'dashboard.php';
+      var_dump($result);
     }
   }
   break;
+
 case 'registerPage':
   require 'register.php';
   break;
 case 'logout':
-  if (is_logged_in() && is_session_valid()) {
-  require 'login.php';
   after_successful_logout();
-  }
+  require 'login.php';
+  header("Refresh:0");
   break;
-case 'change':
+case 'changePage':
   if (is_session_valid()) {
         require 'changePass.php';
   } else {
-    end_session();
+    if (isset($_SESSION)) {
+      end_session();
+    }
     require 'login.php';
   }
   break;
+//change password
+case 'change':
+  if (is_logged_in() && is_session_valid()) {
+    $user = $_SESSION["user"];
+    $pass = hPOST('currentPass');
+    //$pass = password_hash($pass, PASSWORD_BCRYPT);
+    $results = $sql->getUserAuth($user  );
+    if ($results['Password'] == $pass) {
+      $newPass = hPOST('newPass');
+      $comfPass = hPOST('comfPass');
+      if ($newPass == $comfPass) {
+        if (!preg_match('/^[A-Za-z][A-Za-z0-9]{5,31}$/', $newPass) ) {
+          $error += "Password should only be alphanumeric characters length greater than 5 and less than 31 <br/>";
+          require 'changePass.php';
+        } else {
+          $sql->changePassword($user, $pass, $newPass);
+          after_successful_logout();
+          $error = "Password successfully changed. Please log back in again.";
+          require 'login.php';
+
+        }
+      } else {
+        $error = "Passwords do not match.";
+        require 'changePass.php';
+      }
+    } else {
+      $error = "Invalid Password";
+      require 'changePass.php';
+    }
+  } else {
+    require 'login.php';
+    after_successful_logout();
+  }
+  break;
+case 'project':
+  //get project variables
+  $course = filter_input(INPUT_POST, 'Course');
+  $assignment = filter_input(INPUT_POST, 'Assignment');
+
+   //sql statement
+  include 'project-view.php';
+  break;
+
 default:
   if (is_logged_in()) {
     $role = $_SESSION['role'];
@@ -150,12 +198,14 @@ default:
       require 'admin-dashboard.php';
     } else {
       require 'login.php';
-      end_session();
+      if (isset($_SESSION)) {
+        end_session();
+      }
+
     }
 
   } else {
     require 'login.php';
-    end_session();
   }
 }
 
