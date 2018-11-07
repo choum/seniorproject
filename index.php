@@ -1,6 +1,7 @@
 <?php
 require_once 'includes/cis4270CommonIncludes.php';
 require_once 'SQLHelper.php';
+require_once 'User.php';
 if (!isset($_SESSION)) {
   session_start();
 }
@@ -81,6 +82,11 @@ case 'register':
         $error += "Last name should be only alphabet characters <br/>";
     }
 
+    //email
+    $sEmail = hPOST("email");
+    if (!filter_var($sEmail, FILTER_VALIDATE_EMAIL) ) {
+      $error += "Email is invalid <br/>";
+    }
     //Profile
     //ADD IMAGE CHECK
     if (empty($_POST['resume'])) {
@@ -106,20 +112,10 @@ case 'register':
       require 'register.php';
     } else {
       //store in db
-      $user = array(
-        'username' => $sUser,
-        'password' => $sPass,
-        'first' => $sFirst,
-        'last' => $sLast,
-        'phone' => hPOST('phone'),
-        'bio' => $sAbout,
-        'image' => hPOST('streetName'),
-        'website' => $sWebsite,
-        'linkedin' => $sResume,
-        'role' => 1
-      );
+      $user = new User($sUser, $sPass, $sFirst, $sLast, "student", $sAbout, $sEmail, NULL, $sResume, $sWebsite, 1, 0, date("Y-m-d"), NULL);
+      $result = $sql->addUser($user);
       //take to dashboard
-      require 'dashboard.php';
+      var_dump($result);
     }
   }
   break;
@@ -176,6 +172,15 @@ case 'change':
     after_successful_logout();
   }
   break;
+case 'project':
+  //get project variables
+  $course = filter_input(INPUT_POST, 'Course');
+  $assignment = filter_input(INPUT_POST, 'Assignment');
+
+   //sql statement
+  include 'project-view.php';
+  break;
+
 default:
   if (is_logged_in()) {
     $role = $_SESSION['role'];

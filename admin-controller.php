@@ -19,8 +19,6 @@
       addClass();
   } elseif($action == 'update_class') {
       updateClass();
-  } else if($action == 'project') {
-     viewProject();
   }
 
     //get the username from session
@@ -208,14 +206,6 @@
 
     }// end of update class function
 
-    function viewProject() {
-      //get project variables
-      $course = filter_input(INPUT_POST, 'Course');
-      $assignment = filter_input(INPUT_POST, 'Assignment');
-
-       //sql statement
-      include 'project-view.php';
-    }
 
 
 ?>
