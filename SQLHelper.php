@@ -139,7 +139,7 @@
 
                 $return = new User($user[1], $user[2], $user[3], $user[4],
                         $user[5], $user[6], $user[7], $user[8], $user[9],
-                        $user[10], $user[11], $user[12], $user[13]);
+                        $user[10], $user[11], $user[12], $user[13] , $user[14]);
                 $return->setID($user[0]);
                 return $return;
             } catch (PDOException $e)
@@ -310,7 +310,7 @@
                         PDO::PARAM_INT);
                 $statement->bindValue(':teacherID', $course->teacherID,
                         PDO::PARAM_INT);
-                $statement->execute();
+                $output = $statement->execute();
                 $statement->closeCursor();
 
                 return $output;

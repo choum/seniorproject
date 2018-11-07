@@ -4,14 +4,16 @@
     $db = new SQLHelper();
     $user;
     $username = filter_input(INPUT_GET, "user", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-    
+
     if($username == NULL OR $username == FALSE ){
         header('Location:' . './index.php');
         die();
     }
     else{
         $user = $db->getUser($username);
+
     }
+
 
     if($user->role != 1){
         echo "<br/>This user does not have a profile.";
@@ -22,8 +24,8 @@
     if(isset($_SESSION) == FALSE OR isset($_SESSION) == NULL){
         $loggedIn = FALSE;
     }
-    else{ 
-        $loggedIn= TRUE; 
+    else{
+        $loggedIn= TRUE;
         if($user->role === 1):
             $dashboardLink = 'dashboard.php';
         elseif($user->role === 2):
@@ -63,7 +65,7 @@
         array_push($courseids, $assignment[5]);
         array_push($assignments, $assignment);
     endforeach;
-    
+
     //Courses tied to courseIDs in assignments
     $courses = array();
     foreach($courseids as $courseID):

@@ -26,7 +26,7 @@ case 'login':
       $role = "";
     }
     //check if passwords are salted
-    if ($password == $pass) {
+    if (($password == $pass) || password_verify($password, $pass)) {
       $_SESSION['user'] = $username;
       $_SESSION['role'] = $role;
       after_successful_login();
@@ -59,14 +59,21 @@ case 'register':
   //check to form tokens
   if (csrf_token_is_valid()) {
   //sanitize & validate user/password
+  var_dump($_POST);
     //make sure user is only
     $sUser = hPOST("username");
     if ( !preg_match('/^[A-Za-z][A-Za-z0-9]{5,31}$/', $sUser) ) {
       $error += "Username should only be alphanumeric characters length greater than 5 and less than 31 <br/>";
+    } else if (empty($sUser)){
+      $error += "Username cannot be empty";
     }
-    $sPass = hPOST("password");
+
+
+    $sPass = hPOST("pass");
     if ( !preg_match('/^[A-Za-z][A-Za-z0-9]{5,31}$/', $sPass) ) {
       $error += "Password should only be alphanumeric characters length greater than 5 and less than 31 <br/>";
+    } else if (empty($sPass)){
+      $error += "Password cannot be empty";
     } else {
       //hash the password
       $sPass = password_hash($sPass, PASSWORD_BCRYPT);
@@ -77,15 +84,21 @@ case 'register':
     $sLast = hPOST("lastname");
     if (!preg_match('/[^A-Za-z]/', $sFirst)) {
       $error += "First name should be only alphabet characters <br/>";
+    } else if (empty($sFirst)){
+      $error += "First name cannot be empty";
     }
     if (!preg_match('/[^A-Za-z]/', $sLast)) {
         $error += "Last name should be only alphabet characters <br/>";
+    } else if (empty($sLast)){
+      $error += "Last name cannot be empty";
     }
 
     //email
     $sEmail = hPOST("email");
     if (!filter_var($sEmail, FILTER_VALIDATE_EMAIL) ) {
       $error += "Email is invalid <br/>";
+    } else if (empty($sEmail)){
+      $error += "Email cannot be empty";
     }
     //Profile
     //ADD IMAGE CHECK
@@ -115,7 +128,6 @@ case 'register':
       $user = new User($sUser, $sPass, $sFirst, $sLast, "student", $sAbout, $sEmail, NULL, $sResume, $sWebsite, 1, 0, date("Y-m-d"), NULL);
       $result = $sql->addUser($user);
       //take to dashboard
-      var_dump($result);
     }
   }
   break;

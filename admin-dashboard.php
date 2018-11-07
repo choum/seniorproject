@@ -279,10 +279,12 @@
         <div class="card-body" style="padding-top: 0px;">
           <form method="post" >
             <div class="form-group">
-              <label for="classname">First Name</label>
-              <input required type="text" name='firstName' class="form-control" id="classname">
-              <label for="classname">Last Name</label>
-              <input required type="text" name='lastName' class="form-control" id="classname">
+              <label for="firstName">First Name</label>
+              <input required type="text" name='firstName' class="form-control" id="firstName">
+              <label for="lastName">Last Name</label>
+              <input required type="text" name='lastName' class="form-control" id="lastName">
+              <label for="email">Email</label>
+              <input required type="email" name='email' class="form-control" id="email">
             </div>
             <input type='hidden' name='action' value='add_instructor' >
             <input type="submit" class="btn" value="Add Instructor">
@@ -319,14 +321,14 @@
       </div>
     </div>
     <!--my projects-->
-    <div class="col-md-8">
+    <div class="col-md-8" >
       <div class="card">
         <div class="card-header">
           <h4 class="card-title">List of All Classes</h4>
           <hr />
           <div style="float: right;">
             <p class="card-text" >Filter by:
-              <form method='post'>
+              <form method='post'action='#welcome'>
                   <select onchange='this.form.submit()' name='user_selected_term'>
                     <?php
                       foreach($terms as $term) {

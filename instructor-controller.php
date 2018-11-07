@@ -48,8 +48,12 @@ foreach ($course_string as $course) {
   //echo $course[0];
   array_push($courses , $db->getCourse($course[0]));
 }
-if($courses != []) {
-  $current_selected_course = $db->getCourse($courses[0]->courseID);
+
+$temp_course = filter_input(INPUT_POST , 'current_selected_course');
+if($temp_course != Null) {
+  $current_selected_course = $db->getCourse($temp_course);
+} else {
+    $current_selected_course = $db->getCourse($courses[0]->courseID);
 }
 
 //if user selected a term to view for courses
@@ -58,6 +62,7 @@ $temp_sem = filter_input(INPUT_POST , 'user_selected_term');
 if($temp_sem != NULL) {
   $semester_year = $temp_sem;
 }
+
 
 
 //create an array of courses from the database
