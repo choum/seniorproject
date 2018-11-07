@@ -26,7 +26,7 @@ case 'login':
       $role = "";
     }
     //check if passwords are salted
-    if ($password == $pass) {
+    if (($password == $pass) || password_verify($password, $pass)) {
       $_SESSION['user'] = $username;
       $_SESSION['role'] = $role;
       after_successful_login();
