@@ -8,6 +8,12 @@
     
     $return = $querys->changePassword("username3453", "password", "password");
     echo $return;
+    
+    $dateobj = new DateTime('NOW');
+    $timezone = new DateTimeZone('-0800');
+    $dateobj->setTimezone($timezone);
+    $return = $querys->updateLastLoggedIn("user" ,$dateobj->format('c'));
+    echo "<br/>" . $return;
 ////for testing add user function
 //    /*$user = new User("username" . rand(0, 100), "password", "firstName",
 //            "lastName", "title", "bio", "image", "linkedin", "website", 1, 0,

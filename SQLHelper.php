@@ -982,6 +982,43 @@
                 //return "Could not retrieve user password";
             }
         }
+        
+        function updateLastLoggedIn($username, $loggedIn)
+        {
+            try
+            {
+                $dbObj = new Database();
+                $db = $dbObj->getConnection();
+                $query = "Select LastLoggedIn from UserAccount "
+                        . "Where Username= :uname";
+                $statement = $db->prepare($query);
+                $statement->bindValue(':uname', $username, PDO::PARAM_STR);
+                $statement->execute();
+                $lastLoggedIn = $statement->fetch();
+                $statement->closeCursor();
+                
+                $query = "UPDATE `UserAccount` "
+                        . "SET `LastLoggedIn` = :loggedIn "
+                        . "WHERE `Username` = :uname";
+                $statement = $db->prepare($query);
+                $statement->bindValue(':uname', $username, PDO::PARAM_STR);
+                $statement->bindValue(':loggedIn', $loggedIn);
+                $statement->execute();
+                $statement->closeCursor();
+                
+                if($lastLoggedIn[0] == NULL OR $lastLoggedIn[0] == '0000-00-00 00:00:00'):
+                    return "Welcome, this is the first time you've logged in!";
+                else:
+                    return "Welcome back, you last logged in at $lastLoggedIn[0] Pacific Time";
+                endif;
+                
+            } catch (PDOException $e)
+            {
+                echo "<br/>" . $e->getMessage();
+                //error_log($error_message, (int)0,"./error.txt");
+                //return "Could not retrieve user password";
+            }
+        }
 
     }
 
