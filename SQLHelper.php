@@ -9,7 +9,7 @@
 
         function __construct()
         {
-            
+
         }
 
         function addUser(User $user)
@@ -289,9 +289,9 @@
                 $query = "INSERT INTO Courses"
                         . "(CourseTitle, CourseNumber, CourseSection, "
                         . "Term, Description, Closed, EnrollmentTotal, AdminID, "
-                        . "TeacherID)"
+                        . "TeacherID , CloseDate)"
                         . "VALUES(:cTitle, :cNumber, :cSection, :term, "
-                        . ":desc, :closed, :enrolled, :adminID, :teacherID);";
+                        . ":desc, :closed, :enrolled, :adminID, :teacherID , :close);";
                 $statement = $db->prepare($query);
                 $statement->bindValue(':cTitle', $course->courseTitle,
                         PDO::PARAM_STR);
@@ -310,8 +310,12 @@
                         PDO::PARAM_INT);
                 $statement->bindValue(':teacherID', $course->teacherID,
                         PDO::PARAM_INT);
+               $statement->bindValue(':close', $course->close,
+                        PDO::PARAM_STR);
                 $output = $statement->execute();
                 $statement->closeCursor();
+
+                echo $course->close;
 
                 return $output;
             } catch (PDOException $e)
@@ -324,7 +328,7 @@
 
         function updateCourse($courseID, $courseTitle, $courseNumber,
                 $courseSection, $term, $description, $closed, $enrollment,
-                $adminID, $teacherID)
+                $adminID, $teacherID , $close)
         {
             try
             {
@@ -335,7 +339,8 @@
                         . "CourseSection=:cSection, Term=:term, "
                         . "Description =:desc, Closed=:closed, "
                         . "EnrollmentTotal=:enrollment, "
-                        . "AdminID= :aID, TeacherID=:tID "
+                        . "AdminID= :aID, TeacherID=:tID , "
+                        . "CloseDate= :close "
                         . "WHERE CourseID=:cID;";
                 $statement = $db->prepare($query);
                 $statement->bindValue(':cTitle', $courseTitle, PDO::PARAM_STR);
@@ -349,6 +354,7 @@
                 $statement->bindValue(':aID', $adminID, PDO::PARAM_INT);
                 $statement->bindValue(':tID', $teacherID, PDO::PARAM_INT);
                 $statement->bindValue(':cID', $courseID, PDO::PARAM_INT);
+                $statement->bindValue(':close', $close, PDO::PARAM_STR);
                 $statement->execute();
                 $statement->closeCursor();
 
@@ -378,7 +384,7 @@
 
                 $return = new Course($course[1], $course[2], $course[3],
                         $course[4], $course[5], $course[6], $course[7],
-                        $course[8], $course[9]);
+                        $course[8], $course[9] , $course[10]);
                 $return->setID($course[0]);
                 return $return;
             } catch (PDOException $e)
@@ -941,7 +947,7 @@
                 return "Could not retrieve user password";
             }
         }
-        
+
         function changePassword($username, $password, $newPassword)
         {
             try
@@ -956,7 +962,7 @@
                 $statement->execute();
                 $count = $statement->rowCount();
                 $statement->closeCursor();
-                
+
                 if($count === 1):
                     $query = "Update UserAccount "
                         . "Set Password= :newPass "
@@ -966,7 +972,7 @@
                     $statement->bindValue(':pword', $password, PDO::PARAM_STR);
                     $statement->bindValue(':newPass', $newPassword, PDO::PARAM_STR);
                     $result = $statement->execute();
-                    
+
                     if($result == TRUE):
                         return "Password changed.";
                     else:
@@ -983,7 +989,7 @@
                 //return "Could not retrieve user password";
             }
         }
-        
+
         function updateLastLoggedIn($username, $loggedIn)
         {
             try
@@ -997,7 +1003,7 @@
                 $statement->execute();
                 $lastLoggedIn = $statement->fetch();
                 $statement->closeCursor();
-                
+
                 $query = "UPDATE `UserAccount` "
                         . "SET `LastLoggedIn` = :loggedIn "
                         . "WHERE `Username` = :uname";
@@ -1006,13 +1012,13 @@
                 $statement->bindValue(':loggedIn', $loggedIn);
                 $statement->execute();
                 $statement->closeCursor();
-                
+
                 if($lastLoggedIn[0] == NULL OR $lastLoggedIn[0] == '0000-00-00 00:00:00'):
                     return "Welcome, this is the first time you've logged in!";
                 else:
                     return "Welcome back, you last logged in at $lastLoggedIn[0] Pacific Time";
                 endif;
-                
+
             } catch (PDOException $e)
             {
                 echo "<br/>" . $e->getMessage();

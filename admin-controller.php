@@ -156,6 +156,9 @@
         $classInstructor = filter_input(INPUT_POST ,'classInstructor');
         $classDescription = filter_input(INPUT_POST , 'classDescription');
 
+        $dateOB = new Dates;
+        $close = $dateOB->getCloseDate($term);
+
         //create an instance of the Course class
         $course = new Course( $classTitle ,
                               $courseID ,
@@ -163,7 +166,8 @@
                               $term ,
                               $classDescription ,
                               0 , 10 , 991 ,
-                              $classInstructor);
+                              $classInstructor ,
+                              $close);
 
         //create an instance of the SQLHelper class
         //add CourseSection to database
@@ -183,6 +187,10 @@
         $classTitle = filter_input(INPUT_POST ,'classTitle');
         $description = filter_input(INPUT_POST ,'classDescription');
         $teacherID = filter_input(INPUT_POST ,'classInstructor');
+
+        $dateOB = new Dates;
+        $close = $dateOB->getCloseDate($term);
+
         //create an instance of the Course class
         /*$course = new Course( $classTitle ,
                               $courseID ,
@@ -202,7 +210,8 @@
                                     $term ,
                                     $description ,
                                     0 ,  15 ,  991 ,
-                                    $teacherID);
+                                    $teacherID ,
+                                    $close);
 
 
     }// end of update class function

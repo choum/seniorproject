@@ -37,6 +37,27 @@
 
     }//end of semester function
 
+    function getCloseDate($term) {
+
+      $today = date('Y-m-d');
+      $year = substr($today , 0 , 4);
+
+      $output = "";
+      if(strpos($term, "Spring") !== false) {
+        $temp = $year . "/7/15";
+        $output = date($temp);
+        $output = date($temp);
+      } else if (strpos($term, "Summer") !== false) {
+        $temp = $year . "/9/15";
+        $output = date($temp);
+      } else if (strpos($term, "Fall") !== false) {
+        $temp = $year . "/12/31";
+        $output = date($temp);
+      }
+      return $output;
+
+    }
+
 
 
   }//end of class
