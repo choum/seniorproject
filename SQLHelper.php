@@ -3,6 +3,7 @@
     require_once("private/Database.php");
     require("./User.php");
     require("./Course.php");
+    require("./Assignment.php");
 
     Class SQLHelper
     {
@@ -551,7 +552,7 @@
                 $statement = $db->prepare($query);
                 $statement->bindValue(':aName', $assignmentName, PDO::PARAM_STR);
                 $statement->bindValue(':desc', $description, PDO::PARAM_STR);
-                $statement->bindValule(':type', $type, PDO::PARAM_STR);
+                $statement->bindValue(':type', $type, PDO::PARAM_STR);
                 $statement->bindValue(':aDate', $date);
                 $statement->bindValue(':pdf', $pdf, PDO::PARAM_STR);
                 $statement->bindValue(':cID', $courseID, PDO::PARAM_INT);
@@ -614,7 +615,10 @@
                 $assignment = $statement->fetch();
                 $statement->closeCursor();
 
-                return $assignment;
+                $output = new Assignment($assignment[0] , $assignment[1] , $assignment[2] , $assignment[3] ,
+                                        $assignment[4] , $assignment[5] , $assignment[6] , $assignment[7]);
+
+                return $output;
             } catch (PDOException $e)
             {
                 //$error_message = $e->getMessage();

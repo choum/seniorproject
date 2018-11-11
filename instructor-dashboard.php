@@ -28,7 +28,7 @@ require('header.php');
                 </select>
             </form>
             </div>
-            <form method='post'>
+            <form method='post' enctype="multipart/form-data">
               <input  type='hidden' name='course' value='<?php echo $current_selected_course->courseID; ?>' >
               <div class="form-group">
                 <label for="projectname">Project Name</label>
@@ -47,7 +47,7 @@ require('header.php');
               </div>
               <div class="form-group">
                 <label for="picture">Upload Project Instructions</label>
-                <input type="file" class="form-control-file" id="picture" aria-describedby="fileHelp">
+                <input type="file" name='file' class="form-control-file" id="picture" aria-describedby="fileHelp">
               </div>
               <input type='hidden' name='action' value='add_project' >
               <input type="submit" class="btn" value="Add Project">
@@ -106,7 +106,7 @@ require('header.php');
                         echo "<ul>";
                             foreach ($user_course[2] as $assignment) {
                               echo "</li>
-                                      <form  method='post'>
+                                      <form  method='post' action='#'>
                                         <input type='hidden' name='action' value='project'>
                                         <input type='hidden' name='Course' value='" . $user_course[0]->courseID . "'>
                                         <input type='hidden' name='Assignment' value='" . $assignment[0] . "'>

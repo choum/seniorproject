@@ -239,7 +239,7 @@
                         echo "<ul>";
                             foreach ($user_course[2] as $assignment) {
                               echo "</li>
-                                      <form  method='post'>
+                                      <form  method='post' action='#'>
                                         <input type='hidden' name='action' value='project'>
                                         <input type='hidden' name='Course' value='" . $user_course[0]->courseID . "'>
                                         <input type='hidden' name='Assignment' value='" . $assignment[0] . "'>

@@ -29,7 +29,7 @@ if (empty($action)) {
 
 }
   elseif($action == 'add_project') {
-    addProject($current_user->id);
+    addProject($current_user->id , $username);
 } else if($action == 'project') {
    viewProject();
 }
@@ -77,15 +77,48 @@ foreach ($courseString as $courseID ) {
   array_push($current_user_courses, $temp_arr);
 }
 
-function addProject($id) {
+function addProject($id , $username) {
   $today = date("Y/m/d");
   $name = filter_input(INPUT_POST , 'name');
   $description = filter_input(INPUT_POST , 'description');
   $course = filter_input( INPUT_POST , 'course');
   $type = filter_input(INPUT_POST , 'type');
+  $pdf = "file.pdf";
+
+  if(isset($_FILES['file'])){
+      $errors= array();
+      $file_name = $_FILES['file']['name'];
+      $file_size =$_FILES['file']['size'];
+      $file_tmp =$_FILES['file']['tmp_name'];
+      $file_type=$_FILES['file']['type'];
+      $ext_arr = explode('.' , $file_name );
+      $ext = end($ext_arr);
+      $file_ext=strtolower($ext);
+
+      $expensions= array("jpeg","jpg","png" , "pdf");
+
+      if(in_array($file_ext,$expensions)=== false){
+         $errors[]="extension not allowed, please choose a JPEG or PNG file.";
+      }
+
+      if($file_size > 2097152000000){
+         $errors[]='File size must be excately 2 MB';
+      }
+
+      if(empty($errors)==true){
+        $str_temp = "cap/" . $username;
+        if (!is_dir($str_temp)) {
+          mkdir($str_temp, 0777, true);
+        }
+         move_uploaded_file($file_tmp, "cap/" . $username . "/" .$file_name);
+         //echo "Success";
+      }else{
+         print_r($errors);
+      }
+   }
 
   $db = new SQLHelper();
-  $results = $db->addAssignment($name , $description , $today , $course , $id , NULL , $type);
+  $results = $db->addAssignment($name , $description , $today , $course , $id , $pdf , $type);
 }
 
 function viewProject() {

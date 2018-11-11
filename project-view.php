@@ -1,16 +1,27 @@
+<?php
+  require('header.php');
+
+  $db = new SQLHelper();
+
+  $current_course = $db->getCourse($course);
+  $current_assignment = $db->getAssignment($assignment);
+  $current_instructor = $db->getUserByID($current_course->teacherID);
+  $students = [];
+  $students_string = $db->getStudentsOfAssignment($assignment);
+  foreach ($students_string as $student) {
+    $temp = $db->getUserByID($student[0]);
+    array_push($students , $temp);
+  }
+  $instructor_name = $current_instructor->firstName . " " . $current_instructor->lastName;
+  $pdfLocation = "/cap/" . $current_instructor->username . "/" . $current_course->courseID . "/"  . $current_assignment->pdf;
+
+?>
+
 <html>
 
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
-  <script src="js/sortable.js"></script>
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/sortable.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+
 
   <style>
     #search {
@@ -42,10 +53,17 @@
 <body>
   <div class="card">
     <div class="card-header">
+      <a href="/" ><i class="fas fa-arrow-left"></i> Back</a>
     </div>
     <div class="card-body">
-      <h4 class="card-title"><?php if (!empty($course )) { echo $course; } ?></h4>
-      <p class="card-text" style="text-align:center;"><?php if (!empty($assignment)) { echo $assignment; } ?></p>
+      <h4 class="card-text" style="text-align:center;"><?php if (!empty($current_assignment)) { echo $current_assignment->name; } ?></h4>
+      <p class="card-title"><?php if (!empty($current_course )) { echo $current_course->courseTitle; } ?></p>
+      <p class="card-title"><?php if (!empty($current_course )) { echo "CIS " . $current_course->courseNumber . "." . $current_course->courseSection; } ?></p>
+      <p class="card-title"><?php if (!empty($current_course )) { echo $current_course->term; } ?></p>
+      <p class="card-title"><?php if (!empty($current_course )) { echo $instructor_name; } ?></p>
+      <p class="card-title"><?php if (!empty($current_assignment )) { echo $current_assignment->description; } ?></p>
+      <p class="card-title"><?php if (!empty($current_assignment )) { echo $current_assignment->type; } ?></p>
+      <p class="card-title"><?php if (!empty($current_assignment )) { echo $pdfLocation; } ?></p>
       <hr/>
       <table class="table">
         <thead>
@@ -56,10 +74,10 @@
         </thead>
         <tbody>
         <?php
-        if (!empty($users)) {
-          foreach ($users as $user) {
-            echo('<td>' . $user->$username . '</td>');
-            echo('<td><a href="sdc.cpp.edu/cap/' . $user->$username . '/' . $course . '/' . $assignment . '"</a></td>');
+        if (!empty($students)) {
+          foreach ($students as $user) {
+            echo('<td>' . $user->firstName . " " . $user ->lastName . '</td>');
+            echo('<td><a href="cap/' . $user->username . '/' . $current_course->courseID . '/' . $current_assignment->id . '">Project</a></td>');
           }
         }
         ?>
@@ -70,5 +88,3 @@
 </body>
 
 </html>
-
-?>
