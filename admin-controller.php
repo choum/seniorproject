@@ -34,15 +34,19 @@
     //create object of dates class and get the current semester and year
     $dateOB = new Dates;
     $semester_year = $dateOB->getSemesterYear();
+    $date_terms = $dateOB->terms;
+    $date_years = $dateOB->years;
 
     //create an array of instructors from the database
-    $instructors = [];
+    $instructors = array();
     $instructor_string = $db->getInstructors(2);
     foreach ($instructor_string as $instructor) {
-      $tempstr = $instructor[1] . " " . $instructor[2];
+      $tempstr = $instructor[2] . ", " . $instructor[1];
       $temp_id = $instructor[0];
-      $temp_arr = [$tempstr , $temp_id];
-      array_push($instructors , $temp_arr);
+      //$temp_arr = [ $temp_id => $tempstr];
+      //array_push($instructors , $temp_arr);
+      $instructors[$temp_id] = $tempstr;
+      asort($instructors);
     }
 
     //create an array of terms from the database
@@ -59,11 +63,9 @@
     $courses = [];
     $course_string = $db->getAllCourses();
     foreach ($course_string as $course) {
-      //echo $course[0];
       array_push($courses , $db->getCourse($course[0]));
     }
     $current_selected_course = $db->getCourse($courses[0]->courseID);
-
 
     $temp_courseID = filter_input(INPUT_POST , 'course_change_select');
     if($temp_courseID != NULL) {
@@ -79,7 +81,7 @@
 
 
       //create an array of courses from the database
-      $current_user_courses = [];
+      $current_user_courses = array();
       $courseString = $db->getCoursesByTerm(  $semester_year);
       foreach ($courseString as $courseID ) {
         $temp_course = $db->getCourse($courseID[0]);
@@ -88,6 +90,7 @@
         $temp_instructor_name = $temp_instructor->firstName . " " . $temp_instructor->lastName;
         $temp_arr = [$temp_course , $temp_instructor_name , $temp_assignments];
         array_push($current_user_courses, $temp_arr);
+        //$current_user_courses[$temp_course] = array($temp_instructor_name , $temp_assignments)
       }
 
 
@@ -151,7 +154,9 @@
         //get the variable from the request
         $courseID = filter_input(INPUT_POST ,'courseID');
         $sectionNumber = filter_input(INPUT_POST ,'sectionNumber');
-        $term = filter_input(INPUT_POST ,'term');
+        $term_term = filter_input(INPUT_POST ,'term');
+        $term_year = filter_input(INPUT_POST ,'term-year');
+        $term = $term_term . " " . $term_year;
         $classTitle = filter_input(INPUT_POST ,'classTitle');
         $classInstructor = filter_input(INPUT_POST ,'classInstructor');
         $classDescription = filter_input(INPUT_POST , 'classDescription');
@@ -183,7 +188,9 @@
         $courseID = filter_input(INPUT_POST , 'course_change_select');
         $courseNumber = filter_input(INPUT_POST ,'courseNumber');
         $sectionNumber = filter_input(INPUT_POST ,'sectionNumber');
-        $term = filter_input(INPUT_POST ,'term');
+        $term_term = filter_input(INPUT_POST ,'term');
+        $term_year = filter_input(INPUT_POST ,'term-year');
+        $term = $term_term . " " . $term_year;
         $classTitle = filter_input(INPUT_POST ,'classTitle');
         $description = filter_input(INPUT_POST ,'classDescription');
         $teacherID = filter_input(INPUT_POST ,'classInstructor');

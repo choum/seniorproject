@@ -1,6 +1,9 @@
 <?php
   class Dates {
 
+    public $terms = ["Winter" , "Spring" , "Summer" , "Fall"];
+    public $years = ["2015" , "2016" , "2017" , "2018" , "2019" , "2020" , "2021" , "2022" , "2023" , "2024" , "2025" ];
+
     function __construct()
     {
 
@@ -39,8 +42,7 @@
 
     function getCloseDate($term) {
 
-      $today = date('Y-m-d');
-      $year = substr($today , 0 , 4);
+      $year = substr($term, -4);
 
       $output = "";
       if(strpos($term, "Spring") !== false) {

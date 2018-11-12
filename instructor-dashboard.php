@@ -8,6 +8,7 @@ require('header.php');
     <div class="col-md-4">
       <div class="card">
         <div class="card-header">
+          <p id='message'><?php if(!empty($message)) {echo $memssage;} ?></p>
           <h4 class="card-title">Add Project</h4>
           <hr>
         </div>
@@ -89,7 +90,6 @@ require('header.php');
                   <th>Course ID</th>
                   <th>Name</th>
                   <th>Instructor</th>
-                  <th>Term</th>
                   <th colspan="2">Assignment List</th>
                 </tr>
               </thead>
@@ -101,7 +101,6 @@ require('header.php');
                       echo "<td>CIS " . $user_course[0]->courseNumber . "." . $user_course[0]->courseSection . "</td>";
                       echo "<td>" . $user_course[0]->courseTitle . "</td>";
                       echo "<td>" . $user_course[1] . "</td>";
-                      echo "<td>" . $user_course[0]->term . "</td>";
                       echo "<td colspan='2'>";
                         echo "<ul>";
                             foreach ($user_course[2] as $assignment) {

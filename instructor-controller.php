@@ -7,7 +7,7 @@ require_once "Course.php";
 //get the action form the request
 $action = filter_input(INPUT_POST , 'action');
 
-
+$message = "";
 
 //create object of dates class and get the current semester and year
 $dateOB = new Dates;
@@ -29,7 +29,7 @@ if (empty($action)) {
 
 }
   elseif($action == 'add_project') {
-    addProject($current_user->id , $username);
+    addProject($current_user->id , $username , $message);
 } else if($action == 'project') {
    viewProject();
 }
@@ -37,7 +37,7 @@ if (empty($action)) {
 //get array of user terms
 //create an array of terms from the database
 $terms = [];
-$term_string = $db->getTerms();
+$term_string = $db->getTermsbyInstructor($current_user->id);
 foreach ($term_string as $term) {
   array_push($terms , $term[0]);
 }
@@ -45,7 +45,6 @@ foreach ($term_string as $term) {
 $courses = [];
 $course_string = $db->getInstuctorCourses($current_user->id);
 foreach ($course_string as $course) {
-  //echo $course[0];
   array_push($courses , $db->getCourse($course[0]));
 }
 
@@ -63,8 +62,6 @@ if($temp_sem != NULL) {
   $semester_year = $temp_sem;
 }
 
-
-
 //create an array of courses from the database
 $current_user_courses = [];
 $courseString = $db->getCoursesInstructorTerm($current_user->id , $semester_year);
@@ -77,15 +74,18 @@ foreach ($courseString as $courseID ) {
   array_push($current_user_courses, $temp_arr);
 }
 
-function addProject($id , $username) {
+function addProject($id , $username , $message) {
+  //get all the variebles from the input post
   $today = date("Y/m/d");
   $name = filter_input(INPUT_POST , 'name');
   $description = filter_input(INPUT_POST , 'description');
   $course = filter_input( INPUT_POST , 'course');
   $type = filter_input(INPUT_POST , 'type');
-  $pdf = "file.pdf";
+  $pdf = "";
 
-  if(isset($_FILES['file'])){
+  //if there is a file to insert to database
+  if(isset($_FILES['file']) ){
+      //get the file from the input file
       $errors= array();
       $file_name = $_FILES['file']['name'];
       $file_size =$_FILES['file']['size'];
@@ -101,8 +101,8 @@ function addProject($id , $username) {
          $errors[]="extension not allowed, please choose a JPEG or PNG file.";
       }
 
-      if($file_size > 2097152000000){
-         $errors[]='File size must be excately 2 MB';
+      if($file_size > 20971520){
+         $errors[]='File size must be less than 20 MB';
       }
 
       if(empty($errors)==true){
@@ -110,16 +110,25 @@ function addProject($id , $username) {
         if (!is_dir($str_temp)) {
           mkdir($str_temp, 0777, true);
         }
-         move_uploaded_file($file_tmp, "cap/" . $username . "/" .$file_name);
-         //echo "Success";
-      }else{
-         print_r($errors);
-      }
-   }
+         $bool = move_uploaded_file($file_tmp, "cap/" . $username . "/" .$file_name);
 
-  $db = new SQLHelper();
-  $results = $db->addAssignment($name , $description , $today , $course , $id , $pdf , $type);
-}
+         if($bool) {
+           $db = new SQLHelper();
+           $results = $db->addAssignment($name , $description , $type , $today , $course , $id , $file_name);
+           echo "Assignment uploaded successsfully.";
+         } else {
+           echo "Could not add file to database.";
+         }
+
+      }//end of error is empty
+   } else {
+     //echo "Hello World";
+     $db = new SQLHelper();
+     $results = $db->addAssignment($name , $description , $type , $today , $course , $id , $pdf);
+     echo "Assignment uploaded successsfully. No file";
+   }//end of is else for file is set
+   //this.message = $message;
+}//end of addProjectS
 
 function viewProject() {
 

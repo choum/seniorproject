@@ -34,13 +34,29 @@
               <input required type="number" min="1" max="99" step="1" class="form-control" name='sectionNumber' id="section" min="1" placeholder="EX: 1">
             </div>
             <div class="form-group">
+              <label for="classname">Year</label>
+              <select name='term-year'>
+                <?php
+                  foreach ($date_years as $date_year) {
+                    if(strpos($current_selected_course->term , $year) !== false) {
+                      echo  "<option value='" . $date_year . "' >" . $date_year . "</option>";
+                    } else {
+                      echo "<option value='" . $date_year . "'>" . $date_year . "</option>";
+                    }
+                  }
+                 ?>
+              </select>
               <label for="classname">Term</label>
               <select name='term'>
-              <?php
-                foreach($terms as $term){
-                  echo "<option value='$term'>" . $term . "</option>";
-                }
-              ?>
+                <?php
+                  foreach ($date_terms as $date_term) {
+                    if(strpos($current_selected_course->term , $year) !== false) {
+                      echo  "<option value='" . $date_term . "' >" . $date_term . "</option>";
+                    } else {
+                      echo "<option value='" . $date_term . "'>" . $date_term . "</option>";
+                    }
+                  }
+                 ?>
               </select>
             </div>
             <div class="form-group">
@@ -55,8 +71,8 @@
               <label>Professor</label>
               <select name='classInstructor'>
               <?php
-                foreach($instructors as $instructor) {
-                  echo "<option value='$instructor[1]'>" . $instructor[0] . "</option>";
+                foreach($instructors as $instructor=> $instructor_value) {
+                  echo "<option value='$instructor'>" . $instructor_value . "</option>";
                 }
               ?>
               </select>
@@ -98,17 +114,29 @@
               <input required type="number" min="1" max="99" step="1" class="form-control" name='sectionNumber' id="section" min="1" value="<?php echo $current_selected_course->courseSection; ?>">
             </div>
             <div class="form-group">
+              <label for="classname">Year</label>
+              <select name='term-year'>
+                <?php
+                  foreach ($date_years as $date_year) {
+                    if(strpos($current_selected_course->term , $date_year) !== false) {
+                      echo  "<option value='" . $date_year . "' selected>" . $date_year . "</option>";
+                    } else {
+                      echo "<option value='" . $date_year . "'>" . $date_year . "</option>";
+                    }
+                  }
+                 ?>
+              </select>
               <label for="classname">Term</label>
               <select name='term'>
-              <?php
-                foreach($terms as $term) {
-                  if($term == $current_selected_course->term) {
-                    echo "<option value='$term' selected >" . $term . "</option>";
-                  } else {
-                    echo "<option value='$term'>" . $term . "</option>";
+                <?php
+                  foreach ($date_terms as $date_term) {
+                    if(strpos($current_selected_course->term , $date_term) !== false) {
+                      echo  "<option value='" . $date_term . "' selected>" . $date_term . "</option>";
+                    } else {
+                      echo "<option value='" . $date_term . "'>" . $date_term . "</option>";
+                    }
                   }
-                }
-              ?>
+                 ?>
               </select>
             </div>
             <div class="form-group">
@@ -122,13 +150,12 @@
             <div class="form-group">
               <label>Professor</label>
               <select name='classInstructor'>
-
               <?php
-                foreach($instructors as $instructor) {
-                  if($instructor[1] == $current_selected_course->teacherID) {
-                    echo "<option value='$instructor[1]' selected >" . $instructor[0] . "</option>";
+                foreach($instructors as $instructor => $instructor_value ) {
+                  if($instructor == $current_selected_course->teacherID) {
+                    echo "<option value='$instructor' selected>" . $instructor_value . "</option>";
                   } else {
-                    echo "<option value='$instructor[1]'>" . $instructor[0] . "</option>";
+                    echo "<option value='$instructor'>" . $instructor_value . "</option>";
                   }
                 }
               ?>
@@ -170,9 +197,12 @@
           <form  method="post" >
             <label>Select existing professor</label>
             <select name='instructorID'>
+              <?php  foreach ($variable as $key => $value) {
+                // code...
+              } ?>
               <?php
-                foreach($instructors as $instructor) {
-                  echo "<option value='$instructor[1]'>" . $instructor[0] . "</option>";
+                foreach($instructors as $instructor => $instructor_value ) {
+                  echo "<option value='$instructor'>" . $instructor_value . "</option>";
                 }
               ?>
             </select>
@@ -222,19 +252,17 @@
                   <th>Course ID</th>
                   <th>Name</th>
                   <th>Instructor</th>
-                  <th>Term</th>
                   <th colspan="2">Assignment List</th>
                 </tr>
               </thead>
               <tbody>
                 <?php
                 if (!empty($current_user_courses)) {
-                  foreach ($current_user_courses as $user_course) {
+                  foreach ($current_user_courses as $user_course ) {
                     echo "<tr>";
                       echo "<td>CIS " . $user_course[0]->courseNumber . "." . $user_course[0]->courseSection . "</td>";
                       echo "<td>" . $user_course[0]->courseTitle . "</td>";
                       echo "<td>" . $user_course[1] . "</td>";
-                      echo "<td>" . $user_course[0]->term . "</td>";
                       echo "<td colspan='2'>";
                         echo "<ul>";
                             foreach ($user_course[2] as $assignment) {

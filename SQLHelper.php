@@ -316,8 +316,6 @@
                 $output = $statement->execute();
                 $statement->closeCursor();
 
-                echo $course->close;
-
                 return $output;
             } catch (PDOException $e)
             {
@@ -406,7 +404,7 @@
             {
                 $dbObj = new Database();
                 $db = $dbObj->getConnection();
-                $query = "Select CourseID FROM Courses";
+                $query = "Select CourseID FROM Courses Group BY CourseNumber , CourseSection";
                 $statement = $db->prepare($query);
                 $statement->execute();
                 $courses = $statement->fetchAll();
@@ -430,7 +428,8 @@
                 $db = $dbObj->getConnection();
                 $query = "Select CourseID FROM Courses "
                         . "Where TeacherID = :tID "
-                        . "And Term = :term";
+                        . "And Term = :term "
+                        . "Group By CourseNumber , CourseSection";
                 $statement = $db->prepare($query);
                 $statement->bindValue(':tID', $teacherID, PDO::PARAM_INT);
                 $statement->bindValue(':term', $term, PDO::PARAM_STR);
@@ -455,7 +454,8 @@
                 $dbObj = new Database();
                 $db = $dbObj->getConnection();
                 $query = "Select CourseID FROM Courses "
-                        . "Where Term = :term ";
+                        . "Where Term = :term "
+                        . "Group BY CourseNumber , CourseSection ";
                 $statement = $db->prepare($query);
                 $statement->bindValue(':term', $term, PDO::PARAM_STR);
                 $statement->execute();
@@ -477,7 +477,8 @@
                 $dbObj = new Database();
                 $db = $dbObj->getConnection();
                 $query = "Select CourseID FROM Courses "
-                        . "Where TeacherID = :tID";
+                        . "Where TeacherID = :tID "
+                        . "Group BY CourseNumber , CourseSection";
                 $statement = $db->prepare($query);
                 $statement->bindValue(':tID', $teacherID, PDO::PARAM_INT);
                 $statement->execute();
@@ -515,6 +516,30 @@
             }
         }
 
+        function getTermsbyInstructor($teacherID)
+        {
+            try
+            {
+                $dbObj = new Database();
+                $db = $dbObj->getConnection();
+                $query = "Select Term From Courses "
+                        ."Where TeacherID = :tID "
+                        . "Group By Term";
+                $statement = $db->prepare($query);
+                $statement->bindValue(':tID', $teacherID, PDO::PARAM_INT);
+                $statement->execute();
+                $terms = $statement->fetchAll();
+                $statement->closeCursor();
+
+                return $terms;
+            } catch (PDOException $e)
+            {
+                //$error_message = $e->getMessage();
+                //error_log($error_message, (int)0,"./error.txt");
+                return "Could not retrieve list of terms";
+            }
+        }
+
         function getCoursesOfTerm($term)
         {
             try
@@ -539,14 +564,14 @@
         }
 
         function addAssignment($assignmentName, $description, $type, $date, $courseID,
-                $teacherID, $pdf = NULL)
+                $teacherID, $pdf)
         {
             try
             {
                 $dbObj = new Database();
                 $db = $dbObj->getConnection();
                 $query = "INSERT INTO Assignments "
-                        . "(AssignmentName, Description, Type "
+                        . "(AssignmentName, Description, Type, "
                         . "AssignmentDate, PDFLocation, CourseID, TeacherID) "
                         . "VALUES(:aName, :desc, :type, :aDate, :pdf, :cID, :tID);";
                 $statement = $db->prepare($query);
