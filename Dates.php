@@ -60,6 +60,20 @@
 
     }
 
+    function countTerm($term) {
+      $output = "0";
+      if($term == "Winter") {
+        $output = "1";
+      } else if($term == "Spring") {
+        $output = "2";
+      } else if($term == "Summer") {
+        $output = "3";
+      } else if($term == "Fall") {
+        $output = "4";
+      }
+      return $output;
+    }
+
 
 
   }//end of class

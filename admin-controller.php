@@ -63,9 +63,24 @@
     $courses = [];
     $course_string = $db->getAllCourses();
     foreach ($course_string as $course) {
-      array_push($courses , $db->getCourse($course[0]));
+      $temp_course = $db->getCourse($course[0]);
+      $temp_year = substr($temp_course->term , -2);
+      $temp_term = substr($temp_course->term , 0, -5);
+      $temp_section = $temp_course->courseSection;
+      $temp_id = $temp_course->courseNumber;
+      if(intval($temp_id) < 999) {
+        $temp_id = "0" . $temp_id;
+      }
+      if(intval($temp_section) < 10) {
+        $temp_section = "0" . $temp_section;
+      }
+      $temp_count = $dateOB->countTerm($temp_term);
+      $temp_add = $temp_year . $temp_count . $temp_id . $temp_section;
+      //array_push($courses , $temp_course);
+      $courses[$temp_add] = $temp_course;
     }
-    $current_selected_course = $db->getCourse($courses[0]->courseID);
+    krsort($courses);
+    $current_selected_course = $db->getCourse(reset($courses)->courseID);
 
     $temp_courseID = filter_input(INPUT_POST , 'course_change_select');
     if($temp_courseID != NULL) {
