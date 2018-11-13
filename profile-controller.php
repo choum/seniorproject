@@ -42,7 +42,7 @@
     $email = $user->email;
     $website = $user->website;
     $linkedin = $user->linkedin;
-    $picture = $user->imageLink;
+    $picture = "./img/$user->imageLink";
     $userID = $user->id;
     //student assignments tied to studentID in student_assignment
     $studentAssignmentids = $db->getStudentAssignments($userID);
@@ -62,7 +62,7 @@
     $assignments = array();
     foreach($assignmentids as $assignmentID):
         $assignment = $db->getAssignment($assignmentID);
-        array_push($courseids, $assignment[5]);
+        array_push($courseids, $assignment->CourseID);
         array_push($assignments, $assignment);
     endforeach;
 
@@ -79,12 +79,11 @@
      //To be used for course number and title (ex. cis 4270 & "OOP for Business")
 
     //Featured assignment info
-    $featuredAssignment;
+    $featuredAssignment = NULL;
     foreach($studentAssignments as $studentAssignment):
-        if($studentAssignment[6] === 1){
+        if((int)$studentAssignment[6] === 1){
             $featuredAssignment = $studentAssignment;
         }
-        else{$featuredAssignment = NULL; }
     endforeach;
     if($featuredAssignment == NULL OR $featuredAssignment == FALSE){
 
@@ -93,9 +92,19 @@
         //Also store featured course number, project link/dir, group project
         //description
         $featuredAssignmentID = $featuredAssignment[1];
-        $featuredAssignmentName = $db->getAssignment($featuredAssignmentID)[1];
-        $featuredCourseID = $db->getAssignment($featuredAssignmentID)[5];
+        $featuredAssignmentName = $db->getAssignment($featuredAssignmentID)->name;
+        $featuredCourseID = $db->getAssignment($featuredAssignmentID)->CourseID;
         $featuredCourseInfo = $db->getCourse($featuredCourseID);
-        $screenshots = split('~', $featuredAssignment[6]);
+        $featuredCourseNumber = $featuredCourseInfo->courseNumber;
+        $featuredDescription = $featuredAssignment[2];
+        $featuredDirectory = $featuredAssignment[3];
+        $featuredScreenshots = explode("~", $featuredAssignment[5]);
+        $featuredGroupProject = $featuredAssignment[7];
+        
+        $tempFSC = array();
+        foreach($featuredScreenshots as $screenshot):
+            array_push($tempFSC, "./img/$screenshot");
+        endforeach;
+        $featuredScreenshots = $tempFSC;
 
     }

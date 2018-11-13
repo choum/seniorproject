@@ -17,6 +17,9 @@
         {
             try
             {
+                if($user->imageLink == NULL OR $user->imageLink == ""){
+                    $user->imageLink = "default-profile.jpg";
+                }
                 $dbObj = new Database();
                 $db = $dbObj->getConnection();
                 $query = "Insert into UserAccount "
@@ -73,7 +76,7 @@
                 $linkedin = null, $website = null)
         {
             try
-            {
+            {   
                 $dbObj = new Database();
                 $db = $dbObj->getConnection();
                 $query = "Update UserAccount "
@@ -110,10 +113,9 @@
                 $statement->execute();
                 $user = $statement->fetch();
                 $statement->closeCursor();
-
                 $return = new User($user[1], $user[2], $user[3], $user[4],
                         $user[5], $user[6], $user[7], $user[8], $user[9],
-                        $user[10], $user[11], $user[12], $user[13], $user[14]);
+                        $user[10], $user[11], $user[12], $user[13], $user[14], $user[15]);
                 $return->setID($user[0]);
                 return $return;
             } catch (PDOException $e)

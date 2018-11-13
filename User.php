@@ -16,6 +16,7 @@
         public $website;
         public $role;
         public $suspended;
+        public $courses;
         public $dateCreated;
         public $lastLoginDate;
 
@@ -43,6 +44,11 @@
         function setID($userID)
         {
             $this->id = $userID;
+        }
+        
+        function setCourses($courses)
+        {
+            $this->courses = $courses;
         }
 
     }

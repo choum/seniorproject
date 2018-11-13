@@ -13,10 +13,10 @@
         public $enrollment;
         public $adminID;
         public $teacherID;
-        public $close;
+        public $closeDate;
 
         function __construct($title, $number, $section, $term, $desc, $closed,
-                $enroll, $admin, $teacher , $close)
+                $enroll, $admin, $teacher , $closeDate)
         {
             $this->courseTitle = $title;
             $this->courseNumber = $number;
@@ -27,7 +27,7 @@
             $this->enrollment = $enroll;
             $this->adminID = $admin;
             $this->teacherID = $teacher;
-            $this->close = $close;
+            $this->close = $closeDate;
         }
 
         function setID($courseID)
