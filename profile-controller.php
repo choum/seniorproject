@@ -1,6 +1,5 @@
 <?php
     include("./SQLHelper.php");
-    session_start();
     $db = new SQLHelper();
     $user;
     $username = filter_input(INPUT_GET, "user", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
@@ -19,6 +18,7 @@
         echo "<br/>This user does not have a profile.";
         die();
     }
+    var_dump($_SESSION);
     $loggedIn;
     $dashboardLink = "";
     if(isset($_SESSION) == FALSE OR isset($_SESSION) == NULL){

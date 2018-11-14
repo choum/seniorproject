@@ -1,4 +1,5 @@
-<?php include("profile-controller.php"); ?>
+<?php include("profile-controller.php"); 
+session_start();?>
 
 <!DOCTYPE HTML>
 <html lang="en">
