@@ -27,6 +27,9 @@
       text-align: center;
 
     }
+    form {
+      display: inline;
+    }
   </style>
 </head>
 
@@ -36,6 +39,7 @@
       <div class="card-body">
         <h3 class="card-title">Change Password</h3>
         <?php if (isset($error)) {echo "<p style='color: red;'>". $error . "<p>";} ?>
+
         <form method="post" action=.>
         <input type="hidden" class="form-control" name="action" value="change">
           <div class="form-group">
@@ -51,6 +55,10 @@
             <input type="password" class="form-control" name="comfPass" id="comfPass" placeholder="Confirm Password" required>
           </div>
           <button type="submit" class="btn" id="btn1">Change Password</button>
+        </form>
+        <form method="post" action=".">
+          <input type="hidden" name="action" value="" />
+          <input type="submit" class="btn" style="float:left; margin-right: 5px;" value="Dashboard"/>
         </form>
       </div>
     </div>
