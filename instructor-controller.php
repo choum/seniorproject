@@ -84,7 +84,7 @@ function addProject($id , $username , $message) {
   $pdf = "";
 
   //if there is a file to insert to database
-  if(isset($_FILES['file']) ){
+  if($_FILES['file']['size'] > 0 ){
       //get the file from the input file
       $errors= array();
       $file_name = $_FILES['file']['name'];
@@ -106,28 +106,36 @@ function addProject($id , $username , $message) {
       }
 
       if(empty($errors)==true){
+
         $str_temp = "cap/" . $username;
         if (!is_dir($str_temp)) {
           mkdir($str_temp, 0777, true);
         }
-         $bool = move_uploaded_file($file_tmp, "cap/" . $username . "/" .$file_name);
+
+        $str_temp = "cap/" . $username . "/" . $course;
+        if(!is_dir($str_temp)) {
+          mkdir($str_temp, 0777, true);
+        }
+         $bool = move_uploaded_file($file_tmp, $str_temp . "/" . $file_name);
 
          if($bool) {
            $db = new SQLHelper();
            $results = $db->addAssignment($name , $description , $type , $today , $course , $id , $file_name);
-           echo "Assignment uploaded successsfully.";
+           //echo "Assignment uploaded successsfully.";
          } else {
-           echo "Could not add file to database.";
+           //echo "Could not add file to database.";
+
          }
 
       }//end of error is empty
+
    } else {
-     //echo "Hello World";
+
      $db = new SQLHelper();
      $results = $db->addAssignment($name , $description , $type , $today , $course , $id , $pdf);
-     echo "Assignment uploaded successsfully. No file";
+     //echo "Assignment uploaded successsfully. No file";
    }//end of is else for file is set
-   //this.message = $message;
+
 }//end of addProjectS
 
 function viewProject() {
