@@ -1,3 +1,9 @@
+<?php
+$db = new SQLHelper();
+$username = $_SESSION['user'];
+$current_user = $db->getUser($username);
+$current_user_name = $current_user->firstName . " " . $current_user ->lastName;
+?>
 <!DOCTYPE HTML>
 <html lang="en">
 
