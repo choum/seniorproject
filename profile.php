@@ -1,5 +1,6 @@
-<?php session_start();
-    include("profile-controller.php"); 
+<?php
+    session_start();
+    include("profile-controller.php");
 ?>
 
 <!DOCTYPE HTML>
@@ -63,76 +64,89 @@
                         <h3 class="card-title">Classes & Projects</h3>
                     </div>
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
-                    <?php $counter = 0; foreach ($courses as $course): ?>
-                        <li class="nav-item">
-                            <a class="nav-link<?php if($counter==0){ echo ' active show'; $counter++;} ?>"
-                               id="<?php echo $course->courseNumber; ?>-tab" data-toggle="tab"
-                               href="#<?php echo $course->courseNumber; ?>" role="tab"
-                               aria-controls="<?php echo $course->courseNumber; ?>" aria-selected="false">
-                                CIS <?php echo $course->courseNumber; ?>
-                            </a>
-                        </li>
-                    <?php endforeach; ?>
+                        <?php $counter = 0; foreach ($courses as
+                                    $course): ?>
+                                <li class="nav-item">
+                                    <a class="nav-link<?php if ($counter == 0)
+                                {
+                                    echo ' active show'; $counter++;
+                                } ?>"
+                                       id="<?php echo $course->courseNumber; ?>-tab" data-toggle="tab"
+                                       href="#<?php echo $course->courseNumber; ?>" role="tab"
+                                       aria-controls="<?php echo $course->courseNumber; ?>" aria-selected="false">
+                                        CIS <?php echo $course->courseNumber; ?>
+                                    </a>
+                                </li>
+    <?php endforeach; ?>
                     </ul>
                     <div class="tab-content" id="myTabContent">
-                    <?php $counter=0; foreach ($courses as $course): ?>
-                        <div class="tab-pane fade<?php if($counter == 0){echo ' show active'; $counter++;}?>" id="<?php echo $course->courseNumber; ?>"
-                             role="tabpanel" aria-labelledby="<?php echo $course->courseNumber; ?>-tab">
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item" style="text-align:center;"><strong><?php echo $course->courseTitle; ?></strong></li>
-                                <?php $counter = 0;
-                                    foreach ($assignments as $assignment):
-                                ?>
-                                <li class="list-group-item"><strong>
-                                        <a href="#<?php echo $studentAssignments[$counter][3]?>"><?php echo $assignment->name; ?></a>
-                                    </strong> - <?php echo $assignment->description; ?>
-                                <?php if($studentAssignments[$counter][7]): ?>
-                                    <span style="float:right;"> Group Project</span>
-                                    <i class="fas fa-users" style="float:right; color: #01426A; margin-top: 2px; margin-right: 5px;"></i>
-                                <?php endif; ?>
-                                <?php if($studentAssignments[$counter][6]): ?>
-                                    <i class="fas fa-star" style="float:right; color:#FFB500;"></i>
-                                <?php endif; $counter++;?>
-                                </li>
+                                <?php $counter = 0; foreach ($courses as
+                                            $course): ?>
+                                <div class="tab-pane fade<?php if ($counter == 0)
+                                {
+                                    echo ' show active'; $counter++;
+                                } ?>" id="<?php echo $course->courseNumber; ?>"
+                                     role="tabpanel" aria-labelledby="<?php echo $course->courseNumber; ?>-tab">
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item" style="text-align:center;"><strong><?php echo $course->courseTitle; ?></strong></li>
+                                            <?php
+                                            $counter = 0;
+                                            foreach ($assignments as $assignment):
+                                                ?>
+                                            <li class="list-group-item"><strong>
+                                                    <a href="#<?php echo $studentAssignments[$counter][3] ?>"><?php echo $assignment->name; ?></a>
+                                                </strong> - <?php echo $assignment->description; ?>
+            <?php if ($studentAssignments[$counter][7]): ?>
+                                                    <span style="float:right;"> Group Project</span>
+                                                    <i class="fas fa-users" style="float:right; color: #01426A; margin-top: 2px; margin-right: 5px;"></i>
+            <?php endif; ?>
+            <?php if ($studentAssignments[$counter][6]): ?>
+                                                    <i class="fas fa-star" style="float:right; color:#FFB500;"></i>
+                                    <?php endif; $counter++; ?>
+                                            </li>
                                 <?php endforeach; ?>
-                            </ul>
-                        </div>
-                    <?php endforeach; ?>
+                                    </ul>
+                                </div>
+    <?php endforeach; ?>
                     </div>
                 </div>
                 <div class="card">
                     <div class="card-body">
-                        <?php if ($featuredAssignment == NULL OR $featuredAssignment == FALSE): ?>
+                            <?php if ($featuredAssignment == NULL OR $featuredAssignment == FALSE): ?>
                                 <h4 class="card-title">No featured assignment chosen.</h4>
-                        <?php else: ?>
+    <?php else: ?>
                                 <h4 class="card-title">CIS <?php echo $featuredCourseNumber; ?> - <?php echo $featuredAssignmentName; ?></h4>
                                 <h6>
                                     <a href="<?php $featuredDirectory; ?>">Project Link</a>
-                                    <?php if ($featuredGroupProject == TRUE): ?>
+                                        <?php if ($featuredGroupProject == TRUE): ?>
                                         <span style="float:right;">Group Project </span>
                                         <i class="fas fa-users" style="float:right; color: #01426A; margin-right: 5px;"></i>
-                                    <?php endif; ?>
+                                        <?php endif; ?>
                                 </h6>
                                 <hr/>
                                 <p class="card-text"><?php echo $featuredDescription; ?></p>
-                        <div id="carouselExampleControls1" class="carousel slide" data-ride="carousel">
-                            <div class="carousel-inner">
-                            <?php $counter = 0; foreach($featuredScreenshots as $screenshot) : ?>
-                                <div class="carousel-item<?php if($counter==0){echo ' active'; $counter++;}?>">
-                                    <img class="d-block w-100" src="<?php echo $screenshot; ?>">
+                                <div id="carouselExampleControls1" class="carousel slide" data-ride="carousel">
+                                    <div class="carousel-inner">
+        <?php $counter = 0; foreach ($featuredScreenshots as
+                $screenshot) : ?>
+                                            <div class="carousel-item<?php if ($counter == 0)
+            {
+                echo ' active'; $counter++;
+            } ?>">
+                                                <img class="d-block w-100" src="<?php echo $screenshot; ?>">
+                                            </div>
+        <?php endforeach; ?>
+                                    </div>
+                                    <a class="carousel-control-prev" href="#carouselExampleControls1" role="button" data-slide="prev">
+                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                        <span class="sr-only">Previous</span>
+                                    </a>
+                                    <a class="carousel-control-next" href="#carouselExampleControls1" role="button" data-slide="next">
+                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                        <span class="sr-only">Next</span>
+                                    </a>
                                 </div>
-                            <?php endforeach; ?>
-                            </div>
-                            <a class="carousel-control-prev" href="#carouselExampleControls1" role="button" data-slide="prev">
-                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                <span class="sr-only">Previous</span>
-                            </a>
-                            <a class="carousel-control-next" href="#carouselExampleControls1" role="button" data-slide="next">
-                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                <span class="sr-only">Next</span>
-                            </a>
-                        </div>
-                        <?php endif; ?>
+<?php endif; ?>
                     </div>
                 </div>
             </div>

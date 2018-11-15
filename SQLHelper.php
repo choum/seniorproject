@@ -10,7 +10,7 @@
 
         function __construct()
         {
-            
+
         }
 
         function addUser(User $user)
@@ -135,8 +135,8 @@
                 $user = $statement->fetch();
                 $statement->closeCursor();
 
-                $return = new User($user[1], $user[2], $user[3], $user[4], $user[5],
-                    $user[6], $user[7], $user[8], $user[9], $user[10], $user[11],
+                $return = new User($user[1], $user[2], $user[3], $user[4], $user[5], 
+                    $user[6], $user[7], $user[8], $user[9], $user[10], $user[11], 
                     $user[12], $user[13], $user[14]);
                 $return->setID($user[0]);
                 return $return;
@@ -157,7 +157,7 @@
         {
             try
             {
-                
+
                 $dbObj = new Database();
                 $db = $dbObj->getConnection();
                 $query = "Select Username From UserAccount "
@@ -167,11 +167,11 @@
                 $statement->execute();
                 $count = $statment->rowCount();
                 $statement->closeCursor();
-                               
-                if($count > 0):
+
+                if ($count > 0):
                     $username = "$username$count";
                 endif;
-                
+
                 $query = "Insert into UserAccount "
                     . "(Username, Password, FirstName, LastName, Title, "
                     . "UserRole, Suspended, DateCreated, LastLoggedIn) "
@@ -559,7 +559,8 @@
             }
         }
 
-        function addAssignment($assignmentName, $description, $type, $date, $courseID, $teacherID, $pdf)
+        function addAssignment($assignmentName, $description, $type, $date, $courseID,
+            $teacherID, $pdf)
         {
             try
             {
@@ -589,7 +590,7 @@
             }
         }
 
-        function updateAssignment($assignmentID, $assignmentName, $description,
+        function updateAssignment($assignmentID, $assignmentName, $description, 
             $date, $courseID, $teacherID, $pdf = NULL)
         {
             try
@@ -635,9 +636,8 @@
                 $assignment = $statement->fetch();
                 $statement->closeCursor();
 
-                $output = new Assignment($assignment[0], $assignment[1], $assignment[2],
-                    $assignment[3], $assignment[4], $assignment[5], $assignment[6],
-                    $assignment[7]);
+                $output = new Assignment($assignment[0], $assignment[1], $assignment[2], 
+                    $assignment[3], $assignment[4], $assignment[5], $assignment[6], $assignment[7]);
 
                 return $output;
             } catch (PDOException $e)
@@ -1044,6 +1044,33 @@
                 return "Could not update login";
             }
         }
+
+        function checkForDuplicate($username)
+        {
+            try
+            {
+                $dbObj = new Database();
+                $db = $dbObj->getConnection();
+                $query = "Select Username from UserAccount "
+                    . "Where Username= :uname";
+                $statement = $db->prepare($query);
+                $statement->bindValue(':uname', $username, PDO::PARAM_STR);
+                $statement->execute();
+                $count = $statement->rowCount();
+                $statement->closeCursor();
+
+                if ($count > 0):
+                    return "Username is not available.";
+                else:
+                    return "Username is available.";
+                endif;
+            } catch (PDOException $e)
+            {
+                //error_log($error_message, (int)0,"./error.txt");
+                return "Could not check username";
+            }
+        }
+
     }
 
 ?>
