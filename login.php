@@ -63,8 +63,8 @@ create_csrf_token();
         </form>
       </div>
     </div>
-    <div style='position: absolute; bottom: 0; align: center; margin: auto; color: #FFF;'>
-      <h5>Programmed with passion by <a href="team.php" target="_blank">#team_name.</a></h5>
+    <div style='text-align:center; color: #FFF;'>
+      <h5>Programmed with passion by <a href="team.php" target="_blank" style="color: #CEB888;">#team_name.</a></h5>
     </div>
   </div>
 </body>
