@@ -1,8 +1,8 @@
 <?php
   class Dates {
 
-    public $terms = ["Winter" , "Spring" , "Summer" , "Fall"];
-    public $years = ["2015" , "2016" , "2017" , "2018" , "2019" , "2020" , "2021" , "2022" , "2023" , "2024" , "2025" ];
+    public $terms = ["Fall", "Winter" , "Spring" , "Summer" ];
+    public $years = ["2018" , "2019" , "2020" , "2021" , "2022" , "2023" , "2024" , "2025" ];
 
     function __construct()
     {
@@ -46,14 +46,16 @@
 
       $output = "";
       if(strpos($term, "Spring") !== false) {
-        $temp = $year . "/7/15";
-        $output = date($temp);
+        $temp = "7-15-" . $year;
         $output = date($temp);
       } else if (strpos($term, "Summer") !== false) {
-        $temp = $year . "/9/15";
+        $temp = "9-15-" . $year;
         $output = date($temp);
       } else if (strpos($term, "Fall") !== false) {
-        $temp = $year . "/12/31";
+        $temp = "12-31-" . $year;
+        $output = date($temp);
+      }else if(strpos($term, "Winter") !== false) {
+          $temp = "3-15-" . $year;
         $output = date($temp);
       }
       return $output;

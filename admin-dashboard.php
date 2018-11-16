@@ -71,8 +71,8 @@
               <label>Professor</label>
               <select name='classInstructor'>
               <?php
-                foreach($instructors as $instructor=> $instructor_value) {
-                  echo "<option value='$instructor_value[0]'>" . $instructor_value[0] . "</option>";
+                foreach($instructors as $instructor) {
+                  echo "<option value='$instructor[0]'>" . $instructor[1] . "</option>";
                 }
               ?>
               </select>
@@ -151,11 +151,11 @@
               <label>Professor</label>
               <select name='classInstructor'>
               <?php
-                foreach($instructors as $instructor => $instructor_value ) {
+                foreach($instructors as $instructor) {
                   if($instructor == $current_selected_course->teacherID) {
-                    echo "<option value='$instructor' selected>" . $instructor_value[0] . "</option>";
+                    echo "<option value='$instructor[0]' selected>" . $instructor[1] . "</option>";
                   } else {
-                    echo "<option value='$instructor'>" . $instructor_value[0] . "</option>";
+                    echo "<option value='$instructor[0]'>" . $instructor[1] . "</option>";
                   }
                 }
               ?>
@@ -198,8 +198,8 @@
             <label>Select existing professor</label>
             <select name='instructorID' onchange='this.form.submit()' class="form-control">
               <?php
-                foreach($instructors as $instructor => $instructor_value ) {
-                  echo "<option value='$instructor'>" . $instructor_value[0] . "</option>";
+                foreach($instructors as $instructor) {
+                  echo "<option value='$instructor[0]'>" . $instructor[1] . "</option>";
                 }
               ?>
             </select>

@@ -1,5 +1,4 @@
 ins<?php
-
     require_once("private/Database.php");
     require("./User.php");
     require("./Course.php");
@@ -68,7 +67,8 @@ ins<?php
          * Done via student dashboard
          */
 
-        function updateUser($userID, $bio = null, $imageLink = null, $linkedin = null, $website = null)
+        function updateUser($userID, $bio = null, $imageLink = null,
+            $linkedin = null, $website = null)
         {
             try
             {
@@ -108,9 +108,7 @@ ins<?php
                 $statement->execute();
                 $user = $statement->fetch();
                 $statement->closeCursor();
-                $return = new User($user[1], $user[2], $user[3], $user[4], $user[5],
-                    $user[6], $user[7], $user[8], $user[9], $user[10], $user[11],
-                    $user[12], $user[13], $user[14], $user[15]);
+                $return = new User($user[1], $user[2], $user[3], $user[4], $user[5], $user[6], $user[7], $user[8], $user[9], $user[10], $user[11], $user[12], $user[13], $user[14], $user[15]);
                 $return->setID($user[0]);
                 return $return;
             } catch (PDOException $e)
@@ -135,9 +133,7 @@ ins<?php
                 $user = $statement->fetch();
                 $statement->closeCursor();
 
-                $return = new User($user[1], $user[2], $user[3], $user[4], $user[5],
-                    $user[6], $user[7], $user[8], $user[9], $user[10], $user[11],
-                    $user[12], $user[13], $user[14]);
+                $return = new User($user[1], $user[2], $user[3], $user[4], $user[5], $user[6], $user[7], $user[8], $user[9], $user[10], $user[11], $user[12], $user[13], $user[14]);
                 $return->setID($user[0]);
                 return $return;
             } catch (PDOException $e)
@@ -204,7 +200,7 @@ ins<?php
          * Done via admin dashboard
          */
 
-        function updateInstructor($userID, $firstName, $lastName , $email)
+        function updateInstructor($userID, $firstName, $lastName, $email)
         {
             try
             {
@@ -244,9 +240,7 @@ ins<?php
                 $user = $statement->fetch();
                 $statement->closeCursor();
 
-                $return = new User($user[1], $user[2], $user[3], $user[4], $user[5],
-                    $user[6], $user[7], $user[8], $user[9], $user[10], $user[11],
-                    $user[12], $user[13]);
+                $return = new User($user[1], $user[2], $user[3], $user[4], $user[5], $user[6], $user[7], $user[8], $user[9], $user[10], $user[11], $user[12], $user[13]);
                 $return->setID($user[0]);
                 return $return;
             } catch (PDOException $e)
@@ -318,14 +312,14 @@ ins<?php
                 return $output;
             } catch (PDOException $e)
             {
-                //$error_message = $e->getMessage();
                 //error_log($error_message, (int)0,"./error.txt");
                 return "Course not created";
             }
         }
 
-        function updateCourse($courseID, $courseTitle, $courseNumber, $courseSection,
-            $term, $description, $closed, $enrollment, $adminID, $teacherID, $close)
+        function updateCourse($courseID, $courseTitle, $courseNumber,
+            $courseSection, $term, $description, $closed, $enrollment, $adminID,
+            $teacherID, $close)
         {
             try
             {
@@ -378,8 +372,7 @@ ins<?php
                 $course = $statement->fetch();
                 $statement->closeCursor();
 
-                $return = new Course($course[1], $course[2], $course[3], $course[4],
-                    $course[5], $course[6], $course[7], $course[8], $course[9], $course[10]);
+                $return = new Course($course[1], $course[2], $course[3], $course[4], $course[5], $course[6], $course[7], $course[8], $course[9], $course[10]);
                 $return->setID($course[0]);
                 return $return;
             } catch (PDOException $e)
@@ -560,8 +553,8 @@ ins<?php
             }
         }
 
-        function addAssignment($assignmentName, $description, $type, $date, $courseID,
-            $teacherID, $pdf)
+        function addAssignment($assignmentName, $description, $type, $date,
+            $courseID, $teacherID, $pdf)
         {
             try
             {
@@ -637,8 +630,7 @@ ins<?php
                 $assignment = $statement->fetch();
                 $statement->closeCursor();
 
-                $output = new Assignment($assignment[0], $assignment[1], $assignment[2],
-                    $assignment[3], $assignment[4], $assignment[5], $assignment[6], $assignment[7]);
+                $output = new Assignment($assignment[0], $assignment[1], $assignment[2], $assignment[3], $assignment[4], $assignment[5], $assignment[6], $assignment[7]);
 
                 return $output;
             } catch (PDOException $e)
@@ -1005,7 +997,6 @@ ins<?php
                 endif;
             } catch (PDOException $e)
             {
-                echo "<br/>" . $e;
                 //error_log($error_message, (int)0,"./error.txt");
                 //return "Could not retrieve user password";
             }
@@ -1073,5 +1064,4 @@ ins<?php
         }
 
     }
-
 ?>

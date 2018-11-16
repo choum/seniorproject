@@ -32,7 +32,7 @@
     }
 
     @media (max-width: 870px) {
-      .col-md.4 {
+      .col-md-4 {
         max-width: 100% !important;
         width: 100% !important;
       }
