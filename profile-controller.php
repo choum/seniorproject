@@ -23,7 +23,7 @@
     }
     $loggedIn;
     $dashboardLink = "";
-    if (sizeof($_SESSION) > 0)
+    if (sizeof($_SESSION) > 2)
     {
         if ($_SESSION["logged_in"] == TRUE)
         {
