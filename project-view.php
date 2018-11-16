@@ -44,9 +44,9 @@
             <div class="card-body" style="padding-top: 3px;">
             <?php if (!empty($currentAssignment) AND ! empty($currentCourse)): ?>
                 <h4 class="card-text" style="text-align:center;"><?php echo $assignmentName; ?></h4>
-                <p class="card-title">Course: &Tab;<?php echo "$courseTitle $courseNumSection $courseTerm"; ?></p>
-                <p class="card-title">Instructor: &Tab;<?php echo $instructorName ?></p>
-                <p class="card-title">Description: &Tab;<?php echo $assignmentDescription ?></p>
+                <p class="card-title">Course: <?php echo "$courseTitle $courseNumSection $courseTerm"; ?></p>
+                <p class="card-title">Instructor: <?php echo $instructorName ?></p>
+                <p class="card-title">Description: <?php echo $assignmentDescription ?></p>
                 <!--<p class="card-title"><?php echo $assignmentType ?></p> -->
                 <?php if($pdfLocation != ""): ?>
                     <p class="card-title"><a href="<?php echo $pdfLocation; ?>">PDF Link</a></p>
