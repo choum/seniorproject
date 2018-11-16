@@ -1,4 +1,4 @@
-<?php
+ins<?php
 
     require_once("private/Database.php");
     require("./User.php");
@@ -269,7 +269,7 @@
                 $db = $dbObj->getConnection();
                 $query = "Select UserID, FirstName, LastName , Email "
                     . "From UserAccount "
-                    . "Where UserRole = 2";
+                    . "Where UserRole = 2 OR UserRole = 4";
                 $statement = $db->prepare($query);
                 $statement->execute();
                 $instructors = $statement->fetchAll();
