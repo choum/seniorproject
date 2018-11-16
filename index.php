@@ -42,6 +42,10 @@ case 'instructorDash':
 
   //runs check for both and redirects
   if (($role == 2 || $role == 4) && $bool) {
+    $menu = '<form method="post" action="." id="admin">
+      <input type="hidden" name="action" value="adminDash" />
+      <input type="submit" class="btn btn-link" value="Admin Dashboard"/>
+    </form>';
     require 'instructor-dashboard.php';
   } else {
     //something went wrong so we end the session if it is set
@@ -61,6 +65,10 @@ case 'adminDash':
 
   //runs check for both and redirects
   if (($role == 3 || $role == 4) && $bool) {
+    $menu = '<form method="post" action="." id="instructor">
+      <input type="hidden" name="action" value="instructorDash" />
+      <input type="submit" class="btn btn-link" value="Instructor Dashboard"/>
+    </form>';
     require 'admin-dashboard.php';
   } else {
     //something went wrong so we end the session if it is set

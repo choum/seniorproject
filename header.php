@@ -132,14 +132,13 @@ $role = $_SESSION['role'];
                   <input type="submit" class="btn btn-link" value="Profile"/>
                 </form>');
               } else if ($role == 4) {
-                echo('<form method="post" action="." id="admin" style="display:none;">
-                  <input type="hidden" name="action" value="adminDash" />
-                  <input type="submit" class="btn btn-link" value="Admin Dashboard"/>
-                </form>')
-                echo('<form method="post" action="." id="instructor">
-                  <input type="hidden" name="action" value="instructorDash" />
-                  <input type="submit" class="btn btn-link" value="Instructor Dashboard"/>
-                </form>')
+                  if (empty($menu)) {
+                    $menu = '<form method="post" action="." id="instructor">
+                      <input type="hidden" name="action" value="instructorDash" />
+                      <input type="submit" class="btn btn-link" value="Instructor Dashboard"/>
+                    </form>';
+                  }
+                  echo ($menu);
               }
 
               ?>
@@ -157,8 +156,3 @@ $role = $_SESSION['role'];
       </div>
     </div>
   </div>
-
-<script>
-$( "#instructor" ).toggle(display);
-$( "#admin" ).toggle(display);
-</script>
