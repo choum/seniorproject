@@ -1,8 +1,16 @@
 <?php
+if (!isset($_SESSION)) {
+  session_start();
+}
+require_once 'SQLHelper.php';
 $db = new SQLHelper();
-$username = $_SESSION['user'];
-$current_user = $db->getUser($username);
-$current_user_name = $current_user->firstName . " " . $current_user ->lastName;
+if (!empty($_SESSION['user'])) {
+  $username = $_SESSION['user'];
+  $current_user = $db->getUser($username);
+  $current_user_name = $current_user->firstName . " " . $current_user ->lastName;
+
+  $role = $_SESSION['role'];
+}
 ?>
 <!DOCTYPE HTML>
 <html lang="en">
@@ -123,6 +131,24 @@ $current_user_name = $current_user->firstName . " " . $current_user ->lastName;
           <p id="welcome" class="nav-link">Welcome: <?php if (!empty($current_user_name)) { echo $current_user_name; } ?></p>
           <ul class="nav nav-pills card-header-pills" id="menu">
             <li class="nav-item">
+              <?php
+              if (!empty($role)) {
+                if ($role == 1) {
+                  echo('<form method="post" action=".">
+                    <input type="hidden" name="action" value="studentProf" />
+                    <input type="submit" class="btn btn-link" value="Profile"/>
+                  </form>');
+                } else if ($role == 4) {
+                    if (empty($menu)) {
+                      $menu = '<form method="post" action="." id="instructor">
+                        <input type="hidden" name="action" value="instructorDash" />
+                        <input type="submit" class="btn btn-link" value="Instructor Dashboard"/>
+                      </form>';
+                    }
+                    echo ($menu);
+                }
+              }
+              ?>
               <form method="post" action=".">
                 <input type="hidden" name="action" value="changePage" />
                 <input type="submit" class="btn btn-link" value="Change Password"/>

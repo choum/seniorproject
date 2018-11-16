@@ -52,7 +52,7 @@ $temp_course = filter_input(INPUT_POST , 'current_selected_course');
 if($temp_course != Null) {
   $current_selected_course = $db->getCourse($temp_course);
 } else {
-    $current_selected_course = $db->getCourse($courses[0]->courseID);
+    //$current_selected_course = $db->getCourse($courses[0]->courseID);
 }
 
 //if user selected a term to view for courses
