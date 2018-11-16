@@ -18,7 +18,7 @@ function redirect() {
       //redirect to instructor
       before_every_protected_page();
       require 'instructor-dashboard.php';
-    } else if ($role == 3) {
+    } else if ($role == 3 || $role == 4) {
       //redirect to admin
       before_every_protected_page();
       require 'admin-dashboard.php';
