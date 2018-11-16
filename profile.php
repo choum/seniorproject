@@ -1,7 +1,6 @@
 <?php
-    session_start();
-    include("profile-controller.php");
-?>
+session_start();
+include("profile-controller.php"); ?>
 
 <!DOCTYPE HTML>
 <html lang="en">
