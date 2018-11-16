@@ -52,6 +52,45 @@ case 'instructorDash':
     require 'login.php';
    }
   break;
+
+case 'adminDash':
+  //checks if session role is correct
+  $role = $_SESSION['role'];
+  //checks if user is logged in
+  $bool = $_SESSION['logged_in'];
+
+  //runs check for both and redirects
+  if (($role == 3 || $role == 4) && $bool) {
+    require 'admin-dashboard.php';
+  } else {
+    //something went wrong so we end the session if it is set
+    if (isset($_SESSION)) {
+      end_session();
+    }
+    //redirect them to login
+    require 'login.php';
+    }
+break;
+
+case 'studentProf':
+  //checks if session role is correct
+  $role = $_SESSION['role'];
+  //checks if user is logged in
+  $bool = $_SESSION['logged_in'];
+
+  //runs check for both and redirects
+  if (($role == 1) && $bool) {
+    require 'profile.php';
+  } else {
+    //something went wrong so we end the session if it is set
+    if (isset($_SESSION)) {
+      end_session();
+    }
+    //redirect them to login
+    require 'login.php';
+    }
+break;
+
 case 'registerPage':
   //sends them to register page
   require 'register.php';
