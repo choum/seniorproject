@@ -45,9 +45,8 @@ create_csrf_token();
         <form method="post" action=".">
           <input name="action" type="hidden" value="login" />
           <?php echo csrf_token_tag();
-          if (!empty($error)) {
-            echo $error;
-          }?>
+          if (isset($error)) {echo "<p style='color: red;'>". $error . "<p>";}
+          ?>
           <div class="form-group">
             <label for="username">Username</label>
             <input type="text" class="form-control" id="username" name="username" placeholder="Bronco ID" required>
