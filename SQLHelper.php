@@ -204,18 +204,19 @@
          * Done via admin dashboard
          */
 
-        function updateInstructor($userID, $firstName, $lastName)
+        function updateInstructor($userID, $firstName, $lastName , $email)
         {
             try
             {
                 $dbObj = new Database();
                 $db = $dbObj->getConnection();
                 $query = "Update UserAccount "
-                    . "SET FirstName=:fName, LastName=:lName "
+                    . "SET FirstName=:fName, LastName=:lName , Email=:email "
                     . "WHERE UserID=:uid;";
                 $statement = $db->prepare($query);
                 $statement->bindValue(':fName', $firstName, PDO::PARAM_STR);
                 $statement->bindValue(':lName', $lastName, PDO::PARAM_STR);
+                $statement->bindValue(':email', $email, PDO::PARAM_STR);
                 $statement->bindValue(':uid', $userID, PDO::PARAM_INT);
                 $statement->execute();
                 $statement->closeCursor();
@@ -266,7 +267,7 @@
             {
                 $dbObj = new Database();
                 $db = $dbObj->getConnection();
-                $query = "Select UserID, FirstName, LastName "
+                $query = "Select UserID, FirstName, LastName , Email "
                     . "From UserAccount "
                     . "Where UserRole = 2";
                 $statement = $db->prepare($query);

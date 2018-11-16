@@ -72,7 +72,7 @@
               <select name='classInstructor'>
               <?php
                 foreach($instructors as $instructor=> $instructor_value) {
-                  echo "<option value='$instructor'>" . $instructor_value . "</option>";
+                  echo "<option value='$instructor_value[0]'>" . $instructor_value[0] . "</option>";
                 }
               ?>
               </select>
@@ -153,9 +153,9 @@
               <?php
                 foreach($instructors as $instructor => $instructor_value ) {
                   if($instructor == $current_selected_course->teacherID) {
-                    echo "<option value='$instructor' selected>" . $instructor_value . "</option>";
+                    echo "<option value='$instructor' selected>" . $instructor_value[0] . "</option>";
                   } else {
-                    echo "<option value='$instructor'>" . $instructor_value . "</option>";
+                    echo "<option value='$instructor'>" . $instructor_value[0] . "</option>";
                   }
                 }
               ?>
@@ -196,21 +196,23 @@
         <div class="card-body" style="padding-top: 0px;">
           <form  method="post" >
             <label>Select existing professor</label>
-            <select name='instructorID'>
-              <?php  foreach ($variable as $key => $value) {
-                // code...
-              } ?>
+            <select name='instructorID' onchange='this.form.submit()' class="form-control">
               <?php
                 foreach($instructors as $instructor => $instructor_value ) {
-                  echo "<option value='$instructor'>" . $instructor_value . "</option>";
+                  echo "<option value='$instructor'>" . $instructor_value[0] . "</option>";
                 }
               ?>
             </select>
+          </form>
+          <form method="post">
             <div class="form-group">
+              <input type="hidden" name="instructorID" value="">
               <label for="classname">First Name</label>
               <input required type="text" class="form-control" name='firstName' id="classname" value="">
               <label for="classname">Last Name</label>
               <input required type="text" class="form-control" name='lastName' id="classname" value="">
+              <label for="classname">Email</label>
+              <input type="text" class="form-control" name='email' id="classname" value="">
             </div>
             <input type='hidden' name='action' value='update_instructor' >
             <input type="submit" class="btn" value="Update Instructor">

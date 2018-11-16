@@ -39,15 +39,17 @@
 
     //create an array of instructors from the database
     $instructors = array();
-    $instructor_string = $db->getInstructors(2);
+    $instructor_string = $db->getInstructors();
     foreach ($instructor_string as $instructor) {
       $tempstr = $instructor[2] . ", " . $instructor[1];
       $temp_id = $instructor[0];
+      $temp_email = $instructor[3];
       //$temp_arr = [ $temp_id => $tempstr];
       //array_push($instructors , $temp_arr);
-      $instructors[$temp_id] = $tempstr;
+      $instructors[$temp_id] = [$tempstr , $temp_email];
       asort($instructors);
     }
+    $currrent_chosen_instructor = reset($instructors);
 
     //create an array of terms from the database
     $terms = [];
@@ -123,9 +125,10 @@
         $firstName = filter_input(INPUT_POST ,'firstName');
         $lastName = filter_input(INPUT_POST ,'lastName');
         $email = filter_input(INPUT_POST ,'email', FILTER_VALIDATE_EMAIL);
+        $password_random = generateRandomString(25);
         //create an instance of the User class
         $temp_user = new User(substr($firstName , 0 , 1) . $lastName ,
-                              "password" ,
+                              $password_random ,
                               $firstName ,
                               $lastName ,
                               "title" ,
@@ -154,11 +157,11 @@
         $instructorID = filter_input(INPUT_POST ,'instructorID');
         $firstName = filter_input(INPUT_POST ,'firstName');
         $lastName = filter_input(INPUT_POST ,'lastName');
-
+        $email = filter_input(INPUT_POST ,'email');
         //create an instance of the SQLHelper class
         //update user in database
         $db = new SQLHelper();
-        $result = $db->updateInstructor($instructorID , $firstName , $lastName);
+        $result = $db->updateInstructor($instructorID , $firstName , $lastName , $email);
 
 
     }//end of edit instructor
@@ -237,6 +240,16 @@
 
 
     }// end of update class function
+
+    function generateRandomString($length = 10) {
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $charactersLength = strlen($characters);
+    $randomString = '';
+    for ($i = 0; $i < $length; $i++) {
+        $randomString .= $characters[rand(0, $charactersLength - 1)];
+    }
+    return $randomString;
+  }
 
 
 
