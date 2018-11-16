@@ -44,7 +44,7 @@ create_csrf_token();
       <li>Personal Details</li>
     </ul>
     <?php echo csrf_token_tag();
-    if (isset($error)) {echo $error;}?>
+    if (isset($error)) {echo "<p style='color: red;'>". $error . "<p>";} ?>
     <fieldset>
       <h2 class="fs-title">Create Account</h2>
       <label for="username">Username</label>
@@ -56,7 +56,7 @@ create_csrf_token();
       <label for="lastname">Last Name</label>
       <input type="text" name="lastname" placeholder="Last Name" id="lastname"/>
       <label for="pass">Password</label>
-      <input type="password" name="pass" placeholder="Password" id="password"/>
+      <input type="password" name="password" placeholder="Password" id="password"/>
       <input type="button" name="next" class="next action-button" value="Next" />
     </fieldset>
     <fieldset>
@@ -80,6 +80,13 @@ create_csrf_token();
   var left, opacity, scale; //fieldset properties which we will animate
   var animating; //flag to prevent quick multi-click glitches
 
+  $(document).keypress(
+  function(event){
+    if (event.which == '13') {
+      event.preventDefault();
+    }
+  });
+
   jQuery.validator.addMethod("alphanumeric", function(value, element) {
     return this.optional(element) || /^[\w.]+$/i.test(value);
   }, "Letters, numbers, and underscores only please");
@@ -88,6 +95,10 @@ create_csrf_token();
     return this.optional(element) || /^[a-z]+$/i.test(value);
   }, "Letters only please");
 
+  jQuery.validator.addMethod("noSpace", function(value, element) {
+  return value.indexOf(" ") < 0 ;
+}, "No spaces please");
+
   $(".next").click(function() {
     $("#msform").validate({
       rules: {
@@ -95,33 +106,40 @@ create_csrf_token();
           required: true,
           minlength: 5,
           maxlength: 13,
-          alphanumeric: true
+          alphanumeric: true,
+          noSpace: true
         },
         firstname: {
           required: true,
-          lettersonly: true
+          lettersonly: true,
+          noSpace: true
         },
         lastname: {
           required: true,
-          lettersonly: true
+          lettersonly: true,
+          noSpace: true
         },
         password: {
           required: true,
           minlength: 5,
           maxlength: 13,
-          alphanumeric: true
+          alphanumeric: true,
+          noSpace: true
         },
         email: {
           required: true,
-          email: true
+          email: true,
+          noSpace: true
         },
         resume: {
           required: false,
-          url: true
+          url: true,
+          noSpace: true
         },
         website: {
           required: false,
-          url: true
+          url: true,
+          noSpace: true
         }
       }
     });

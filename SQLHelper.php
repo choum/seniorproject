@@ -135,8 +135,8 @@
                 $user = $statement->fetch();
                 $statement->closeCursor();
 
-                $return = new User($user[1], $user[2], $user[3], $user[4], $user[5], 
-                    $user[6], $user[7], $user[8], $user[9], $user[10], $user[11], 
+                $return = new User($user[1], $user[2], $user[3], $user[4], $user[5],
+                    $user[6], $user[7], $user[8], $user[9], $user[10], $user[11],
                     $user[12], $user[13], $user[14]);
                 $return->setID($user[0]);
                 return $return;
@@ -590,7 +590,7 @@
             }
         }
 
-        function updateAssignment($assignmentID, $assignmentName, $description, 
+        function updateAssignment($assignmentID, $assignmentName, $description,
             $date, $courseID, $teacherID, $pdf = NULL)
         {
             try
@@ -636,7 +636,7 @@
                 $assignment = $statement->fetch();
                 $statement->closeCursor();
 
-                $output = new Assignment($assignment[0], $assignment[1], $assignment[2], 
+                $output = new Assignment($assignment[0], $assignment[1], $assignment[2],
                     $assignment[3], $assignment[4], $assignment[5], $assignment[6], $assignment[7]);
 
                 return $output;
@@ -673,7 +673,7 @@
             }
         }
 
-        function addStudentAssignment($studentID, $assignmentID, $desc, $dir, 
+        function addStudentAssignment($studentID, $assignmentID, $desc, $dir,
             $dateCreated, $screenshot = NULL, $featured = NULL, $group = NULL)
         {
             try
@@ -1060,9 +1060,9 @@
                 $statement->closeCursor();
 
                 if ($count > 0):
-                    return "Username is not available.";
+                    return false;
                 else:
-                    return "Username is available.";
+                    return true;
                 endif;
             } catch (PDOException $e)
             {
