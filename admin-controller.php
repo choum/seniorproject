@@ -56,7 +56,7 @@
         $temp_email = $instructor[3];
         //$temp_arr = [ $temp_id => $tempstr];
         //array_push($instructors , $temp_arr);
-        $instructors[$temp_id] = [$temp_id, $tempstr, $temp_email];
+        $instructors[$temp_id] = [$temp_id, $tempstr, $temp_email , $instructor[1] , $instructor[2]];
         asort($instructors);
     }
     $currrent_chosen_instructor = reset($instructors);
@@ -180,7 +180,7 @@
         $classTitle = filter_input(INPUT_POST, 'classTitle');
         $classInstructorID = filter_input(INPUT_POST, 'classInstructor');
         $classDescription = filter_input(INPUT_POST, 'classDescription');
-        
+
         $dateOB = new Dates;
         $close = $dateOB->getCloseDate($term);
 
@@ -191,9 +191,9 @@
 
         //create an instance of the SQLHelper class
         //add CourseSection to database
-        
+
         $result = $db->addCourse($course);
-        
+
     }
 
 // end of add class function

@@ -196,7 +196,7 @@
         <div class="card-body" style="padding-top: 0px;">
           <form  method="post" >
             <label>Select existing professor</label>
-            <select name='instructorID' onchange='this.form.submit()' class="form-control">
+            <select name='instructorID' id="current_intructor_select" onchange='changeInstructorVars()' class="form-control">
               <?php
                 foreach($instructors as $instructor) {
                   echo "<option value='$instructor[0]'>" . $instructor[1] . "</option>";
@@ -206,13 +206,13 @@
           </form>
           <form method="post">
             <div class="form-group">
-              <input type="hidden" name="instructorID" value="">
+              <input type="hidden" id="update_instructor_id" name="instructorID" value="">
               <label for="classname">First Name</label>
-              <input required type="text" class="form-control" name='firstName' id="classname" value="">
+              <input required id="update_instructor_fn" type="text" class="form-control" name='firstName' id="classname" value="">
               <label for="classname">Last Name</label>
-              <input required type="text" class="form-control" name='lastName' id="classname" value="">
+              <input required id="update_instructor_ln" type="text" class="form-control" name='lastName' id="classname" value="">
               <label for="classname">Email</label>
-              <input type="text" class="form-control" name='email' id="classname" value="">
+              <input required id="update_instructor_email" type="text" class="form-control" name='email' id="classname" value="">
             </div>
             <input type='hidden' name='action' value='update_instructor' >
             <input type="submit" class="btn" value="Update Instructor">
@@ -315,4 +315,20 @@
       $('#class').toggleClass('active');
     }
   });
+
+
+  var instructors = <?php echo json_encode($instructors); ?>;
+  function changeInstructorVars() {
+    var current_ins = $("#current_intructor_select").val();
+
+    for(var ins in instructors ) {
+      if(ins == current_ins) {
+        $("#update_instructor_id").val(instructors[ins][0]);
+        $("#update_instructor_fn").val(instructors[ins][3]);
+        $("#update_instructor_ln").val(instructors[ins][4]);
+        $("#update_instructor_email").val(instructors[ins][2]);
+      }
+    }
+  }//end of change instructor vars
+
 </script>
