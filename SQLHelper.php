@@ -84,10 +84,20 @@ ins<?php
                 $statement->bindValue(':linkedin', $linkedin, PDO::PARAM_STR);
                 $statement->bindValue(':website', $website, PDO::PARAM_STR);
                 $statement->bindValue(':uid', $userID, PDO::PARAM_INT);
+                $statement->beginTransaction();
                 $statement->execute();
-                $statement->closeCursor();
-
-                return "User updated";
+                $count = $statement->rowCount();
+                
+                
+                if($count == 1):
+                    $statement->commit();
+                    $statement->closeCursor();
+                    return "User updated";
+                else:
+                    $statement->rollback();
+                    $statement->closeCursor();
+                    throw new PDOException();
+                endif;
             } catch (PDOException $e)
             {
                 //$error_message = $e->getMessage();
@@ -214,10 +224,20 @@ ins<?php
                 $statement->bindValue(':lName', $lastName, PDO::PARAM_STR);
                 $statement->bindValue(':email', $email, PDO::PARAM_STR);
                 $statement->bindValue(':uid', $userID, PDO::PARAM_INT);
+                $statement->beginTransaction();
                 $statement->execute();
-                $statement->closeCursor();
-
-                return "Instructor updated";
+                $count = $statement->rowCount();
+                
+                
+                if($count == 1):
+                    $statement->commit();
+                    $statement->closeCursor();
+                    return "Instructor updated";
+                else:
+                    $statement->rollBack();
+                    $statement->closeCursor();
+                    throw new PDOException;
+                endif;
             } catch (PDOException $e)
             {
                 //$error_message = $e->getMessage();
@@ -345,10 +365,19 @@ ins<?php
                 $statement->bindValue(':tID', $teacherID, PDO::PARAM_INT);
                 $statement->bindValue(':cID', $courseID, PDO::PARAM_INT);
                 $statement->bindValue(':close', $close, PDO::PARAM_STR);
+                $statement->beginTransaction();
                 $statement->execute();
-                $statement->closeCursor();
+                $count = $statement->rowCount();
 
-                return "Course updated";
+                if($count == 1):
+                    $statement->commit();
+                    $statement->closeCursor();
+                    return "Course updated";
+                else:
+                    $statement->rollBack();
+                    $statement->closeCursor();
+                    throw new PDOException;
+                endif;
             } catch (PDOException $e)
             {
                 //$error_message = $e->getMessage();
@@ -604,10 +633,19 @@ ins<?php
                 $statement->bindValue(':pdf', $pdf, PDO::PARAM_STR);
                 $statement->bindValue(':cID', $courseID, PDO::PARAM_INT);
                 $statement->bindValue(':tID', $teacherID, PDO::PARAM_INT);
+                $statement->beginTransaction();
                 $statement->execute();
-                $statement->closeCursor();
+                $count = $statement->rowCount();
 
-                return "Assignment updated";
+                if($count == 1):
+                    $statement->commit();
+                    $statement->closeCursor();
+                    return "Assignment updated";
+                else:
+                    $statement->rollBack();
+                    $statement->closeCursor();
+                    throw new PDOException;
+                endif;
             } catch (PDOException $e)
             {
                 //$error_message = $e->getMessage();
@@ -720,11 +758,19 @@ ins<?php
                 $statement->bindValue(':group', $group, PDO::PARAM_BOOL);
                 $statement->bindValue(':sID', $studentID, PDO::PARAM_INT);
                 $statement->bindValue(':aID', $assignmentID, PDO::PARAM_INT);
+                $statement->beginTransaction();
                 $statement->execute();
-                $statement->closeCursor();
-
-
-                return "Student assignment updated";
+                $count = $statement->rowCount();
+                
+                if($count == 1):
+                    $statement->commit();
+                    $statement->closeCursor();
+                    return "Student assignment updated";
+                else:
+                    $statement->rollBack();
+                    $statement->closeCursor();
+                    throw new PDOException;
+                endif;
             } catch (PDOException $e)
             {
                 //$error_message = $e->getMessage();
@@ -977,7 +1023,7 @@ ins<?php
                 $count = $statement->rowCount();
                 $statement->closeCursor();
 
-                if ($count === 1):
+                if ($count == 1):
                     $query = "Update UserAccount "
                         . "Set Password= :newPass "
                         . "Where Username= :uname AND Password = :pword";
@@ -985,12 +1031,18 @@ ins<?php
                     $statement->bindValue(':uname', $username, PDO::PARAM_STR);
                     $statement->bindValue(':pword', $password, PDO::PARAM_STR);
                     $statement->bindValue(':newPass', $newPassword, PDO::PARAM_STR);
-                    $result = $statement->execute();
+                    $statement->beginTransaction();
+                    $statement->execute();
+                    $count = $statement->rowCount();
 
-                    if ($result == TRUE):
+                    if ($count == 1):
+                        $statement->commit();
+                        $statement->closeCursor();
                         return "Password changed.";
                     else:
-                        return "Password not changed.";
+                        $statement->rollBack();
+                        $statement->closeCursor();
+                        throw new PDOException;
                     endif;
                 else:
                     return "Username/password credentials incorrect.";
@@ -999,6 +1051,7 @@ ins<?php
             {
                 //error_log($error_message, (int)0,"./error.txt");
                 //return "Could not retrieve user password";
+                return "Password could not be changed.";
             }
         }
 
@@ -1013,27 +1066,40 @@ ins<?php
                 $statement = $db->prepare($query);
                 $statement->bindValue(':uname', $username, PDO::PARAM_STR);
                 $statement->execute();
-                $lastLoggedIn = $statement->fetch();
-                $statement->closeCursor();
+                if($statement->rowCount() != 0):
+                    $lastLoggedIn = $statement->fetch();
+                    $statement->closeCursor();
 
-                $query = "UPDATE `UserAccount` "
-                    . "SET `LastLoggedIn` = :loggedIn "
-                    . "WHERE `Username` = :uname";
-                $statement = $db->prepare($query);
-                $statement->bindValue(':uname', $username, PDO::PARAM_STR);
-                $statement->bindValue(':loggedIn', $loggedIn);
-                $statement->execute();
-                $statement->closeCursor();
-
-                if ($lastLoggedIn[0] == NULL OR $lastLoggedIn[0] == '0000-00-00 00:00:00'):
-                    return "Welcome, this is the first time you've logged in!";
+                    $query = "UPDATE `UserAccount` "
+                        . "SET `LastLoggedIn` = :loggedIn "
+                        . "WHERE `Username` = :uname";
+                    $statement = $db->prepare($query);
+                    $statement->bindValue(':uname', $username, PDO::PARAM_STR);
+                    $statement->bindValue(':loggedIn', $loggedIn);
+                    $statement->beginTransaction();
+                    $statement->execute();
+                    $count = $statement->rowCount();
+                    
+                    if($count == 1):
+                        $statement->commit();
+                        $statement->closeCursor();
+                        if ($lastLoggedIn[0] == NULL OR $lastLoggedIn[0] == '0000-00-00 00:00:00'):
+                            return "Welcome, this is the first time you've logged in!";
+                        else:
+                            return "Welcome back, you last logged in at $lastLoggedIn[0] Pacific Time";
+                        endif;
+                    else:
+                        $statement->rollBack();
+                        $statement->closeCursor();
+                        throw new PDOException;
+                    endif;
                 else:
-                    return "Welcome back, you last logged in at $lastLoggedIn[0] Pacific Time";
+                    return "Could not retrieve previous login of user.";
                 endif;
             } catch (PDOException $e)
             {
                 //error_log($error_message, (int)0,"./error.txt");
-                return "Could not update login";
+                return "Could not retrieve/update last login";
             }
         }
 
