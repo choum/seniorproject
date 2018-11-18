@@ -13,6 +13,7 @@
         public $enrollment;
         public $adminID;
         public $teacherID;
+        public $courseKey;
         public $closeDate;
 
         function __construct($title, $number, $section, $term, $desc, $closed,
@@ -33,6 +34,11 @@
         function setID($courseID)
         {
             $this->courseID = $courseID;
+        }
+        
+        function setCourseKey($courseKey)
+        {
+            $this->courseKey = $courseKey;
         }
 
     }
