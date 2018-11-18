@@ -206,13 +206,13 @@
           </form>
           <form method="post">
             <div class="form-group">
-              <input type="hidden" id="update_instructor_id" name="instructorID" value="">
+              <input type="hidden" id="update_instructor_id" name="instructorID" value="<?php echo $currrent_chosen_instructor[0]; ?>">
               <label for="classname">First Name</label>
-              <input required id="update_instructor_fn" type="text" class="form-control" name='firstName' id="classname" value="">
+              <input required id="update_instructor_fn" type="text" class="form-control" name='firstName' id="classname" value="<?php echo $currrent_chosen_instructor[3]; ?>">
               <label for="classname">Last Name</label>
-              <input required id="update_instructor_ln" type="text" class="form-control" name='lastName' id="classname" value="">
+              <input required id="update_instructor_ln" type="text" class="form-control" name='lastName' id="classname" value="<?php echo $currrent_chosen_instructor[4]; ?>">
               <label for="classname">Email</label>
-              <input required id="update_instructor_email" type="text" class="form-control" name='email' id="classname" value="">
+              <input required id="update_instructor_email" type="text" class="form-control" name='email' id="classname" value="<?php echo $currrent_chosen_instructor[2]; ?>">
             </div>
             <input type='hidden' name='action' value='update_instructor' >
             <input type="submit" class="btn" value="Update Instructor">
