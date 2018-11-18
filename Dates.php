@@ -46,16 +46,16 @@
 
       $output = "";
       if(strpos($term, "Spring") !== false) {
-        $temp = "7-15-" . $year;
+        $temp =   $year . "/7/15";
         $output = date($temp);
       } else if (strpos($term, "Summer") !== false) {
-        $temp = "9-15-" . $year;
+        $temp = $year . "/9/15";
         $output = date($temp);
       } else if (strpos($term, "Fall") !== false) {
-        $temp = "12-31-" . $year;
+        $temp = $year . "/12/31";
         $output = date($temp);
       }else if(strpos($term, "Winter") !== false) {
-          $temp = "3-15-" . $year;
+          $temp = $year . "/3/15";
         $output = date($temp);
       }
       return $output;
