@@ -74,6 +74,7 @@ ins<?php
             {
                 $dbObj = new Database();
                 $db = $dbObj->getConnection();
+                $db -> beginTransaction();
                 $query = "Update UserAccount "
                     . "SET Bio=:bio, ImageLink=:image, "
                     . "LinkedIn=:linkedin, Website=:website "
@@ -85,9 +86,16 @@ ins<?php
                 $statement->bindValue(':website', $website, PDO::PARAM_STR);
                 $statement->bindValue(':uid', $userID, PDO::PARAM_INT);
                 $statement->execute();
+                $count = $statement->rowCount();
                 $statement->closeCursor();
-
-                return "User updated";
+                
+                if($count == 1):
+                    $db->commit();
+                    return "User updated";
+                else:
+                    $db->rollback();
+                    throw new PDOException();
+                endif;
             } catch (PDOException $e)
             {
                 //$error_message = $e->getMessage();
@@ -206,6 +214,7 @@ ins<?php
             {
                 $dbObj = new Database();
                 $db = $dbObj->getConnection();
+                $db->beginTransaction();
                 $query = "Update UserAccount "
                     . "SET FirstName=:fName, LastName=:lName , Email=:email "
                     . "WHERE UserID=:uid;";
@@ -215,9 +224,16 @@ ins<?php
                 $statement->bindValue(':email', $email, PDO::PARAM_STR);
                 $statement->bindValue(':uid', $userID, PDO::PARAM_INT);
                 $statement->execute();
+                $count = $statement->rowCount();
                 $statement->closeCursor();
-
-                return "Instructor updated";
+                
+                if($count == 1):
+                    $db->commit();
+                    return "Instructor updated";
+                else:
+                    $db->rollBack();
+                    throw new PDOException;
+                endif;
             } catch (PDOException $e)
             {
                 //$error_message = $e->getMessage();
@@ -325,6 +341,7 @@ ins<?php
             {
                 $dbObj = new Database();
                 $db = $dbObj->getConnection();
+                $db->beginTransaction();
                 $query = "Update Courses "
                     . "SET CourseTitle=:cTitle, CourseNumber=:cNumber, "
                     . "CourseSection=:cSection, Term=:term, "
@@ -346,9 +363,16 @@ ins<?php
                 $statement->bindValue(':cID', $courseID, PDO::PARAM_INT);
                 $statement->bindValue(':close', $close, PDO::PARAM_STR);
                 $statement->execute();
+                $count = $statement->rowCount();
                 $statement->closeCursor();
-
-                return "Course updated";
+                
+                if($count == 1):
+                    $db->commit();
+                    return "Course updated";
+                else:
+                    $db->rollBack();
+                    throw new PDOException;
+                endif;
             } catch (PDOException $e)
             {
                 //$error_message = $e->getMessage();
@@ -372,8 +396,10 @@ ins<?php
                 $course = $statement->fetch();
                 $statement->closeCursor();
 
-                $return = new Course($course[1], $course[2], $course[3], $course[4], $course[5], $course[6], $course[7], $course[8], $course[9], $course[10]);
+                $return = new Course($course[1], $course[2], $course[3], $course[4], $course[5], $course[6], $course[7], $course[8], $course[9], $course[11]);
                 $return->setID($course[0]);
+                $return->setCourseKey($course[10]);
+                
                 return $return;
             } catch (PDOException $e)
             {
@@ -553,25 +579,25 @@ ins<?php
             }
         }
 
-        function addAssignment($assignmentName, $description, $type, $date,
-            $courseID, $teacherID, $pdf)
+        function addAssignment($assignmentName, $description, $date,
+            $pdf, $courseID, $teacherID, $type)
         {
             try
             {
                 $dbObj = new Database();
                 $db = $dbObj->getConnection();
                 $query = "INSERT INTO Assignments "
-                    . "(AssignmentName, Description, Type, "
-                    . "AssignmentDate, PDFLocation, CourseID, TeacherID) "
-                    . "VALUES(:aName, :desc, :type, :aDate, :pdf, :cID, :tID);";
+                    . "(AssignmentName, Description, "
+                    . "AssignmentDate, PDFLocation, CourseID, TeacherID, Type) "
+                    . "VALUES(:aName, :desc, :aDate, :pdf, :cID, :tID, :type);";
                 $statement = $db->prepare($query);
                 $statement->bindValue(':aName', $assignmentName, PDO::PARAM_STR);
                 $statement->bindValue(':desc', $description, PDO::PARAM_STR);
-                $statement->bindValue(':type', $type, PDO::PARAM_STR);
                 $statement->bindValue(':aDate', $date);
                 $statement->bindValue(':pdf', $pdf, PDO::PARAM_STR);
                 $statement->bindValue(':cID', $courseID, PDO::PARAM_INT);
                 $statement->bindValue(':tID', $teacherID, PDO::PARAM_INT);
+                $statement->bindValue(':type', $type, PDO::PARAM_STR);
                 $statement->execute();
                 $statement->closeCursor();
 
@@ -584,17 +610,18 @@ ins<?php
             }
         }
 
-        function updateAssignment($assignmentID, $assignmentName, $description,
+        function updateAssignment($assignmentID, $assignmentName, $description, $type,
             $date, $courseID, $teacherID, $pdf = NULL)
         {
             try
             {
                 $dbObj = new Database();
                 $db = $dbObj->getConnection();
+                $db->beginTransaction();
                 $query = "Update Assignments "
                     . "Set AssignmentName=:aName, Description=:desc, "
                     . "AssignmentDate=:date, PDFLocation=:pdf, CourseID=:cID, "
-                    . "TeacherID=:tID "
+                    . "TeacherID=:tID, Type = :type "
                     . "Where AssignmentID = :aID;";
                 $statement = $db->prepare($query);
                 $statement->bindValue(':aID', $assignmentID, PDO::PARAM_INT);
@@ -604,10 +631,18 @@ ins<?php
                 $statement->bindValue(':pdf', $pdf, PDO::PARAM_STR);
                 $statement->bindValue(':cID', $courseID, PDO::PARAM_INT);
                 $statement->bindValue(':tID', $teacherID, PDO::PARAM_INT);
+                $statement->bindValue(':type', $type, PDO::PARAM_STR);
                 $statement->execute();
+                $count = $statement->rowCount();
                 $statement->closeCursor();
-
-                return "Assignment updated";
+                
+                if($count == 1):
+                    $db->commit();
+                    return "Assignment updated";
+                else:
+                    $db->rollBack();
+                    throw new PDOException;
+                endif;
             } catch (PDOException $e)
             {
                 //$error_message = $e->getMessage();
@@ -706,6 +741,7 @@ ins<?php
             {
                 $dbObj = new Database();
                 $db = $dbObj->getConnection();
+                $db->beginTransaction();
                 $query = "Update Student_Assignment "
                     . "Set Description=:desc, `Directory`=:dir, "
                     . "DateCreated=:date, Screenshot=:screen, "
@@ -721,10 +757,16 @@ ins<?php
                 $statement->bindValue(':sID', $studentID, PDO::PARAM_INT);
                 $statement->bindValue(':aID', $assignmentID, PDO::PARAM_INT);
                 $statement->execute();
+                $count = $statement->rowCount();
                 $statement->closeCursor();
-
-
-                return "Student assignment updated";
+                
+                if($count == 1):
+                    $db->commit();
+                    return "Student assignment updated";
+                else:
+                    $db->rollBack();
+                    throw new PDOException;
+                endif;
             } catch (PDOException $e)
             {
                 //$error_message = $e->getMessage();
@@ -968,6 +1010,7 @@ ins<?php
             {
                 $dbObj = new Database();
                 $db = $dbObj->getConnection();
+                $db->beginTransaction();
                 $query = "Select username From UserAccount "
                     . "Where Username= :uname AND Password = :pword";
                 $statement = $db->prepare($query);
@@ -977,7 +1020,7 @@ ins<?php
                 $count = $statement->rowCount();
                 $statement->closeCursor();
 
-                if ($count === 1):
+                if ($count == 1):
                     $query = "Update UserAccount "
                         . "Set Password= :newPass "
                         . "Where Username= :uname AND Password = :pword";
@@ -985,12 +1028,16 @@ ins<?php
                     $statement->bindValue(':uname', $username, PDO::PARAM_STR);
                     $statement->bindValue(':pword', $password, PDO::PARAM_STR);
                     $statement->bindValue(':newPass', $newPassword, PDO::PARAM_STR);
-                    $result = $statement->execute();
-
-                    if ($result == TRUE):
+                    $statement->execute();
+                    $count = $statement->rowCount();
+                    $statement->closeCursor();
+                    
+                    if ($count == 1):
+                        $db->commit();
                         return "Password changed.";
                     else:
-                        return "Password not changed.";
+                        $db->rollBack();
+                        throw new PDOException;
                     endif;
                 else:
                     return "Username/password credentials incorrect.";
@@ -999,6 +1046,7 @@ ins<?php
             {
                 //error_log($error_message, (int)0,"./error.txt");
                 //return "Could not retrieve user password";
+                return "Password could not be changed.";
             }
         }
 
@@ -1008,32 +1056,44 @@ ins<?php
             {
                 $dbObj = new Database();
                 $db = $dbObj->getConnection();
+                $db->beginTransaction();
                 $query = "Select LastLoggedIn from UserAccount "
                     . "Where Username= :uname";
                 $statement = $db->prepare($query);
                 $statement->bindValue(':uname', $username, PDO::PARAM_STR);
                 $statement->execute();
-                $lastLoggedIn = $statement->fetch();
-                $statement->closeCursor();
+                if($statement->rowCount() != 0):
+                    $lastLoggedIn = $statement->fetch();
+                    $statement->closeCursor();
 
-                $query = "UPDATE `UserAccount` "
-                    . "SET `LastLoggedIn` = :loggedIn "
-                    . "WHERE `Username` = :uname";
-                $statement = $db->prepare($query);
-                $statement->bindValue(':uname', $username, PDO::PARAM_STR);
-                $statement->bindValue(':loggedIn', $loggedIn);
-                $statement->execute();
-                $statement->closeCursor();
-
-                if ($lastLoggedIn[0] == NULL OR $lastLoggedIn[0] == '0000-00-00 00:00:00'):
-                    return "Welcome, this is the first time you've logged in!";
+                    $query = "UPDATE `UserAccount` "
+                        . "SET `LastLoggedIn` = :loggedIn "
+                        . "WHERE `Username` = :uname";
+                    $statement = $db->prepare($query);
+                    $statement->bindValue(':uname', $username, PDO::PARAM_STR);
+                    $statement->bindValue(':loggedIn', $loggedIn);
+                    $statement->execute();
+                    $count = $statement->rowCount();
+                    $statement->closeCursor();
+                    
+                    if($count == 1):
+                        $db->commit();
+                        if ($lastLoggedIn[0] == NULL OR $lastLoggedIn[0] == '0000-00-00 00:00:00'):
+                            return "Welcome, this is the first time you've logged in!";
+                        else:
+                            return "Welcome back, you last logged in at $lastLoggedIn[0] Pacific Time";
+                        endif;
+                    else:
+                        $db->rollBack();
+                        throw new PDOException;
+                    endif;
                 else:
-                    return "Welcome back, you last logged in at $lastLoggedIn[0] Pacific Time";
+                    return "Could not retrieve previous login of user.";
                 endif;
             } catch (PDOException $e)
             {
                 //error_log($error_message, (int)0,"./error.txt");
-                return "Could not update login";
+                return "Could not retrieve/update last login";
             }
         }
 
@@ -1060,6 +1120,37 @@ ins<?php
             {
                 //error_log($error_message, (int)0,"./error.txt");
                 return "Could not check username";
+            }
+        }
+        
+        function updateCourseKey($courseID, $courseKey)
+        {
+            try
+            {
+                $dbObj = new Database();
+                $db = $dbObj->getConnection();
+                $db->beginTransaction();
+                $query = "Update Courses "
+                    . "Set CourseKey = :cKey "
+                    . "Where CourseID= :cid";
+                $statement = $db->prepare($query);
+                $statement->bindValue(':cKey', $courseKey, PDO::PARAM_STR);
+                $statement->bindValue(':cid', $courseID, PDO::PARAM_INT);
+                $statement->execute();
+                $count = $statement->rowCount();
+                $statement->closeCursor();
+
+                if ($count == 1):
+                    $db->commit();
+                    return "Course key changed.";
+                else:
+                    $db->rollBack();
+                    throw new PDOException;
+                endif;
+            } catch (PDOException $e)
+            {
+                //error_log($error_message, (int)0,"./error.txt");
+                return "Could not change course key.";
             }
         }
 
