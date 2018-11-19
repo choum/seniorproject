@@ -1,4 +1,4 @@
-ins<?php
+<?php
     require_once("private/Database.php");
     require("./User.php");
     require("./Course.php");
@@ -88,7 +88,7 @@ ins<?php
                 $statement->execute();
                 $count = $statement->rowCount();
                 $statement->closeCursor();
-                
+
                 if($count == 1):
                     $db->commit();
                     return "User updated";
@@ -226,7 +226,7 @@ ins<?php
                 $statement->execute();
                 $count = $statement->rowCount();
                 $statement->closeCursor();
-                
+
                 if($count == 1):
                     $db->commit();
                     return "Instructor updated";
@@ -365,7 +365,7 @@ ins<?php
                 $statement->execute();
                 $count = $statement->rowCount();
                 $statement->closeCursor();
-                
+
                 if($count == 1):
                     $db->commit();
                     return "Course updated";
@@ -399,7 +399,7 @@ ins<?php
                 $return = new Course($course[1], $course[2], $course[3], $course[4], $course[5], $course[6], $course[7], $course[8], $course[9], $course[11]);
                 $return->setID($course[0]);
                 $return->setCourseKey($course[10]);
-                
+
                 return $return;
             } catch (PDOException $e)
             {
@@ -635,7 +635,7 @@ ins<?php
                 $statement->execute();
                 $count = $statement->rowCount();
                 $statement->closeCursor();
-                
+
                 if($count == 1):
                     $db->commit();
                     return "Assignment updated";
@@ -759,7 +759,7 @@ ins<?php
                 $statement->execute();
                 $count = $statement->rowCount();
                 $statement->closeCursor();
-                
+
                 if($count == 1):
                     $db->commit();
                     return "Student assignment updated";
@@ -1031,7 +1031,7 @@ ins<?php
                     $statement->execute();
                     $count = $statement->rowCount();
                     $statement->closeCursor();
-                    
+
                     if ($count == 1):
                         $db->commit();
                         return "Password changed.";
@@ -1075,7 +1075,7 @@ ins<?php
                     $statement->execute();
                     $count = $statement->rowCount();
                     $statement->closeCursor();
-                    
+
                     if($count == 1):
                         $db->commit();
                         if ($lastLoggedIn[0] == NULL OR $lastLoggedIn[0] == '0000-00-00 00:00:00'):
@@ -1122,7 +1122,7 @@ ins<?php
                 return "Could not check username";
             }
         }
-        
+
         function updateCourseKey($courseID, $courseKey)
         {
             try
