@@ -24,7 +24,7 @@ function redirect() {
       require 'admin-dashboard.php';
     } else if ($role == 4) {
       before_every_protected_page();
-      if ($action == 'add_project' || $action == 'project') {
+      if ($action == 'add_project' || $action == 'project' || $action == 'course_key') {
         require 'instructor-dashboard.php';
       } else {
         require 'admin-dashboard.php';
