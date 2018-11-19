@@ -51,7 +51,7 @@ require('header.php');
                 <input type="file" name='file' class="form-control-file" id="picture" aria-describedby="fileHelp">
               </div>
               <input type='hidden' name='action' value='add_project' >
-              <input type="submit" class="btn" value="Add Project">
+              <input type="submit" class="btn" value="Add Project" <?php if($current_selected_course == "") { ?>disabled <?php } ?>>
           </form>
           <hr />
         </div>
@@ -63,12 +63,12 @@ require('header.php');
         <div class="card-header">
           <h4 class="card-title">List of Your Classes</h4>
           <hr />
+          <?php if(!empty($current_user_courses)): ?>
           <div style="float: right;">
             <p class="card-text">Filter by:
               <form method='post'action=".">
                   <select onchange='this.form.submit()' name='user_selected_term'>
-                    <?php
-                      foreach($terms as $term) {
+                    <?php foreach($terms as $term) {
                         //check if the term was selected or is current if none was selected
                         if($term == $semester_year) {
                           echo    "<option value='$term' selected>" . $term . "</option>";
@@ -81,7 +81,9 @@ require('header.php');
               </form>
             </p>
           </div>
+          <?php else: ?> <h6 style="text-align: center"> <?php echo "No Courses Available."; endif; ?> </h6>
         </div>
+        <?php if(!empty($current_user_courses)): ?>
         <div class="card-body">
           <div class="table-responsive">
             <table class="table" style="margin: 0px auto;">
@@ -94,9 +96,7 @@ require('header.php');
                 </tr>
               </thead>
               <tbody>
-                <?php
-                if (!empty($current_user_courses)) {
-                  foreach ($current_user_courses as $user_course) {
+                <?php foreach ($current_user_courses as $user_course) {
                     echo "<tr>";
                       echo "<td>CIS " . $user_course[0]->courseNumber . "." . $user_course[0]->courseSection . "</td>";
                       echo "<td>" . $user_course[0]->courseTitle . "</td>";
@@ -116,14 +116,13 @@ require('header.php');
                         echo "</ul>
                             </td>
                           </tr>";
-                  }
-                }
-                 ?>
+                  } ?>
               </tbody>
             </table>
             <hr />
           </div>
         </div>
+        <?php endif; ?>
       </div>
     </div>
     <!-- Add/update course key -->
@@ -152,10 +151,10 @@ require('header.php');
               <input  type='hidden' name='course' value="<?php echo $current_selected_course->courseID; ?>">
               <div class="form-group">
                 <label for="projectname">Current Course Key</label>
-                <input required type="text" name='key' class="form-control" id="key" value="<?php echo $current_selected_course->courseKey; ?>">
+                <input required type="text" name='key' class="form-control" id="key" value="<?php if($current_selected_course != ""){ echo $current_selected_course->courseKey; } ?>">
               </div>
               <input type='hidden' name='action' value='course_key' >
-              <input type="submit" class="btn" value="<?php echo $createOrUpdate; ?>">
+              <input type="submit" class="btn" value="<?php echo $createOrUpdate; ?>" <?php if($current_selected_course == "") { ?>disabled <?php } ?>>
           </form>
           <hr />
         </div>

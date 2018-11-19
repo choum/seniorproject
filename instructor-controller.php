@@ -20,8 +20,6 @@ $db = new SQLHelper();
 $username = $_SESSION["user"];
 //get user object from database
 $current_user = $db->getUser($username);
-//concat first and lasat name for display
-$current_user_name = $current_user->firstName . " " . $current_user->lastName;
 
 //run the appropriate function depending on request
 if (empty($action)) {
@@ -43,7 +41,7 @@ foreach ($term_string as $term) {
   array_push($terms , $term[0]);
 }
 
-$courses = [];
+$courses = array();
 $course_string = $db->getInstuctorCourses($current_user->id);
 foreach ($course_string as $course) {
   array_push($courses , $db->getCourse($course[0]));
@@ -53,10 +51,9 @@ $current_selected_course = "";
 $temp_course = filter_input(INPUT_POST , 'current_selected_course');
 if($temp_course != Null) {
   $current_selected_course = $db->getCourse($temp_course);
-} else {
+} else if(sizeof($courses) > 0){
     $current_selected_course = $db->getCourse($courses[0]->courseID);
 }
-
 //if user selected a term to view for courses
 //else use current session
 $temp_sem = filter_input(INPUT_POST , 'user_selected_term');
@@ -84,10 +81,14 @@ foreach($courseString as $courseID):
 endforeach;
 
 $createOrUpdate;
-if($current_selected_course->courseKey == NULL):
-    $createOrUpdate = "Create Course Key";
+if($current_selected_course != ""):
+    if($current_selected_course->courseKey == NULL):
+        $createOrUpdate = "Create Course Key";
+    else:
+        $createOrUpdate = "Update Course Key";
+    endif;
 else:
-    $createOrUpdate = "Update Course Key";
+    $createOrUpdate = "Create Course Key";
 endif;
 
 function addProject($id , $username , $message) {

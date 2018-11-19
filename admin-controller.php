@@ -30,11 +30,11 @@
     }
 
     //get the username from session
+    $username = "";
     if (isset($_SESSION))
     {
         $username = $_SESSION["user"];
     }
-    $username = $_SESSION["user"];
 
     //create an istance of SQLHelper to get data from database
     //load the arrays to use on the UI

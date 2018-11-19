@@ -42,7 +42,7 @@
                 <a href="/" ><i class="fas fa-arrow-left"></i> Back</a>
             </div>
             <div class="card-body" style="padding-top: 3px;">
-            <?php if (!empty($currentAssignment) AND ! empty($currentCourse)): ?>
+            <?php if ($currentAssignment->id != NULL AND $currentCourse->courseID != NULL): ?>
                 <h4 class="card-text" style="text-align:center;"><?php echo $assignmentName; ?></h4>
                 <p class="card-title">Course: <?php echo "$courseTitle $courseNumSection $courseTerm"; ?></p>
                 <p class="card-title">Instructor: <?php echo $instructorName ?></p>
