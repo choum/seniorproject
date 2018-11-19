@@ -19,7 +19,7 @@
 
 
         array_push($studentNames, $tempName);
-        array_push($studentAssignmentDirectorys, $tempStudentAssignment[3]);
+        array_push($studentAssignmentDirectorys, "/cap/$tempStudent->username/$course/$tempStudentAssignment[3]");
         array_push($studentSubmissionDates, $tempStudentAssignment[4]);
         
         $count++;
