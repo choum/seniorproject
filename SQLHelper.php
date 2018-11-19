@@ -1153,6 +1153,33 @@ ins<?php
                 return "Could not change course key.";
             }
         }
+        
+        function addUsingCourseKey($studentID, $courseKey)
+        {
+            try{
+                $dbObj = new Database();
+                $db = $dbObj->getConnection();
+                $query = "Select CourseID From Courses"
+                    . "Where CourseKey= :ckey";
+                $statement = $db->prepare($query);
+                $statement->bindValue(':cKey', $courseKey, PDO::PARAM_STR);
+                $statement->execute();
+                $count = $statement->rowCount();
+                $courseID = $statement->fetch()[0];
+                $statement->closeCursor();
+
+                if ($count == 1):
+                    $return = addStudentCourse($studentID, $courseID, date('NOW'));
+                    return $return;
+                else:
+                    throw new PDOException;
+                endif;
+                
+            } catch (PDOException $ex) 
+            {
+                return "Could not find match course to course key given.";
+            }
+        }
 
     }
 ?>
