@@ -18,11 +18,19 @@ function redirect() {
       //redirect to instructor
       before_every_protected_page();
       require 'instructor-dashboard.php';
-    } else if ($role == 3 || $role == 4) {
+    } else if ($role == 3) {
       //redirect to admin
       before_every_protected_page();
       require 'admin-dashboard.php';
-    } else {
+    } else if ($role == 4) {
+      before_every_protected_page();
+      if ($action == 'add_project' || $action == 'project') {
+        require 'instructor-dashboard.php';
+      } else {
+        require 'admin-dashboard.php';
+      }
+    }
+    else {
       require 'login.php';
       if (isset($_SESSION)) {
         end_session();
@@ -123,7 +131,6 @@ function register() {
     //validate
     $sql = new SQLHelper;
     $bool = $sql->checkForDuplicate($sUser);
-    var_dump($bool);
     if ($bool == false) {
       $error = "This Username is already taken. Please choose another username.";
       require 'register.php';
@@ -171,8 +178,8 @@ function setup() {
       $sql->addUser($userObj);
       $_SESSION['obj'] = NULL;
       $_SESSION['role'] = 1;
-      require 'dashboard.php';
       after_successful_login();
+      require 'dashboard.php';
     }
   } else {
     var_dump("?");
