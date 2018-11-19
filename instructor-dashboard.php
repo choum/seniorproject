@@ -4,7 +4,7 @@ require('header.php');
 ?>
 
   <div class="row">
-    <!--edit profile-->
+    <!--Add project-->
     <div class="col-md-4">
       <div class="card">
         <div class="card-header">
@@ -15,7 +15,7 @@ require('header.php');
         <div class="card-body" style="padding-top: 0px;">
             <div class="form-group">
               <p><label for="classname">Available Classes</label></p>
-              <form method="post">
+              <form method="post" action=".">
                 <select onchange='this.form.submit()' name='current_selected_course' class="form-control">
                   <?php
                     foreach($courses as $course) {
@@ -29,8 +29,8 @@ require('header.php');
                 </select>
             </form>
             </div>
-            <form method='post' enctype="multipart/form-data">
-              <input  type='hidden' name='course' value='<?php echo $current_selected_course->courseID; ?>' >
+            <form method="post" enctype="multipart/form-data">
+              <input  type='hidden' name='course' value="<?php echo $current_selected_course->courseID; ?>">
               <div class="form-group">
                 <label for="projectname">Project Name</label>
                 <input required type="text" name='name' class="form-control" id="section" placeholder="EX: Project 1">
@@ -51,7 +51,7 @@ require('header.php');
                 <input type="file" name='file' class="form-control-file" id="picture" aria-describedby="fileHelp">
               </div>
               <input type='hidden' name='action' value='add_project' >
-              <input type="submit" class="btn" value="Add Project">
+              <input type="submit" class="btn" value="Add Project" <?php if($current_selected_course == "") { ?>disabled <?php } ?>>
           </form>
           <hr />
         </div>
@@ -63,12 +63,12 @@ require('header.php');
         <div class="card-header">
           <h4 class="card-title">List of Your Classes</h4>
           <hr />
+          <?php if(!empty($current_user_courses)): ?>
           <div style="float: right;">
             <p class="card-text">Filter by:
-              <form method='post'>
+              <form method='post'action=".">
                   <select onchange='this.form.submit()' name='user_selected_term'>
-                    <?php
-                      foreach($terms as $term) {
+                    <?php foreach($terms as $term) {
                         //check if the term was selected or is current if none was selected
                         if($term == $semester_year) {
                           echo    "<option value='$term' selected>" . $term . "</option>";
@@ -81,7 +81,9 @@ require('header.php');
               </form>
             </p>
           </div>
+          <?php else: ?> <h6 style="text-align: center"> <?php echo "No Courses Available."; endif; ?> </h6>
         </div>
+        <?php if(!empty($current_user_courses)): ?>
         <div class="card-body">
           <div class="table-responsive">
             <table class="table" style="margin: 0px auto;">
@@ -94,9 +96,7 @@ require('header.php');
                 </tr>
               </thead>
               <tbody>
-                <?php
-                if (!empty($current_user_courses)) {
-                  foreach ($current_user_courses as $user_course) {
+                <?php foreach ($current_user_courses as $user_course) {
                     echo "<tr>";
                       echo "<td>CIS " . $user_course[0]->courseNumber . "." . $user_course[0]->courseSection . "</td>";
                       echo "<td>" . $user_course[0]->courseTitle . "</td>";
@@ -116,13 +116,47 @@ require('header.php');
                         echo "</ul>
                             </td>
                           </tr>";
-                  }
-                }
-                 ?>
+                  } ?>
               </tbody>
             </table>
             <hr />
           </div>
+        </div>
+        <?php endif; ?>
+      </div>
+    </div>
+    <!-- Add/update course key -->
+    <div class="col-md-4">
+      <div class="card" id="updateKey">
+        <div class="card-header">
+          <p id='message'><?php if(!empty($message)) {echo $memssage;} ?></p>
+          <h4 class="card-title">Create/Update Course Key</h4>
+          <hr>
+        </div>
+        <div class="card-body" style="padding-top: 0px;">
+            <form method="post" action="#updateKey">
+                <select onchange='this.form.submit()' name='current_selected_course' class="form-control">
+                  <?php
+                    foreach($courses as $course) {
+                      if($course->courseID == $current_selected_course->courseID) {
+                        echo "<option  value='$course->courseID' selected >" . $course->term . "---" . $course->courseNumber . "." . $course->courseSection . "---" . $course->courseTitle .  "</option>";
+                      } else {
+                        echo "<option value='$course->courseID'>" . $course->term . "---" . $course->courseNumber . "." . $course->courseSection . "---" . $course->courseTitle .  "</option>";
+                      }
+                    }
+                  ?>
+                </select>
+            </form>
+            <form method="post" enctype="multipart/form-data">
+              <input  type='hidden' name='course' value="<?php echo $current_selected_course->courseID; ?>">
+              <div class="form-group">
+                <label for="projectname">Current Course Key</label>
+                <input required type="text" name='key' class="form-control" id="key" value="<?php if($current_selected_course != ""){ echo $current_selected_course->courseKey; } ?>">
+              </div>
+              <input type='hidden' name='action' value='course_key' >
+              <input type="submit" class="btn" value="<?php echo $createOrUpdate; ?>" <?php if($current_selected_course == "") { ?>disabled <?php } ?>>
+          </form>
+          <hr />
         </div>
       </div>
     </div>

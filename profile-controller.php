@@ -23,7 +23,7 @@
     }
     $loggedIn;
     $dashboardLink = "";
-    if (sizeof($_SESSION) > 0)
+    if (sizeof($_SESSION) > 2)
     {
         if ($_SESSION["logged_in"] == TRUE)
         {
@@ -109,7 +109,7 @@
         $featuredCourseNumber = $featuredCourseInfo->courseNumber;
         $featuredDescription = $featuredAssignment[2];
         $featuredDirectory = $featuredAssignment[3];
-        $featuredScreenshots = explode("~", $featuredAssignment[5]);
+        $featuredScreenshots = explode(",", $featuredAssignment[5]);
         $featuredGroupProject = $featuredAssignment[7];
 
         $tempFSC = array();

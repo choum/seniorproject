@@ -8,7 +8,6 @@ require_once "Course.php";
 $action = filter_input(INPUT_POST , 'action');
 
 $message = "";
-
 //create object of dates class and get the current semester and year
 $dateOB = new Dates;
 $semester_year = $dateOB->getSemesterYear();
@@ -21,8 +20,6 @@ $db = new SQLHelper();
 $username = $_SESSION["user"];
 //get user object from database
 $current_user = $db->getUser($username);
-//concat first and lasat name for display
-$current_user_name = $current_user->firstName . " " . $current_user->lastName;
 
 //run the appropriate function depending on request
 if (empty($action)) {
@@ -32,6 +29,8 @@ if (empty($action)) {
     addProject($current_user->id , $username , $message);
 } else if($action == 'project') {
    viewProject();
+} else if($action == 'course_key'){
+    addUpdateCourseKey();
 }
 
 //get array of user terms
@@ -42,19 +41,19 @@ foreach ($term_string as $term) {
   array_push($terms , $term[0]);
 }
 
-$courses = [];
+$courses = array();
 $course_string = $db->getInstuctorCourses($current_user->id);
 foreach ($course_string as $course) {
   array_push($courses , $db->getCourse($course[0]));
 }
 
+$current_selected_course = "";
 $temp_course = filter_input(INPUT_POST , 'current_selected_course');
 if($temp_course != Null) {
   $current_selected_course = $db->getCourse($temp_course);
-} else {
-    //$current_selected_course = $db->getCourse($courses[0]->courseID);
+} else if(sizeof($courses) > 0){
+    $current_selected_course = $db->getCourse($courses[0]->courseID);
 }
-
 //if user selected a term to view for courses
 //else use current session
 $temp_sem = filter_input(INPUT_POST , 'user_selected_term');
@@ -74,6 +73,24 @@ foreach ($courseString as $courseID ) {
   array_push($current_user_courses, $temp_arr);
 }
 
+$courseKeys = array();
+foreach($courseString as $courseID):
+    $tempCourse = $db->getCourse($courseID[0]);
+    $tempCourseKey = $tempCourse->courseKey;
+    array_push($courseKeys, $tempCourseKey);
+endforeach;
+
+$createOrUpdate;
+if($current_selected_course != ""):
+    if($current_selected_course->courseKey == NULL):
+        $createOrUpdate = "Create Course Key";
+    else:
+        $createOrUpdate = "Update Course Key";
+    endif;
+else:
+    $createOrUpdate = "Create Course Key";
+endif;
+
 function addProject($id , $username , $message) {
   //get all the variebles from the input post
   $today = date("Y/m/d");
@@ -81,7 +98,7 @@ function addProject($id , $username , $message) {
   $description = filter_input(INPUT_POST , 'description');
   $course = filter_input( INPUT_POST , 'course');
   $type = filter_input(INPUT_POST , 'type');
-  $pdf = "";
+  $pdf = NULL;
 
   //if there is a file to insert to database
   if($_FILES['file']['size'] > 0 ){
@@ -120,7 +137,7 @@ function addProject($id , $username , $message) {
 
          if($bool) {
            $db = new SQLHelper();
-           $results = $db->addAssignment($name , $description , $type , $today , $course , $id , $file_name);
+           $results = $db->addAssignment($name, $description, $today, $file_name, $course, $id, $type);
            //echo "Assignment uploaded successsfully.";
          } else {
            //echo "Could not add file to database.";
@@ -132,7 +149,7 @@ function addProject($id , $username , $message) {
    } else {
 
      $db = new SQLHelper();
-     $results = $db->addAssignment($name , $description , $type , $today , $course , $id , $pdf);
+     $results = $db->addAssignment($name, $description, $today, $pdf, $course, $id, $type);
      //echo "Assignment uploaded successsfully. No file";
    }//end of is else for file is set
 
@@ -142,4 +159,12 @@ function viewProject() {
 
 }
 
+function addUpdateCourseKey(){
+    $currentCourseID = filter_input(INPUT_POST, 'course');
+    $key = filter_input(INPUT_POST, 'key');
+    echo "<br/> $currentCourseID <br/>";
+    echo $key . "<br/>";
+    $db = new SQLHelper();
+    $db->updateCourseKey($currentCourseID, $key);
+}
 ?>

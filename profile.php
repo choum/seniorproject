@@ -28,16 +28,17 @@ include("profile-controller.php"); ?>
                     <div class="card-header">
                         <ul class="nav nav-pills card-header-pills">
                             <?php if ($loggedIn == TRUE): ?>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="<?php echo $dashboardLink; ?>">Dashboard</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="#">Logout</a>
-                                    </li>
+                                    <form method="post" action="./">
+                                        <input type="submit" class="btn btn-link" value="Dashboard"/>
+                                    </form>
+                                    <form method="post" action=".">
+                                        <input type="hidden" name="action" value="logout" />
+                                        <input type="submit" class="btn btn-link" value="Logout"/>
+                                    </form>
                                 <?php else: ?>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="index.php">Login</a>
-                                    </li>
+                                    <form method="post" action="./">
+                                        <input type="submit" class="btn btn-link" value="Login"/>
+                                    </form>
                             <?php endif; ?>
                         </ul>
                     </div>

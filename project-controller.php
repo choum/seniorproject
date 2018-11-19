@@ -1,10 +1,6 @@
 <?php
 
     $db = new SQLHelper();
-    
-    $currentUser = $db->getUser($_SESSION["user"]);
-    $current_user_name = "$currentUser->firstName $currentUser->lastName";
-    
     $currentCourse = $db->getCourse($course);
     $currentAssignment = $db->getAssignment($assignment);
     $currentInstructor = $db->getUserByID($currentCourse->teacherID);
