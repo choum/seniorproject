@@ -169,7 +169,7 @@
                 $statement = $db->prepare($query);
                 $statement->bindValue(':username', $user->username, PDO::PARAM_STR);
                 $statement->execute();
-                $count = $statment->rowCount();
+                $count = $statement->rowCount();
                 $statement->closeCursor();
 
                 if ($count > 0):
@@ -178,15 +178,16 @@
 
                 $query = "Insert into UserAccount "
                     . "(Username, Password, FirstName, LastName, Title, "
-                    . "UserRole, Suspended, DateCreated, LastLoggedIn) "
+                    . "Email, UserRole, Suspended, DateCreated, LastLoggedIn) "
                     . "VALUES (:username, :password, :fName, :lName, :title,"
-                    . " :role, :suspend, :creation, :lastLogin)";
+                    . " :email, :role, :suspend, :creation, :lastLogin)";
                 $statement = $db->prepare($query);
                 $statement->bindValue(':username', $user->username, PDO::PARAM_STR);
                 $statement->bindValue(':password', $user->password, PDO::PARAM_STR);
                 $statement->bindValue(':fName', $user->firstName, PDO::PARAM_STR);
                 $statement->bindValue(':lName', $user->lastName, PDO::PARAM_STR);
                 $statement->bindValue(':title', $user->title, PDO::PARAM_STR);
+                $statement->bindValue(':email', $user->email, PDO::PARAM_STR);
                 $statement->bindValue(':role', $user->role, PDO::PARAM_INT);
                 $statement->bindValue(':suspend', $user->suspended, PDO::PARAM_BOOL);
                 $statement->bindValue(':creation', $user->dateCreated);
@@ -256,7 +257,9 @@
                 $user = $statement->fetch();
                 $statement->closeCursor();
 
-                $return = new User($user[1], $user[2], $user[3], $user[4], $user[5], $user[6], $user[7], $user[8], $user[9], $user[10], $user[11], $user[12], $user[13]);
+                $return = new User($user[1], $user[2], $user[3], $user[4], 
+                    $user[5], $user[6], $user[7], $user[8], $user[9], $user[10],
+                    $user[11], $user[12], $user[13]);
                 $return->setID($user[0]);
                 return $return;
             } catch (PDOException $e)
@@ -396,7 +399,9 @@
                 $course = $statement->fetch();
                 $statement->closeCursor();
 
-                $return = new Course($course[1], $course[2], $course[3], $course[4], $course[5], $course[6], $course[7], $course[8], $course[9], $course[11]);
+                $return = new Course($course[1], $course[2], $course[3], 
+                    $course[4], $course[5], $course[6], $course[7], $course[8],
+                    $course[9], $course[11]);
                 $return->setID($course[0]);
                 $return->setCourseKey($course[10]);
 
@@ -701,7 +706,7 @@
             }
         }
 
-        function addStudentAssignment($studentID, $assignmentID, $desc, $dir,
+        function addStudentAssignment($studentID, $assignmentID, $dir,
             $dateCreated, $screenshot = NULL, $featured = NULL, $group = NULL)
         {
             try
@@ -709,14 +714,13 @@
                 $dbObj = new Database();
                 $db = $dbObj->getConnection();
                 $query = "INSERT INTO Student_Assignment "
-                    . "(StudentID, AssignmentID, Description, `Directory`, "
+                    . "(StudentID, AssignmentID, `Directory`, "
                     . "DateCreated, Screenshot, Featured, `Group`) "
-                    . "VALUES(:sID, :aID, :desc, :dir, :date, :screen, "
+                    . "VALUES(:sID, :aID, :dir, :date, :screen, "
                     . ":featured, :group);";
                 $statement = $db->prepare($query);
                 $statement->bindValue(':sID', $studentID, PDO::PARAM_INT);
                 $statement->bindValue(':aID', $assignmentID, PDO::PARAM_INT);
-                $statement->bindValue(':desc', $desc, PDO::PARAM_STR);
                 $statement->bindValue(':dir', $dir, PDO::PARAM_STR);
                 $statement->bindValue(':date', $dateCreated);
                 $statement->bindValue(':screen', $screenshot, PDO::PARAM_STR);
@@ -734,7 +738,7 @@
             }
         }
 
-        function updateStudentAssignment($studentID, $assignmentID, $desc, $dir,
+        function updateStudentAssignment($studentID, $assignmentID, $dir,
             $dateCreated, $screenshot = NULL, $featured = NULL, $group = NULL)
         {
             try
@@ -743,12 +747,11 @@
                 $db = $dbObj->getConnection();
                 $db->beginTransaction();
                 $query = "Update Student_Assignment "
-                    . "Set Description=:desc, `Directory`=:dir, "
+                    . "Set Directory`=:dir, "
                     . "DateCreated=:date, Screenshot=:screen, "
                     . "Featured=:featured, `Group`=:group "
                     . "Where StudentID=:sID And AssignmentID = :aID;";
                 $statement = $db->prepare($query);
-                $statement->bindValue(':desc', $desc, PDO::PARAM_STR);
                 $statement->bindValue(':dir', $dir, PDO::PARAM_STR);
                 $statement->bindValue(':date', $dateCreated);
                 $statement->bindValue(':screen', $screenshot, PDO::PARAM_STR);
@@ -1151,6 +1154,90 @@
             {
                 //error_log($error_message, (int)0,"./error.txt");
                 return "Could not change course key.";
+            }
+        }
+        
+        function addCourseUsingCourseKey($studentID, $courseKey, $date)
+        {
+            try{
+                $dbObj = new Database();
+                $db = $dbObj->getConnection();
+                $query = "Select CourseID From Courses "
+                    . "Where CourseKey= :ckey";
+                $statement = $db->prepare($query);
+                $statement->bindValue(':cKey', $courseKey, PDO::PARAM_STR);
+                $statement->execute();
+                $count = $statement->rowCount();
+                $courseID = $statement->fetch()[0];
+                $statement->closeCursor();
+                unset($dbObj);
+                unset($db);
+                if ($count == 1):
+                    $return = addStudentCourse($studentID, $courseID, $date);
+                    if($return == "Student added to course"):
+                        $return = updateCoursesEnrolled($studentID, TRUE);
+                        return $return;
+                    else:
+                        return $return;
+                    endif;
+                else:
+                    throw new PDOException;
+                endif;
+                
+            } catch (PDOException $ex) 
+            {
+                return "Key entered is invalid.";
+            }
+        }
+        
+        function updateCoursesEnrolled($userID, $incOrDec){
+            try{
+                $return = getCoursesEnrolled($userID);
+                if(isint($return)):
+                    if($incOrDec == TRUE):
+                        $coursesEnrolled = $return + 1;
+                    else:
+                        $coursesEnrolled = $return - 1;
+                    endif;
+                    
+                    $dbObj = new Database();
+                    $db = $dbObj->getConnection();
+                    $db->beginTransaction();
+                    $query = "UPDATE UserAccount SET CoursesEnrolled = :cEnrolled WHERE UserID = :uID";
+                    $statement = $db->prepare($query);
+                    $statement->bindParam(':uID', $userID, PDO::PARAM_INT);
+                    $statement->bindParam(':cEnrolled', $coursesEnrolled, PDO::PARAM_INT);
+                    $statement->execute();
+                    $count = $statement->rowCount();
+                    $statement->closeCursor();
+
+                    if ($count == 1):
+                        $db->commit();
+                        return "Coures enrolled changed.";
+                    else:
+                        $db->rollBack();
+                        throw new PDOException;
+                    endif;
+                endif;
+            } catch (PDOException $ex) {
+                return "Could not update courses enrolled.";
+            }
+        }
+        
+        function getCoursesEnrolled($userID){
+            try{
+                $dbObj = new Database();
+                $db = $dbObj->getConnection();
+                $query = "Select CoursesEnrolled From UserAccount WHERE UserID = :uID";
+                $statement = $db->prepare($query);
+                $statement->bindParam(':uID', $userID, PDO::PARAM_INT);
+                $statement->execute();
+                $coursesEnrolled = $statement->fetch['CoursesEnrolled'];
+                $statement->closeCursor();
+                
+                return $coursesEnrolled;
+            } catch (PDOException $ex) {
+                return "Could not update courses enrolled.";
             }
         }
 

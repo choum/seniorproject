@@ -20,9 +20,9 @@ require('header.php');
                   <?php
                     foreach($courses as $course) {
                       if($course->courseID == $current_selected_course->courseID) {
-                        echo "<option  value='$course->courseID' selected >" . $course->term . "---" . $course->courseNumber . "." . $course->courseSection . "---" . $course->courseTitle .  "</option>";
+                        echo "<option  value='$course->courseID' selected >" . $course->term . " " . $course->courseNumber . "." . $course->courseSection . " " . $course->courseTitle .  "</option>";
                       } else {
-                        echo "<option value='$course->courseID'>" . $course->term . "---" . $course->courseNumber . "." . $course->courseSection . "---" . $course->courseTitle .  "</option>";
+                        echo "<option value='$course->courseID'>" . $course->term . " " . $course->courseNumber . "." . $course->courseSection . " " . $course->courseTitle .  "</option>";
                       }
                     }
                   ?>
@@ -139,9 +139,9 @@ require('header.php');
                   <?php
                     foreach($courses as $course) {
                       if($course->courseID == $current_selected_course->courseID) {
-                        echo "<option  value='$course->courseID' selected >" . $course->term . "---" . $course->courseNumber . "." . $course->courseSection . "---" . $course->courseTitle .  "</option>";
+                        echo "<option  value='$course->courseID' selected >" . $course->term . " " . $course->courseNumber . "." . $course->courseSection . " " . $course->courseTitle .  "</option>";
                       } else {
-                        echo "<option value='$course->courseID'>" . $course->term . "---" . $course->courseNumber . "." . $course->courseSection . "---" . $course->courseTitle .  "</option>";
+                        echo "<option value='$course->courseID'>" . $course->term . " " . $course->courseNumber . "." . $course->courseSection . " " . $course->courseTitle .  "</option>";
                       }
                     }
                   ?>

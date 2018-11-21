@@ -107,13 +107,14 @@
         $featuredCourseID = $db->getAssignment($featuredAssignmentID)->CourseID;
         $featuredCourseInfo = $db->getCourse($featuredCourseID);
         $featuredCourseNumber = $featuredCourseInfo->courseNumber;
-        $featuredDescription = $featuredAssignment[2];
+        $featuredDescription = $db->getAssignment($featuredAssignmentID)->description;
+        $featuredPath = "/cap/$username/$featuredCourseID/";
         $featuredDirectory = $featuredAssignment[3];
-        $featuredScreenshots = explode(",", $featuredAssignment[5]);
+        $explodedScreenshots = explode(",", $featuredAssignment[5]);
         $featuredGroupProject = $featuredAssignment[7];
 
         $tempFSC = array();
-        foreach ($featuredScreenshots as $screenshot):
+        foreach ($explodedScreenshots as $screenshot):
             array_push($tempFSC, "./img/$screenshot");
         endforeach;
         $featuredScreenshots = $tempFSC;
