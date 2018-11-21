@@ -1,4 +1,4 @@
-ins<?php
+<?php
     require_once("private/Database.php");
     require("./User.php");
     require("./Course.php");
@@ -701,7 +701,7 @@ ins<?php
             }
         }
 
-        function addStudentAssignment($studentID, $assignmentID, $desc, $dir,
+        function addStudentAssignment($studentID, $assignmentID, $dir,
             $dateCreated, $screenshot = NULL, $featured = NULL, $group = NULL)
         {
             try
@@ -709,14 +709,13 @@ ins<?php
                 $dbObj = new Database();
                 $db = $dbObj->getConnection();
                 $query = "INSERT INTO Student_Assignment "
-                    . "(StudentID, AssignmentID, Description, `Directory`, "
+                    . "(StudentID, AssignmentID, `Directory`, "
                     . "DateCreated, Screenshot, Featured, `Group`) "
-                    . "VALUES(:sID, :aID, :desc, :dir, :date, :screen, "
+                    . "VALUES(:sID, :aID, :dir, :date, :screen, "
                     . ":featured, :group);";
                 $statement = $db->prepare($query);
                 $statement->bindValue(':sID', $studentID, PDO::PARAM_INT);
                 $statement->bindValue(':aID', $assignmentID, PDO::PARAM_INT);
-                $statement->bindValue(':desc', $desc, PDO::PARAM_STR);
                 $statement->bindValue(':dir', $dir, PDO::PARAM_STR);
                 $statement->bindValue(':date', $dateCreated);
                 $statement->bindValue(':screen', $screenshot, PDO::PARAM_STR);
@@ -734,7 +733,7 @@ ins<?php
             }
         }
 
-        function updateStudentAssignment($studentID, $assignmentID, $desc, $dir,
+        function updateStudentAssignment($studentID, $assignmentID, $dir,
             $dateCreated, $screenshot = NULL, $featured = NULL, $group = NULL)
         {
             try
@@ -743,12 +742,11 @@ ins<?php
                 $db = $dbObj->getConnection();
                 $db->beginTransaction();
                 $query = "Update Student_Assignment "
-                    . "Set Description=:desc, `Directory`=:dir, "
+                    . "Set Directory`=:dir, "
                     . "DateCreated=:date, Screenshot=:screen, "
                     . "Featured=:featured, `Group`=:group "
                     . "Where StudentID=:sID And AssignmentID = :aID;";
                 $statement = $db->prepare($query);
-                $statement->bindValue(':desc', $desc, PDO::PARAM_STR);
                 $statement->bindValue(':dir', $dir, PDO::PARAM_STR);
                 $statement->bindValue(':date', $dateCreated);
                 $statement->bindValue(':screen', $screenshot, PDO::PARAM_STR);
