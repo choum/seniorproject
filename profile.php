@@ -86,13 +86,13 @@ include("profile-controller.php"); ?>
                                     foreach ($assignments as $assignment):
                                         ?>
                                     <li class="list-group-item"><strong>
-                                            <a href="<?php echo "/cap/$username/$course->courseID/" . $studentAssignments[$counter][3] . "/"; ?>"><?php echo $assignment->name; ?></a>
+                                            <a href="<?php echo "/cap/$username/$course->courseID/" . $studentAssignments[$counter][2] . "/"; ?>"><?php echo $assignment->name; ?></a>
                                         </strong> - <?php echo $assignment->description; ?>
-                                        <?php if ($studentAssignments[$counter][7]): ?>
+                                        <?php if ($studentAssignments[$counter][6]): ?>
                                             <span style="float:right;"> Group Project</span>
                                             <i class="fas fa-users" style="float:right; color: #01426A; margin-top: 2px; margin-right: 5px;"></i>
                                         <?php endif; ?>
-                                        <?php if ($studentAssignments[$counter][6]): ?>
+                                        <?php if ($studentAssignments[$counter][5]): ?>
                                             <i class="fas fa-star" style="float:right; color:#FFB500;"></i>
                                         <?php endif; $counter++; ?>
                                     </li>

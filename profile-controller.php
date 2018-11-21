@@ -108,10 +108,10 @@
         $featuredCourseInfo = $db->getCourse($featuredCourseID);
         $featuredCourseNumber = $featuredCourseInfo->courseNumber;
         $featuredDescription = $db->getAssignment($featuredAssignmentID)->description;
-        $featuredPath = "/cap/$username/$featuredCourseID/";
-        $featuredDirectory = $featuredAssignment[3];
-        $explodedScreenshots = explode(",", $featuredAssignment[5]);
-        $featuredGroupProject = $featuredAssignment[7];
+        $featuredPath = "/cap/student/$username/$featuredCourseID/";
+        $featuredDirectory = $featuredAssignment[2];
+        $explodedScreenshots = explode(",", $featuredAssignment[4]);
+        $featuredGroupProject = $featuredAssignment[6];
 
         $tempFSC = array();
         foreach ($explodedScreenshots as $screenshot):
