@@ -142,6 +142,8 @@
         $lastName = filter_input(INPUT_POST, 'lastName');
         $email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
         $password_random = generateRandomString(25);
+        $unsalted = $password_random;
+        $password_random = password_hash($password_random, PASSWORD_BCRYPT);
         //create an instance of the User class
         $temp_user = new User(substr($firstName, 0, 1) . $lastName, $password_random, $firstName, $lastName, "title", NULL, $email, NULL, NULL, NULL, 2, 0, "create", "");
 
@@ -151,6 +153,12 @@
         $result = $db->addInstructor($temp_user);
     }
 
+    function emailInstructor($email)
+    {
+      // Message
+      $message = "Your portfolio has been created by an admin on this website. Your randomly generated password is $unsalted";
+      mail($email, 'CIS Application Portfolio Password', $message);
+    }
 //end of
     //update instructor
     function updateInstructor()
