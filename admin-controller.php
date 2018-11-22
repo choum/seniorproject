@@ -151,12 +151,14 @@
         //add user to database
         $db = new SQLHelper();
         $result = $db->addInstructor($temp_user);
+        if($result[0] == "Instructor created"){ emailInstructor($email, $result[1], $unsalted); }
     }
 
-    function emailInstructor($email)
+    function emailInstructor($email, $username, $unsalted)
     {
       // Message
-      $message = "Your portfolio has been created by an admin on this website. Your randomly generated password is $unsalted";
+      $message = "Your portfolio has been created by an admin on this website. \nAccount username: $username \nPassword: $unsalted";
+      echo $message;
       mail($email, 'CIS Application Portfolio Password', $message);
     }
 //end of

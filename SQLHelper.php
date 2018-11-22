@@ -161,15 +161,14 @@
         {
             try
             {
-
                 $dbObj = new Database();
                 $db = $dbObj->getConnection();
                 $query = "Select Username From UserAccount "
-                    . "Where Username Like ':username%'";
+                    . "Where Username Like :username";
                 $statement = $db->prepare($query);
-                $statement->bindValue(':username', $user->username, PDO::PARAM_STR);
+                $statement->bindValue(':username', $user->username . "%", PDO::PARAM_STR);
                 $statement->execute();
-                $count = $statement->rowCount();
+                $count = sizeof($statement->fetchAll());
                 $statement->closeCursor();
 
                 $username = "";
@@ -195,10 +194,10 @@
                 $statement->bindValue(':suspend', $user->suspended, PDO::PARAM_BOOL);
                 $statement->bindValue(':creation', $user->dateCreated);
                 $statement->bindValue(':lastLogin', $user->lastLoginDate);
-                echo $statement->execute();
+                $statement->execute();
                 $statement->closeCursor();
 
-                return "Instructor created";
+                return ["Instructor created", $username];
             } catch (PDOException $e)
             {
                 echo $e->getMessage();
