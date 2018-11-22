@@ -86,7 +86,7 @@ include("profile-controller.php"); ?>
                                     foreach ($assignments as $assignment):
                                         ?>
                                     <li class="list-group-item"><strong>
-                                            <a href="<?php echo "/cap/$username/$course->courseID/" . $studentAssignments[$counter][2] . "/"; ?>"><?php echo $assignment->name; ?></a>
+                                            <a href="<?php echo "/cap/student/$username/$course->courseID/" . $studentAssignments[$counter][2] . "/"; ?>"><?php echo $assignment->name; ?></a>
                                         </strong> - <?php echo $assignment->description; ?>
                                         <?php if ($studentAssignments[$counter][6]): ?>
                                             <span style="float:right;"> Group Project</span>
