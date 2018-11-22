@@ -158,7 +158,6 @@
     {
       // Message
       $message = "Your portfolio has been created by an admin on this website. \nAccount username: $username \nPassword: $unsalted";
-      echo $message;
       mail($email, 'CIS Application Portfolio Password', $message);
     }
 //end of
