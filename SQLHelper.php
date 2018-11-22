@@ -165,15 +165,18 @@
                 $dbObj = new Database();
                 $db = $dbObj->getConnection();
                 $query = "Select Username From UserAccount "
-                    . "When Username Like :username%";
+                    . "Where Username Like ':username%'";
                 $statement = $db->prepare($query);
                 $statement->bindValue(':username', $user->username, PDO::PARAM_STR);
                 $statement->execute();
                 $count = $statement->rowCount();
                 $statement->closeCursor();
 
+                $username = "";
                 if ($count > 0):
-                    $username = "$username$count";
+                    $username = "$user->username$count";
+                else:
+                    $username = $user->username;
                 endif;
 
                 $query = "Insert into UserAccount "
@@ -182,7 +185,7 @@
                     . "VALUES (:username, :password, :fName, :lName, :title,"
                     . " :email, :role, :suspend, :creation, :lastLogin)";
                 $statement = $db->prepare($query);
-                $statement->bindValue(':username', $user->username, PDO::PARAM_STR);
+                $statement->bindValue(':username', $username, PDO::PARAM_STR);
                 $statement->bindValue(':password', $user->password, PDO::PARAM_STR);
                 $statement->bindValue(':fName', $user->firstName, PDO::PARAM_STR);
                 $statement->bindValue(':lName', $user->lastName, PDO::PARAM_STR);
@@ -192,12 +195,13 @@
                 $statement->bindValue(':suspend', $user->suspended, PDO::PARAM_BOOL);
                 $statement->bindValue(':creation', $user->dateCreated);
                 $statement->bindValue(':lastLogin', $user->lastLoginDate);
-                $statement->execute();
+                echo $statement->execute();
                 $statement->closeCursor();
 
                 return "Instructor created";
             } catch (PDOException $e)
             {
+                echo $e->getMessage();
                 //$error_message = $e->getMessage();
                 //error_log($error_message, (int)0,"./error.txt");
                 return "Instructor not created";

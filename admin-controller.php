@@ -143,12 +143,12 @@
         $email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
         $password_random = generateRandomString(25);
         //create an instance of the User class
-        $temp_user = new User(substr($firstName, 0, 1) . $lastName, $password_random, $firstName, $lastName, "title", "bio", $email, "img", "linked", "site", 2, 0, "create", "");
+        $temp_user = new User(substr($firstName, 0, 1) . $lastName, $password_random, $firstName, $lastName, "title", NULL, $email, NULL, NULL, NULL, 2, 0, "create", "");
 
         //create an instance of the SQLHelper class
         //add user to database
         $db = new SQLHelper();
-        $result = $db->addUser($temp_user);
+        $result = $db->addInstructor($temp_user);
     }
 
 //end of
