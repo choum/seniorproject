@@ -1,74 +1,96 @@
+<?php
+    require_once('project-controller.php');
+    require('header.php');
+?>
+
 <html>
 
-<head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
-  <script src="js/sortable.js"></script>
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/sortable.css">
+    <head>
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
 
-  <style>
-    #search {
-      background-color: #fff;
-    }
 
-    .card-title {
-      margin-bottom: 5px;
-    }
+        <style>
+            #search {
+                background-color: #fff;
+            }
 
-    .card-header+.list-group .list-group-item:first-child {
-      border-top: 1px solid rgba(0, 0, 0, .125);
-    }
+            .card-title {
+                margin-bottom: 5px;
+            }
 
-    a {
-      color: #01426A;
-    }
+            .card-header+.list-group .list-group-item:first-child {
+                border-top: 1px solid rgba(0, 0, 0, .125);
+            }
 
-    label {
-      font-size: 13pt;
-    }
+            a {
+                color: #01426A;
+            }
 
-    .card-title {
-      text-align: center;
-    }
-  </style>
-</head>
+            label {
+                font-size: 13pt;
+            }
 
-<body>
-  <div class="card">
-    <div class="card-header">
-    </div>
-    <div class="card-body">
-      <h4 class="card-title"><?php if (!empty($course )) { echo $course; } ?></h4>
-      <p class="card-text" style="text-align:center;"><?php if (!empty($assignment)) { echo $assignment; } ?></p>
-      <hr/>
-      <table class="table">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Link to Project Page</th>
-          </tr>
-        </thead>
-        <tbody>
-        <?php
-        if (!empty($users)) {
-          foreach ($users as $user) {
-            echo('<td>' . $user->$username . '</td>');
-            echo('<td><a href="sdc.cpp.edu/cap/' . $user->$username . '/' . $course . '/' . $assignment . '"</a></td>');
-          }
-        }
-        ?>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</body>
+            .card-title {
+                text-align: center;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="card">
+            <div class="card-header">
+                <a href="/" ><i class="fas fa-arrow-left"></i> Back</a>
+            </div>
+            <div class="card-body" style="padding-top: 3px;">
+            <?php if ($currentAssignment->id != NULL AND $currentCourse->courseID != NULL): ?>
+                <h4 class="card-text" style="text-align:center;"><?php echo $assignmentName; ?></h4>
+                <table class="table" style="margin: auto;">
+                    <tr>
+                        <td style="width: 50%; border-top: none; text-align: right;">Course</td>
+                        <td style="width: 50%; border-top: none;"><?php echo "$courseTitle $courseNumSection $courseTerm"; ?></td>
+                    </tr>
+                    <tr>
+                        <td style="width: 50%; border-top: none; text-align: right;">Instructor</td>
+                        <td style="width: 50%; border-top: none;"><?php echo $instructorName ?></td>
+                    </tr>
+                    <tr>
+                        <td style="width: 50%; border-top: none; text-align: right;">Description</td>
+                        <td style="width: 50%; border-top: none;"><?php echo $assignmentDescription ?></td>
+                    </tr>
+                </table>
+                <?php if($pdfLocation != ""): ?>
+                    <p class="card-title"><a href="<?php echo $pdfLocation; ?>" target="_blank">PDF Link</a></p>
+                <?php endif; ?>
+                
+                <hr/>
+                <?php if (!empty($studentIDs)): ?>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Upload Date</th>
+                                <th>Link to Project Page</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <?php for ($i = 0; $i < $count; $i++): ?>
+                            <tr>
+                                <td><?php echo $studentNames[$i]; ?></td>
+                                <td><?php echo $studentSubmissionDates[$i]; ?></td>
+                                <td><a href="<?php echo $studentAssignmentDirectorys[$i]; ?>" target="_blank">Project Link</a></td>
+                                 <!--echo('<td><a href="cap/' . $user->username . '/' . $current_course->courseID . '/' . $current_assignment->id . '">Project</a></td>');-->
+                            </tr>
+                        <?php endfor; ?>
+                        </tbody>
+                    </table>
+                <?php else: ?>
+                    <h6 class="card-text" style="text-align:center;">There are no student submissions for this assignment.</h6>
+                <?php endif; ?>
+            <?php else: ?>
+                <h4 class="card-text" style="text-align:center;">Course/Assignment could not be retrieved. Please return to previous page and try again.</h4>
+            <?php endif; ?>
+            </div>
+        </div>
+    </body>
 
 </html>
-
-?>

@@ -1,10 +1,7 @@
 <?php
-
     class CreateDB{
 
         public function createDBUser($user, $pass){
-
-            include 'Database.php';
             $db = new Database();
             $conn = $db->getConnection();
 

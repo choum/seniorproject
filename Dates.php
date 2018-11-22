@@ -1,6 +1,9 @@
 <?php
   class Dates {
 
+    public $terms = ["Fall", "Winter" , "Spring" , "Summer" ];
+    public $years = ["2018" , "2019" , "2020" , "2021" , "2022" , "2023" , "2024" , "2025" ];
+
     function __construct()
     {
 
@@ -36,6 +39,42 @@
       return $semester_year;
 
     }//end of semester function
+
+    function getCloseDate($term) {
+
+      $year = substr($term, -4);
+
+      $output = "";
+      if(strpos($term, "Spring") !== false) {
+        $temp =   $year . "/7/15";
+        $output = date($temp);
+      } else if (strpos($term, "Summer") !== false) {
+        $temp = $year . "/9/15";
+        $output = date($temp);
+      } else if (strpos($term, "Fall") !== false) {
+        $temp = $year . "/12/31";
+        $output = date($temp);
+      }else if(strpos($term, "Winter") !== false) {
+          $temp = $year . "/3/15";
+        $output = date($temp);
+      }
+      return $output;
+
+    }
+
+    function countTerm($term) {
+      $output = "0";
+      if($term == "Winter") {
+        $output = "1";
+      } else if($term == "Spring") {
+        $output = "2";
+      } else if($term == "Summer") {
+        $output = "3";
+      } else if($term == "Fall") {
+        $output = "4";
+      }
+      return $output;
+    }
 
 
 

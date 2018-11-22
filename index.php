@@ -1,163 +1,141 @@
 <?php
+//require all docs needed to run this redirect controller
 require_once 'includes/cis4270CommonIncludes.php';
 require_once 'SQLHelper.php';
-$sql = new SQLHelper;
+require_once 'User.php';
+require_once 'private/CreateFTP.php';
+require_once 'private/CreateDB.php';
+require_once 'login-functions.php';
+
+//starts a session if one does not exist
+if (!isset($_SESSION)) {
+  session_start();
+}
+
+//gets the action to decide
 $post = hPost('action');
+
+//declares error var
 $error = "";
 switch ($post) {
 
 case 'login':
-  //check to see form tokens are equal
-  if (csrf_token_is_valid()) {
-    //validate via DB and get user type
-    $username = hPOST('username');
-    $password = hPOST('password');
-    $saltedPass = password_hash($password, PASSWORD_BCRYPT);
-    $results = $sql->getUserAuth($username);
-    if (!empty($results)) {
-      $pass = $results['Password'];
-      $role = $results['UserRole'];
-    } else {
-      $pass = "";
-      $role = "";
-    }
-    //check if passwords are salted
-    if ($password == $pass) {
-      $_SESSION['user'] = $username;
-      $_SESSION['role'] = $role;
-      after_successful_login();
-      if (is_session_valid()) {
-        if ($role == 1) {
-          //redirect to student
-          before_every_protected_page();
-          require 'dashboard.php';
-        } else if ($role == 2) {
-          //redirect to instructor
-          before_every_protected_page();
-          require 'instructor-dashboard.php';
-        } else if ($role == 3) {
-          //redirect to admin
-          before_every_protected_page();
-          require 'admin-dashboard.php';
-        }
-      }
-
-    } else {
-      $error = "Username and password combination does not exist";
-    }
-  }
+  //calls function in login-functions.php
+  login();
   break;
+
 case 'register':
-  //check to form tokens
-  if (csrf_token_is_valid()) {
-  //sanitize & validate user/password
-    //make sure user is only
-    $sUser = hPOST("username");
-    if ( !preg_match('/^[A-Za-z][A-Za-z0-9]{5,31}$/', $sUser) ) {
-      $error += "Username should only be alphanumeric characters length greater than 5 and less than 31 <br/>";
-    }
-    $sPass = hPOST("password");
-    if ( !preg_match('/^[A-Za-z][A-Za-z0-9]{5,31}$/', $sPass) ) {
-      $error += "Password should only be alphanumeric characters length greater than 5 and less than 31 <br/>";
-    } else {
-      //hash the password
-      $sPass = password_hash($sPass, PASSWORD_BCRYPT);
-    }
-
-    //make sure both are only chars
-    $sFirst = hPOST("firstname");
-    $sLast = hPOST("lastname");
-    if (!preg_match('/[^A-Za-z]/', $sFirst)) {
-      $error += "First name should be only alphabet characters <br/>";
-    }
-    if (!preg_match('/[^A-Za-z]/', $sLast)) {
-        $error += "Last name should be only alphabet characters <br/>";
-    }
-
-    //Profile
-    //ADD IMAGE CHECK
-    if (empty($_POST['resume'])) {
-      $sResume = NULL;
-    } else {
-      $sResume = hPOST("resume");
-    }
-
-    if (empty($_POST['website'])) {
-      $sWebsite = null;
-    } else {
-      $sWebsite = hPOST("website");
-    }
-
-    if (empty($_POST['about'])) {
-      $sAbout = null;
-    } else {
-      $sAbout = hPOST("about");
-    }
-
-    //validate
-    if (!empty($error)) {
-      require 'register.php';
-    } else {
-      //store in db
-      $user = array(
-        'username' => $sUser,
-        'password' => $sPass,
-        'first' => $sFirst,
-        'last' => $sLast,
-        'phone' => hPOST('phone'),
-        'bio' => $sAbout,
-        'image' => hPOST('streetName'),
-        'website' => $sWebsite,
-        'linkedin' => $sResume,
-        'role' => 1
-      );
-      //take to dashboard
-      require 'dashboard.php';
-    }
-  }
+  //calls function in login-functions.php
+  register();
   break;
+
+case 'setup':
+  //calls function in login-functions.php
+  setup();
+break;
+
+case 'instructorDash':
+  //checks if session role is correct
+  $role = $_SESSION['role'];
+  //checks if user is logged in
+  $bool = $_SESSION['logged_in'];
+
+  //runs check for both and redirects
+  if (($role == 2 || $role == 4) && $bool) {
+    $menu = '<form method="post" action="." id="admin">
+      <input type="hidden" name="action" value="adminDash" />
+      <input type="submit" class="btn btn-link" value="Admin Dashboard"/>
+    </form>';
+    require 'instructor-dashboard.php';
+  } else {
+    //something went wrong so we end the session if it is set
+    if (isset($_SESSION)) {
+      end_session();
+    }
+    //redirect them to login
+    require 'login.php';
+   }
+  break;
+
+case 'adminDash':
+  //checks if session role is correct
+  $role = $_SESSION['role'];
+  //checks if user is logged in
+  $bool = $_SESSION['logged_in'];
+
+  //runs check for both and redirects
+  if (($role == 3 || $role == 4) && $bool) {
+    $menu = '<form method="post" action="." id="instructor">
+      <input type="hidden" name="action" value="instructorDash" />
+      <input type="submit" class="btn btn-link" value="Instructor Dashboard"/>
+    </form>';
+    require 'admin-dashboard.php';
+  } else {
+    //something went wrong so we end the session if it is set
+    if (isset($_SESSION)) {
+      end_session();
+    }
+    //redirect them to login
+    require 'login.php';
+    }
+break;
+
+case 'studentProf':
+  //checks if session role is correct
+  $role = $_SESSION['role'];
+  //checks if user is logged in
+  $bool = $_SESSION['logged_in'];
+
+  //runs check for both and redirects
+  if (($role == 1) && $bool) {
+    require 'profile.php';
+  } else {
+    //something went wrong so we end the session if it is set
+    if (isset($_SESSION)) {
+      end_session();
+    }
+    //redirect them to login
+    require 'login.php';
+    }
+break;
+
 case 'registerPage':
+  //sends them to register page
   require 'register.php';
   break;
 case 'logout':
-  if (is_logged_in() && is_session_valid()) {
-  require 'login.php';
-  after_successful_logout();
-  }
+  //calls logout function in login-functions.php
+  logout();
   break;
-case 'change':
-  if (is_session_valid()) {
+case 'changePage':
+  $bool = $_SESSION['logged_in'];
+  //checks to see if the session is valid and the boolean is true
+  if (is_session_valid() && $bool) {
         require 'changePass.php';
   } else {
-    end_session();
+    if (isset($_SESSION)) {
+      end_session();
+    }
     require 'login.php';
   }
   break;
+
+case 'change':
+  //calls function in login functions.php
+  change();
+break;
+
+case 'project':
+  //get project variables
+  $course = filter_input(INPUT_POST, 'Course');
+  $assignment = filter_input(INPUT_POST, 'Assignment');
+
+   //sql statement
+  include 'project-view.php';
+  break;
+
 default:
-  if (is_logged_in()) {
-    $role = $_SESSION['role'];
-    if ($role == 1) {
-      //redirect to student
-      before_every_protected_page();
-      require 'dashboard.php';
-    } else if ($role == 2) {
-      //redirect to instructor
-      before_every_protected_page();
-      require 'instructor-dashboard.php';
-    } else if ($role == 3) {
-      //redirect to admin
-      before_every_protected_page();
-      require 'admin-dashboard.php';
-    } else {
-      require 'login.php';
-      end_session();
-    }
-
-  } else {
-    require 'login.php';
-    end_session();
-  }
+  //redirects them to proper directory
+  redirect();
 }
-
-
 ?>
