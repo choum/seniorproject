@@ -1,5 +1,6 @@
 <?PHP
-  class Assignment {
+  class Assignment
+  {
 
     //instance variables
     public $id;
@@ -24,4 +25,6 @@
     }
   }
 
+      }
+  }
 ?>
