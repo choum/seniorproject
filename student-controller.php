@@ -172,6 +172,8 @@ date_default_timezone_set('UTC');
         }
         catch (Exception $e){
 
+            echo 'Fail';
+
         }
     }
 
@@ -189,7 +191,7 @@ date_default_timezone_set('UTC');
                 echo 'Success';
             }
             catch (Exception $e){
-                echo 'Failed to unzip';
+                echo $e;
             }
         }
     }
