@@ -1069,6 +1069,32 @@ Class SQLHelper
 
     }
 
+    function checkForDuplicate($username)
+    {
+        try
+        {
+            $dbObj = new Database();
+            $db = $dbObj->getConnection();
+            $query = "Select Username from UserAccount "
+                . "Where Username= :uname";
+            $statement = $db->prepare($query);
+            $statement->bindValue(':uname', $username, PDO::PARAM_STR);
+            $statement->execute();
+            $count = $statement->rowCount();
+            $statement->closeCursor();
+
+            if ($count > 0):
+                return false;
+            else:
+                return true;
+            endif;
+        } catch (PDOException $e)
+        {
+            //error_log($error_message, (int)0,"./error.txt");
+            return "Could not check username";
+        }
+    }
+
 }
 
 ?>
