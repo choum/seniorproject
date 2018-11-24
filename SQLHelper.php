@@ -641,23 +641,22 @@ Class SQLHelper
         }
     }
 
-    function addStudentAssignment($studentID, $assignmentID, $desc, $dir,
-                                  $dateCreated, $screenshot = NULL, $featured = NULL,
-                                  $group = NULL)
+    function addStudentAssignment($studentID, $assignmentID, $dir,
+                                  $dateCreated, $screenshot, $featured,
+                                  $group)
     {
         try
         {
             $dbObj = new Database();
             $db = $dbObj->getConnection();
             $query = "INSERT INTO Student_Assignment "
-                . "(StudentID, AssignmentID, Description, `Directory`, "
+                . "(StudentID, AssignmentID, `Directory`, "
                 . "DateCreated, Screenshot, Featured, `Group`) "
-                . "VALUES(:sID, :aID, :desc, :dir, :date, :screen, "
+                . "VALUES(:sID, :aID, :dir, :date, :screen, "
                 . ":featured, :group);";
             $statement = $db->prepare($query);
             $statement->bindValue(':sID', $studentID, PDO::PARAM_INT);
             $statement->bindValue(':aID', $assignmentID, PDO::PARAM_INT);
-            $statement->bindValue(':desc', $desc, PDO::PARAM_STR);
             $statement->bindValue(':dir', $dir, PDO::PARAM_STR);
             $statement->bindValue(':date', $dateCreated);
             $statement->bindValue(':screen', $screenshot, PDO::PARAM_STR);
@@ -666,12 +665,12 @@ Class SQLHelper
             $statement->execute();
             $statement->closeCursor();
 
-            return "Student ssignment created";
+            return "Student assignment created";
         } catch (PDOException $e)
         {
             //$error_message = $e->getMessage();
             //error_log($error_message, (int)0,"./error.txt");
-            return "Student assignment not created";
+            return "Assignment already exists";
         }
     }
 
