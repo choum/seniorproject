@@ -13,7 +13,7 @@ function redirect() {
     if ($role == 1) {
       //redirect to student
       before_every_protected_page();
-      require 'dashboard.php';
+      require 'student-dashboard.php';
     } else if ($role == 2) {
       //redirect to instructor
       before_every_protected_page();
