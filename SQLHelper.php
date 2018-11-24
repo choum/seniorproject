@@ -116,9 +116,10 @@ Class SQLHelper
             $user = $statement->fetch();
             $statement->closeCursor();
 
-            $return = new User($user[0], $user[1], $user[2], $user[3],
+            $return = new User($user[1], $user[2], $user[3],
                 $user[4], $user[5], $user[6], $user[7], $user[8],
                 $user[9], $user[10], $user[11], $user[12], $user[13], $user[14], $user[15]);
+            $return->setID($user[0]);
             return $return;
         } catch (PDOException $e)
         {
@@ -373,7 +374,7 @@ Class SQLHelper
 
             $return = new Course($course[1],$course[2],
                 $course[3],$course[4],$course[5],$course[6],$course[7],
-                $course[8],$course[9]);
+                $course[8],$course[9],$course[10]);
             $return->setID($course[0]);
             return $return;
         } catch (PDOException $e)
@@ -1065,6 +1066,32 @@ Class SQLHelper
 
         return $assignmentsList;
 
+    }
+
+    function checkForDuplicate($username)
+    {
+        try
+        {
+            $dbObj = new Database();
+            $db = $dbObj->getConnection();
+            $query = "Select Username from UserAccount "
+                . "Where Username= :uname";
+            $statement = $db->prepare($query);
+            $statement->bindValue(':uname', $username, PDO::PARAM_STR);
+            $statement->execute();
+            $count = $statement->rowCount();
+            $statement->closeCursor();
+
+            if ($count > 0):
+                return false;
+            else:
+                return true;
+            endif;
+        } catch (PDOException $e)
+        {
+            //error_log($error_message, (int)0,"./error.txt");
+            return "Could not check username";
+        }
     }
 
 }
