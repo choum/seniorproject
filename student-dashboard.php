@@ -1,70 +1,14 @@
 <?php
-    require('header.php');
-    include('student-controller.php');   
-    
+
+
     if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
 
     }
     else {
+      require('header.php');
+      include('student-controller.php'); 
         ?>
-        <style>
-            @media (max-width: 870px) {
-                .col-md-4 {
-                max-width: 100% !important;
-                width: 100% !important;
-            }
-            }
-
-            @media (max-width: 468px) {
-                #welcome {
-                    margin: 0;
-                    padding-left: 5px;
-                }
-
-                .card #welcome,
-                .card .nav,
-                .card .nav-item,
-                .card .search {
-                    display: inline;
-                }
-
-                .card .nav {
-                    float: left;
-                }
-            }
-
-            @media (max-width: 867px) {
-                #welcome {
-                    margin: 0;
-                    padding-left: 5px;
-                    padding-top: 8px;
-                    width: 100%;
-                }
-
-                .card #welcome,
-                .card .nav,
-                .card .nav-item,
-                .card .search {
-                    display: block;
-                }
-
-                .card .nav {
-                    float: left;
-                }
-
-                .col-md-4,
-                .col-md-12 {
-                    padding-left: 5px !important;
-                    padding-right: 5px !important;
-                }
-            }
-
-            @media (max-width: 575px) {
-                .box {
-                    padding: 0px;
-                }
-            }
-        </style>
+        <body>
 
         <div class="row">
             <div class="col-md-4">
@@ -73,7 +17,7 @@
                     <div class="card-header">
                         <h4 style="text-align:center;">Enroll In Course</h4>
                         <hr>
-                        <p style="margin-bottom: 0;">Use Course ID given by Professor to enroll</p>
+                        <p style="margin-bottom: 0;">Use your course key provided by the professor to enroll.</p>
                     </div>
                     <div class="card-body">
                         <div id="enrollment-messages"></div>
@@ -310,27 +254,29 @@
                     });
                 });
 
+
+                $('body').on('submit','#assignment-form', function(event) {
+                    event.preventDefault();
+                    if($('#user-assignments').val() == "" || $('#user-assignments').val() == null){
+                        $('#upload-messages').text('Please choose an assignment first.');
+                    }
+                    else{
+                        $.ajax({
+                            type: 'POST',
+                            url: 'student-dashboard.php',
+                            data: new FormData(this),
+                            contentType: false,
+                            cache: false,
+                            processData: false,
+                            success: function (data) {
+                                $('#upload-messages').text(data);
+                            }
+                        });
+                    }
+                });
+
             });
 
-            $('body').on('submit','#assignment-form', function(event) {
-                event.preventDefault();
-                if($('#user-assignments').val() == "" || $('#user-assignments').val() == null){
-                    $('#upload-messages').text('Please choose an assignment first.');
-                }
-                else{
-                    $.ajax({
-                        type: 'POST',
-                        url: 'student-dashboard.php',
-                        data: new FormData(this),
-                        contentType: false,
-                        cache: false,
-                        processData: false,
-                        success: function (data) {
-                            $('#upload-messages').text(data);
-                        }
-                    });
-                }
-            });
         </script>
         </html>
 <?php
