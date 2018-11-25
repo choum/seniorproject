@@ -374,7 +374,7 @@ Class SQLHelper
 
             $return = new Course($course[1],$course[2],
                 $course[3],$course[4],$course[5],$course[6],$course[7],
-                $course[8],$course[9],$course[10]);
+                $course[8],$course[9]);
             $return->setID($course[0]);
             return $return;
         } catch (PDOException $e)
@@ -1068,29 +1068,50 @@ Class SQLHelper
 
     }
 
-    function checkForDuplicate($username)
+    function updateLastLoggedIn($username, $loggedIn)
     {
         try
         {
             $dbObj = new Database();
             $db = $dbObj->getConnection();
-            $query = "Select Username from UserAccount "
+            $db->beginTransaction();
+            $query = "Select LastLoggedIn from UserAccount "
                 . "Where Username= :uname";
             $statement = $db->prepare($query);
             $statement->bindValue(':uname', $username, PDO::PARAM_STR);
             $statement->execute();
-            $count = $statement->rowCount();
-            $statement->closeCursor();
+            if($statement->rowCount() != 0):
+                $lastLoggedIn = $statement->fetch();
+                $statement->closeCursor();
 
-            if ($count > 0):
-                return false;
+                $query = "UPDATE `UserAccount` "
+                    . "SET `LastLoggedIn` = :loggedIn "
+                    . "WHERE `Username` = :uname";
+                $statement = $db->prepare($query);
+                $statement->bindValue(':uname', $username, PDO::PARAM_STR);
+                $statement->bindValue(':loggedIn', $loggedIn);
+                $statement->execute();
+                $count = $statement->rowCount();
+                $statement->closeCursor();
+
+                if($count == 1):
+                    $db->commit();
+                    if ($lastLoggedIn[0] == NULL OR $lastLoggedIn[0] == '0000-00-00 00:00:00'):
+                        return "Welcome, this is the first time you've logged in!";
+                    else:
+                        return "Welcome back, you last logged in at $lastLoggedIn[0] Pacific Time";
+                    endif;
+                else:
+                    $db->rollBack();
+                    throw new PDOException;
+                endif;
             else:
-                return true;
+                return "Could not retrieve previous login of user.";
             endif;
         } catch (PDOException $e)
         {
             //error_log($error_message, (int)0,"./error.txt");
-            return "Could not check username";
+            return "Could not retrieve/update last login";
         }
     }
 
