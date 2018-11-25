@@ -18,6 +18,7 @@
     $assignments = getAssignmentsOfCourses($courses);
     $studentAssignments = getStudentAssignments($userID, $assignments);
     $imageDir = './profiles/' . $username . '/img/';
+    
     $action = filter_input(INPUT_POST, 'action');
     $courseID = filter_input(INPUT_POST, 'course_id');
 
@@ -30,7 +31,7 @@
         if (isset($_POST['enrollment_key']))
         {
             $key = filter_input(INPUT_POST, 'enrollment_key');
-            registerCourse($key, date("Ymd"), $userID);
+            registerCourse($key, date("Ymd"), $username);
         }
     }
     elseif ($action == 'edit_profile')
@@ -47,21 +48,17 @@
     
     if (!empty($courseID))
     {
-        echo "<script>console.log('A');</script>";
         getAssignments($courseID);
     }
-    else{
-        echo "<script>console.log('B');</script>";
-    }
 
-    function registerCourse($key, $date, $userID)
+    function registerCourse($key, $date, $username)
     {
         // Load SQL Helper class
         $commands = new SQLHelper();
         // Try to run the registerCourse SQL command
         try
         {
-            $commands->addCourseUsingCourseKey($userID, $key, $date);
+            $commands->registerCourse($username, $key, $date);
             http_response_code(200);
         }
         //Catch any errors in the process

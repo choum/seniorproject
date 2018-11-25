@@ -864,7 +864,7 @@
                 $statement->execute();
                 $statement->closeCursor();
 
-                return "Student added to course";
+                return "You have been successfully added to the course.";
             } catch (PDOException $e)
             {
                 //$error_message = $e->getMessage();
@@ -1157,95 +1157,91 @@
             }
         }
 
-        function addCourseUsingCourseKey($studentID, $courseKey, $date)
-        {
-            try
-            {
+        function registerCourse($username, $key, $date){
+            try{
                 $dbObj = new Database();
                 $db = $dbObj->getConnection();
-                $query = "Select CourseID From Courses "
-                    . "Where CourseKey= :ckey";
+                $query = "SELECT CourseID FROM Courses WHERE CourseKey = :ckey";
                 $statement = $db->prepare($query);
-                $statement->bindValue(':cKey', $courseKey, PDO::PARAM_STR);
+                $statement->bindValue('ckey', $key, PDO::PARAM_STR);
                 $statement->execute();
                 $count = $statement->rowCount();
-                $courseID = $statement->fetch()[0];
+                $course = $statement->fetch(PDO::FETCH_ASSOC);
                 $statement->closeCursor();
-                unset($dbObj);
-                unset($db);
-                if ($count == 1):
-                    $return = getUser($studentID);
-                    if ($return != "Could not retrieve user data"):
-                        $return = addStudentCourse($studentID, $courseID, $date);
-                        if ($return == "Student added to course"):
-                            $return = updateCoursesEnrolled($studentID, TRUE);
-                            return $return;
+                if($count === 1){
+                    try {
+                        $user = $this->getUser($username);
+                        $userID = $user->id;
+                        $userCourses = $user->courses;
+                        $courseID = $course['CourseID'];
+                    }
+                    catch (Exception $e){
+                        echo "Cannot find student account.";
+                    }
+
+                    try {
+                        $return = $this->addStudentCourse($userID, $courseID, $date);
+                        if($return != "Student not added to course"):
+                            echo "You have been successfully added to the course.";
                         else:
-                            return $return;
+                            throw new Exception;
                         endif;
-                    else:
-                        return $return;
-                    endif;
+
+                        try {
+                            $return = $this->updateCoursesEnrolled($userID, $userCourses, TRUE);
+                            if($return != "Coures enrolled changed."):
+                                throw new Exception;
+                            endif;
+                        }
+                        catch (Exception $e){
+                            echo "Could not update.";
+                        }
+                    }
+
+                    catch (Exception $e){
+                        echo "You are already registered.";
+                    }
+                }
+                else{
+                    echo "This is an invalid key";
+                }
+
+
+            }
+            catch(PDOException $e){
+                echo "You have entered an incorrect course key.";
+            }
+
+        }
+
+        function updateCoursesEnrolled($userID, $userCourses, $incOrDec)
+        {
+            try
+            {
+                if ($incOrDec == TRUE):
+                    $coursesEnrolled = $userCourses + 1;
                 else:
-                    throw new PDOException;
+                    $coursesEnrolled = $userCourses - 1;
                 endif;
-            } catch (PDOException $ex)
-            {
-                return "Key entered is invalid.";
-            }
-        }
 
-        function updateCoursesEnrolled($userID, $incOrDec)
-        {
-            try
-            {
-                $return = getCoursesEnrolled($userID);
-                if (isint($return)):
-                    if ($incOrDec == TRUE):
-                        $coursesEnrolled = $return + 1;
-                    else:
-                        $coursesEnrolled = $return - 1;
-                    endif;
-
-                    $dbObj = new Database();
-                    $db = $dbObj->getConnection();
-                    $db->beginTransaction();
-                    $query = "UPDATE UserAccount SET CoursesEnrolled = :cEnrolled WHERE UserID = :uID";
-                    $statement = $db->prepare($query);
-                    $statement->bindParam(':uID', $userID, PDO::PARAM_INT);
-                    $statement->bindParam(':cEnrolled', $coursesEnrolled, PDO::PARAM_INT);
-                    $statement->execute();
-                    $count = $statement->rowCount();
-                    $statement->closeCursor();
-
-                    if ($count == 1):
-                        $db->commit();
-                        return "Coures enrolled changed.";
-                    else:
-                        $db->rollBack();
-                        throw new PDOException;
-                    endif;
-                endif;
-            } catch (PDOException $ex)
-            {
-                return "Could not update courses enrolled.";
-            }
-        }
-
-        function getCoursesEnrolled($userID)
-        {
-            try
-            {
                 $dbObj = new Database();
                 $db = $dbObj->getConnection();
-                $query = "Select CoursesEnrolled From UserAccount WHERE UserID = :uID";
+                $db->beginTransaction();
+                $query = "UPDATE UserAccount SET CoursesEnrolled = :cEnrolled WHERE UserID = :uID";
                 $statement = $db->prepare($query);
                 $statement->bindParam(':uID', $userID, PDO::PARAM_INT);
+                $statement->bindParam(':cEnrolled', $coursesEnrolled, PDO::PARAM_INT);
                 $statement->execute();
-                $coursesEnrolled = $statement->fetch['CoursesEnrolled'];
+                $count = $statement->rowCount();
                 $statement->closeCursor();
 
-                return $coursesEnrolled;
+                if ($count == 1):
+                    $db->commit();
+                    return "Coures enrolled changed.";
+                else:
+                    $db->rollBack();
+                    throw new PDOException;
+                endif;
             } catch (PDOException $ex)
             {
                 return "Could not update courses enrolled.";

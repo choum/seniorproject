@@ -1,12 +1,11 @@
 <?php
-
+    include('student-controller.php'); 
 
     if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
 
     }
     else {
         require('header.php');
-        include('student-controller.php'); 
         ?>
         <body>
 
@@ -94,6 +93,7 @@
                     <div class='card-deck'>
                         <div class='container-fluid'>
                             <div class='row' id='sortable'>
+                            <?php if(!empty($courses)): ?>
                             <?php foreach($courses as $course): ?>
                                 <div class="col-12 box" data-size='12'>
                                     <div class="card no-margin mb-3">
@@ -124,6 +124,15 @@
                                     </div>
                                 </div>
                             <?php endforeach; ?>
+                            <?php else: ?>
+                                <div class="col-12 box" data-size='12'>
+                                    <div class="card no-margin mb-3">
+                                        <div class="card-header">
+                                            <h5>You are not enrolled in any courses.</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php endif; ?>
                             </div>
                         </div>
                     </div>
