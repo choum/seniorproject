@@ -5,8 +5,8 @@
 
     }
     else {
-      require('header.php');
-      include('student-controller.php'); 
+        require('header.php');
+        include('student-controller.php'); 
         ?>
         <body>
 
@@ -124,49 +124,6 @@
                                     </div>
                                 </div>
                             <?php endforeach; ?>
-                                <div class="col-12 box" data-size='12'>
-                                    <div class="card no-margin mb-3">
-                                        <div class="card-header">
-                                            <h5 class="card-title">CIS 4260.01 Fall 2018 - Serverside Web
-                                                Development</h5>
-                                            <p class="card-text" style="text-align: center;">Zhongming Ma</p>
-                                        </div>
-                                        <ul class="list-group list-group-flush">
-                                            <li class="list-group-item"><a href="#" target="_blank" class="card-link">Assignment
-                                                    1 </a> <span style="float:right;">Group Project</span><i
-                                                    class="fas fa-users"
-                                                    style="float:right; color: #01426A; margin-top: 2px; margin-right: 5px;"></i>
-                                            </li>
-                                            <li class="list-group-item">Assignment 2</li>
-                                            <li class="list-group-item">Project</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="col-12 box" data-size='12'>
-                                    <div class="card no-margin mb-3">
-                                        <div class="card-header">
-                                            <h5 class="card-title">CIS 4270.01 Fall 2018 - Secure Web Apps</h5>
-                                            <p class="card-text" style="text-align: center;">John Miller</p>
-                                        </div>
-                                        <ul class="list-group list-group-flush">
-                                            <li class="list-group-item">Final Project <i class="fas fa-star"
-                                                                                         style="float:right; color:#FFB500;"></i>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="col-12 box" data-size='12'>
-                                    <div class="card no-margin mb-3">
-                                        <div class="card-header">
-                                            <h5 class="card-title">CIS 4290.01 Fall 2018 - IS Project Management and
-                                                Development </h5>
-                                            <p class="card-text" style="text-align: center;">Hui Shi</p>
-                                        </div>
-                                        <ul class="list-group list-group-flush">
-                                            <li class="list-group-item">Final Project</li>
-                                        </ul>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
