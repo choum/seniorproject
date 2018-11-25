@@ -115,7 +115,7 @@
         $explodedScreenshots = explode(",", $featuredAssignment[4]);
         $featuredGroupProject = $featuredAssignment[6];
 
-        $featuredScreenshotDir = "./cap/student/$username/img/$featuredCourseID/";
+        $featuredScreenshotDir = "./cap/student/$username/img/$featuredAssignmentID/";
         $tempFSC = array();
         foreach ($explodedScreenshots as $screenshot):
             array_push($tempFSC, "$featuredScreenshotDir$screenshot");
