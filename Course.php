@@ -28,14 +28,14 @@
             $this->enrollment = $enroll;
             $this->adminID = $admin;
             $this->teacherID = $teacher;
-            $this->close = $closeDate;
+            $this->closeDate = $closeDate;
         }
 
         function setID($courseID)
         {
             $this->courseID = $courseID;
         }
-        
+
         function setCourseKey($courseKey)
         {
             $this->courseKey = $courseKey;

@@ -7,7 +7,7 @@
     public $description;
     public $date;
     public $pdf;
-    public $CourseID;
+    public $courseID;
     public $teacherID;
     public $type;
 
@@ -18,7 +18,7 @@
       $this->description = $desc;
       $this->date = $adate;
       $this->pdf = $apdf;
-      $this->CourseID = $course;
+      $this->courseID = $course;
       $this->teacherID = $teacher;
       $this->type = $atype;
     }
