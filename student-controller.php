@@ -18,6 +18,7 @@
     $assignments = getAssignmentsOfCourses($courses);
     $studentAssignments = getStudentAssignments($userID, $assignments);
     $imageDir = './profiles/' . $username . '/img/';
+    $assignmentDir = "/cap/student/$username/workspace/";
     
     $action = filter_input(INPUT_POST, 'action');
     $courseID = filter_input(INPUT_POST, 'course_id');

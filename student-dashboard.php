@@ -107,7 +107,7 @@
                                             <li class="list-group-item">
                                             <?php foreach($studentAssignments as $studentAssignment): ?>
                                             <?php if($studentAssignment[1] == $assignment->id AND $bool == true): ?>
-                                                <a href="<?php echo "/cap/student/$username/$course->courseID/" . $studentAssignment[2] . "/";?>" target="_blank" class="card-link"><?php echo $assignment->name; ?></a>
+                                                <a href="<?php echo $assignmentDir . $studentAssignment[2] . "/";?>" target="_blank" class="card-link"><?php echo $assignment->name; ?></a>
                                                 <?php if($studentAssignment[5] == TRUE): ?>
                                                     <span style="float:right;">Group Project</span><i class="fas fa-users" style="float:right; color: #01426A; margin-top: 2px; margin-right: 5px;"></i>
                                                 <?php endif; ?>

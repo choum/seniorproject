@@ -136,10 +136,12 @@ if (!empty($_SESSION['user'])) {
               <?php
               if (!empty($role)) {
                 if ($role == 1) {
-                  echo('<form method="post" action=".">
-                    <input type="hidden" name="action" value="studentProf" />
-                    <input type="submit" class="btn btn-link" value="Profile"/>
-                  </form>');
+                  $user = $_SESSION['user'];
+                  echo("<a href='profile.php?user=$user'>Profile</a>");
+//                  '<form method="post" action=".">
+//                    <input type="hidden" name="action" value="studentProf" />
+//                    <input type="submit" class="btn btn-link" value="Profile"/>
+//                  </form>'
                 } else if ($role == 4) {
                     if (empty($menu)) {
                       $menu = '<form method="post" action="." id="instructor">
