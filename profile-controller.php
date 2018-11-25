@@ -46,8 +46,10 @@
     $email = $user->email;
     $website = $user->website;
     $linkedin = $user->linkedin;
-    $picture = "./img/$user->imageLink";
+    $pictureDir = "./profiles/$username/img/";
+    $picture = $user->imageLink;
     $userID = $user->id;
+    $assignmentDir = "/cap/student/$username/workspace/";
     //student assignments tied to studentID in student_assignment
     $studentAssignmentids = $db->getStudentAssignments($userID);
     $assignmentids = array();
@@ -108,14 +110,15 @@
         $featuredCourseInfo = $db->getCourse($featuredCourseID);
         $featuredCourseNumber = $featuredCourseInfo->courseNumber;
         $featuredDescription = $db->getAssignment($featuredAssignmentID)->description;
-        $featuredPath = "/cap/student/$username/$featuredCourseID/";
+        $featuredPath = $assignmentDir;
         $featuredDirectory = $featuredAssignment[2];
         $explodedScreenshots = explode(",", $featuredAssignment[4]);
         $featuredGroupProject = $featuredAssignment[6];
 
+        $featuredScreenshotDir = "./cap/student/$username/img/$featuredCourseID/";
         $tempFSC = array();
         foreach ($explodedScreenshots as $screenshot):
-            array_push($tempFSC, "./img/$screenshot");
+            array_push($tempFSC, "$featuredScreenshotDir$screenshot");
         endforeach;
         $featuredScreenshots = $tempFSC;
     }
