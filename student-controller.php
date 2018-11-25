@@ -4,11 +4,14 @@
     define ('SITE_ROOT', realpath(dirname(__FILE__)));
 
 
-date_default_timezone_set('UTC');
+    date_default_timezone_set('UTC');
 
-    $username = 'username';
-    $userID = getUserID($username);
+    $username = $current_user->username;
+    $userID = $current_user->id;
     $courses = getCourses($userID);
+    $assignments = getAssignmentsOfCourses($courses);
+    $studentAssignments = getStudentAssignments($userID, $assignments);
+    $imageDir = './profiles/' . $username . '/img/';
     $action = filter_input(INPUT_POST , 'action');
     $courseID = filter_input(INPUT_POST, 'course_id');
 
@@ -18,14 +21,15 @@ date_default_timezone_set('UTC');
         elseif($action == 'enroll_course') {
             if (isset($_POST['enrollment_key'])) {
                 $key = filter_input(INPUT_POST, 'enrollment_key');
-                registerCourse($key, date("Ymd"), $username);
+                registerCourse($key, date("Ymd"), $userID);
             }
         }
         elseif($action == 'edit_profile'){
-            editProfile($username);
+            editProfile($current_user);
         }
         elseif($action == 'upload_assignment'){
-            uploadAssignment($username);
+            $assignmentID = filter_input(INPUT_POST, 'assignmentID');
+            uploadAssignment($current_user, $assignmentID);
         }
 
         if(!empty($courseID)){
@@ -33,12 +37,12 @@ date_default_timezone_set('UTC');
         }
 
 
-    function registerCourse($key, $date, $username){
+    function registerCourse($key, $date, $userID){
             // Load SQL Helper class
             $commands = new SQLHelper();
             // Try to run the registerCourse SQL command
             try{
-                $commands->registerCourse($username, $key, $date);
+                $commands->addCourseUsingCourseKey($userID, $key, $date);
                 http_response_code(200);
             }
             //Catch any errors in the process
@@ -48,42 +52,70 @@ date_default_timezone_set('UTC');
             }
     }
 
-    function getUser($username){
-        $commands = new SQLHelper();
-        try{
-            $user = $commands->getUser($username);
-            return $user;
-        }
-        catch (Exception $e){
-            echo "Invalid user";
-        }
-    }
-
-    function getUserID($username){
-        $commands = new SQLHelper();
-        try{
-            $userID = $commands->getUserID($username);
-            return $userID;
-        }
-        catch (Exception $e){
-            return 'Error';
-        }
-    }
 
     function getCourses($userID){
         $commands = new SQLHelper();
-        $courses = $commands->getUserCourses($userID);
-        return $courses;
+        $studentCourses = $commands->getStudentCourses($userID);
+        if($studentCourses != "Could not retrieve student's courses"):
+            $courses = array();
+            foreach($studentCourses as $studentCourse):
+                $tempCourse = $commands->getCourse($studentCourse['CourseID']);
+                if($tempCourse->closed == FALSE ){
+                    array_push($courses, $tempCourse);
+                }
+            endforeach;
+            return $courses;
+        else:
+            return NULL;
+        endif;
+        
+        //$courses = $commands->getUserCourses($userID);
     }
 
+    function getAssignmentsOfCourses($courses){
+        $db = new SQLHelper();
+        $assignments = array();
+        foreach($courses as $course):
+            $assignmentIDs = $db->getAssignments($course->courseID);
+            foreach($assignmentIDs as $assignmentID):
+                $tempAssignment = $db->getAssignment($assignmentID[0]);
+                if($tempAssignment != "Could not retrieve assignment"):
+                    array_push($assignments, $tempAssignment);
+                endif;
+            endforeach;
+        endforeach;
+        
+        return $assignments;
+    }
+    
+    function getStudentAssignments($userID, $assignments){
+        $db = new SQLHelper();
+        $studentAssignments = array();
+        foreach($assignments as $assignment):
+            $tempAssignment = $db->getStudentAssignment($userID, $assignment->id);
+            if($tempAssignment != "Could not retrieve student assignment"):
+                array_push($studentAssignments, $tempAssignment);
+            endif;
+        endforeach;
+        return $studentAssignments;
+    }
+    
     function getAssignments($courseID){
         try {
             $commands = new SQLHelper();
-            $assignments = $commands->getUserAssignments($courseID);
+            $assignmentIDs = $commands->getAssignments($courseID);
+            $assignments = array();
+            if($assignmentIDs != "Could not retreive assignment list"):
+                foreach($assignmentIDs as $assignmentID):
+                    $tempAssignment = $commands->getAssignment($assignmentID);
+                    array_push($assignments, $tempAssignment);
+                endforeach;
+            endif;
+            //$assignments = $commands->getUserAssignments($courseID);
             if (!empty($assignments)) {
                 echo '<option value="">Select Assignment...</option>';
                 foreach ($assignments as $assignment) {
-                    echo '<option value="' . $assignment['AssignmentID'] . '">' . $assignment['AssignmentName'] . '</option>';
+                    echo '<option value="' . $assignment->id . '">' . $assignment->name . '</option>';
                 }
             } else {
                 echo '<option value="">No Assignments Found</option>';
@@ -94,13 +126,24 @@ date_default_timezone_set('UTC');
         }
     }
 
-    function editProfile($username){
+    function getTeacher($teacherID){
+        $db = new SQLHelper();
+        $teacher = $db->getInstructor($teacherID);
+        if($teacher != "Could not retrieve instructor"):
+            return $teacher->firstName . " " . $teacher->lastName;
+        else:
+            return $teacher;
+        endif;
+    }
+    
+    function editProfile($user){
+        $username = $user->username;
        $uploadDirectory = '/profiles/' . $username . '/img/';
        try {
            if (isset($_FILES['image_files']) && $_FILES['image_files']['name'] != '') {
-               $aboutMe = $_POST['about'];
-               $resumeLink = $_POST['resume'];
-               $personalWebsite = $_POST['website'];
+               $aboutMe = filter_input(INPUT_POST, 'about');
+               $resumeLink = filter_input(INPUT_POST, 'resume');
+               $personalWebsite = filter_input(INPUT_POST, 'website');
 
                $maxsize = 1000000;
                $acceptable = array(
@@ -139,8 +182,9 @@ date_default_timezone_set('UTC');
                    try{
                        move_uploaded_file($fileTmp, SITE_ROOT . $uploadDirectory . $fileDestination);
                        try{
+                           $userID = $user->id;
                            $commands = new SQLHelper();
-                           $commands->updateUser($username, $aboutMe, $fileDestination, $resumeLink, $personalWebsite);
+                           $commands->updateUser($userID, $aboutMe, $fileDestination, $resumeLink, $personalWebsite);
                        }
                        catch(Exception $e){
                            echo 'SQL Error';
@@ -162,12 +206,23 @@ date_default_timezone_set('UTC');
        }
     }
 
-    function uploadAssignment($username){
-        $uploadDirectory = "/cap/$username/workspace/CIS4290_Assignment1";
+    function uploadAssignment($user, $assignmentID){
+        $username = $user->username;
+        $userID = $user->id;
+        $db = new SQLHelper();
+        
+        $assignment = $db->getAssignment($assignmentID);
+        $assignmentName = $assignment->name;
+        
+        $uploadDirectory = "/cap/$username/workspace/$assignmentName";
         try {
             if(isset($_FILES['zip']) && $_FILES['zip']['name'] != ''){
                 $zip = $_FILES['zip'];
-                unzip($zip['tmp_name'], $uploadDirectory, $_FILES['zip']);
+                $return = unzip($zip['tmp_name'], $uploadDirectory, $_FILES['zip']);
+                if($return == "Success"):
+                    
+                    $return = $db->updateStudentAssignment($userID, $assignmentID, $uploadDirectory, date("Ymd"));
+                endif;
             }
         }
         catch (Exception $e){
@@ -186,10 +241,10 @@ date_default_timezone_set('UTC');
                 $zip = new Zip();
                 $zip->unzip_file($location, SITE_ROOT.$new_location);
 
-                echo 'Success';
+                return 'Success';
             }
             catch (Exception $e){
-                echo 'Failed to unzip';
+                return 'Failed to unzip';
             }
         }
     }

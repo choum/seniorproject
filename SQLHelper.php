@@ -1,8 +1,8 @@
 <?php
     require_once("private/Database.php");
-    require("./User.php");
-    require("./Course.php");
-    require("./Assignment.php");
+    require("User.php");
+    require("Course.php");
+    require("Assignment.php");
 
     Class SQLHelper
     {
@@ -141,7 +141,7 @@
                 $user = $statement->fetch();
                 $statement->closeCursor();
 
-                $return = new User($user[1], $user[2], $user[3], $user[4], $user[5], $user[6], $user[7], $user[8], $user[9], $user[10], $user[11], $user[12], $user[13], $user[14]);
+                $return = new User($user[1], $user[2], $user[3], $user[4], $user[5], $user[6], $user[7], $user[8], $user[9], $user[10], $user[11], $user[12], $user[13], $user[14], $user[15]);
                 $return->setID($user[0]);
                 return $return;
             } catch (PDOException $e)
@@ -200,7 +200,6 @@
                 return ["Instructor created", $username];
             } catch (PDOException $e)
             {
-                echo $e->getMessage();
                 //$error_message = $e->getMessage();
                 //error_log($error_message, (int)0,"./error.txt");
                 return "Instructor not created";
@@ -262,7 +261,7 @@
 
                 $return = new User($user[1], $user[2], $user[3], $user[4], 
                     $user[5], $user[6], $user[7], $user[8], $user[9], $user[10],
-                    $user[11], $user[12], $user[13]);
+                    $user[11], $user[12], $user[13], $user[14], $user[15]);
                 $return->setID($user[0]);
                 return $return;
             } catch (PDOException $e)
@@ -1176,10 +1175,15 @@
                 unset($dbObj);
                 unset($db);
                 if ($count == 1):
-                    $return = addStudentCourse($studentID, $courseID, $date);
-                    if($return == "Student added to course"):
-                        $return = updateCoursesEnrolled($studentID, TRUE);
-                        return $return;
+                    $return = getUser($studentID);
+                    if($return != "Could not retrieve user data"):
+                        $return = addStudentCourse($studentID, $courseID, $date);
+                        if($return == "Student added to course"):
+                            $return = updateCoursesEnrolled($studentID, TRUE);
+                            return $return;
+                        else:
+                            return $return;
+                        endif;
                     else:
                         return $return;
                     endif;

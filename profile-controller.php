@@ -65,7 +65,7 @@
     $assignments = array();
     foreach ($assignmentids as $assignmentID):
         $assignment = $db->getAssignment($assignmentID);
-        array_push($courseids, $assignment->CourseID);
+        array_push($courseids, $assignment->courseID);
         array_push($assignments, $assignment);
     endforeach;
 
@@ -104,7 +104,7 @@
         //description
         $featuredAssignmentID = $featuredAssignment[1];
         $featuredAssignmentName = $db->getAssignment($featuredAssignmentID)->name;
-        $featuredCourseID = $db->getAssignment($featuredAssignmentID)->CourseID;
+        $featuredCourseID = $db->getAssignment($featuredAssignmentID)->courseID;
         $featuredCourseInfo = $db->getCourse($featuredCourseID);
         $featuredCourseNumber = $featuredCourseInfo->courseNumber;
         $featuredDescription = $db->getAssignment($featuredAssignmentID)->description;
