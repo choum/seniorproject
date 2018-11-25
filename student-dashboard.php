@@ -102,8 +102,8 @@
                                             <p class="card-text" style="text-align: center;"><?php echo getTeacher($course->teacherID); ?></p>
                                         </div>
                                         <ul class="list-group list-group-flush">
-                                        <?php foreach($assignments as $assignment):  $bool = true; ?>
-                                        <?php if($assignment->courseID == $course->courseID): ?>
+                                        <?php $count = 0; foreach($assignments as $assignment):  $bool = true; ?>
+                                        <?php if($assignment->courseID == $course->courseID):  $count++; ?>
                                             <li class="list-group-item">
                                             <?php foreach($studentAssignments as $studentAssignment): ?>
                                             <?php if($studentAssignment[1] == $assignment->id AND $bool == true): ?>
@@ -120,6 +120,11 @@
                                             </li>
                                         <?php endif; ?>
                                         <?php endforeach; ?>
+                                        <?php if($count == 0): ?>
+                                            <li class="list-group-item">
+                                                <label>Currently no assignments for this course.</label>
+                                            </li>
+                                        <?php endif; ?>
                                         </ul>
                                     </div>
                                 </div>
