@@ -36,6 +36,9 @@
                        multiple=""/><br/>
             </div>
             <div class="form-group">
+                <p>Make this your featured assignment? <input type="checkbox" name="featured" value=""></p>
+            </div>
+            <div class="form-group">
                 <p>Is this a group project? <input type="checkbox" name="group" value=""></p>
             </div>
             <input type='hidden' name='action' value='upload_assignment'>
