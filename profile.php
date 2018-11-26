@@ -117,6 +117,7 @@ include("profile-controller.php"); ?>
                         </h6>
                         <hr/>
                         <p class="card-text"><?php echo $featuredDescription; ?></p>
+                        <?php if(!empty($featuredScreenshots)): ?>
                         <div id="carouselExampleControls1" class="carousel slide" data-ride="carousel">
                             <div class="carousel-inner">
                             <?php $counter = 0; foreach ($featuredScreenshots as $screenshot) : ?>
@@ -134,6 +135,7 @@ include("profile-controller.php"); ?>
                                 <span class="sr-only">Next</span>
                             </a>
                         </div>
+                        <?php endif; ?>
                     <?php endif; ?>
                     </div>
                 </div>
