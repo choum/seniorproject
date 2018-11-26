@@ -19,7 +19,7 @@
 
 
         array_push($studentNames, $tempName);
-        array_push($studentAssignmentDirectorys, "/cap/student/$tempStudent->username/$course/$tempStudentAssignment[2]/");
+        array_push($studentAssignmentDirectorys, "/cap/student/$tempStudent->username/workspace/$tempStudentAssignment[2]/");
         array_push($studentSubmissionDates, $tempStudentAssignment[3]);
         
         $count++;
@@ -37,5 +37,5 @@
     
     $pdfLocation = "";
     if($currentAssignment->pdf != NULL OR $currentAssignment->pdf != ""):
-        $pdfLocation = "/cap/instructor/" . $currentInstructor->username . "/" . $course . "/" . $currentAssignment->pdf;
+        $pdfLocation = "/cap/instructor/" . $course . "/" . $currentAssignment->pdf;
     endif;

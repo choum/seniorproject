@@ -46,8 +46,10 @@
     $email = $user->email;
     $website = $user->website;
     $linkedin = $user->linkedin;
-    $picture = "./img/$user->imageLink";
+    $pictureDir = "./profiles/$username/img/";
+    $picture = $user->imageLink;
     $userID = $user->id;
+    $assignmentDir = "/cap/student/$username/workspace/";
     //student assignments tied to studentID in student_assignment
     $studentAssignmentids = $db->getStudentAssignments($userID);
     $assignmentids = array();
@@ -65,7 +67,7 @@
     $assignments = array();
     foreach ($assignmentids as $assignmentID):
         $assignment = $db->getAssignment($assignmentID);
-        array_push($courseids, $assignment->CourseID);
+        array_push($courseids, $assignment->courseID);
         array_push($assignments, $assignment);
     endforeach;
 
@@ -104,18 +106,19 @@
         //description
         $featuredAssignmentID = $featuredAssignment[1];
         $featuredAssignmentName = $db->getAssignment($featuredAssignmentID)->name;
-        $featuredCourseID = $db->getAssignment($featuredAssignmentID)->CourseID;
+        $featuredCourseID = $db->getAssignment($featuredAssignmentID)->courseID;
         $featuredCourseInfo = $db->getCourse($featuredCourseID);
         $featuredCourseNumber = $featuredCourseInfo->courseNumber;
         $featuredDescription = $db->getAssignment($featuredAssignmentID)->description;
-        $featuredPath = "/cap/student/$username/$featuredCourseID/";
+        $featuredPath = $assignmentDir;
         $featuredDirectory = $featuredAssignment[2];
         $explodedScreenshots = explode(",", $featuredAssignment[4]);
         $featuredGroupProject = $featuredAssignment[6];
 
+        $featuredScreenshotDir = "./cap/student/$username/img/$featuredAssignmentID/";
         $tempFSC = array();
         foreach ($explodedScreenshots as $screenshot):
-            array_push($tempFSC, "./img/$screenshot");
+            array_push($tempFSC, "$featuredScreenshotDir$screenshot");
         endforeach;
         $featuredScreenshots = $tempFSC;
     }

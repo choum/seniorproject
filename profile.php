@@ -44,7 +44,7 @@ include("profile-controller.php"); ?>
                     </div>
                 </div>
                 <div class="card" style="">
-                    <img class="card-img-top" src="<?php echo $picture ?>" alt="Profile Picture">
+                    <img class="card-img-top" src="<?php echo $pictureDir . $picture ?>" alt="Profile Picture">
                     <div class="card-body">
                         <h3 class="card-title"><?php echo "$firstName $lastName"; ?></h3>
                         <p class="card-text"><?php echo $bio; ?></p>
@@ -86,7 +86,7 @@ include("profile-controller.php"); ?>
                                     foreach ($assignments as $assignment):
                                         ?>
                                     <li class="list-group-item"><strong>
-                                            <a href="<?php echo "/cap/student/$username/$course->courseID/" . $studentAssignments[$counter][2] . "/"; ?>"><?php echo $assignment->name; ?></a>
+                                            <a href="<?php echo $assignmentDir . $studentAssignments[$counter][2] . "/"; ?>"><?php echo $assignment->name; ?></a>
                                         </strong> - <?php echo $assignment->description; ?>
                                         <?php if ($studentAssignments[$counter][6]): ?>
                                             <span style="float:right;"> Group Project</span>

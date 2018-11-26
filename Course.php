@@ -36,6 +36,11 @@
             $this->courseID = $courseID;
         }
 
+        function setCourseKey($courseKey)
+        {
+            $this->courseKey = $courseKey;
+        }
+
     }
 
 ?>
