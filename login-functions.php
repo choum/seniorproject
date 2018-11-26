@@ -206,7 +206,7 @@ function register() {
       if (empty($file)) {
         $fileName = null;
       } else {
-        $fileName = $file['name'];
+        $fileName = $fileDestination;
       }
       $user = new User($sUser, $sPass, $sFirst, $sLast, 'student', $sAbout, $sEmail, $fileName, $sResume, $sWebsite,1,0, date("Y/m/d"), date("Y/m/d"));
       $results = $sql->addUser($user);
