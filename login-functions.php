@@ -221,7 +221,6 @@ function addProfile($user){
 
 function setup() {
   $createDB = new CreateDB;
-  $createFTP = new CreateFTP;
   $sql = new SQLHelper;
   $user = $_SESSION['user'];
   if (csrf_token_is_valid()) {
@@ -233,13 +232,13 @@ function setup() {
     } else if ($sqlPass == $user) {
       $error .= "SQL Password cannot be your username<br/>";
     }
-    $ftpPass = hPOST("ftpPass");
-    if ( !preg_match('/^[A-Za-z][A-Za-z0-9]{5,31}$/', $ftpPass) ) {
-      $error .= "FTP Password should only be alphanumeric characters length greater than 5 and less than 31 <br/>";
-    } else if (empty($ftpPass)){
-      $error .= "FTP Password cannot be empty<br/>";
-    } else if ($ftpPass == $user) {
-      $error .= "FTP Password cannot be your username<br/>";
+    //$ftpPass = hPOST("ftpPass");
+    //if ( !preg_match('/^[A-Za-z][A-Za-z0-9]{5,31}$/', $ftpPass) ) {
+      //$error .= "FTP Password should only be alphanumeric characters length greater than 5 and less than 31 <br/>";
+    //} else if (empty($ftpPass)){
+    //  $error .= "FTP Password cannot be empty<br/>";
+    //} else if ($ftpPass == $user) {
+    //  $error .= "FTP Password cannot be your username<br/>";
     }
     if (!empty($error)) {
       require 'setup.php';
@@ -247,7 +246,6 @@ function setup() {
       $userArray = $_SESSION['obj'];
       $userObj = new User($userArray[0], $userArray[1], $userArray[2], $userArray[3], $userArray[4], $userArray[5], $userArray[6], $userArray[7], $userArray[8], $userArray[9], $userArray[10], $userArray[11], $userArray[12], $userArray[13]);
       $createDB->createDBUser($user, $sqlPass);
-      $createFTP->createUser($user, $ftpPass);
       addProfile($userObj);
       $_SESSION['obj'] = NULL;
       $_SESSION['role'] = 1;

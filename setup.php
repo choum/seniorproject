@@ -32,7 +32,6 @@ create_csrf_token();
     <!-- progressbar -->
     <ul id="progressbar">
       <li class="active">SQL Account Setup</li>
-      <li>FTP Account Setup</li>
     </ul>
     <!-- fieldsets -->
     <?php echo csrf_token_tag();if (isset($error)) {echo "<p style='color: red;'>". $error . "<p>";}  ?>
@@ -43,16 +42,6 @@ create_csrf_token();
       <input type="password" name="sqlPass" id="sqlPass" placeholder="Password" />
       <label for="cpass">Confirm Password</label>
       <input type="password" name="SQLcpass" id="SQLcPass" placeholder="Confirm Password" />
-      <input type="button" name="next" class="next action-button" value="Next" />
-    </fieldset>
-    <fieldset>
-      <h2 class="fs-title">FTP Account Setup</h2>
-      <h3 class="fs-subtitle">Your username will be your BroncoID</h3>
-      <label for="FTPpass">Password</label>
-      <input type="password" name="ftpPass" id="ftpPass" placeholder="Password" />
-      <label for="cpass">Confirm Password</label>
-      <input type="password" name="ftpCpass" id="ftpCpass" placeholder="Confirm Password" />
-      <input type="button" name="previous" class="previous action-button" value="Previous" />
       <input type="submit" name="submit" id="submit" class="submit action-button" value="Submit" />
     </fieldset>
   </form>
