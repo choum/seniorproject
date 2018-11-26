@@ -174,6 +174,9 @@ function register() {
 
               if ($errors === 0)
               {
+                  if (!is_dir(SITE_ROOT . '/profiles/' . $sUser)) {
+                    mkdir(SITE_ROOT . '/profiles/' . $sUser, 0755, true);
+                  }
                   if (!is_dir(SITE_ROOT . $uploadDirectory))
                   {
                       mkdir(SITE_ROOT . $uploadDirectory, 0755, true);
@@ -199,9 +202,13 @@ function register() {
 
     if (!empty($error)) {
       require 'register.php';
-    } else if ($uploadBool || empty($file_name)) {
-      $file_name = null;
-      $user = new User($sUser, $sPass, $sFirst, $sLast, 'student', $sAbout, $sEmail, $file_name, $sResume, $sWebsite,1,0, date("Y/m/d"), date("Y/m/d"));
+    } else if ($uploadBool || empty($file)) {
+      if (empty($file)) {
+        $fileName = null;
+      } else {
+        $fileName = $file['name'];
+      }
+      $user = new User($sUser, $sPass, $sFirst, $sLast, 'student', $sAbout, $sEmail, $fileName, $sResume, $sWebsite,1,0, date("Y/m/d"), date("Y/m/d"));
       $results = $sql->addUser($user);
       $_SESSION['user'] = $sUser;
 
