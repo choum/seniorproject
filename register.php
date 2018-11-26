@@ -67,8 +67,8 @@ create_csrf_token();
       <input type="url" class="form-control" id="resume" name="resume" placeholder="LinkedIn or Online Resume">
       <label for="website">Personal Website</label>
       <input type="url" class="form-control" id="website" name="website" placeholder="Portfolio Website">
-      <label for="picture">Profile Picture</label>
-      <input id="profile-image" type="file" name="image_files" class="form-control-file" aria-describedby="fileHelp">
+      <label for="image_files">Profile Picture</label>
+      <input type="file" name='file' class="form-control-file" id="picture" aria-describedby="fileHelp">
       <small id="fileHelp" class="form-text text-muted">Only supports PNG, JPG.</small>
       <input type="button" name="previous" class="previous action-button" value="Previous" />
       <input type="submit" id="submit" class="submit action-button" value="Submit">

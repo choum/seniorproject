@@ -128,11 +128,45 @@ function register() {
     } else {
       $sAbout = hPOST("about");
     }
-    if (isset($_FILES['image_files']) && $_FILES['image_files']['name'] != '') {
-      $file = $_FILES['image_files'];
-    } else {
-      $file = NULL;
-    }
+    if(!empty($_FILES['file'])) {
+        //get the file from the input file
+        $errors= array();
+        $file_name = $_FILES['file']['name'];
+        $file_size =$_FILES['file']['size'];
+        $file_tmp =$_FILES['file']['tmp_name'];
+        $file_type=$_FILES['file']['type'];
+        $ext_arr = explode('.' , $file_name );
+        $ext = end($ext_arr);
+        $file_ext=strtolower($ext);
+
+        $expensions= array("jpeg","jpg","png" , "gif");
+
+        if(in_array($file_ext,$expensions)=== false){
+           array_push($errors,"extension not allowed, please choose a JPEG or PNG file.");
+        }
+
+        if($file_size > 1000000){
+           array_push($errors, 'File size must be less than 1 MB');
+        }
+
+        if(empty($errors)==true){
+          $str_temp = '/profiles/' . $username;
+          if (!is_dir($str_temp)) {
+            mkdir($str_temp, 0777, true);
+          }
+
+          $str_temp = '/profiles/' . $username . '/img/';
+          if(!is_dir($str_temp)) {
+            mkdir($str_temp, 0777, true);
+          }
+           $bool = move_uploaded_file($file_tmp, $str_temp . "/" . $file_name);
+           if (empty($errors) && $bool) {
+             $overallBool = true;
+           }
+       } else {
+         $size = false;
+       }
+     }
     //validate
     $sql = new SQLHelper;
     $bool = $sql->checkForDuplicate($sUser);
@@ -141,82 +175,24 @@ function register() {
       require 'register.php';
     } else if (!empty($error)) {
       require 'register.php';
+    } else if (!$size) {
+        var_dump($_FILES);
+        var_dump($_POST);
+    } else if (!$overallBool) {
+      $error = "Image upload failed";
+      require 'register.php';
     } else {
-      //store in db
-      $user = array($sUser, $sPass, $sFirst, $sLast, "student", $sAbout, $sEmail, $file, $sResume, $sWebsite, 1, 0, date("Y-m-d"), date("Y-m-d"));
-      $_SESSION['obj'] = $user;
+      $results = $sql->addUser($sUser, $sPass, $sFirst, $sLast, 'student', $sAbout, $sEmail, $file_name, $sResume, $sWebsite,1,0, date("Y/m/d"), date("Y/m/d"));
       $_SESSION['user'] = $sUser;
+
       require 'setup.php';
     }
   }
 }
 
 function addProfile($user){
-   $uploadDirectory = '/profile/img/' . $username;
-   $file = $user[7];
-   try {
-       if ($file['name'] != '') {
-
-           $maxsize = 1000000;
-           $acceptable = array(
-               'image/jpeg',
-               'image/jpg',
-               'image/gif',
-               'image/png'
-           );
-           $errors = 0;
-           $fileName = $file['name'];
-           $fileSize = $file['size'];
-           $fileType = $file['type'];
-           $fileExtension = pathinfo($fileName, PATHINFO_EXTENSION);
-           $fileExtension = strtolower($fileExtension);
-           $fileTmp = $file['tmp_name'];
-           $fileDestination = $username . '_profile.' . $fileExtension;
-
-           if (!in_array($fileType, $acceptable) && !empty($fileType)) {
-               echo 'Invalid file type. Please upload an image.';
-               $errors++;
-               exit();
-           }
-
-           if ($fileSize >= $maxsize || $fileSize === 0) {
-               echo 'File must be under 1MB';
-               $errors++;
-               exit();
-           }
-
-           if($errors === 0){
-               if(!is_dir(SITE_ROOT . $uploadDirectory)){
-                   mkdir(SITE_ROOT . $uploadDirectory, 0755, true);
-               }
-               try{
-                   move_uploaded_file($fileTmp, SITE_ROOT . $uploadDirectory . $fileDestination);
-                   try{
-                       $commands = new SQLHelper();
-                       $commands->addUser($user);
-                   }
-                   catch(Exception $e){
-                       echo 'SQL Error';
-                   }
-                   echo 'Image has been uploaded succesfully. Profile has been updated.';
-               }
-               catch(Exception $e){
-                   'Upload failed';
-               }
-           }
 
 
-       } else if (empty($file)) {
-         $user[7] == null;
-         $commands = new SQLHelper();
-         $commands->addUser($user);
-       } else {
-         echo 'Failed';
-       }
-   }
-   catch(Exception $e){
-       echo 'Failed';
-   }
 }
 
 function setup() {
@@ -244,9 +220,7 @@ function setup() {
       require 'setup.php';
     } else {
       $userArray = $_SESSION['obj'];
-      $userObj = new User($userArray[0], $userArray[1], $userArray[2], $userArray[3], $userArray[4], $userArray[5], $userArray[6], $userArray[7], $userArray[8], $userArray[9], $userArray[10], $userArray[11], $userArray[12], $userArray[13]);
       $createDB->createDBUser($user, $sqlPass);
-      addProfile($userObj);
       $_SESSION['obj'] = NULL;
       $_SESSION['role'] = 1;
       after_successful_login();
