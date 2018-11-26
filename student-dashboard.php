@@ -114,9 +114,10 @@ else {
                                                                     <?php if($studentAssignment[6] == TRUE) : ?>
                                                                         <i class="fas fa-star" style="float:right; color:#FFB500;"></i>
                                                                     <?php endif; $bool = false;?>
-                                                                <?php elseif($bool == true): echo $assignment->name; $bool = false; ?>
                                                                 <?php endif; ?>
                                                             <?php endforeach; ?>
+                                                        <?php if($bool == true): echo $assignment->name; $bool = false; ?>
+                                                        <?php endif; ?>
                                                         </li>
                                                     <?php endif; ?>
                                                 <?php endforeach; ?>
