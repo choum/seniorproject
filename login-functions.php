@@ -239,7 +239,7 @@ function setup() {
     //  $error .= "FTP Password cannot be empty<br/>";
     //} else if ($ftpPass == $user) {
     //  $error .= "FTP Password cannot be your username<br/>";
-    }
+    //}
     if (!empty($error)) {
       require 'setup.php';
     } else {
@@ -251,7 +251,7 @@ function setup() {
       $_SESSION['role'] = 1;
       after_successful_login();
       require 'dashboard.php';
-
+    }
   } else {
     var_dump("?");
   }
