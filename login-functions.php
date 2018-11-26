@@ -201,7 +201,7 @@ function register() {
       require 'register.php';
     } else if ($uploadBool || empty($file_name)) {
       $file_name = null;
-      $user = new User($sUser, $sPass, $sFirst, $sLast, 'student', $sAbout, $sEmail, $file_name, $sResume, $sWebsite,1,0, date("Y/m/d"), date("Y/m/d"))
+      $user = new User($sUser, $sPass, $sFirst, $sLast, 'student', $sAbout, $sEmail, $file_name, $sResume, $sWebsite,1,0, date("Y/m/d"), date("Y/m/d"));
       $results = $sql->addUser($user);
 
       require 'setup.php';
