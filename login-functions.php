@@ -128,7 +128,7 @@ function register() {
     } else {
       $sAbout = hPOST("about");
     }
-    if(!empty($_FILES['file'])) {
+    if($_FILES['file']['size'] > 0) {
         //get the file from the input file
         $errors= array();
         $file_name = $_FILES['file']['name'];
@@ -145,7 +145,7 @@ function register() {
            array_push($errors,"extension not allowed, please choose a JPEG or PNG file.");
         }
 
-        if($file_size > 1000000){
+        if($file_size > 20971520){
            array_push($errors, 'File size must be less than 1 MB');
         }
 
@@ -163,9 +163,9 @@ function register() {
            if (empty($errors) && $bool) {
              $overallBool = true;
            }
-       } else {
-         $size = false;
        }
+     } else {
+       $size = false;
      }
     //validate
     $sql = new SQLHelper;
