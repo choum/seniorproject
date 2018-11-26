@@ -152,7 +152,7 @@ function register() {
 }
 
 function addProfile($user){
-   $uploadDirectory = '/profile/img/' . $username;
+   $uploadDirectory = '/profiles/' . $username . '/img/';
    $file = $user[7];
    try {
        if ($file['name'] != '') {
