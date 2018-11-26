@@ -203,6 +203,8 @@ function register() {
       $file_name = null;
       $user = new User($sUser, $sPass, $sFirst, $sLast, 'student', $sAbout, $sEmail, $file_name, $sResume, $sWebsite,1,0, date("Y/m/d"), date("Y/m/d"));
       $results = $sql->addUser($user);
+      $_SESSION['user'] = $sUser;
+
 
       require 'setup.php';
     }
@@ -233,9 +235,7 @@ function setup() {
     if (!empty($error)) {
       require 'setup.php';
     } else {
-      $userArray = $_SESSION['obj'];
       $createDB->createDBUser($user, $sqlPass);
-      $_SESSION['obj'] = NULL;
       $_SESSION['role'] = 1;
       after_successful_login();
       require 'dashboard.php';
