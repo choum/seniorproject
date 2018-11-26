@@ -128,62 +128,80 @@ function register() {
     } else {
       $sAbout = hPOST("about");
     }
-    if($_FILES['file']['size'] > 0) {
-        //get the file from the input file
-        $errors= array();
-        $file_name = $_FILES['file']['name'];
-        $file_size =$_FILES['file']['size'];
-        $file_tmp =$_FILES['file']['tmp_name'];
-        $file_type=$_FILES['file']['type'];
-        $ext_arr = explode('.' , $file_name );
-        $ext = end($ext_arr);
-        $file_ext=strtolower($ext);
-
-        $expensions= array("jpeg","jpg","png" , "gif");
-
-        if(in_array($file_ext,$expensions)=== false){
-           array_push($errors,"extension not allowed, please choose a JPEG or PNG file.");
-        }
-
-        if($file_size > 20971520){
-           array_push($errors, 'File size must be less than 1 MB');
-        }
-
-        if(empty($errors)==true){
-          $str_temp = '/profiles/' . $username;
-          if (!is_dir($str_temp)) {
-            mkdir($str_temp, 0777, true);
-          }
-
-          $str_temp = '/profiles/' . $username . '/img/';
-          if(!is_dir($str_temp)) {
-            mkdir($str_temp, 0777, true);
-          }
-           $bool = move_uploaded_file($file_tmp, $str_temp . "/" . $file_name);
-           if (empty($errors) && $bool) {
-             $overallBool = true;
-           }
-       }
-     } else {
-       $size = false;
-     }
-    //validate
+    //check for duplicate
     $sql = new SQLHelper;
     $bool = $sql->checkForDuplicate($sUser);
     if ($bool == false) {
       $error = "This Username is already taken. Please choose another username.";
       require 'register.php';
-    } else if (!empty($error)) {
-      require 'register.php';
-    } else if (!$size) {
-        var_dump($_FILES);
-        var_dump($_POST);
-    } else if (!$overallBool) {
-      $error = "Image upload failed";
-      require 'register.php';
     } else {
+      define('SITE_ROOT', realpath(dirname(__FILE__)));
+      $file = $_FILES['file'];
+      $uploadDirectory = '/profiles/' . $sUser . '/img/';
+
+      try
+      {
+          if (isset($file) && $file['name'] != '')
+          {
+              $maxsize = 10000000;
+              $acceptable = array(
+                  'image/jpeg',
+                  'image/jpg',
+                  'image/gif',
+                  'image/png'
+              );
+              $errors = 0;
+              $fileName = $file['name'];
+              $fileSize = $file['size'];
+              $fileType = $file['type'];
+              $fileExtension = pathinfo($fileName, PATHINFO_EXTENSION);
+              $fileExtension = strtolower($fileExtension);
+              $fileTmp = $file['tmp_name'];
+              $fileDestination = $sUser . '_profile.' . $fileExtension;
+              if (!in_array($fileType, $acceptable) && !empty($fileType))
+              {
+                  echo 'Invalid file type. Please upload an image.';
+                  $errors++;
+                  exit();
+              }
+
+              if ($fileSize >= $maxsize || $fileSize === 0)
+              {
+                  echo 'File must be under 1MB';
+                  $errors++;
+                  exit();
+              }
+
+              if ($errors === 0)
+              {
+                  if (!is_dir(SITE_ROOT . $uploadDirectory))
+                  {
+                      mkdir(SITE_ROOT . $uploadDirectory, 0755, true);
+                  }
+                  try
+                  {
+                      $uploadBool = move_uploaded_file($fileTmp, SITE_ROOT . $uploadDirectory . $fileDestination);
+                  } catch (Exception $e)
+                  {
+                      echo 'Upload failed';
+                  }
+              }
+          }
+          else
+          {
+              $file_name = null;
+          }
+      } catch (Exception $e)
+      {
+          echo 'Failed';
+      }
+    }
+
+    if (!empty($error)) {
+      require 'register.php';
+    } else if ($uploadBool || empty($file_name)) {
+      $file_name = null;
       $results = $sql->addUser($sUser, $sPass, $sFirst, $sLast, 'student', $sAbout, $sEmail, $file_name, $sResume, $sWebsite,1,0, date("Y/m/d"), date("Y/m/d"));
-      $_SESSION['user'] = $sUser;
 
       require 'setup.php';
     }
