@@ -115,15 +115,14 @@ function addProject($id , $username , $message) {
       $expensions= array("jpeg","jpg","png" , "pdf");
 
       if(in_array($file_ext,$expensions)=== false){
-         $errors[]="extension not allowed, please choose a JPEG or PNG file.";
+         array_push($errors,"extension not allowed, please choose a JPEG or PNG file.");
       }
 
       if($file_size > 20971520){
-         $errors[]='File size must be less than 20 MB';
+         array_push($errors, 'File size must be less than 20 MB');
       }
 
       if(empty($errors)==true){
-
         $str_temp = "cap/" . $username;
         if (!is_dir($str_temp)) {
           mkdir($str_temp, 0777, true);
