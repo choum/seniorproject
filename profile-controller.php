@@ -91,7 +91,7 @@
     //Featured assignment info
     $featuredAssignment = NULL;
     foreach ($studentAssignments as $studentAssignment):
-        if ((int) $studentAssignment[6] === 1)
+        if ((int) $studentAssignment[5] === 1)
         {
             $featuredAssignment = $studentAssignment;
         }

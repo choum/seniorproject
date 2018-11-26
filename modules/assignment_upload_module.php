@@ -36,10 +36,10 @@
                        multiple=""/><br/>
             </div>
             <div class="form-group">
-                <p>Make this your featured assignment? <input type="checkbox" name="featured" value=""></p>
+                <p>Make this your featured assignment? <input type="checkbox" name="featured" value="1"></p>
             </div>
             <div class="form-group">
-                <p>Is this a group project? <input type="checkbox" name="group" value=""></p>
+                <p>Is this a group project? <input type="checkbox" name="group" value="1"></p>
             </div>
             <input type='hidden' name='action' value='upload_assignment'>
             <div class="form-group">
