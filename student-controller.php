@@ -276,10 +276,13 @@
                 {
                     $featured = filter_input(INPUT_POST, 'featured');
                     $group = filter_input(INPUT_POST, 'group');
-                    if($featured == TRUE):
+
+                    $return = $commands->addStudentAssignment($userID, $assignmentID, $path, date("Ymd"), NULL, $featured, $group);
+                    if($return == "Student assignment created" AND $featured == TRUE):
                         changeFeaturedAssignment($userID, $assignmentID);
+                    else: 
+                        echo $return;
                     endif;
-                    $commands->addStudentAssignment($userID, $assignmentID, $path, date("Ymd"), NULL, $featured, $group);
                 } catch (Exception $e)
                 {
                     echo 'Cannot add assignment to database.';
