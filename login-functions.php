@@ -251,7 +251,7 @@ function setup() {
       $_SESSION['role'] = 1;
       after_successful_login();
       require 'dashboard.php';
-    }
+
   } else {
     var_dump("?");
   }
