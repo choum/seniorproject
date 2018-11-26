@@ -239,10 +239,8 @@
         }
     }
 
-    function uploadAssignment($user, $assignmentID)
+    function uploadAssignment($username, $userID, $courseID, $assignmentID)
     {
-        $username = $user->username;
-        $userID = $user->id;
         $db = new SQLHelper();
 
         try
@@ -276,7 +274,12 @@
 
                 try
                 {
-                    $commands->addStudentAssignment($userID, $assignmentID, $path, date("Ymd"), NULL, NULL, NULL);
+                    $featured = filter_input(INPUT_POST, 'featured');
+                    $group = filter_input(INPUT_POST, 'group');
+                    if($featured == TRUE):
+                        changeFeaturedAssignment($userID, $assignmentID);
+                    endif;
+                    $commands->addStudentAssignment($userID, $assignmentID, $path, date("Ymd"), NULL, $featured, $group);
                 } catch (Exception $e)
                 {
                     echo 'Cannot add assignment to database.';

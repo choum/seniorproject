@@ -1248,6 +1248,38 @@
             }
         }
 
+        function changeFeaturedAssignment($studentID, $assignmentID){
+            try{
+                $dbObj = new Database();
+                $db = $dbObj->getConnection();
+                $db->beginTransaction();
+                $query = "Update Student_Assignment Set Featured = 0 "
+                    . "Where StudentID = :sID";
+                $statement = $db->prepare($query);
+                $statement->bindParam(':sID', $studentID, PDO::PARAM_INT);
+                $statement->execute();
+                $statement->closeCursor();
+                
+                $query = "Update Student_Assignment Set Featured = 1 "
+                    . "Where StudentID = :sID AND AssignmentID = :aID";
+                $statement - $db->prepare($query);
+                $statement->bindParam(':sID', $studentID, PDO::PARAM_INT);
+                $statement->bindParam(':aID', $assignmentID, PDO::PARAM_INT);
+                $statement->execute();
+                $count = $statement->rowCount();
+                $statement->closeCursor();
+                
+                if($count == 1):
+                    $db->commit();
+                    return "Featured assignment updated";
+                else:
+                    $db->rollback();
+                    throw new PDOException;
+                endif;
+            } catch (PDOException $ex) {
+                return "Featured Assignment could not be changed.";
+            }
+        }
         function getUserAssignments($courseID)
         {
             $assignments = $this->getAssignments($courseID);
