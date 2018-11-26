@@ -6,22 +6,20 @@
 
 
     date_default_timezone_set('UTC');
-
     if (!isset($_SESSION))
     {
         session_start();
     }
-
     $username = $_SESSION['user'];
     $userID = getUserID($username);
     $courses = getCourses($userID);
+    $action = filter_input(INPUT_POST, 'action');
+    $courseID = filter_input(INPUT_POST, 'course_id');
+
     $assignments = getAssignmentsOfCourses($courses);
     $studentAssignments = getStudentAssignments($userID, $assignments);
     $imageDir = './profiles/' . $username . '/img/';
     $assignmentDir = "/cap/student/$username/workspace/";
-    
-    $action = filter_input(INPUT_POST, 'action');
-    $courseID = filter_input(INPUT_POST, 'course_id');
 
     if (empty($action))
     {
@@ -46,7 +44,7 @@
             uploadAssignment($username, $userID, $_POST['user-courses'], $_POST['user-assignments']);
         }
     }
-    
+
     if (!empty($courseID))
     {
         getAssignments($courseID);
@@ -70,23 +68,37 @@
         }
     }
 
+    function getUser($username)
+    {
+        $commands = new SQLHelper();
+        try
+        {
+            $user = $commands->getUser($username);
+            return $user;
+        } catch (Exception $e)
+        {
+            echo "Invalid user";
+        }
+    }
+
+    function getUserID($username)
+    {
+        $commands = new SQLHelper();
+        try
+        {
+            $userID = $commands->getUserID($username);
+            return $userID;
+        } catch (Exception $e)
+        {
+            return 'Error';
+        }
+    }
+
     function getCourses($userID)
     {
         $commands = new SQLHelper();
-        $studentCourses = $commands->getStudentCourses($userID);
-        if ($studentCourses != "Could not retrieve student's courses"):
-            $courses = array();
-            foreach ($studentCourses as $studentCourse):
-                $tempCourse = $commands->getCourse($studentCourse['CourseID']);
-                if ($tempCourse->closed == FALSE)
-                {
-                    array_push($courses, $tempCourse);
-                }
-            endforeach;
-            return $courses;
-        else:
-            return $studentCourses;
-        endif;
+        $courses = $commands->getUserCourses($userID);
+        return $courses;
     }
 
     function getTeacher($teacherID)
@@ -100,17 +112,6 @@
         endif;
     }
 
-    function getUserID($username){
-        $commands = new SQLHelper();
-        try{
-            $userID = $commands->getUser($username)->id;
-            return $userID;
-        }
-        catch (Exception $e){
-            return 'Error';
-        }
-    }
-    
     function getAssignmentsOfCourses($courses)
     {
         $db = new SQLHelper();
@@ -124,7 +125,6 @@
                 endif;
             endforeach;
         endforeach;
-
         return $assignments;
     }
 
@@ -141,35 +141,40 @@
         return $studentAssignments;
     }
 
-   function getAssignments($courseID){
-        try {
+    function getAssignments($courseID)
+    {
+        try
+        {
             $commands = new SQLHelper();
             $assignments = $commands->getUserAssignments($courseID);
-            if (!empty($assignments)) {
+            if (!empty($assignments))
+            {
                 echo '<option value="">Select Assignment...</option>';
-                foreach ($assignments as $assignment) {
+                foreach ($assignments as $assignment)
+                {
                     echo '<option value="' . $assignment['AssignmentID'] . '">' . $assignment['AssignmentName'] . '</option>';
                 }
-            } else {
+            }
+            else
+            {
                 echo '<option value="">No Assignments Found</option>';
             }
-        }
-        catch(Exception $e){
+        } catch (Exception $e)
+        {
             echo 'Bad gateway';
         }
     }
 
-    function editProfile($user)
+    function editProfile($username)
     {
-        $username = $user->username;
         $uploadDirectory = '/profiles/' . $username . '/img/';
         try
         {
             if (isset($_FILES['image_files']) && $_FILES['image_files']['name'] != '')
             {
-                $aboutMe = filter_input(INPUT_POST, 'about');
-                $resumeLink = filter_input(INPUT_POST, 'resume');
-                $personalWebsite = filter_input(INPUT_POST, 'website');
+                $aboutMe = $_POST['about'];
+                $resumeLink = $_POST['resume'];
+                $personalWebsite = $_POST['website'];
 
                 $maxsize = 1000000;
                 $acceptable = array(
@@ -215,9 +220,8 @@
                         move_uploaded_file($fileTmp, SITE_ROOT . $uploadDirectory . $fileDestination);
                         try
                         {
-                            $userID = $user->id;
                             $commands = new SQLHelper();
-                            $commands->updateUser($userID, $aboutMe, $fileDestination, $resumeLink, $personalWebsite);
+                            $commands->updateUser($username, $aboutMe, $fileDestination, $resumeLink, $personalWebsite);
                         } catch (Exception $e)
                         {
                             echo 'SQL Error';
@@ -241,7 +245,6 @@
 
     function uploadAssignment($username, $userID, $courseID, $assignmentID)
     {
-        $db = new SQLHelper();
 
         try
         {
@@ -252,7 +255,7 @@
                 try
                 {
                     $course = $commands->getCourse($courseID);
-                    $courseNumber = $course->courseNumber;
+                    $courseSection = $course->courseNumber;
                 } catch (Exception $e)
                 {
                     echo 'Error finding course';
@@ -268,28 +271,25 @@
                     echo 'Error finding assignment';
                     exit();
                 }
-                $uploadDirectory = "/cap/student/" . $username . "/workspace/CIS" . $courseNumber . "_" . $assignmentName;
-                $path = "CIS" . $courseNumber . "_" . $assignmentName;
+                $uploadDirectory = "/cap/student/" . $username . "/workspace/CIS" . $courseSection . "_" . $assignmentName;
+                $path = "CIS" . $courseSection . "_" . $assignmentName;
                 unzip($zip['tmp_name'], $uploadDirectory, $_FILES['zip']);
 
                 try
                 {
-                    $featured = filter_input(INPUT_POST, 'featured');
-                    $group = filter_input(INPUT_POST, 'group');
-
-                    $return = $commands->addStudentAssignment($userID, $assignmentID, $path, date("Ymd"), NULL, $featured, $group);
-                    if($return == "Student assignment created" AND $featured == TRUE):
-                        changeFeaturedAssignment($userID, $assignmentID);
-                    else: 
-                        echo $return;
-                    endif;
+//                    $featured = filter_input(INPUT_POST, 'featured');
+//                    $group = filter_input(INPUT_POST, 'group');
+//                    if ($featured == TRUE):
+//                        changeFeaturedAssignment($userID, $assignmentID);
+//                    endif;
+                    $commands->addStudentAssignment($userID, $assignmentID, $path, date("Ymd"), NULL, $featured, $group);
                 } catch (Exception $e)
                 {
                     echo 'Cannot add assignment to database.';
                     exit();
                 }
 
-                return '<a href="' . $uploadDirectory . '">View Assignment Here</a>';
+                echo '<a href="' . $uploadDirectory . '" target="_blank">View Assignment Here</a>';
             }
         } catch (Exception $e)
         {

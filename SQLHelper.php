@@ -10,7 +10,7 @@
 
         function __construct()
         {
-            
+
         }
 
         function addUser(User $user)
@@ -118,7 +118,9 @@
                 $user = $statement->fetch();
                 $statement->closeCursor();
 
-                $return = new User($user[1], $user[2], $user[3], $user[4], $user[5], $user[6], $user[7], $user[8], $user[9], $user[10], $user[11], $user[12], $user[13], $user[14], $user[15]);
+                $return = new User($user[1], $user[2], $user[3], $user[4], 
+                    $user[5], $user[6], $user[7], $user[8], $user[9], $user[10],
+                    $user[11], $user[12], $user[13], $user[14], $user[15]);
                 $return->setID($user[0]);
                 return $return;
             } catch (PDOException $e)
@@ -143,7 +145,9 @@
                 $user = $statement->fetch();
                 $statement->closeCursor();
 
-                $return = new User($user[1], $user[2], $user[3], $user[4], $user[5], $user[6], $user[7], $user[8], $user[9], $user[10], $user[11], $user[12], $user[13], $user[14], $user[15]);
+                $return = new User($user[1], $user[2], $user[3], $user[4], 
+                    $user[5], $user[6], $user[7], $user[8], $user[9], $user[10],
+                    $user[11], $user[12], $user[13], $user[14], $user[15]);
                 $return->setID($user[0]);
                 return $return;
             } catch (PDOException $e)
@@ -261,7 +265,9 @@
                 $user = $statement->fetch();
                 $statement->closeCursor();
 
-                $return = new User($user[1], $user[2], $user[3], $user[4], $user[5], $user[6], $user[7], $user[8], $user[9], $user[10], $user[11], $user[12], $user[13], $user[14], $user[15]);
+                $return = new User($user[1], $user[2], $user[3], $user[4], 
+                    $user[5], $user[6], $user[7], $user[8], $user[9], $user[10],
+                    $user[11], $user[12], $user[13], $user[14], $user[15]);
                 $return->setID($user[0]);
                 return $return;
             } catch (PDOException $e)
@@ -401,7 +407,9 @@
                 $course = $statement->fetch();
                 $statement->closeCursor();
 
-                $return = new Course($course[1], $course[2], $course[3], $course[4], $course[5], $course[6], $course[7], $course[8], $course[9], $course[11]);
+                $return = new Course($course[1], $course[2], $course[3], 
+                    $course[4], $course[5], $course[6], $course[7], $course[8],
+                    $course[9], $course[11]);
                 $return->setID($course[0]);
                 $return->setCourseKey($course[10]);
 
@@ -670,7 +678,9 @@
                 $assignment = $statement->fetch();
                 $statement->closeCursor();
 
-                $output = new Assignment($assignment[0], $assignment[1], $assignment[2], $assignment[3], $assignment[4], $assignment[5], $assignment[6], $assignment[7]);
+                $output = new Assignment($assignment[0], $assignment[1], 
+                    $assignment[2], $assignment[3], $assignment[4], $assignment[5],
+                    $assignment[6], $assignment[7]);
 
                 return $output;
             } catch (PDOException $e)
@@ -1157,8 +1167,10 @@
             }
         }
 
-        function registerCourse($username, $key, $date){
-            try{
+        function registerCourse($username, $key, $date)
+        {
+            try
+            {
                 $dbObj = new Database();
                 $db = $dbObj->getConnection();
                 $query = "SELECT CourseID FROM Courses WHERE CourseKey = :ckey";
@@ -1168,50 +1180,51 @@
                 $count = $statement->rowCount();
                 $course = $statement->fetch(PDO::FETCH_ASSOC);
                 $statement->closeCursor();
-                if($count === 1){
-                    try {
+                if ($count === 1)
+                {
+                    try
+                    {
                         $user = $this->getUser($username);
                         $userID = $user->id;
                         $userCourses = $user->courses;
                         $courseID = $course['CourseID'];
-                    }
-                    catch (Exception $e){
+                    } catch (Exception $e)
+                    {
                         echo "Cannot find student account.";
                     }
 
-                    try {
+                    try
+                    {
                         $return = $this->addStudentCourse($userID, $courseID, $date);
-                        if($return != "Student not added to course"):
+                        if ($return != "Student not added to course"):
                             echo "You have been successfully added to the course.";
                         else:
                             throw new Exception;
                         endif;
 
-                        try {
+                        try
+                        {
                             $return = $this->updateCoursesEnrolled($userID, $userCourses, TRUE);
-                            if($return != "Coures enrolled changed."):
+                            if ($return != "Coures enrolled changed."):
                                 throw new Exception;
                             endif;
-                        }
-                        catch (Exception $e){
+                        } catch (Exception $e)
+                        {
                             echo "Could not update.";
                         }
-                    }
-
-                    catch (Exception $e){
+                    } catch (Exception $e)
+                    {
                         echo "You are already registered.";
                     }
                 }
-                else{
+                else
+                {
                     echo "This is an invalid key";
                 }
-
-
-            }
-            catch(PDOException $e){
+            } catch (PDOException $e)
+            {
                 echo "You have entered an incorrect course key.";
             }
-
         }
 
         function updateCoursesEnrolled($userID, $userCourses, $incOrDec)
@@ -1248,8 +1261,10 @@
             }
         }
 
-        function changeFeaturedAssignment($studentID, $assignmentID){
-            try{
+        function changeFeaturedAssignment($studentID)
+        {
+            try
+            {
                 $dbObj = new Database();
                 $db = $dbObj->getConnection();
                 $db->beginTransaction();
@@ -1259,27 +1274,12 @@
                 $statement->bindParam(':sID', $studentID, PDO::PARAM_INT);
                 $statement->execute();
                 $statement->closeCursor();
-                
-                $query = "Update Student_Assignment Set Featured = 1 "
-                    . "Where StudentID = :sID AND AssignmentID = :aID";
-                $statement - $db->prepare($query);
-                $statement->bindParam(':sID', $studentID, PDO::PARAM_INT);
-                $statement->bindParam(':aID', $assignmentID, PDO::PARAM_INT);
-                $statement->execute();
-                $count = $statement->rowCount();
-                $statement->closeCursor();
-                
-                if($count == 1):
-                    $db->commit();
-                    return "Featured assignment updated";
-                else:
-                    $db->rollback();
-                    throw new PDOException;
-                endif;
-            } catch (PDOException $ex) {
+            } catch (PDOException $ex)
+            {
                 return "Featured Assignment could not be changed.";
             }
         }
+
         function getUserAssignments($courseID)
         {
             $assignments = $this->getAssignments($courseID);
@@ -1290,6 +1290,55 @@
             }
 
             return $assignmentsList;
+        }
+
+        function getUserID($username)
+        {
+            try
+            {
+                $dbObj = new Database();
+                $db = $dbObj->getConnection();
+                $query = "SELECT UserID FROM UserAccount  WHERE Username = :uName";
+                $statement = $db->prepare($query);
+                $statement->bindValue(':uName', $username, PDO::PARAM_STR);
+                $statement->execute();
+                $user = $statement->fetch();
+                $userID = $user['UserID'];
+                return $userID;
+            } catch (Exception $e)
+            {
+                return 'User not found';
+            }
+        }
+
+        function getUserCourses($userID)
+        {
+            try
+            {
+                $dbObj = new Database();
+                $db = $dbObj->getConnection();
+                $query = "SELECT CourseID FROM Student_Course WHERE StudentID = :uID";
+                $statement = $db->prepare($query);
+                $statement->bindValue(':uID', $userID, PDO::PARAM_INT);
+                $statement->execute();
+                $courseIDList = $statement->fetchAll(PDO::FETCH_ASSOC);
+                $courses = Array();
+                foreach ($courseIDList as $courseID)
+                {
+                    try
+                    {
+                        $course = $this->getCourse($courseID['CourseID']);
+                        array_push($courses, $course);
+                    } catch (Exception $e)
+                    {
+                        return 'failed to get course';
+                    }
+                }
+                return $courses;
+            } catch (Exception $e)
+            {
+                return $e;
+            }
         }
 
     }
