@@ -3,7 +3,6 @@
 require_once 'includes/cis4270CommonIncludes.php';
 require_once 'SQLHelper.php';
 require_once 'User.php';
-require_once 'private/CreateFTP.php';
 require_once 'private/CreateDB.php';
 require_once 'login-functions.php';
 
