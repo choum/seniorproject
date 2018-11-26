@@ -4,6 +4,8 @@
     <list default="true" id="43ab1658-c252-43fb-af8a-666710de9c1f" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SQLHelper.php" beforeDir="false" afterPath="$PROJECT_DIR$/SQLHelper.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/student-controller.php" beforeDir="false" afterPath="$PROJECT_DIR$/student-controller.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/student-dashboard.php" beforeDir="false" afterPath="$PROJECT_DIR$/student-dashboard.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -49,12 +51,30 @@
   <component name="FileEditorManager">
     <splitter split-orientation="horizontal" split-proportion="0.5">
       <split-first>
-        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="student-controller.php" pinned="false" current-in-tab="true">
+        <leaf>
+          <file leaf-file-name="student-controller.php" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/student-controller.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="219">
-                  <caret line="221" column="33" lean-forward="true" selection-start-line="221" selection-start-column="33" selection-end-line="221" selection-end-column="33" />
+                <state relative-caret-position="340">
+                  <caret line="255" column="17" lean-forward="true" selection-start-line="255" selection-start-column="17" selection-end-line="255" selection-end-column="17" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="SQLHelper.php" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/SQLHelper.php">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="850">
+                  <caret line="1341" lean-forward="true" selection-start-line="1341" selection-end-line="1341" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="student-dashboard.php" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/student-dashboard.php">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="876">
+                  <caret line="255" lean-forward="true" selection-start-line="255" selection-end-line="255" />
                 </state>
               </provider>
             </entry>
@@ -63,11 +83,11 @@
       </split-first>
       <split-second>
         <leaf>
-          <file leaf-file-name="SQLHelper.php" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/SQLHelper.php">
+          <file leaf-file-name="student-controller.php" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/student-controller.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="928">
-                  <caret line="1120" lean-forward="true" selection-start-line="1120" selection-end-line="1120" />
+                <state relative-caret-position="790">
+                  <caret line="289" column="2" lean-forward="true" selection-start-line="289" selection-start-column="2" selection-end-line="289" selection-end-column="2" />
                 </state>
               </provider>
             </entry>
@@ -82,7 +102,10 @@
       <find>getCourse</find>
       <find>upload</find>
       <find>date</find>
+      <find>echo</find>
       <find>getUser</find>
+      <find>fail</find>
+      <find>getTeacher</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -97,6 +120,7 @@
         <option value="$PROJECT_DIR$/Assignment.php" />
         <option value="$PROJECT_DIR$/student-controller.php" />
         <option value="$PROJECT_DIR$/SQLHelper.php" />
+        <option value="$PROJECT_DIR$/student-dashboard.php" />
       </list>
     </option>
   </component>
@@ -116,10 +140,10 @@
     <packageJsonPaths />
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="132" />
-    <option name="y" value="23" />
-    <option name="width" value="1564" />
-    <option name="height" value="1027" />
+    <option name="x" value="-69" />
+    <option name="y" value="107" />
+    <option name="width" value="1653" />
+    <option name="height" value="1028" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
@@ -177,7 +201,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="14950000" />
+    <option name="totallyTimeSpent" value="16533000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1680" height="1027" extended-state="6" />
@@ -244,13 +268,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Course.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="19" column="54" selection-start-line="19" selection-start-column="44" selection-end-line="19" selection-end-column="54" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Assignment.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="420">
@@ -539,17 +556,24 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/SQLHelper.php">
+    <entry file="file://$PROJECT_DIR$/student-controller.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="928">
-          <caret line="1120" lean-forward="true" selection-start-line="1120" selection-end-line="1120" />
+        <state relative-caret-position="340">
+          <caret line="255" column="17" lean-forward="true" selection-start-line="255" selection-start-column="17" selection-end-line="255" selection-end-column="17" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/student-controller.php">
+    <entry file="file://$PROJECT_DIR$/SQLHelper.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="219">
-          <caret line="221" column="33" lean-forward="true" selection-start-line="221" selection-start-column="33" selection-end-line="221" selection-end-column="33" />
+        <state relative-caret-position="850">
+          <caret line="1341" lean-forward="true" selection-start-line="1341" selection-end-line="1341" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/student-dashboard.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="876">
+          <caret line="255" lean-forward="true" selection-start-line="255" selection-end-line="255" />
         </state>
       </provider>
     </entry>
