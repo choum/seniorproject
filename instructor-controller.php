@@ -17,7 +17,7 @@ $semester_year = $dateOB->getSemesterYear();
 $db = new SQLHelper();
 
 //get the username from session
-$username = $_SESSION["user"];
+$username = $_SESSION['caps']["user"];
 //get user object from database
 $current_user = $db->getUser($username);
 
