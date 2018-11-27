@@ -1,6 +1,6 @@
 <?php
 session_start();
-$_SESSION['caps'] = new array();
+$_SESSION['caps'] = array('ip', 'csrf_token', 'user','role', 'action', 'user_agent', 'last_login', 'csrf_token_time' );;
 // Useful php.ini file settings:
 // session.cookie_lifetime = 0
 // session.cookie_secure = 1
