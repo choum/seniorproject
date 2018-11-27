@@ -10,10 +10,10 @@ function csrf_token() {
 // Generate and store CSRF token in user session.
 // Requires session to have been started already.
 function create_csrf_token() {
-	$token = csrf_token();
+    $token = csrf_token();
     $_SESSION['caps']['csrf_token'] = $token;
- 	$_SESSION['caps']['csrf_token_time'] = time();
-	return $token;
+    $_SESSION['caps']['csrf_token_time'] = time();
+    return $token;
 }
 
 // Destroys a token by removing it from the session.
