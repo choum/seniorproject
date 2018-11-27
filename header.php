@@ -4,12 +4,12 @@ if (!isset($_SESSION)) {
 }
 require_once 'SQLHelper.php';
 $db = new SQLHelper();
-if (!empty($_SESSION['caps']['user'])) {
-  $username = $_SESSION['caps']['user'];
+if (!empty($_SESSION['user'])) {
+  $username = $_SESSION['user'];
   $current_user = $db->getUser($username);
   $current_user_name = $current_user->firstName . " " . $current_user ->lastName;
 
-  $role = $_SESSION['caps']['role'];
+  $role = $_SESSION['role'];
 }
 ?>
 <!DOCTYPE HTML>

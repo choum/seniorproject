@@ -9,7 +9,7 @@ function alert($msg) {
 }
 function redirect() {
   if (is_logged_in()) {
-    $role = $_SESSION['caps']['role'];
+    $role = $_SESSION['role'];
     if ($role == 1) {
       //redirect to student
       before_every_protected_page();
@@ -33,8 +33,8 @@ function redirect() {
     }
     else {
       require 'login.php';
-      if (isset($_SESSION['caps'])) {
-        unset($_SESSION['caps']);
+      if (isset($_SESSION)) {
+        end_session();
       }
 
     }
@@ -59,8 +59,8 @@ function login() {
     }
     //check if passwords are salted
     if (password_verify($password, $pass)) {
-      $_SESSION['caps']['user'] = $username;
-      $_SESSION['caps']['role'] = $role;
+      $_SESSION['user'] = $username;
+      $_SESSION['role'] = $role;
       $loggedIn = date("Y-m-d");
       $sql->updateLastLoggedIn($username, $loggedIn);
       after_successful_login();
@@ -71,6 +71,7 @@ function login() {
       require 'login.php';
     }
   } else {
+    var_dump($_SESSION);
     $error = "Form token error";
     require 'login.php';
   }
@@ -209,7 +210,7 @@ function register() {
       }
       $user = new User($sUser, $sPass, $sFirst, $sLast, 'student', $sAbout, $sEmail, $fileName, $sResume, $sWebsite,1,0, date("Y/m/d"), date("Y/m/d"));
       $results = $sql->addUser($user);
-      $_SESSION['caps']['user'] = $sUser;
+      $_SESSION['user'] = $sUser;
 
 
       require 'setup.php';
@@ -220,7 +221,7 @@ function register() {
 function setup() {
   $createDB = new CreateDB;
   $sql = new SQLHelper;
-  $user = $_SESSION['caps']['user'];
+  $user = $_SESSION['user'];
   if (csrf_token_is_valid()) {
     $sqlPass = hPOST("sqlPass");
     if ( !preg_match('/^[A-Za-z][A-Za-z0-9]{5,31}$/', $sqlPass) ) {
@@ -242,7 +243,7 @@ function setup() {
       require 'setup.php';
     } else {
       $createDB->createDBUser($user, $sqlPass);
-      $_SESSION['caps']['role'] = 1;
+      $_SESSION['role'] = 1;
       after_successful_login();
       require 'student-dashboard.php';
     }
@@ -253,7 +254,7 @@ function setup() {
 function change() {
   $sql = new SQLHelper;
   if (is_logged_in() && is_session_valid()) {
-    $user = $_SESSION['caps']["user"];
+    $user = $_SESSION["user"];
     $pass = hPOST('currentPass');
     $results = $sql->getUserAuth($user);
     $error = "";

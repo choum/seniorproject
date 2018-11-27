@@ -6,11 +6,11 @@
 
 
     date_default_timezone_set('UTC');
-    if (!isset($_SESSION['caps']))
+    if (!isset($_SESSION))
     {
         session_start();
     }
-    $username = $_SESSION['caps']['user'];
+    $username = $_SESSION['user'];
     $userID = getUserID($username);
     $courses = getCourses($userID);
     $action = filter_input(INPUT_POST, 'action');
@@ -280,7 +280,7 @@
                     $featured = filter_input(INPUT_POST, 'featured');
                     $group = filter_input(INPUT_POST, 'group');
                     if($group == NULL){ $group = 0; }
-
+                    
                     $return = $commands->addStudentAssignment($userID, $assignmentID, $path, date("Ymd"), NULL, $featured, $group);
                     echo $featured;
                     echo $return;

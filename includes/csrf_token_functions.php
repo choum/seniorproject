@@ -11,15 +11,15 @@ function csrf_token() {
 // Requires session to have been started already.
 function create_csrf_token() {
 	$token = csrf_token();
-    $_SESSION['caps']['csrf_token'] = $token;
- 	$_SESSION['caps']['csrf_token_time'] = time();
+    $_SESSION['csrf_token'] = $token;
+ 	$_SESSION['csrf_token_time'] = time();
 	return $token;
 }
 
 // Destroys a token by removing it from the session.
 function destroy_csrf_token() {
-  $_SESSION['caps']['csrf_token'] = null;
- 	$_SESSION['caps']['csrf_token_time'] = null;
+  $_SESSION['csrf_token'] = null;
+ 	$_SESSION['csrf_token_time'] = null;
 	return true;
 }
 
@@ -37,7 +37,7 @@ function csrf_token_tag() {
 function csrf_token_is_valid() {
 	if(isset($_POST['csrf_token'])) {
 		$user_token = $_POST['csrf_token'];
-		$stored_token = $_SESSION['caps']['csrf_token'];
+		$stored_token = $_SESSION['csrf_token'];
 		return $user_token === $stored_token;
 	} else {
 		return false;
@@ -56,8 +56,8 @@ function die_on_csrf_token_failure() {
 // Optional check to see if token is also recent
 function csrf_token_is_recent() {
 	$max_elapsed = 60*10; // 1 day
-	if(isset($_SESSION['caps']['csrf_token_time'])) {
-		$stored_time = $_SESSION['caps']['csrf_token_time'];
+	if(isset($_SESSION['csrf_token_time'])) {
+		$stored_time = $_SESSION['csrf_token_time'];
 	//	var_dump($stored_time);
   //		var_dump($stored_time + $max_elapsed);
 	//	var_dump(time());

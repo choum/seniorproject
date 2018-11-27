@@ -23,9 +23,9 @@
     }
     $loggedIn;
     $dashboardLink = "";
-    if (sizeof($_SESSION['caps']) > 2)
+    if (sizeof($_SESSION) > 2)
     {
-        if ($_SESSION['caps']["logged_in"] == TRUE)
+        if ($_SESSION["logged_in"] == TRUE)
         {
             $loggedIn = TRUE;
             $dashboardLink = "./";
@@ -98,7 +98,7 @@
     endforeach;
     if ($featuredAssignment == NULL OR $featuredAssignment == FALSE)
     {
-
+        
     }
     else
     {
