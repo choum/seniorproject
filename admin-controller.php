@@ -158,7 +158,8 @@
     {
       // Message
       $message = "Your portfolio has been created by an admin on this website. \nAccount username: $username \nPassword: $unsalted";
-      mail($email, 'CIS Application Portfolio Password', $message);
+      $bool = mail($email, 'CIS Application Portfolio Password', $message);
+      var_dump($bool);
     }
 //end of
     //update instructor
