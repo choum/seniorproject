@@ -59,8 +59,8 @@ function login() {
     }
     //check if passwords are salted
     if (password_verify($password, $pass)) {
-      $_SESSION['caps']['user'] => $username;
-      $_SESSION['caps']['role'] => $role;
+      $_SESSION['caps']['user'] = $username;
+      $_SESSION['caps']['role'] = $role;
       $loggedIn = date("Y-m-d");
       $sql->updateLastLoggedIn($username, $loggedIn);
       after_successful_login();
@@ -209,7 +209,7 @@ function register() {
       }
       $user = new User($sUser, $sPass, $sFirst, $sLast, 'student', $sAbout, $sEmail, $fileName, $sResume, $sWebsite,1,0, date("Y/m/d"), date("Y/m/d"));
       $results = $sql->addUser($user);
-      $_SESSION['caps']['user'] => $sUser;
+      $_SESSION['caps']['user'] = $sUser;
 
 
       require 'setup.php';
@@ -242,7 +242,7 @@ function setup() {
       require 'setup.php';
     } else {
       $createDB->createDBUser($user, $sqlPass);
-      $_SESSION['caps']['role'] => 1;
+      $_SESSION['caps']['role'] = 1;
       after_successful_login();
       require 'student-dashboard.php';
     }
