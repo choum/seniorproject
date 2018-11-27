@@ -277,12 +277,54 @@
 
                 try
                 {
+                    //Process involved with uploading image screenshots.
                     var_dump($_FILES['filesToUpload']);
+                    
+                    
+                    $file = $_FILES['filesToUpload'];
+                    
+                    $imageLink = NULL;
+                    
+                    if (isset($file) && $file['name'] != '')
+                    {
+                        $imageDirectory = '/cap/student/' . $username . '/img/';
+                        $counter = 0;
+                        $images = array();
+                        if(is_array($file['name'])){
+                            $count = sizeof($file['name']);
+                        }
+                        else{
+                            $count = 1;
+                        }
+                        
+                        for($i = 0; $i < $counter; $i++){
+                            $tempImage = uploadImages($imageDirectory, $file, $counter, $assignmentID, $username);
+                            array_push($images, $tempImage);
+                        }                        
+                        
+                        if(array_search("Upload failed", $images) == FALSE){
+                            foreach($images as $image){ 
+                                if($imageLink == ""):
+                                    $imageLink = "$image"; 
+                                else:
+                                    $imageLink .= ",$image";
+                                endif;
+                            } 
+                        }
+                        else{
+                            echo "Error uploading screenshots";
+                            exit();
+                        }
+                    }
+  
+                    echo $imageLink;
+                    //End process involving screenshots
                     $featured = filter_input(INPUT_POST, 'featured');
                     $group = filter_input(INPUT_POST, 'group');
                     if($group == NULL){ $group = 0; }
                     if($featured == NULL) { $featured = 0; }
-                    $return = $commands->addStudentAssignment($userID, $assignmentID, $path, date("Ymd"), NULL, $featured, $group);
+                    
+                    $return = $commands->addStudentAssignment($userID, $assignmentID, $path, date("Ymd"), $imageLink, $featured, $group);
 
                     if ($featured == TRUE AND $return == "Student assignment created"):
                         $db = new SQLHelper();
@@ -387,6 +429,86 @@
                 }
             }
             reset($objects);
+        }
+    }
+    
+    function uploadImages($imageDirectory, $file, $counter, $assignmentID, $username)
+    {
+        $maxsize = 10000000;
+        $acceptable = array(
+            'image/jpeg',
+            'image/jpg',
+            'image/gif',
+            'image/png'
+        );
+        $errors = 0;
+        if(is_array($file)){
+            $fileName = $file['name'][$counter];
+            $fileSize = $file['size'][$counter];
+            $fileType = $file['type'][$counter];
+            $fileTmp = $file['tmp_name'][$counter];
+        }
+        else{
+            $fileName = $file['name'];
+            $fileSize = $file['size'];
+            $fileType = $file['type'];
+            $fileTmp = $file['tmp_name'];
+        }
+        $fileExtension = pathinfo($fileName, PATHINFO_EXTENSION);
+        $fileExtensionStr = strtolower($fileExtension);
+        
+        $fileDestination = $assignmentID . "_$counter." . $fileExtensionStr;
+        if (!in_array($fileType, $acceptable) && !empty($fileType))
+        {
+            echo 'Invalid file type. Please upload an image.';
+            $errors++;
+            exit();
+        }
+
+        if ($fileSize >= $maxsize || $fileSize === 0)
+        {
+            echo 'File must be under 1MB';
+            $errors++;
+            exit();
+        }
+
+        if ($errors === 0)
+        {
+            if (!is_dir(SITE_ROOT . '/cap/student/' . $username . '/img')) {
+              mkdir(SITE_ROOT . '/cap/student/' . $username . '/img', 0755, true);
+            }
+            if (!is_dir(SITE_ROOT . $imageDirectory))
+            {
+                mkdir(SITE_ROOT . $imageDirectory, 0755, true);
+            }
+            if(!is_dir(SITE_ROOT . $imageDirectory . $assignmentID))
+            {
+                mkdir(SITE_ROOT . $imageDirectory . $assignmentID, 0755, true);
+            }
+            if(!is_dir(SITE_ROOT . $imageDirectory . $assignmentID . "/"))
+            {
+                mkdir(SITE_ROOT . $imageDirectory . $assignmentID . "/", 0755, true);
+            }
+            try
+            {
+                $uploadBool = move_uploaded_file($fileTmp, SITE_ROOT . $imageDirectory . $assignmentID . "/". $fileDestination);
+
+                if($uploadBool == TRUE)
+                {
+                    return $fileDestination;
+                }
+                else
+                {
+                    throw new Exception;
+                }
+            } catch (Exception $e)
+            {
+                return 'Upload failed';
+            }
+        }
+        else
+        {
+            return 'Upload failed';
         }
     }
 
