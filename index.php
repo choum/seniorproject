@@ -35,9 +35,9 @@ break;
 
 case 'instructorDash':
   //checks if session role is correct
-  $role = $_SESSION['caps']['role'];
+  $role = $_SESSION['role'];
   //checks if user is logged in
-  $bool = $_SESSION['caps']['logged_in'];
+  $bool = $_SESSION['logged_in'];
 
   //runs check for both and redirects
   if (($role == 2 || $role == 4) && $bool) {
@@ -48,7 +48,7 @@ case 'instructorDash':
     require 'instructor-dashboard.php';
   } else {
     //something went wrong so we end the session if it is set
-    if (isset($_SESSION['caps'])) {
+    if (isset($_SESSION)) {
       end_session();
     }
     //redirect them to login
@@ -58,9 +58,9 @@ case 'instructorDash':
 
 case 'adminDash':
   //checks if session role is correct
-  $role = $_SESSION['caps']['role'];
+  $role = $_SESSION['role'];
   //checks if user is logged in
-  $bool = $_SESSION['caps']['logged_in'];
+  $bool = $_SESSION['logged_in'];
 
   //runs check for both and redirects
   if (($role == 3 || $role == 4) && $bool) {
@@ -71,7 +71,7 @@ case 'adminDash':
     require 'admin-dashboard.php';
   } else {
     //something went wrong so we end the session if it is set
-    if (isset($_SESSION['caps'])) {
+    if (isset($_SESSION)) {
       end_session();
     }
     //redirect them to login
@@ -81,16 +81,16 @@ break;
 
 case 'studentProf':
   //checks if session role is correct
-  $role = $_SESSION['caps']['role'];
+  $role = $_SESSION['role'];
   //checks if user is logged in
-  $bool = $_SESSION['caps']['logged_in'];
+  $bool = $_SESSION['logged_in'];
 
   //runs check for both and redirects
   if (($role == 1) && $bool) {
     require 'profile.php';
   } else {
     //something went wrong so we end the session if it is set
-    if (isset($_SESSION['caps'])) {
+    if (isset($_SESSION)) {
       end_session();
     }
     //redirect them to login
@@ -107,12 +107,12 @@ case 'logout':
   logout();
   break;
 case 'changePage':
-  $bool = $_SESSION['caps']['logged_in'];
+  $bool = $_SESSION['logged_in'];
   //checks to see if the session is valid and the boolean is true
   if (is_session_valid() && $bool) {
         require 'changePass.php';
   } else {
-    if (isset($_SESSION['caps'])) {
+    if (isset($_SESSION)) {
       end_session();
     }
     require 'login.php';

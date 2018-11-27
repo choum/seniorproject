@@ -31,9 +31,9 @@
 
     //get the username from session
     $username = "";
-    if (isset($_SESSION['caps']))
+    if (isset($_SESSION))
     {
-        $username = $_SESSION['caps']["user"];
+        $username = $_SESSION["user"];
     }
 
     //create an istance of SQLHelper to get data from database
@@ -194,7 +194,7 @@
         $close = $dateOB->getCloseDate($term);
 
         $db = new SQLHelper();
-        $classAdminID = $db->getUser($_SESSION['caps']['user'])->id;
+        $classAdminID = $db->getUser($_SESSION['user'])->id;
         //create an instance of the Course class
         $course = new Course($classTitle, $courseID, $sectionNumber, $term, $classDescription, 0, 0, $classAdminID, $classInstructorID, $close);
 
@@ -236,7 +236,7 @@
         //create an instance of the SQLHelper class
         //update CourseSection in database
         $db = new SQLHelper();
-        $classAdmin = $db->getUser($_SESSION['caps']['user'])->id;
+        $classAdmin = $db->getUser($_SESSION['user'])->id;
         $result = $db->updateCourse($courseID, $classTitle, $courseNumber, $sectionNumber, $term, $description, 0, 0, $classAdmin, $teacherID, $close);
     }
 

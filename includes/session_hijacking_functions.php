@@ -1,6 +1,5 @@
 <?php
 session_start();
-$_SESSION['caps'] = array('ip', 'csrf_token', 'user','role', 'action', 'user_agent', 'last_login', 'csrf_token_time' );;
 // Useful php.ini file settings:
 // session.cookie_lifetime = 0
 // session.cookie_secure = 1
@@ -18,10 +17,10 @@ function end_session() {
 // Does the request IP match the stored value?
 function request_ip_matches_session() {
 	// return false if either value is not set
-	if(!isset($_SESSION['caps']['ip']) || !isset($_SERVER['REMOTE_ADDR'])) {
+	if(!isset($_SESSION['ip']) || !isset($_SERVER['REMOTE_ADDR'])) {
 		return false;
 	}
-	if($_SESSION['caps']['ip'] === $_SERVER['REMOTE_ADDR']) {
+	if($_SESSION['ip'] === $_SERVER['REMOTE_ADDR']) {
 		return true;
 	} else {
 		return false;
@@ -31,10 +30,10 @@ function request_ip_matches_session() {
 // Does the request user agent match the stored value?
 function request_user_agent_matches_session() {
 	// return false if either value is not set
-	if(!isset($_SESSION['caps']['user_agent']) || !isset($_SERVER['HTTP_USER_AGENT'])) {
+	if(!isset($_SESSION['user_agent']) || !isset($_SERVER['HTTP_USER_AGENT'])) {
 		return false;
 	}
-	if($_SESSION['caps']['user_agent'] === $_SERVER['HTTP_USER_AGENT']) {
+	if($_SESSION['user_agent'] === $_SERVER['HTTP_USER_AGENT']) {
 		return true;
 	} else {
 		return false;
@@ -45,10 +44,10 @@ function request_user_agent_matches_session() {
 function last_login_is_recent() {
 	$max_elapsed = 60 * 60 * 24; // 1 day
 	// return false if value is not set
-	if(!isset($_SESSION['caps']['last_login'])) {
+	if(!isset($_SESSION['last_login'])) {
 		return false;
 	}
-	if(($_SESSION['caps']['last_login'] + $max_elapsed) >= time()) {
+	if(($_SESSION['last_login'] + $max_elapsed) >= time()) {
 		return true;
 	} else {
 		return false;
@@ -87,7 +86,7 @@ function confirm_session_is_valid() {
 
 // Is user logged in already?
 function is_logged_in() {
-	return (isset($_SESSION['caps']['logged_in']) && $_SESSION['caps']['logged_in']);
+	return (isset($_SESSION['logged_in']) && $_SESSION['logged_in']);
 }
 
 // If user is not logged in, end and redirect to login page.
@@ -108,18 +107,18 @@ function after_successful_login() {
 	// Super important to prevent session hijacking/fixation.
 	session_regenerate_id();
 
-	$_SESSION['caps']['logged_in'] = true;
+	$_SESSION['logged_in'] = true;
 
 	// Save these values in the session, even when checks aren't enabled
-  $_SESSION['caps']['ip'] = $_SERVER['REMOTE_ADDR'];
-  $_SESSION['caps']['user_agent'] = $_SERVER['HTTP_USER_AGENT'];
-	$_SESSION['caps']['last_login'] = time();
+  $_SESSION['ip'] = $_SERVER['REMOTE_ADDR'];
+  $_SESSION['user_agent'] = $_SERVER['HTTP_USER_AGENT'];
+	$_SESSION['last_login'] = time();
 
 }
 
 // Actions to preform after every successful logout
 function after_successful_logout() {
-	$_SESSION['caps']['logged_in'] = false;
+	$_SESSION['logged_in'] = false;
 	end_session();
 }
 
