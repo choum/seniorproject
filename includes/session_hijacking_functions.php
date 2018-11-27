@@ -1,6 +1,6 @@
 <?php
 session_start();
-$_SESSION['caps'] = new array();
+$_SESSION['caps'] = array();
 // Useful php.ini file settings:
 // session.cookie_lifetime = 0
 // session.cookie_secure = 1
@@ -108,18 +108,18 @@ function after_successful_login() {
 	// Super important to prevent session hijacking/fixation.
 	session_regenerate_id();
 
-	$_SESSION['caps']['logged_in'] = true;
+	$_SESSION['caps']['logged_in'] => true;
 
 	// Save these values in the session, even when checks aren't enabled
-  $_SESSION['caps']['ip'] = $_SERVER['REMOTE_ADDR'];
-  $_SESSION['caps']['user_agent'] = $_SERVER['HTTP_USER_AGENT'];
-	$_SESSION['caps']['last_login'] = time();
+  $_SESSION['caps']['ip'] => $_SERVER['REMOTE_ADDR'];
+  $_SESSION['caps']['user_agent'] => $_SERVER['HTTP_USER_AGENT'];
+	$_SESSION['caps']['last_login'] => time();
 
 }
 
 // Actions to preform after every successful logout
 function after_successful_logout() {
-	$_SESSION['caps']['logged_in'] = false;
+	$_SESSION['caps']['logged_in'] => false;
 	end_session();
 }
 
