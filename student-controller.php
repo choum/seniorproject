@@ -277,10 +277,11 @@
 
                 try
                 {
+                    var_dump($_FILES['filesToUpload']);
                     $featured = filter_input(INPUT_POST, 'featured');
                     $group = filter_input(INPUT_POST, 'group');
                     if($group == NULL){ $group = 0; }
-                    
+                    if($featured == NULL) { $featured = 0; }
                     $return = $commands->addStudentAssignment($userID, $assignmentID, $path, date("Ymd"), NULL, $featured, $group);
 
                     if ($featured == TRUE AND $return == "Student assignment created"):
