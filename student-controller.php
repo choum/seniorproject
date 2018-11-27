@@ -282,13 +282,10 @@
                     if($group == NULL){ $group = 0; }
                     
                     $return = $commands->addStudentAssignment($userID, $assignmentID, $path, date("Ymd"), NULL, $featured, $group);
-                    echo $featured;
-                    echo $return;
+
                     if ($featured == TRUE AND $return == "Student assignment created"):
                         $db = new SQLHelper();
                         $db->changeFeaturedAssignment($userID, $assignmentID);
-                    else:
-                        throw new Exception;
                     endif;
                 } catch (Exception $e)
                 {
