@@ -71,7 +71,6 @@ function login() {
       require 'login.php';
     }
   } else {
-    var_dump($_SESSION);
     $error = "Form token error";
     require 'login.php';
   }

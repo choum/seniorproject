@@ -115,13 +115,23 @@
         $featuredDescription = $db->getAssignment($featuredAssignmentID)->description;
         $featuredPath = $assignmentDir;
         $featuredDirectory = $featuredAssignment[2];
-        $explodedScreenshots = explode(",", $featuredAssignment[4]);
+        if(array_search(",", $featuredAssignment)){
+            $explodedScreenshots = explode(",", $featuredAssignment[4]);
+        }else { $explodedScreenshots = $featuredAssignment[4]; }
         $featuredGroupProject = $featuredAssignment[6];
 
         $featuredScreenshotDir = "./cap/student/$username/img/$featuredAssignmentID/";
         $tempFSC = array();
-        foreach ($explodedScreenshots as $screenshot):
-            array_push($tempFSC, "$featuredScreenshotDir$screenshot");
-        endforeach;
+        if(is_array($explodedScreenshots)){
+            foreach ($explodedScreenshots as $screenshot):
+                array_push($tempFSC, "$featuredScreenshotDir$screenshot");
+            endforeach;
+        }
+        elseif ($explodedScreenshots != NULL AND $explodedScreenshots != "") {
+            $tempFSC = "$featuredScreenshotDir$explodedScreenshots";
+        }
+        else{
+            $tempFSC = $explodedScreenshots;
+        }
         $featuredScreenshots = $tempFSC;
     }

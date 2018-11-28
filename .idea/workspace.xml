@@ -3,9 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="43ab1658-c252-43fb-af8a-666710de9c1f" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SQLHelper.php" beforeDir="false" afterPath="$PROJECT_DIR$/SQLHelper.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/student-controller.php" beforeDir="false" afterPath="$PROJECT_DIR$/student-controller.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/student-dashboard.php" beforeDir="false" afterPath="$PROJECT_DIR$/student-dashboard.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -52,11 +49,11 @@
     <splitter split-orientation="horizontal" split-proportion="0.5">
       <split-first>
         <leaf>
-          <file leaf-file-name="student-controller.php" pinned="false" current-in-tab="false">
+          <file leaf-file-name="student-controller.php" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/student-controller.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="340">
-                  <caret line="255" column="17" lean-forward="true" selection-start-line="255" selection-start-column="17" selection-end-line="255" selection-end-column="17" />
+                <state relative-caret-position="530">
+                  <caret line="149" selection-start-line="149" selection-end-line="255" selection-end-column="17" />
                 </state>
               </provider>
             </entry>
@@ -70,7 +67,7 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="student-dashboard.php" pinned="false" current-in-tab="true">
+          <file leaf-file-name="student-dashboard.php" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/student-dashboard.php">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="876">
@@ -201,7 +198,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="16533000" />
+    <option name="totallyTimeSpent" value="16864000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1680" height="1027" extended-state="6" />
@@ -556,13 +553,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/student-controller.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="255" column="17" lean-forward="true" selection-start-line="255" selection-start-column="17" selection-end-line="255" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/SQLHelper.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="850">
@@ -574,6 +564,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="876">
           <caret line="255" lean-forward="true" selection-start-line="255" selection-end-line="255" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/student-controller.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="530">
+          <caret line="149" selection-start-line="149" selection-end-line="255" selection-end-column="17" />
         </state>
       </provider>
     </entry>

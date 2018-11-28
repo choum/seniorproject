@@ -52,7 +52,7 @@ create_csrf_token();
             <div class="col-md-6">
               <div class="form-group">
                 <label for="about">About Me</label>
-                <textarea class="form-control" id="about" rows="3" placeholder="Type a little bit about yourself..."></textarea>
+                <textarea class="form-control" id="about" name="about" rows="3" placeholder="Type a little bit about yourself..."></textarea>
               </div>
               <div class="form-group">
                 <label for="resume">Resume Link</label>
@@ -86,7 +86,7 @@ create_csrf_token();
   jQuery.validator.addMethod("noSpace", function(value, element) {
   return value.indexOf(" ") < 0 ;
   }, "No spaces please");
-    
+
     $("#msform").validate({
       rules: {
         username: {
