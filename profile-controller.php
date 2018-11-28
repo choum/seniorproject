@@ -48,6 +48,9 @@
     $linkedin = $user->linkedin;
     $pictureDir = "./profiles/$username/img/";
     $picture = $user->imageLink;
+    if ($picture == 'default-profile.jpg') {
+      $pictureDir = './img/';
+    }
     $userID = $user->id;
     $assignmentDir = "/cap/student/$username/workspace/";
     //student assignments tied to studentID in student_assignment
@@ -98,7 +101,7 @@
     endforeach;
     if ($featuredAssignment == NULL OR $featuredAssignment == FALSE)
     {
-        
+
     }
     else
     {
