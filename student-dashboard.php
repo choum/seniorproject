@@ -98,7 +98,7 @@ else {
                                     <div class="col-12 box" data-size='12'>
                                         <div class="card no-margin mb-3">
                                             <div class="card-header">
-                                                <h5 class="card-title">CIS <?php echo "$course->courseNumber$course->courseSection $course->term - $course->courseTitle"; ?></h5>
+                                                <h5 class="card-title">CIS <?php echo "$course->courseNumber.$course->courseSection $course->term - $course->courseTitle"; ?></h5>
                                                 <p class="card-text" style="text-align: center;"><?php echo getTeacher($course->teacherID); ?></p>
                                             </div>
                                             <ul class="list-group list-group-flush">
