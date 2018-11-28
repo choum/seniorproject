@@ -194,6 +194,7 @@ function register() {
           {
               $uploadBool = false;
               $file_name = null;
+              $file = null;
           }
       } catch (Exception $e)
       {
@@ -215,6 +216,9 @@ function register() {
 
 
       require 'setup.php';
+    } else {
+      $error = "Error occurred please try again";
+      require 'register.php';
     }
   }
 }
