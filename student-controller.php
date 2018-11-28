@@ -173,24 +173,25 @@
         {
           $commands = new SQLHelper();
           $currentUser = $commands->getUser($username);
+          $userID = getUserID($username);
           if (isset($_POST['about'])) {
             $aboutMe = hPOST('about');
-          } else if (!empty($currentUser['bio'])){
-            $aboutMe = $currentUser['bio'];
+          } else if (!empty($currentUser->bio)){
+            $aboutMe = $currentUser->bio;
           } else {
             $aboutMe = null;
           }
           if (isset($_POST['resume'])) {
-            $resumeLine = hPOST('resume');
-          } else if (!empty($currentUser['resume'])){
-            $resumeLine = $currentUser['resume'];
+            $resumeLink = hPOST('resume');
+          } else if (!empty($currentUser->linkedin)){
+            $resumeLink = $currentUser->linkedin;
           } else {
-            $resumeLine = null;
+            $resumeLink = null;
           }
           if (isset($_POST['website'])) {
             $personalWebsite = hPOST('website');
-          } else if (!empty($currentUser['website'])){
-            $personalWebsite = $currentUser['website'];
+          } else if (!empty($currentUser->website)){
+            $personalWebsite = $currentUser->website;
           } else {
             $personalWebsite = null;
           }
@@ -241,31 +242,32 @@
                         move_uploaded_file($fileTmp, SITE_ROOT . $uploadDirectory . $fileDestination);
                         try
                         {
-                            $commands->updateUser($username, $aboutMe, $fileDestination, $resumeLink, $personalWebsite);
+                          $commands->updateUser($userID, $aboutMe, $fileDestination, $resumeLink, $personalWebsite);
                         } catch (Exception $e)
                         {
                             echo 'SQL Error';
                         }
-                        echo 'Image has been uploaded succesfully. Profile has been updated.';
+                        echo 'Image has been uploaded successfully. Profile has been updated.';
                     } catch (Exception $e)
                     {
-                        echo 'Upload failed';
+                        //echo 'Upload failed';
                     }
                 }
             }
             else
             {
-              if (!empty($currentUser['image'])){
-                $fileDestination = $currentUser['image'];
+              if (!empty($currentUser->imageLink)){
+                $fileDestination = $currentUser->imageLink;
               } else {
                 $fileDestination = null;
               }
               try {
-                $commands->updateUser($username, $aboutMe, $fileDestination, $resumeLink, $personalWebsite);
+                $commands->updateUser($userID, $aboutMe, $fileDestination, $resumeLink, $personalWebsite);
               } catch (Exception $e)
               {
                   echo 'SQL Error';
               }
+              echo 'Profile has been updated.';
             }
         } catch (Exception $e)
         {
