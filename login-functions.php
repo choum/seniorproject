@@ -71,7 +71,6 @@ function login() {
       require 'login.php';
     }
   } else {
-    var_dump($_SESSION);
     $error = "Form token error";
     require 'login.php';
   }
@@ -194,6 +193,7 @@ function register() {
           {
               $uploadBool = false;
               $file_name = null;
+              $file = null;
           }
       } catch (Exception $e)
       {
@@ -215,6 +215,8 @@ function register() {
 
 
       require 'setup.php';
+    } else {
+      var_dump($_SESSION);
     }
   }
 }
