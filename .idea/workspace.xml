@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="43ab1658-c252-43fb-af8a-666710de9c1f" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/student-controller.php" beforeDir="false" afterPath="$PROJECT_DIR$/student-controller.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -48,12 +49,12 @@
   <component name="FileEditorManager">
     <splitter split-orientation="horizontal" split-proportion="0.5">
       <split-first>
-        <leaf>
+        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file leaf-file-name="student-controller.php" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/student-controller.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="530">
-                  <caret line="149" selection-start-line="149" selection-end-line="255" selection-end-column="17" />
+                <state relative-caret-position="-299">
+                  <caret line="253" column="26" lean-forward="true" selection-start-line="253" selection-start-column="26" selection-end-line="253" selection-end-column="26" />
                 </state>
               </provider>
             </entry>
@@ -61,8 +62,8 @@
           <file leaf-file-name="SQLHelper.php" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/SQLHelper.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="850">
-                  <caret line="1341" lean-forward="true" selection-start-line="1341" selection-end-line="1341" />
+                <state relative-caret-position="19875">
+                  <caret line="1325" selection-start-line="1325" selection-end-line="1325" />
                 </state>
               </provider>
             </entry>
@@ -70,8 +71,8 @@
           <file leaf-file-name="student-dashboard.php" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/student-dashboard.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="876">
-                  <caret line="255" lean-forward="true" selection-start-line="255" selection-end-line="255" />
+                <state relative-caret-position="3795">
+                  <caret line="253" selection-start-line="253" selection-end-line="253" />
                 </state>
               </provider>
             </entry>
@@ -79,12 +80,12 @@
         </leaf>
       </split-first>
       <split-second>
-        <leaf>
+        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file leaf-file-name="student-controller.php" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/student-controller.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="790">
-                  <caret line="289" column="2" lean-forward="true" selection-start-line="289" selection-start-column="2" selection-end-line="289" selection-end-column="2" />
+                <state relative-caret-position="-9">
+                  <caret line="207" column="23" lean-forward="true" selection-start-line="207" selection-start-column="23" selection-end-line="207" selection-end-column="23" />
                 </state>
               </provider>
             </entry>
@@ -115,9 +116,9 @@
         <option value="$PROJECT_DIR$/test.php" />
         <option value="$PROJECT_DIR$/private/CreateDB.php" />
         <option value="$PROJECT_DIR$/Assignment.php" />
-        <option value="$PROJECT_DIR$/student-controller.php" />
         <option value="$PROJECT_DIR$/SQLHelper.php" />
         <option value="$PROJECT_DIR$/student-dashboard.php" />
+        <option value="$PROJECT_DIR$/student-controller.php" />
       </list>
     </option>
   </component>
@@ -137,17 +138,16 @@
     <packageJsonPaths />
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-69" />
-    <option name="y" value="107" />
-    <option name="width" value="1653" />
-    <option name="height" value="1028" />
+    <option name="x" value="-68" />
+    <option name="y" value="23" />
+    <option name="width" value="1655" />
+    <option name="height" value="1027" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -159,6 +159,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -194,11 +195,12 @@
       <workItem from="1540850536203" duration="1123000" />
       <workItem from="1542917111410" duration="1352000" />
       <workItem from="1543092215355" duration="4317000" />
+      <workItem from="1543365328206" duration="18000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="16864000" />
+    <option name="totallyTimeSpent" value="16882000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1680" height="1027" extended-state="6" />
@@ -217,45 +219,33 @@
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.123809524" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Version Control" order="8" />
-      <window_info anchor="bottom" id="Run" order="2" />
-      <window_info anchor="bottom" id="Database Changes" order="9" show_stripe_button="false" />
-      <window_info anchor="right" id="Database" order="3" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Terminal" order="10" />
-      <window_info id="Favorites" order="2" side_tool="true" />
     </layout>
     <layout-to-restore>
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="8" weight="0.329718" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.08208955" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Database Changes" order="9" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Run" order="2" />
-      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="right" id="Database" order="3" />
       <window_info anchor="bottom" id="Terminal" order="10" />
       <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Database Changes" order="9" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="8" weight="0.329718" />
       <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
     </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -555,22 +545,22 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/SQLHelper.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="850">
-          <caret line="1341" lean-forward="true" selection-start-line="1341" selection-end-line="1341" />
+        <state relative-caret-position="19875">
+          <caret line="1325" selection-start-line="1325" selection-end-line="1325" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/student-dashboard.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="876">
-          <caret line="255" lean-forward="true" selection-start-line="255" selection-end-line="255" />
+        <state relative-caret-position="3795">
+          <caret line="253" selection-start-line="253" selection-end-line="253" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/student-controller.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="530">
-          <caret line="149" selection-start-line="149" selection-end-line="255" selection-end-column="17" />
+        <state relative-caret-position="-299">
+          <caret line="253" column="26" lean-forward="true" selection-start-line="253" selection-start-column="26" selection-end-line="253" selection-end-column="26" />
         </state>
       </provider>
     </entry>
