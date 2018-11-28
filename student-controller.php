@@ -240,7 +240,6 @@
                         move_uploaded_file($fileTmp, SITE_ROOT . $uploadDirectory . $fileDestination);
                         try
                         {
-                            $commands = new SQLHelper();
                             $commands->updateUser($username, $aboutMe, $fileDestination, $resumeLink, $personalWebsite);
                         } catch (Exception $e)
                         {
@@ -261,7 +260,6 @@
                 $fileDestination = null;
               }
               try {
-                $commands = new SQLHelper();
                 $commands->updateUser($username, $aboutMe, $fileDestination, $resumeLink, $personalWebsite);
               } catch (Exception $e)
               {
@@ -308,21 +306,21 @@
 
                 try
                 {
-                    var_dump($_FILES['filesToUpload']);
                     $featured = filter_input(INPUT_POST, 'featured');
                     $group = filter_input(INPUT_POST, 'group');
                     if($group == NULL){ $group = 0; }
-                    if($featured == NULL) { $featured = 0; }
-                    $return = $commands->addStudentAssignment($userID, $assignmentID, $path, date("Ymd"), NULL, $featured, $group);
 
+                    $return = $commands->addStudentAssignment($userID, $assignmentID, $path, date("Ymd"), NULL, $featured, $group);
+                    echo $featured;
+                    echo $return;
                     if ($featured == TRUE AND $return == "Student assignment created"):
                         $db = new SQLHelper();
                         $db->changeFeaturedAssignment($userID, $assignmentID);
+                    else:
+                        throw new Exception;
                     endif;
                 } catch (Exception $e)
                 {
-                    echo 'Cannot add assignment to database.';
-                    exit();
                 }
 
                 echo '<a href="' . $uploadDirectory . '" target="_blank">View Assignment Here</a>';
@@ -336,14 +334,19 @@
     function unzip($location, $new_location, $zipFile)
     {
         $fileDirectory = explode('.', $zipFile['name']);
-        mkdir(SITE_ROOT . $new_location, 0755, true);
+        if (!file_exists(SITE_ROOT . $new_location)) {
+            mkdir(SITE_ROOT . $new_location, 0755, true);
+        }
         try
         {
-            $src = SITE_ROOT . $new_location . '/' . $fileDirectory[0] . '/';
+
             $dst = SITE_ROOT . $new_location . '/';
             deleteDirectoryContent($dst);
             $zip = new Zip();
             $zip->unzip_file($location, SITE_ROOT . $new_location);
+            $content = scandir(SITE_ROOT.$new_location);
+            $directoryName = $content[2];
+            $src = SITE_ROOT . $new_location . '/' . $directoryName . '/';
             recurse_copy($src, $dst);
             deleteDirectory($src);
         } catch (Exception $e)
@@ -355,7 +358,8 @@
 
     function recurse_copy($src, $dst)
     {
-        $dir = opendir($src);
+        try{$dir = opendir($src);}
+        catch(Exception $e){echo 'error';}
         @mkdir($dst);
         while (false !== ( $file = readdir($dir)))
         {
