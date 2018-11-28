@@ -170,12 +170,32 @@
         $uploadDirectory = '/profiles/' . $username . '/img/';
         try
         {
+          $commands = new SQLHelper();
+          $currentUser = $commands->getUser($username);
+          if (isset($_POST['about'])) {
+            $aboutMe = hPOST('about');
+          } else if (!empty($currentUser['bio'])){
+            $aboutMe = $currentUser['bio'];
+          } else {
+            $aboutMe = null;
+          }
+          if (isset($_POST['resume'])) {
+            $resumeLine = hPOST('resume');
+          } else if (!empty($currentUser['resume'])){
+            $resumeLine = $currentUser['resume'];
+          } else {
+            $resumeLine = null;
+          }
+          if (isset($_POST['website'])) {
+            $personalWebsite = hPOST('website');
+          } else if (!empty($currentUser['website'])){
+            $personalWebsite = $currentUser['website'];
+          } else {
+            $personalWebsite = null;
+          }
+
             if (isset($_FILES['image_files']) && $_FILES['image_files']['name'] != '')
             {
-                $aboutMe = $_POST['about'];
-                $resumeLink = $_POST['resume'];
-                $personalWebsite = $_POST['website'];
-
                 $maxsize = 1000000;
                 $acceptable = array(
                     'image/jpeg',
@@ -235,7 +255,18 @@
             }
             else
             {
-                echo 'Fail';
+              if (!empty($currentUser['image'])){
+                $fileDestination = $currentUser['image'];
+              } else {
+                $fileDestination = null;
+              }
+              try {
+                $commands = new SQLHelper();
+                $commands->updateUser($username, $aboutMe, $fileDestination, $resumeLink, $personalWebsite);
+              } catch (Exception $e)
+              {
+                  echo 'SQL Error';
+              }
             }
         } catch (Exception $e)
         {
