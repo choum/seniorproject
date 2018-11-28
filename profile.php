@@ -117,7 +117,7 @@ include("profile-controller.php"); ?>
                         </h6>
                         <hr/>
                         <p class="card-text"><?php echo $featuredDescription; ?></p>
-                        <?php if(!empty($featuredScreenshots)): ?>
+                        <?php if(sizeof($featuredScreenshots) > 1): ?>
                         <div id="carouselExampleControls1" class="carousel slide" data-ride="carousel">
                             <div class="carousel-inner">
                             <?php $counter = 0; foreach ($featuredScreenshots as $screenshot) : ?>

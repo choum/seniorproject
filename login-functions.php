@@ -192,6 +192,7 @@ function register() {
           }
           else
           {
+              $uploadBool = false;
               $file_name = null;
           }
       } catch (Exception $e)

@@ -170,12 +170,32 @@
         $uploadDirectory = '/profiles/' . $username . '/img/';
         try
         {
+          $commands = new SQLHelper();
+          $currentUser = $commands->getUser($username);
+          if (isset($_POST['about'])) {
+            $aboutMe = hPOST('about');
+          } else if (!empty($currentUser['bio'])){
+            $aboutMe = $currentUser['bio'];
+          } else {
+            $aboutMe = null;
+          }
+          if (isset($_POST['resume'])) {
+            $resumeLine = hPOST('resume');
+          } else if (!empty($currentUser['resume'])){
+            $resumeLine = $currentUser['resume'];
+          } else {
+            $resumeLine = null;
+          }
+          if (isset($_POST['website'])) {
+            $personalWebsite = hPOST('website');
+          } else if (!empty($currentUser['website'])){
+            $personalWebsite = $currentUser['website'];
+          } else {
+            $personalWebsite = null;
+          }
+
             if (isset($_FILES['image_files']) && $_FILES['image_files']['name'] != '')
             {
-                $aboutMe = $_POST['about'];
-                $resumeLink = $_POST['resume'];
-                $personalWebsite = $_POST['website'];
-
                 $maxsize = 1000000;
                 $acceptable = array(
                     'image/jpeg',
@@ -220,7 +240,6 @@
                         move_uploaded_file($fileTmp, SITE_ROOT . $uploadDirectory . $fileDestination);
                         try
                         {
-                            $commands = new SQLHelper();
                             $commands->updateUser($username, $aboutMe, $fileDestination, $resumeLink, $personalWebsite);
                         } catch (Exception $e)
                         {
@@ -235,7 +254,17 @@
             }
             else
             {
-                echo 'Fail';
+              if (!empty($currentUser['image'])){
+                $fileDestination = $currentUser['image'];
+              } else {
+                $fileDestination = null;
+              }
+              try {
+                $commands->updateUser($username, $aboutMe, $fileDestination, $resumeLink, $personalWebsite);
+              } catch (Exception $e)
+              {
+                  echo 'SQL Error';
+              }
             }
         } catch (Exception $e)
         {
@@ -277,63 +306,21 @@
 
                 try
                 {
-                    //Process involved with uploading image screenshots.
-                    var_dump($_FILES['filesToUpload']);
-                    
-                    
-                    $file = $_FILES['filesToUpload'];
-                    
-                    $imageLink = NULL;
-                    
-                    if (isset($file) && $file['name'] != '')
-                    {
-                        $imageDirectory = '/cap/student/' . $username . '/img/';
-                        $counter = 0;
-                        $images = array();
-                        if(is_array($file['name'])){
-                            $count = sizeof($file['name']);
-                        }
-                        else{
-                            $count = 1;
-                        }
-                        
-                        for($i = 0; $i < $counter; $i++){
-                            $tempImage = uploadImages($imageDirectory, $file, $counter, $assignmentID, $username);
-                            array_push($images, $tempImage);
-                        }                        
-                        
-                        if(array_search("Upload failed", $images) == FALSE){
-                            foreach($images as $image){ 
-                                if($imageLink == ""):
-                                    $imageLink = "$image"; 
-                                else:
-                                    $imageLink .= ",$image";
-                                endif;
-                            } 
-                        }
-                        else{
-                            echo "Error uploading screenshots";
-                            exit();
-                        }
-                    }
-  
-                    echo $imageLink;
-                    //End process involving screenshots
                     $featured = filter_input(INPUT_POST, 'featured');
                     $group = filter_input(INPUT_POST, 'group');
                     if($group == NULL){ $group = 0; }
-                    if($featured == NULL) { $featured = 0; }
-                    
-                    $return = $commands->addStudentAssignment($userID, $assignmentID, $path, date("Ymd"), $imageLink, $featured, $group);
 
+                    $return = $commands->addStudentAssignment($userID, $assignmentID, $path, date("Ymd"), NULL, $featured, $group);
+                    echo $featured;
+                    echo $return;
                     if ($featured == TRUE AND $return == "Student assignment created"):
                         $db = new SQLHelper();
                         $db->changeFeaturedAssignment($userID, $assignmentID);
+                    else:
+                        throw new Exception;
                     endif;
                 } catch (Exception $e)
                 {
-                    echo 'Cannot add assignment to database.';
-                    exit();
                 }
 
                 echo '<a href="' . $uploadDirectory . '" target="_blank">View Assignment Here</a>';
@@ -347,14 +334,19 @@
     function unzip($location, $new_location, $zipFile)
     {
         $fileDirectory = explode('.', $zipFile['name']);
-        mkdir(SITE_ROOT . $new_location, 0755, true);
+        if (!file_exists(SITE_ROOT . $new_location)) {
+            mkdir(SITE_ROOT . $new_location, 0755, true);
+        }
         try
         {
-            $src = SITE_ROOT . $new_location . '/' . $fileDirectory[0] . '/';
+
             $dst = SITE_ROOT . $new_location . '/';
             deleteDirectoryContent($dst);
             $zip = new Zip();
             $zip->unzip_file($location, SITE_ROOT . $new_location);
+            $content = scandir(SITE_ROOT.$new_location);
+            $directoryName = $content[2];
+            $src = SITE_ROOT . $new_location . '/' . $directoryName . '/';
             recurse_copy($src, $dst);
             deleteDirectory($src);
         } catch (Exception $e)
@@ -366,7 +358,8 @@
 
     function recurse_copy($src, $dst)
     {
-        $dir = opendir($src);
+        try{$dir = opendir($src);}
+        catch(Exception $e){echo 'error';}
         @mkdir($dst);
         while (false !== ( $file = readdir($dir)))
         {
@@ -429,86 +422,6 @@
                 }
             }
             reset($objects);
-        }
-    }
-    
-    function uploadImages($imageDirectory, $file, $counter, $assignmentID, $username)
-    {
-        $maxsize = 10000000;
-        $acceptable = array(
-            'image/jpeg',
-            'image/jpg',
-            'image/gif',
-            'image/png'
-        );
-        $errors = 0;
-        if(is_array($file)){
-            $fileName = $file['name'][$counter];
-            $fileSize = $file['size'][$counter];
-            $fileType = $file['type'][$counter];
-            $fileTmp = $file['tmp_name'][$counter];
-        }
-        else{
-            $fileName = $file['name'];
-            $fileSize = $file['size'];
-            $fileType = $file['type'];
-            $fileTmp = $file['tmp_name'];
-        }
-        $fileExtension = pathinfo($fileName, PATHINFO_EXTENSION);
-        $fileExtensionStr = strtolower($fileExtension);
-        
-        $fileDestination = $assignmentID . "_$counter." . $fileExtensionStr;
-        if (!in_array($fileType, $acceptable) && !empty($fileType))
-        {
-            echo 'Invalid file type. Please upload an image.';
-            $errors++;
-            exit();
-        }
-
-        if ($fileSize >= $maxsize || $fileSize === 0)
-        {
-            echo 'File must be under 1MB';
-            $errors++;
-            exit();
-        }
-
-        if ($errors === 0)
-        {
-            if (!is_dir(SITE_ROOT . '/cap/student/' . $username . '/img')) {
-              mkdir(SITE_ROOT . '/cap/student/' . $username . '/img', 0755, true);
-            }
-            if (!is_dir(SITE_ROOT . $imageDirectory))
-            {
-                mkdir(SITE_ROOT . $imageDirectory, 0755, true);
-            }
-            if(!is_dir(SITE_ROOT . $imageDirectory . $assignmentID))
-            {
-                mkdir(SITE_ROOT . $imageDirectory . $assignmentID, 0755, true);
-            }
-            if(!is_dir(SITE_ROOT . $imageDirectory . $assignmentID . "/"))
-            {
-                mkdir(SITE_ROOT . $imageDirectory . $assignmentID . "/", 0755, true);
-            }
-            try
-            {
-                $uploadBool = move_uploaded_file($fileTmp, SITE_ROOT . $imageDirectory . $assignmentID . "/". $fileDestination);
-
-                if($uploadBool == TRUE)
-                {
-                    return $fileDestination;
-                }
-                else
-                {
-                    throw new Exception;
-                }
-            } catch (Exception $e)
-            {
-                return 'Upload failed';
-            }
-        }
-        else
-        {
-            return 'Upload failed';
         }
     }
 
