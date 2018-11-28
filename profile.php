@@ -117,15 +117,21 @@ include("profile-controller.php"); ?>
                         </h6>
                         <hr/>
                         <p class="card-text"><?php echo $featuredDescription; ?></p>
-                        <?php if(sizeof($featuredScreenshots) > 1): ?>
+                        <?php if(is_array($featuredScreenshots) OR ($featuredScreenshots != "" AND $featuredScreenshots != NULL)): ?>
                         <div id="carouselExampleControls1" class="carousel slide" data-ride="carousel">
                             <div class="carousel-inner">
+                            <?php if(is_array($featuredScreenshots)): ?>
                             <?php $counter = 0; foreach ($featuredScreenshots as $screenshot) : ?>
                                 <div class="carousel-item<?php if ($counter == 0) { echo ' active'; $counter++; } ?>">
                                     <img class="d-block w-100" src="<?php echo $screenshot; ?>">
                                 </div>
                             <?php endforeach; ?>
+                            <?php else: ?>
+                                <div class="carousel-item active">
+                                    <img class="d-block w-100" src="<?php echo $featuredScreenshots; ?>">
+                                </div>
                             </div>
+                            <?php endif; ?>
                             <a class="carousel-control-prev" href="#carouselExampleControls1" role="button" data-slide="prev">
                                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                                 <span class="sr-only">Previous</span>

@@ -306,15 +306,11 @@
 
                 try
                 {
-                    //Process involved with uploading image screenshots.
-                    var_dump($_FILES['filesToUpload']);
-                    
-                    
+                    //Process involved with uploading image screenshots.                    
                     $file = $_FILES['filesToUpload'];
                     
                     $imageLink = NULL;
-                    
-                    if (isset($file) && $file['name'] != '')
+                    if (isset($file) && $file['name'] != '' && $file['name'][0] != "")
                     {
                         $imageDirectory = '/cap/student/' . $username . '/img/';
                         $counter = 0;
@@ -346,7 +342,6 @@
                         }
                     }
   
-                    echo $imageLink;
                     //End process involving screenshots
                     $featured = filter_input(INPUT_POST, 'featured');
                     $group = filter_input(INPUT_POST, 'group');
@@ -359,9 +354,13 @@
                         $db = new SQLHelper();
                         $db->changeFeaturedAssignment($userID, $assignmentID);
                     elseif($return == "Student assignment created"):
-                        
+                        echo $return . "<br/>";
                     else:
-                        throw new Exception;
+                        $db = new SQLHelper();
+                        $readd = $db->readdStudentAssignment($userID, $assignmentID, $path, date("Ymd"), $imageLink, $featured, $group);
+                        if($readd != "Student assignment created"):
+                            throw new Exception;
+                        endif;
                     endif;
                 } catch (Exception $e)
                 {

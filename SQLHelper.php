@@ -747,7 +747,41 @@
                 return "Assignment already exists";
             }
         }
+        
+        function readdStudentAssignment($studentID, $assignmentID, $dir,
+            $dateCreated, $screenshot, $featured, $group)
+        {
+            try
+            {
+                $dbObj = new Database();
+                $db = $dbObj->getConnection();
+                $db->beginTransaction();
+                $query = "DELETE FROM Student_Assignment "
+                    . "Where StudentID=:sID And AssignmentID = :aID;";
+                $statement = $db->prepare($query);
+                $statement->bindValue(':sID', $studentID, PDO::PARAM_INT);
+                $statement->bindValue(':aID', $assignmentID, PDO::PARAM_INT);
+                $statement->execute();
+                $count = $statement->rowCount();
+                $statement->closeCursor();
 
+                if ($count == 1):
+                    $db->commit();
+                    $return = $this->addStudentAssignment($studentID, 
+                        $assignmentID, $dir, $dateCreated, $screenshot, 
+                        $featured, $group);
+                    return $return;
+                else:
+                    $db->rollBack();
+                    throw new PDOException;
+                endif;
+            } catch (PDOException $e)
+            {
+                //$error_message = $e->getMessage();
+                //error_log($error_message, (int)0,"./error.txt");
+                return "Student assignment not updated.";
+            }
+        }
         function updateStudentAssignment($studentID, $assignmentID, $dir,
             $dateCreated, $screenshot = NULL, $featured = NULL, $group = NULL)
         {

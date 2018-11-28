@@ -137,7 +137,7 @@ if (!empty($_SESSION['user'])) {
               if (!empty($role)) {
                 if ($role == 1) {
                   $user = $_SESSION['user'];
-                  echo("<a href='profile.php?user=$user'>Profile</a>");
+                  echo("<a href='profile.php?user=$user' target='_blank'>Profile</a>");
 //                  '<form method="post" action=".">
 //                    <input type="hidden" name="action" value="studentProf" />
 //                    <input type="submit" class="btn btn-link" value="Profile"/>
