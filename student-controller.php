@@ -2,6 +2,7 @@
 
     require_once "SQLHelper.php";
     require_once "zip/Zip.php";
+    require_once "includes/validationFunctions.php";
     define('SITE_ROOT', realpath(dirname(__FILE__)));
 
 
@@ -360,6 +361,8 @@
                         $readd = $db->readdStudentAssignment($userID, $assignmentID, $path, date("Ymd"), $imageLink, $featured, $group);
                         if($readd != "Student assignment created"):
                             throw new Exception;
+                        else:
+                            echo $readd . "<br/>";
                         endif;
                     endif;
                 } catch (Exception $e)
