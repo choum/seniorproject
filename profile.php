@@ -86,7 +86,7 @@ include("profile-controller.php"); ?>
                                     foreach ($assignments as $assignment):
                                         ?>
                                     <li class="list-group-item"><strong>
-                                            <a href="<?php echo $assignmentDir . $studentAssignments[$counter][2] . "/"; ?>"><?php echo $assignment->name; ?></a>
+                                            <a href="<?php echo $assignmentDir . $studentAssignments[$counter][2] . "/"; ?>" target="_blank"><?php echo $assignment->name; ?></a>
                                         </strong> - <?php echo $assignment->description; ?>
                                         <?php if ($studentAssignments[$counter][6]): ?>
                                             <span style="float:right;"> Group Project</span>
@@ -102,11 +102,10 @@ include("profile-controller.php"); ?>
                         <?php endforeach; ?>
                     </div>
                 </div>
+                <?php if ($featuredAssignment != NULL AND $featuredAssignment != FALSE): ?>
                 <div class="card">
                     <div class="card-body">
-                    <?php if ($featuredAssignment == NULL OR $featuredAssignment == FALSE): ?>
-                        <h4 class="card-title">No featured assignment chosen.</h4>
-                    <?php else: ?>
+                    
                         <h4 class="card-title">CIS <?php echo $featuredCourseNumber; ?> - <?php echo $featuredAssignmentName; ?></h4>
                         <h6>
                         <a href="<?php echo $featuredPath . $featuredDirectory . "/"; ?>">Project Link</a>
@@ -142,9 +141,9 @@ include("profile-controller.php"); ?>
                             </a>
                         </div>
                         <?php endif; ?>
-                    <?php endif; ?>
                     </div>
                 </div>
+                <?php endif; ?>
             </div>
         </div>
     </body>

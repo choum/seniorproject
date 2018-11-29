@@ -500,42 +500,71 @@
             }
         }
 
-        /*
-         * Insertion of new course into Courses table
-         * Done via admin dashboard
-         */
-
         function addCourse(Course $course)
         {
             try
             {
                 $dbObj = new Database();
                 $db = $dbObj->getConnection();
-                $query = "INSERT INTO Courses"
-                    . "(CourseTitle, CourseNumber, CourseSection, "
-                    . "Term, Description, Closed, EnrollmentTotal, AdminID, "
-                    . "TeacherID , CloseDate)"
-                    . "VALUES(:cTitle, :cNumber, :cSection, :term, "
-                    . ":desc, :closed, :enrolled, :adminID, :teacherID , :close);";
-                $statement = $db->prepare($query);
-                $statement->bindValue(':cTitle', $course->courseTitle, PDO::PARAM_STR);
-                $statement->bindValue(':cNumber', $course->courseNumber, PDO::PARAM_INT);
-                $statement->bindValue(':cSection', $course->courseSection, PDO::PARAM_INT);
-                $statement->bindValue(':term', $course->term, PDO::PARAM_STR);
-                $statement->bindValue(':desc', $course->description, PDO::PARAM_STR);
-                $statement->bindValue(':closed', $course->closed, PDO::PARAM_BOOL);
-                $statement->bindValue(':enrolled', $course->enrollment, PDO::PARAM_INT);
-                $statement->bindValue(':adminID', $course->adminID, PDO::PARAM_INT);
-                $statement->bindValue(':teacherID', $course->teacherID, PDO::PARAM_INT);
-                $statement->bindValue(':close', $course->close, PDO::PARAM_STR);
-                $output = $statement->execute();
-                $statement->closeCursor();
+                $result = $this->checkDuplicateCourseForTerm($course);
+                if($result == FALSE):
+                    $query = "INSERT INTO Courses"
+                        . "(CourseTitle, CourseNumber, CourseSection, "
+                        . "Term, Description, Closed, EnrollmentTotal, AdminID, "
+                        . "TeacherID , CloseDate)"
+                        . "VALUES(:cTitle, :cNumber, :cSection, :term, "
+                        . ":desc, :closed, :enrolled, :adminID, :teacherID , :close);";
+                    $statement = $db->prepare($query);
+                    $statement->bindValue(':cTitle', $course->courseTitle, PDO::PARAM_STR);
+                    $statement->bindValue(':cNumber', $course->courseNumber, PDO::PARAM_INT);
+                    $statement->bindValue(':cSection', $course->courseSection, PDO::PARAM_INT);
+                    $statement->bindValue(':term', $course->term, PDO::PARAM_STR);
+                    $statement->bindValue(':desc', $course->description, PDO::PARAM_STR);
+                    $statement->bindValue(':closed', $course->closed, PDO::PARAM_BOOL);
+                    $statement->bindValue(':enrolled', $course->enrollment, PDO::PARAM_INT);
+                    $statement->bindValue(':adminID', $course->adminID, PDO::PARAM_INT);
+                    $statement->bindValue(':teacherID', $course->teacherID, PDO::PARAM_INT);
+                    $statement->bindValue(':close', $course->closeDate, PDO::PARAM_STR);
+                    $output = $statement->execute();
+                    $statement->closeCursor();
 
-                return $output;
+                    return $output;
+                else:
+                    return "Course already exists.";
+                endif;
             } catch (PDOException $e)
             {
                 //error_log($error_message, (int)0,"./error.txt");
                 return "Course not created";
+            }
+        }
+        
+        function checkDuplicateCourseForTerm(Course $course)
+        {
+            try
+            {
+                $dbObj = new Database();
+                $db = $dbObj->getConnection();
+                $query = "Select CourseID From Courses "
+                    . "Where CourseNumber = :cNumber And CourseSection = :cSection "
+                    . "And Term = :term;";
+                $statement = $db->prepare($query);
+                $statement->bindValue(':cNumber', $course->courseNumber, PDO::PARAM_INT);
+                $statement->bindValue(':cSection', $course->courseSection, PDO::PARAM_INT);
+                $statement->bindValue(':term', $course->term, PDO::PARAM_STR);
+                $statement->execute();
+                $result = $statement->fetchAll();
+                $statement->closeCursor();
+
+                if(sizeof($result) != 0):
+                    return TRUE; //duplicate course found
+                else:
+                    return FALSE; //duplicate course not found;
+                endif;
+            } catch (PDOException $e)
+            {
+                //error_log($error_message, (int)0,"./error.txt");
+                return "Duplicate check could not completed";
             }
         }
 

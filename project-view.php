@@ -78,7 +78,6 @@
                                 <td><?php echo $studentNames[$i]; ?></td>
                                 <td><?php echo $studentSubmissionDates[$i]; ?></td>
                                 <td><a href="<?php echo $studentAssignmentDirectorys[$i]; ?>" target="_blank">Project Link</a></td>
-                                 <!--echo('<td><a href="cap/' . $user->username . '/' . $current_course->courseID . '/' . $current_assignment->id . '">Project</a></td>');-->
                             </tr>
                         <?php endfor; ?>
                         </tbody>
