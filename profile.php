@@ -108,7 +108,7 @@ include("profile-controller.php"); ?>
                     
                         <h4 class="card-title">CIS <?php echo $featuredCourseNumber; ?> - <?php echo $featuredAssignmentName; ?></h4>
                         <h6>
-                        <a href="<?php echo $featuredPath . $featuredDirectory . "/"; ?>">Project Link</a>
+                        <a href="<?php echo $featuredPath . $featuredDirectory . "/"; ?>" target="_blank">Project Link</a>
                         <?php if ($featuredGroupProject == TRUE): ?>
                             <span style="float:right;">Group Project </span>
                             <i class="fas fa-users" style="float:right; color: #01426A; margin-right: 5px;"></i>
