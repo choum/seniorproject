@@ -1,4 +1,5 @@
 <?php
+session_name('caps');
 session_start();
 // Useful php.ini file settings:
 // session.cookie_lifetime = 0

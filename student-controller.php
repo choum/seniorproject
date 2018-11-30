@@ -9,6 +9,7 @@
     date_default_timezone_set('UTC');
     if (!isset($_SESSION))
     {
+        session_name('caps');
         session_start();
     }
     $username = $_SESSION['user'];

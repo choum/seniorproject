@@ -1,4 +1,5 @@
 <?php
+session_name('caps');
 session_start();
 include("profile-controller.php"); ?>
 
@@ -105,7 +106,7 @@ include("profile-controller.php"); ?>
                 <?php if ($featuredAssignment != NULL AND $featuredAssignment != FALSE): ?>
                 <div class="card">
                     <div class="card-body">
-                    
+
                         <h4 class="card-title">CIS <?php echo $featuredCourseNumber; ?> - <?php echo $featuredAssignmentName; ?></h4>
                         <h6>
                         <a href="<?php echo $featuredPath . $featuredDirectory . "/"; ?>" target="_blank">Project Link</a>
