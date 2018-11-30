@@ -50,11 +50,7 @@
               <select name='term-year'>
                 <?php
                   foreach ($date_years as $date_year) {
-                    if(strpos($current_selected_course->term , $year) !== false) {
-                      echo  "<option value='" . $date_year . "' >" . $date_year . "</option>";
-                    } else {
                       echo "<option value='" . $date_year . "'>" . $date_year . "</option>";
-                    }
                   }
                  ?>
               </select>
@@ -62,11 +58,7 @@
               <select name='term'>
                 <?php
                   foreach ($date_terms as $date_term) {
-                    if(strpos($current_selected_course->term , $year) !== false) {
-                      echo  "<option value='" . $date_term . "' >" . $date_term . "</option>";
-                    } else {
                       echo "<option value='" . $date_term . "'>" . $date_term . "</option>";
-                    }
                   }
                  ?>
               </select>

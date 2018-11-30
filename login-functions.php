@@ -224,8 +224,8 @@ function register() {
 
 function setup() {
   $createDB = new CreateDB;
-  $sql = new SQLHelper;
   $user = $_SESSION['user'];
+  $error = "";
   if (csrf_token_is_valid()) {
     $sqlPass = hPOST("sqlPass");
     if ( !preg_match('/^[A-Za-z][A-Za-z0-9]{5,31}$/', $sqlPass) ) {
@@ -252,7 +252,7 @@ function setup() {
       require 'student-dashboard.php';
     }
   } else {
-    var_dump("?");
+    //var_dump("?");
   }
 }
 function change() {

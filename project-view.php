@@ -44,24 +44,24 @@
             <div class="card-body" style="padding-top: 3px;">
             <?php if ($currentAssignment->id != NULL AND $currentCourse->courseID != NULL): ?>
                 <h4 class="card-text" style="text-align:center;"><?php echo $assignmentName; ?></h4>
-                <table class="table" style="margin: auto;">
+                <table class="table" style="margin: 0 auto;">
                     <tr>
-                        <td style="width: 50%; border-top: none; text-align: right;">Course</td>
-                        <td style="width: 50%; border-top: none;"><?php echo "$courseTitle $courseNumSection $courseTerm"; ?></td>
+                        <th>Course</th>
+                        <td><?php echo "$courseTitle $courseNumSection $courseTerm"; ?></td>
                     </tr>
                     <tr>
-                        <td style="width: 50%; border-top: none; text-align: right;">Instructor</td>
-                        <td style="width: 50%; border-top: none;"><?php echo $instructorName ?></td>
+                        <th>Instructor</th>
+                        <td><?php echo $instructorName ?></td>
                     </tr>
                     <tr>
-                        <td style="width: 50%; border-top: none; text-align: right;">Description</td>
-                        <td style="width: 50%; border-top: none;"><?php echo $assignmentDescription ?></td>
+                        <th>Description</th>
+                        <td><?php echo $assignmentDescription ?></td>
                     </tr>
                 </table>
                 <?php if($pdfLocation != ""): ?>
                     <p class="card-title"><a href="<?php echo $pdfLocation; ?>" target="_blank">PDF Link</a></p>
                 <?php endif; ?>
-                
+
                 <hr/>
                 <?php if (!empty($studentIDs)): ?>
                     <table class="table">
@@ -78,7 +78,6 @@
                                 <td><?php echo $studentNames[$i]; ?></td>
                                 <td><?php echo $studentSubmissionDates[$i]; ?></td>
                                 <td><a href="<?php echo $studentAssignmentDirectorys[$i]; ?>" target="_blank">Project Link</a></td>
-                                 <!--echo('<td><a href="cap/' . $user->username . '/' . $current_course->courseID . '/' . $current_assignment->id . '">Project</a></td>');-->
                             </tr>
                         <?php endfor; ?>
                         </tbody>

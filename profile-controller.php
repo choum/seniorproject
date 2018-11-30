@@ -23,16 +23,19 @@
     }
     $loggedIn;
     $dashboardLink = "";
-    if (sizeof($_SESSION) > 2)
+    if(isset($_SESSION))
     {
-        if ($_SESSION["logged_in"] == TRUE)
+        if (sizeof($_SESSION) > 2)
         {
-            $loggedIn = TRUE;
-            $dashboardLink = "./";
-        }
-        else
-        {
-            $loggedIn = FALSE;
+            if ($_SESSION["logged_in"] == TRUE)
+            {
+                $loggedIn = TRUE;
+                $dashboardLink = "./";
+            }
+            else
+            {
+                $loggedIn = FALSE;
+            }
         }
     }
     if ($dashboardLink == "")

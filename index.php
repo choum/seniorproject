@@ -6,7 +6,7 @@ require_once 'User.php';
 require_once 'private/CreateDB.php';
 require_once 'login-functions.php';
 
-var_dump($_SESSION);
+//var_dump($_SESSION);
 //starts a session if one does not exist
 if (!isset($_SESSION)) {
   session_start();
