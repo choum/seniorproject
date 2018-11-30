@@ -7,7 +7,7 @@
 
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $dbName = $user;
-            echo $dbName;
+            //echo $dbName;
             $dbPassword = $pass;
 
             try{
@@ -31,7 +31,7 @@
                     exit;
                 }
                 else{
-                    echo "You good. We got the user";
+                    //echo "You good. We got the user";
                 }
 
                 $grantPrivileges = "GRANT ALL PRIVILEGES ON `".$dbName."\_%` .  * TO '".$dbName."'@'%'";
@@ -41,7 +41,7 @@
                     exit;
                 }
                 else{
-                    echo "You good. We got the grant";
+                    //echo "You good. We got the grant";
                 }
 
 //                $grantPrivileges = "GRANT ALL ON `$dbName`.* TO '$dbName'@'localhost'";

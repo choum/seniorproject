@@ -158,6 +158,102 @@
                 return "Could not retrieve user data";
             }
         }
+        
+        function getUserAuth($username)
+        {
+            try
+            {
+                $dbObj = new Database();
+                $db = $dbObj->getConnection();
+                $query = "Select Password, UserRole From UserAccount "
+                    . "Where Username= :uname";
+                $statement = $db->prepare($query);
+                $statement->bindValue(':uname', $username, PDO::PARAM_STR);
+                $statement->execute();
+                $userPass = $statement->fetch();
+                $statement->closeCursor();
+
+                return $userPass;
+            } catch (PDOException $e)
+            {
+                //$error_message = $e->getMessage();
+                //error_log($error_message, (int)0,"./error.txt");
+                return "Could not retrieve user password";
+            }
+        }
+
+        function updateLastLoggedIn($username, $loggedIn)
+        {
+            try
+            {
+                $dbObj = new Database();
+                $db = $dbObj->getConnection();
+                $db->beginTransaction();
+                $query = "Select LastLoggedIn from UserAccount "
+                    . "Where Username= :uname";
+                $statement = $db->prepare($query);
+                $statement->bindValue(':uname', $username, PDO::PARAM_STR);
+                $statement->execute();
+                if ($statement->rowCount() != 0):
+                    $lastLoggedIn = $statement->fetch();
+                    $statement->closeCursor();
+
+                    $query = "UPDATE `UserAccount` "
+                        . "SET `LastLoggedIn` = :loggedIn "
+                        . "WHERE `Username` = :uname";
+                    $statement = $db->prepare($query);
+                    $statement->bindValue(':uname', $username, PDO::PARAM_STR);
+                    $statement->bindValue(':loggedIn', $loggedIn);
+                    $statement->execute();
+                    $count = $statement->rowCount();
+                    $statement->closeCursor();
+
+                    if ($count == 1):
+                        $db->commit();
+                        if ($lastLoggedIn[0] == NULL OR $lastLoggedIn[0] == '0000-00-00 00:00:00'):
+                            return "Welcome, this is the first time you've logged in!";
+                        else:
+                            return "Welcome back, you last logged in at $lastLoggedIn[0] Pacific Time";
+                        endif;
+                    else:
+                        $db->rollBack();
+                        throw new PDOException;
+                    endif;
+                else:
+                    return "Could not retrieve previous login of user.";
+                endif;
+            } catch (PDOException $e)
+            {
+                //error_log($error_message, (int)0,"./error.txt");
+                return "Could not retrieve/update last login";
+            }
+        }
+
+        function checkForDuplicate($username)
+        {
+            try
+            {
+                $dbObj = new Database();
+                $db = $dbObj->getConnection();
+                $query = "Select Username from UserAccount "
+                    . "Where Username= :uname";
+                $statement = $db->prepare($query);
+                $statement->bindValue(':uname', $username, PDO::PARAM_STR);
+                $statement->execute();
+                $count = $statement->rowCount();
+                $statement->closeCursor();
+
+                if ($count > 0):
+                    return false;
+                else:
+                    return true;
+                endif;
+            } catch (PDOException $e)
+            {
+                //error_log($error_message, (int)0,"./error.txt");
+                return "Could not check username";
+            }
+        }
 
         /* Insertion of new instructor user to the UserAccount table
          * Done via admin dashboard
@@ -305,10 +401,104 @@
             }
         }
 
-        /*
-         * Insertion of new course into Courses table
-         * Done via admin dashboard
-         */
+        function changePassword($username, $password, $newPassword)
+        {
+            try
+            {
+                $dbObj = new Database();
+                $db = $dbObj->getConnection();
+                $db->beginTransaction();
+                $query = "Select username From UserAccount "
+                    . "Where Username= :uname AND Password = :pword";
+                $statement = $db->prepare($query);
+                $statement->bindValue(':uname', $username, PDO::PARAM_STR);
+                $statement->bindValue(':pword', $password, PDO::PARAM_STR);
+                $statement->execute();
+                $count = $statement->rowCount();
+                $statement->closeCursor();
+
+                if ($count == 1):
+                    $query = "Update UserAccount "
+                        . "Set Password= :newPass "
+                        . "Where Username= :uname AND Password = :pword";
+                    $statement = $db->prepare($query);
+                    $statement->bindValue(':uname', $username, PDO::PARAM_STR);
+                    $statement->bindValue(':pword', $password, PDO::PARAM_STR);
+                    $statement->bindValue(':newPass', $newPassword, PDO::PARAM_STR);
+                    $statement->execute();
+                    $count = $statement->rowCount();
+                    $statement->closeCursor();
+
+                    if ($count == 1):
+                        $db->commit();
+                        return "Password changed.";
+                    else:
+                        $db->rollBack();
+                        throw new PDOException;
+                    endif;
+                else:
+                    return "Username/password credentials incorrect.";
+                endif;
+            } catch (PDOException $e)
+            {
+                //error_log($error_message, (int)0,"./error.txt");
+                //return "Could not retrieve user password";
+                return "Password could not be changed.";
+            }
+        }
+        
+        function updateCoursesEnrolled($userID, $userCourses, $incOrDec)
+        {
+            try
+            {
+                if ($incOrDec == TRUE):
+                    $coursesEnrolled = $userCourses + 1;
+                else:
+                    $coursesEnrolled = $userCourses - 1;
+                endif;
+
+                $dbObj = new Database();
+                $db = $dbObj->getConnection();
+                $db->beginTransaction();
+                $query = "UPDATE UserAccount SET CoursesEnrolled = :cEnrolled WHERE UserID = :uID";
+                $statement = $db->prepare($query);
+                $statement->bindParam(':uID', $userID, PDO::PARAM_INT);
+                $statement->bindParam(':cEnrolled', $coursesEnrolled, PDO::PARAM_INT);
+                $statement->execute();
+                $count = $statement->rowCount();
+                $statement->closeCursor();
+
+                if ($count == 1):
+                    $db->commit();
+                    return "Coures enrolled changed.";
+                else:
+                    $db->rollBack();
+                    throw new PDOException;
+                endif;
+            } catch (PDOException $ex)
+            {
+                return "Could not update courses enrolled.";
+            }
+        }
+        
+        function getUserID($username)
+        {
+            try
+            {
+                $dbObj = new Database();
+                $db = $dbObj->getConnection();
+                $query = "SELECT UserID FROM UserAccount  WHERE Username = :uName";
+                $statement = $db->prepare($query);
+                $statement->bindValue(':uName', $username, PDO::PARAM_STR);
+                $statement->execute();
+                $user = $statement->fetch();
+                $userID = $user['UserID'];
+                return $userID;
+            } catch (Exception $e)
+            {
+                return 'User not found';
+            }
+        }
 
         function addCourse(Course $course)
         {
@@ -316,31 +506,65 @@
             {
                 $dbObj = new Database();
                 $db = $dbObj->getConnection();
-                $query = "INSERT INTO Courses"
-                    . "(CourseTitle, CourseNumber, CourseSection, "
-                    . "Term, Description, Closed, EnrollmentTotal, AdminID, "
-                    . "TeacherID , CloseDate)"
-                    . "VALUES(:cTitle, :cNumber, :cSection, :term, "
-                    . ":desc, :closed, :enrolled, :adminID, :teacherID , :close);";
-                $statement = $db->prepare($query);
-                $statement->bindValue(':cTitle', $course->courseTitle, PDO::PARAM_STR);
-                $statement->bindValue(':cNumber', $course->courseNumber, PDO::PARAM_INT);
-                $statement->bindValue(':cSection', $course->courseSection, PDO::PARAM_INT);
-                $statement->bindValue(':term', $course->term, PDO::PARAM_STR);
-                $statement->bindValue(':desc', $course->description, PDO::PARAM_STR);
-                $statement->bindValue(':closed', $course->closed, PDO::PARAM_BOOL);
-                $statement->bindValue(':enrolled', $course->enrollment, PDO::PARAM_INT);
-                $statement->bindValue(':adminID', $course->adminID, PDO::PARAM_INT);
-                $statement->bindValue(':teacherID', $course->teacherID, PDO::PARAM_INT);
-                $statement->bindValue(':close', $course->close, PDO::PARAM_STR);
-                $output = $statement->execute();
-                $statement->closeCursor();
+                $result = $this->checkDuplicateCourseForTerm($course);
+                if($result == FALSE):
+                    $query = "INSERT INTO Courses"
+                        . "(CourseTitle, CourseNumber, CourseSection, "
+                        . "Term, Description, Closed, EnrollmentTotal, AdminID, "
+                        . "TeacherID , CloseDate)"
+                        . "VALUES(:cTitle, :cNumber, :cSection, :term, "
+                        . ":desc, :closed, :enrolled, :adminID, :teacherID , :close);";
+                    $statement = $db->prepare($query);
+                    $statement->bindValue(':cTitle', $course->courseTitle, PDO::PARAM_STR);
+                    $statement->bindValue(':cNumber', $course->courseNumber, PDO::PARAM_INT);
+                    $statement->bindValue(':cSection', $course->courseSection, PDO::PARAM_INT);
+                    $statement->bindValue(':term', $course->term, PDO::PARAM_STR);
+                    $statement->bindValue(':desc', $course->description, PDO::PARAM_STR);
+                    $statement->bindValue(':closed', $course->closed, PDO::PARAM_BOOL);
+                    $statement->bindValue(':enrolled', $course->enrollment, PDO::PARAM_INT);
+                    $statement->bindValue(':adminID', $course->adminID, PDO::PARAM_INT);
+                    $statement->bindValue(':teacherID', $course->teacherID, PDO::PARAM_INT);
+                    $statement->bindValue(':close', $course->closeDate, PDO::PARAM_STR);
+                    $output = $statement->execute();
+                    $statement->closeCursor();
 
-                return $output;
+                    return $output;
+                else:
+                    return "Course already exists.";
+                endif;
             } catch (PDOException $e)
             {
                 //error_log($error_message, (int)0,"./error.txt");
                 return "Course not created";
+            }
+        }
+        
+        function checkDuplicateCourseForTerm(Course $course)
+        {
+            try
+            {
+                $dbObj = new Database();
+                $db = $dbObj->getConnection();
+                $query = "Select CourseID From Courses "
+                    . "Where CourseNumber = :cNumber And CourseSection = :cSection "
+                    . "And Term = :term;";
+                $statement = $db->prepare($query);
+                $statement->bindValue(':cNumber', $course->courseNumber, PDO::PARAM_INT);
+                $statement->bindValue(':cSection', $course->courseSection, PDO::PARAM_INT);
+                $statement->bindValue(':term', $course->term, PDO::PARAM_STR);
+                $statement->execute();
+                $result = $statement->fetchAll();
+                $statement->closeCursor();
+
+                if(sizeof($result) != 0):
+                    return TRUE; //duplicate course found
+                else:
+                    return FALSE; //duplicate course not found;
+                endif;
+            } catch (PDOException $e)
+            {
+                //error_log($error_message, (int)0,"./error.txt");
+                return "Duplicate check could not completed";
             }
         }
 
@@ -392,6 +616,37 @@
                 return "Course not updated";
             }
         }
+        
+        function updateCourseKey($courseID, $courseKey)
+        {
+            try
+            {
+                $dbObj = new Database();
+                $db = $dbObj->getConnection();
+                $db->beginTransaction();
+                $query = "Update Courses "
+                    . "Set CourseKey = :cKey "
+                    . "Where CourseID= :cid";
+                $statement = $db->prepare($query);
+                $statement->bindValue(':cKey', $courseKey, PDO::PARAM_STR);
+                $statement->bindValue(':cid', $courseID, PDO::PARAM_INT);
+                $statement->execute();
+                $count = $statement->rowCount();
+                $statement->closeCursor();
+
+                if ($count == 1):
+                    $db->commit();
+                    return "Course key changed.";
+                else:
+                    $db->rollBack();
+                    throw new PDOException;
+                endif;
+            } catch (PDOException $e)
+            {
+                //error_log($error_message, (int)0,"./error.txt");
+                return "Could not change course key.";
+            }
+        }
 
         function getCourse($courseID)
         {
@@ -432,7 +687,7 @@
             {
                 $dbObj = new Database();
                 $db = $dbObj->getConnection();
-                $query = "Select CourseID FROM Courses Group BY CourseNumber , CourseSection";
+                $query = "Select CourseID FROM Courses Order By CourseNumber , CourseSection";
                 $statement = $db->prepare($query);
                 $statement->execute();
                 $courses = $statement->fetchAll();
@@ -457,7 +712,7 @@
                 $query = "Select CourseID FROM Courses "
                     . "Where TeacherID = :tID "
                     . "And Term = :term "
-                    . "Group By CourseNumber , CourseSection";
+                    . "Order By CourseNumber , CourseSection";
                 $statement = $db->prepare($query);
                 $statement->bindValue(':tID', $teacherID, PDO::PARAM_INT);
                 $statement->bindValue(':term', $term, PDO::PARAM_STR);
@@ -483,7 +738,7 @@
                 $db = $dbObj->getConnection();
                 $query = "Select CourseID FROM Courses "
                     . "Where Term = :term "
-                    . "Group BY CourseNumber , CourseSection ";
+                    . "Order BY CourseNumber , CourseSection ";
                 $statement = $db->prepare($query);
                 $statement->bindValue(':term', $term, PDO::PARAM_STR);
                 $statement->execute();
@@ -507,7 +762,7 @@
                 $db = $dbObj->getConnection();
                 $query = "Select CourseID FROM Courses "
                     . "Where TeacherID = :tID "
-                    . "Group BY CourseNumber , CourseSection";
+                    . "Order By CourseNumber , CourseSection";
                 $statement = $db->prepare($query);
                 $statement->bindValue(':tID', $teacherID, PDO::PARAM_INT);
                 $statement->execute();
@@ -715,6 +970,18 @@
                 return "Could not retreive assignment list";
             }
         }
+        
+        function getUserAssignments($courseID)
+        {
+            $assignments = $this->getAssignments($courseID);
+            $assignmentsList = array();
+            foreach ($assignments as $assignment)
+            {
+                array_push($assignmentsList, $assignment);
+            }
+
+            return $assignmentsList;
+        }
 
         function addStudentAssignment($studentID, $assignmentID, $dir,
             $dateCreated, $screenshot, $featured, $group)
@@ -747,7 +1014,7 @@
                 return "Assignment already exists";
             }
         }
-        
+
         function readdStudentAssignment($studentID, $assignmentID, $dir,
             $dateCreated, $screenshot, $featured, $group)
         {
@@ -767,9 +1034,8 @@
 
                 if ($count == 1):
                     $db->commit();
-                    $return = $this->addStudentAssignment($studentID, 
-                        $assignmentID, $dir, $dateCreated, $screenshot, 
-                        $featured, $group);
+                    $return = $this->addStudentAssignment($studentID, $assignmentID,
+                        $dir, $dateCreated, $screenshot, $featured, $group);
                     return $return;
                 else:
                     $db->rollBack();
@@ -782,6 +1048,7 @@
                 return "Student assignment not updated.";
             }
         }
+
         function updateStudentAssignment($studentID, $assignmentID, $dir,
             $dateCreated, $screenshot = NULL, $featured = NULL, $group = NULL)
         {
@@ -892,6 +1159,42 @@
             }
         }
 
+        function changeFeaturedAssignment($studentID, $assignmentID)
+        {
+            try
+            {
+                $dbObj = new Database();
+                $db = $dbObj->getConnection();
+                $db->beginTransaction();
+                $query = "Update Student_Assignment Set Featured = 0 "
+                    . "Where StudentID = :sID";
+                $statement = $db->prepare($query);
+                $statement->bindParam(':sID', $studentID, PDO::PARAM_INT);
+                $statement->execute();
+                $statement->closeCursor();
+
+                $query = "Update Student_Assignment Set Featured = 1 "
+                    . "Where StudentID = :sID AND AssignmentID = :aID";
+                $statement = $db->prepare($query);
+                $statement->bindParam(':sID', $studentID, PDO::PARAM_INT);
+                $statement->bindParam(':aID', $assignmentID, PDO::PARAM_INT);
+                $statement->execute();
+                $count = $statement->rowCount();
+                $statement->closeCursor();
+
+                if ($count == 1):
+                    $db->commit();
+                    return "Featured assignment updated";
+                else:
+                    $db->rollback();
+                    throw new PDOException;
+                endif;
+            } catch (PDOException $ex)
+            {
+                return "Featured Assignment could not be changed.";
+            }
+        }
+        
         function addStudentCourse($studentID, $courseID, $date)
         {
             try
@@ -916,6 +1219,66 @@
                 return "Student not added to course";
             }
         }
+        
+        function registerCourse($username, $key, $date)
+        {
+            try
+            {
+                $dbObj = new Database();
+                $db = $dbObj->getConnection();
+                $query = "SELECT CourseID FROM Courses WHERE CourseKey = :ckey";
+                $statement = $db->prepare($query);
+                $statement->bindValue('ckey', $key, PDO::PARAM_STR);
+                $statement->execute();
+                $count = $statement->rowCount();
+                $course = $statement->fetch(PDO::FETCH_ASSOC);
+                $statement->closeCursor();
+                if ($count === 1)
+                {
+                    try
+                    {
+                        $user = $this->getUser($username);
+                        $userID = $user->id;
+                        $userCourses = $user->courses;
+                        $courseID = $course['CourseID'];
+                    } catch (Exception $e)
+                    {
+                        echo "Cannot find student account.";
+                    }
+
+                    try
+                    {
+                        $return = $this->addStudentCourse($userID, $courseID, $date);
+                        if ($return != "Student not added to course"):
+                            echo "You have been successfully added to the course.";
+                        else:
+                            throw new Exception;
+                        endif;
+
+                        try
+                        {
+                            $return = $this->updateCoursesEnrolled($userID, $userCourses, TRUE);
+                            if ($return != "Coures enrolled changed."):
+                                throw new Exception;
+                            endif;
+                        } catch (Exception $e)
+                        {
+                            echo "Could not update.";
+                        }
+                    } catch (Exception $e)
+                    {
+                        echo "You are already registered.";
+                    }
+                }
+                else
+                {
+                    echo "This is an invalid key";
+                }
+            } catch (PDOException $e)
+            {
+                echo "You have entered an incorrect course key.";
+            }
+        }
 
         function getStudentCourse($studentID, $courseID)
         {
@@ -938,6 +1301,36 @@
                 //$error_message = $e->getMessage();
                 //error_log($error_message, (int)0,"./error.txt");
                 return "Could not retrieve course of student";
+            }
+        }
+        
+        function getUserCourses($userID)
+        {
+            try
+            {
+                $dbObj = new Database();
+                $db = $dbObj->getConnection();
+                $query = "SELECT CourseID FROM Student_Course WHERE StudentID = :uID";
+                $statement = $db->prepare($query);
+                $statement->bindValue(':uID', $userID, PDO::PARAM_INT);
+                $statement->execute();
+                $courseIDList = $statement->fetchAll(PDO::FETCH_ASSOC);
+                $courses = Array();
+                foreach ($courseIDList as $courseID)
+                {
+                    try
+                    {
+                        $course = $this->getCourse($courseID['CourseID']);
+                        array_push($courses, $course);
+                    } catch (Exception $e)
+                    {
+                        return 'failed to get course';
+                    }
+                }
+                return $courses;
+            } catch (Exception $e)
+            {
+                return $e;
             }
         }
 
@@ -1028,367 +1421,7 @@
                     return "Could not retrieve assignment ID's based on course id $courseID";
         }
 
-        function getUserAuth($username)
-        {
-            try
-            {
-                $dbObj = new Database();
-                $db = $dbObj->getConnection();
-                $query = "Select Password, UserRole From UserAccount "
-                    . "Where Username= :uname";
-                $statement = $db->prepare($query);
-                $statement->bindValue(':uname', $username, PDO::PARAM_STR);
-                $statement->execute();
-                $userPass = $statement->fetch();
-                $statement->closeCursor();
-
-                return $userPass;
-            } catch (PDOException $e)
-            {
-                //$error_message = $e->getMessage();
-                //error_log($error_message, (int)0,"./error.txt");
-                return "Could not retrieve user password";
-            }
-        }
-
-        function changePassword($username, $password, $newPassword)
-        {
-            try
-            {
-                $dbObj = new Database();
-                $db = $dbObj->getConnection();
-                $db->beginTransaction();
-                $query = "Select username From UserAccount "
-                    . "Where Username= :uname AND Password = :pword";
-                $statement = $db->prepare($query);
-                $statement->bindValue(':uname', $username, PDO::PARAM_STR);
-                $statement->bindValue(':pword', $password, PDO::PARAM_STR);
-                $statement->execute();
-                $count = $statement->rowCount();
-                $statement->closeCursor();
-
-                if ($count == 1):
-                    $query = "Update UserAccount "
-                        . "Set Password= :newPass "
-                        . "Where Username= :uname AND Password = :pword";
-                    $statement = $db->prepare($query);
-                    $statement->bindValue(':uname', $username, PDO::PARAM_STR);
-                    $statement->bindValue(':pword', $password, PDO::PARAM_STR);
-                    $statement->bindValue(':newPass', $newPassword, PDO::PARAM_STR);
-                    $statement->execute();
-                    $count = $statement->rowCount();
-                    $statement->closeCursor();
-
-                    if ($count == 1):
-                        $db->commit();
-                        return "Password changed.";
-                    else:
-                        $db->rollBack();
-                        throw new PDOException;
-                    endif;
-                else:
-                    return "Username/password credentials incorrect.";
-                endif;
-            } catch (PDOException $e)
-            {
-                //error_log($error_message, (int)0,"./error.txt");
-                //return "Could not retrieve user password";
-                return "Password could not be changed.";
-            }
-        }
-
-        function updateLastLoggedIn($username, $loggedIn)
-        {
-            try
-            {
-                $dbObj = new Database();
-                $db = $dbObj->getConnection();
-                $db->beginTransaction();
-                $query = "Select LastLoggedIn from UserAccount "
-                    . "Where Username= :uname";
-                $statement = $db->prepare($query);
-                $statement->bindValue(':uname', $username, PDO::PARAM_STR);
-                $statement->execute();
-                if ($statement->rowCount() != 0):
-                    $lastLoggedIn = $statement->fetch();
-                    $statement->closeCursor();
-
-                    $query = "UPDATE `UserAccount` "
-                        . "SET `LastLoggedIn` = :loggedIn "
-                        . "WHERE `Username` = :uname";
-                    $statement = $db->prepare($query);
-                    $statement->bindValue(':uname', $username, PDO::PARAM_STR);
-                    $statement->bindValue(':loggedIn', $loggedIn);
-                    $statement->execute();
-                    $count = $statement->rowCount();
-                    $statement->closeCursor();
-
-                    if ($count == 1):
-                        $db->commit();
-                        if ($lastLoggedIn[0] == NULL OR $lastLoggedIn[0] == '0000-00-00 00:00:00'):
-                            return "Welcome, this is the first time you've logged in!";
-                        else:
-                            return "Welcome back, you last logged in at $lastLoggedIn[0] Pacific Time";
-                        endif;
-                    else:
-                        $db->rollBack();
-                        throw new PDOException;
-                    endif;
-                else:
-                    return "Could not retrieve previous login of user.";
-                endif;
-            } catch (PDOException $e)
-            {
-                //error_log($error_message, (int)0,"./error.txt");
-                return "Could not retrieve/update last login";
-            }
-        }
-
-        function checkForDuplicate($username)
-        {
-            try
-            {
-                $dbObj = new Database();
-                $db = $dbObj->getConnection();
-                $query = "Select Username from UserAccount "
-                    . "Where Username= :uname";
-                $statement = $db->prepare($query);
-                $statement->bindValue(':uname', $username, PDO::PARAM_STR);
-                $statement->execute();
-                $count = $statement->rowCount();
-                $statement->closeCursor();
-
-                if ($count > 0):
-                    return false;
-                else:
-                    return true;
-                endif;
-            } catch (PDOException $e)
-            {
-                //error_log($error_message, (int)0,"./error.txt");
-                return "Could not check username";
-            }
-        }
-
-        function updateCourseKey($courseID, $courseKey)
-        {
-            try
-            {
-                $dbObj = new Database();
-                $db = $dbObj->getConnection();
-                $db->beginTransaction();
-                $query = "Update Courses "
-                    . "Set CourseKey = :cKey "
-                    . "Where CourseID= :cid";
-                $statement = $db->prepare($query);
-                $statement->bindValue(':cKey', $courseKey, PDO::PARAM_STR);
-                $statement->bindValue(':cid', $courseID, PDO::PARAM_INT);
-                $statement->execute();
-                $count = $statement->rowCount();
-                $statement->closeCursor();
-
-                if ($count == 1):
-                    $db->commit();
-                    return "Course key changed.";
-                else:
-                    $db->rollBack();
-                    throw new PDOException;
-                endif;
-            } catch (PDOException $e)
-            {
-                //error_log($error_message, (int)0,"./error.txt");
-                return "Could not change course key.";
-            }
-        }
-
-        function registerCourse($username, $key, $date)
-        {
-            try
-            {
-                $dbObj = new Database();
-                $db = $dbObj->getConnection();
-                $query = "SELECT CourseID FROM Courses WHERE CourseKey = :ckey";
-                $statement = $db->prepare($query);
-                $statement->bindValue('ckey', $key, PDO::PARAM_STR);
-                $statement->execute();
-                $count = $statement->rowCount();
-                $course = $statement->fetch(PDO::FETCH_ASSOC);
-                $statement->closeCursor();
-                if ($count === 1)
-                {
-                    try
-                    {
-                        $user = $this->getUser($username);
-                        $userID = $user->id;
-                        $userCourses = $user->courses;
-                        $courseID = $course['CourseID'];
-                    } catch (Exception $e)
-                    {
-                        echo "Cannot find student account.";
-                    }
-
-                    try
-                    {
-                        $return = $this->addStudentCourse($userID, $courseID, $date);
-                        if ($return != "Student not added to course"):
-                            echo "You have been successfully added to the course.";
-                        else:
-                            throw new Exception;
-                        endif;
-
-                        try
-                        {
-                            $return = $this->updateCoursesEnrolled($userID, $userCourses, TRUE);
-                            if ($return != "Coures enrolled changed."):
-                                throw new Exception;
-                            endif;
-                        } catch (Exception $e)
-                        {
-                            echo "Could not update.";
-                        }
-                    } catch (Exception $e)
-                    {
-                        echo "You are already registered.";
-                    }
-                }
-                else
-                {
-                    echo "This is an invalid key";
-                }
-            } catch (PDOException $e)
-            {
-                echo "You have entered an incorrect course key.";
-            }
-        }
-
-        function updateCoursesEnrolled($userID, $userCourses, $incOrDec)
-        {
-            try
-            {
-                if ($incOrDec == TRUE):
-                    $coursesEnrolled = $userCourses + 1;
-                else:
-                    $coursesEnrolled = $userCourses - 1;
-                endif;
-
-                $dbObj = new Database();
-                $db = $dbObj->getConnection();
-                $db->beginTransaction();
-                $query = "UPDATE UserAccount SET CoursesEnrolled = :cEnrolled WHERE UserID = :uID";
-                $statement = $db->prepare($query);
-                $statement->bindParam(':uID', $userID, PDO::PARAM_INT);
-                $statement->bindParam(':cEnrolled', $coursesEnrolled, PDO::PARAM_INT);
-                $statement->execute();
-                $count = $statement->rowCount();
-                $statement->closeCursor();
-
-                if ($count == 1):
-                    $db->commit();
-                    return "Coures enrolled changed.";
-                else:
-                    $db->rollBack();
-                    throw new PDOException;
-                endif;
-            } catch (PDOException $ex)
-            {
-                return "Could not update courses enrolled.";
-            }
-        }
-
-    function changeFeaturedAssignment($studentID, $assignmentID){
-        try{
-                $dbObj = new Database();
-                $db = $dbObj->getConnection();
-                $db->beginTransaction();
-                $query = "Update Student_Assignment Set Featured = 0 "
-                    . "Where StudentID = :sID";
-                $statement = $db->prepare($query);
-                $statement->bindParam(':sID', $studentID, PDO::PARAM_INT);
-                $statement->execute();
-                $statement->closeCursor();
-
-                $query = "Update Student_Assignment Set Featured = 1 "
-                    . "Where StudentID = :sID AND AssignmentID = :aID";
-                $statement = $db->prepare($query);
-                $statement->bindParam(':sID', $studentID, PDO::PARAM_INT);
-                $statement->bindParam(':aID', $assignmentID, PDO::PARAM_INT);
-                $statement->execute();
-                $count = $statement->rowCount();
-                $statement->closeCursor();
-
-            if($count == 1):
-                $db->commit();
-                return "Featured assignment updated";
-            else:
-                $db->rollback();
-                throw new PDOException;
-            endif;
-        } catch (PDOException $ex) {
-                return "Featured Assignment could not be changed.";
-            }
-        }
-
-        function getUserAssignments($courseID)
-        {
-            $assignments = $this->getAssignments($courseID);
-            $assignmentsList = array();
-            foreach ($assignments as $assignment)
-            {
-                array_push($assignmentsList, $assignment);
-            }
-
-            return $assignmentsList;
-        }
-
-        function getUserID($username)
-        {
-            try
-            {
-                $dbObj = new Database();
-                $db = $dbObj->getConnection();
-                $query = "SELECT UserID FROM UserAccount  WHERE Username = :uName";
-                $statement = $db->prepare($query);
-                $statement->bindValue(':uName', $username, PDO::PARAM_STR);
-                $statement->execute();
-                $user = $statement->fetch();
-                $userID = $user['UserID'];
-                return $userID;
-            } catch (Exception $e)
-            {
-                return 'User not found';
-            }
-        }
-
-        function getUserCourses($userID)
-        {
-            try
-            {
-                $dbObj = new Database();
-                $db = $dbObj->getConnection();
-                $query = "SELECT CourseID FROM Student_Course WHERE StudentID = :uID";
-                $statement = $db->prepare($query);
-                $statement->bindValue(':uID', $userID, PDO::PARAM_INT);
-                $statement->execute();
-                $courseIDList = $statement->fetchAll(PDO::FETCH_ASSOC);
-                $courses = Array();
-                foreach ($courseIDList as $courseID)
-                {
-                    try
-                    {
-                        $course = $this->getCourse($courseID['CourseID']);
-                        array_push($courses, $course);
-                    } catch (Exception $e)
-                    {
-                        return 'failed to get course';
-                    }
-                }
-                return $courses;
-            } catch (Exception $e)
-            {
-                return $e;
-            }
-        }
-
+        
     }
 
 ?>
