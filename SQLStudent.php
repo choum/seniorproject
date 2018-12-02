@@ -1,6 +1,6 @@
 <?php
 
-    class StudentSQL
+    class SQLStudent
     {
 
         function __construct()
@@ -66,21 +66,6 @@
             {
                 return 'User not found';
             }
-        }
-        
-        //Purpose of this function is to pre-place results from getAssignments into an array
-        //Has no other function
-        //Used in student-controller file
-        function getUserAssignments($courseID)
-        {
-            $assignments = $this->getAssignments($courseID);
-            $assignmentsList = array();
-            foreach ($assignments as $assignment)
-            {
-                array_push($assignmentsList, $assignment);
-            }
-
-            return $assignmentsList;
         }
         
         //Purpose of this function is to add a student assignment submission to the database
@@ -192,105 +177,7 @@
             {
                 return "Featured Assignment could not be changed.";
             }
-        }
-        
-        //Purpose of this function is to add a student to a course, which
-        //in turn will allow them to access assignments to make submissions.
-        //Used in the student-controller file
-        function registerCourse($username, $key, $date)
-        {
-            try
-            {
-                $dbObj = new Database();
-                $db = $dbObj->getConnection();
-                $query = "SELECT CourseID FROM Courses WHERE CourseKey = :ckey";
-                $statement = $db->prepare($query);
-                $statement->bindValue('ckey', $key, PDO::PARAM_STR);
-                $statement->execute();
-                $count = $statement->rowCount();
-                $course = $statement->fetch(PDO::FETCH_ASSOC);
-                $statement->closeCursor();
-                if ($count === 1)
-                {
-                    try
-                    {
-                        $user = $this->getUser($username);
-                        $userID = $user->id;
-                        $userCourses = $user->courses;
-                        $courseID = $course['CourseID'];
-                    } catch (Exception $e)
-                    {
-                        echo "Cannot find student account.";
-                    }
-
-                    try
-                    {
-                        $return = $this->addStudentCourse($userID, $courseID, $date);
-                        if ($return != "Student not added to course"):
-                            echo "You have been successfully added to the course.";
-                        else:
-                            throw new Exception;
-                        endif;
-
-                        try
-                        {
-                            $return = $this->updateCoursesEnrolled($userID, $userCourses, TRUE);
-                            if ($return != "Coures enrolled changed."):
-                                throw new Exception;
-                            endif;
-                        } catch (Exception $e)
-                        {
-                            echo "Could not update.";
-                        }
-                    } catch (Exception $e)
-                    {
-                        echo "You are already registered.";
-                    }
-                }
-                else
-                {
-                    echo "This is an invalid key";
-                }
-            } catch (PDOException $e)
-            {
-                echo "You have entered an incorrect course key.";
-            }
-        }
-
-        //Purpose of this function is to get all of the courses that a student belongs to
-        //Once that occurs, it gets all the course information tied to the id's returned
-        //and puts them in an array
-        //Used in student-controller file
-        function getUserCourses($userID)
-        {
-            try
-            {
-                $dbObj = new Database();
-                $db = $dbObj->getConnection();
-                $query = "SELECT CourseID FROM Student_Course WHERE StudentID = :uID";
-                $statement = $db->prepare($query);
-                $statement->bindValue(':uID', $userID, PDO::PARAM_INT);
-                $statement->execute();
-                $courseIDList = $statement->fetchAll(PDO::FETCH_ASSOC);
-                $courses = Array();
-                foreach ($courseIDList as $courseID)
-                {
-                    try
-                    {
-                        $course = $this->getCourse($courseID['CourseID']);
-                        array_push($courses, $course);
-                    } catch (Exception $e)
-                    {
-                        return 'failed to get course';
-                    }
-                }
-                return $courses;
-            } catch (Exception $e)
-            {
-                return $e;
-            }
-        }
-        
+        }        
     }
 
 ?>

@@ -82,22 +82,21 @@ include("profile-controller.php"); ?>
                              role="tabpanel" aria-labelledby="<?php echo $course->courseNumber; ?>-tab">
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item" style="text-align:center;"><strong><?php echo $course->courseTitle; ?></strong></li>
-                                    <?php
-                                    $counter = 0;
-                                    foreach ($assignments as $assignment):
-                                        ?>
+                                <?php $count = 0; foreach ($assignments as $assignment): ?>
+                                <?php if($assignment->courseID == $course->courseID): ?>
                                     <li class="list-group-item"><strong>
-                                            <a href="<?php echo $assignmentDir . $studentAssignments[$counter][2] . "/"; ?>" target="_blank"><?php echo $assignment->name; ?></a>
+                                            <a href="<?php echo $assignmentDir . $studentAssignments[$count][2] . "/"; ?>" target="_blank"><?php echo $assignment->name; ?></a>
                                         </strong> - <?php echo $assignment->description; ?>
-                                        <?php if ($studentAssignments[$counter][6]): ?>
+                                        <?php if ($studentAssignments[$count][6]): ?>
                                             <span style="float:right;"> Group Project</span>
                                             <i class="fas fa-users" style="float:right; color: #01426A; margin-top: 2px; margin-right: 5px;"></i>
                                         <?php endif; ?>
-                                        <?php if ($studentAssignments[$counter][5]): ?>
+                                        <?php if ($studentAssignments[$count][5]): ?>
                                             <i class="fas fa-star" style="float:right; color:#FFB500;"></i>
-                                        <?php endif; $counter++; ?>
+                                        <?php endif; ?>
                                     </li>
-                            <?php endforeach; ?>
+                                <?php endif;  $count++; ?>
+                                <?php endforeach; ?>
                             </ul>
                         </div>
                         <?php endforeach; ?>

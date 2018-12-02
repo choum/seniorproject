@@ -1,6 +1,6 @@
 <?php
 
-    class LoginRegistrationSQL
+    class SQLLoginRegistration
     {
         function __construct(){
             
