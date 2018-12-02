@@ -238,7 +238,9 @@
         //update CourseSection in database
         $db = new SQLHelper();
         $classAdmin = $db->getUser($_SESSION['user'])->id;
-        $result = $db->updateCourse($courseID, $classTitle, $courseNumber, $sectionNumber, $term, $description, 0, 0, $classAdmin, $teacherID, $close);
+        $course = new Course($classTitle, $courseNumber, $sectionNumber, $term, $description, 0, 0, $classAdmin, $teacherID, $close);
+        $course->setID($courseID);
+        $result = $db->updateCourse($course);
     }
 
 // end of update class function

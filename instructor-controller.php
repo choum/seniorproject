@@ -161,8 +161,6 @@ function viewProject() {
 function addUpdateCourseKey(){
     $currentCourseID = filter_input(INPUT_POST, 'course');
     $key = filter_input(INPUT_POST, 'key');
-    echo "<br/> $currentCourseID <br/>";
-    echo $key . "<br/>";
     $db = new SQLHelper();
     $db->updateCourseKey($currentCourseID, $key);
 }

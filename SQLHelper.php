@@ -12,12 +12,13 @@
         {
 
         }
-
+        //This function is used to add users to the database on valid account registration
+        //Is called in the login-functions file after all proper validation is complete.
         function addUser(User $user)
         {
             try
             {
-                if ($user->imageLink == NULL OR $user->imageLink == "")
+                if ($user->imageLink == null OR $user->imageLink == "")
                 {
                     $user->imageLink = "default-profile.jpg";
                 }
@@ -63,11 +64,8 @@
                 //error_log($error_message, (int)0,"./error.txt");
             }
         }
-
-        /* Update of student user info in UserAccount table
-         * Done via student dashboard
-         */
-
+        //This function is used to update some information of student user accounts
+        //Is called in the student-controller file after validation is complete.
         function updateUser($userID, $bio = null, $imageLink = null,
             $linkedin = null, $website = null)
         {
@@ -104,7 +102,9 @@
                 return "User not updated";
             }
         }
-
+        //Based on username, returns all student user information in a User object
+        //Used in admin, instructor, profile, and student controller files, as well as the header file
+        //and the registerCourse function
         function getUser($username)
         {
             try
@@ -131,7 +131,10 @@
                 return "Could not retrieve user data";
             }
         }
-
+        //Created as an alternative way to get user information, this function
+        //performs the same as getUser, with the difference being that it restricts based on
+        //UserID rather than Username
+        //Used in admin, instructor, and project controllers
         function getUserByID($id)
         {
             try
@@ -158,7 +161,9 @@
                 return "Could not retrieve user data";
             }
         }
-        
+        //This function is used to compare the user given password to the password stored in the DB
+        //Along with this, the role is gotten in order to properly redirect the user on successful login
+        //Used in the login-functions file
         function getUserAuth($username)
         {
             try
@@ -181,7 +186,9 @@
                 return "Could not retrieve user password";
             }
         }
-
+        //This function is used to keep track of and update the user on their most recent login
+        //As well as allow later functionality for certain actions to occur on first login.
+        //Used in the login-functions file
         function updateLastLoggedIn($username, $loggedIn)
         {
             try
@@ -228,7 +235,9 @@
                 return "Could not retrieve/update last login";
             }
         }
-
+        //Purpose of this function is to check if the username desired
+        //for account regisrtation is available. 
+        //Used in the login-functions file
         function checkForDuplicate($username)
         {
             try
@@ -255,10 +264,9 @@
             }
         }
 
-        /* Insertion of new instructor user to the UserAccount table
-         * Done via admin dashboard
-         */
-
+        //Purpose of this function is to add instructor users to the database, as well as
+        //Generate differing usernames if the one given is already in use. 
+        //Used in the admin-controller file
         function addInstructor(User $user)
         {
             try
@@ -308,11 +316,10 @@
             }
         }
 
-        /* Updating instructor user info based on update instructor card to the
-         * UserAccount table.
-         * Done via admin dashboard
-         */
-
+        //Purpose of this function is to update the limited information pertaining to instructors
+        //At this time, it only updates the first name, last name, and email columns
+        //Username, which is originally based on the first and last name, does not change.
+        //Used in the admin-controller file
         function updateInstructor($userID, $firstName, $lastName, $email)
         {
             try
@@ -347,37 +354,9 @@
             }
         }
 
-        function getInstructor($userID)
-        {
-            try
-            {
-                $dbObj = new Database();
-                $db = $dbObj->getConnection();
-                $query = "Select * From UserAccount "
-                    . "Where UserID = :uid";
-                $statement = $db->prepare($query);
-                $statement->bindValue(':uid', $userID, PDO::PARAM_INT);
-                $statement->execute();
-                $user = $statement->fetch();
-                $statement->closeCursor();
-
-                $return = new User($user[1], $user[2], $user[3], $user[4], 
-                    $user[5], $user[6], $user[7], $user[8], $user[9], $user[10],
-                    $user[11], $user[12], $user[13], $user[14], $user[15]);
-                $return->setID($user[0]);
-                return $return;
-            } catch (PDOException $e)
-            {
-                //$error_message = $e->getMessage();
-                //error_log($error_message, (int)0,"./error.txt");
-                return "Could not retrieve instructor";
-            }
-        }
-
-        /*
-         * Retrive all user information based on instructor user role
-         */
-
+        //Purpose is this function is retrieve user data for only instructors, which
+        //is restricted to only roles 2 and 4 currently.
+        //Used in the admin-controller file
         function getInstructors()
         {
             try
@@ -400,7 +379,10 @@
                 return "Could not retrieve instructor list";
             }
         }
-
+        //Purpose of this function is to update a users password,given that the
+        //username and current password match database records.
+        //All validation of new password is done prior to this function call
+        //Is used in the login-functions file
         function changePassword($username, $password, $newPassword)
         {
             try
@@ -446,7 +428,10 @@
                 return "Password could not be changed.";
             }
         }
-        
+        //Purpose of this function is to increase and decrease the courses a user is enrolled in
+        //At this time, it is called in the registerCourse function, which adds an entry to the 
+        //batabase on proper course registration
+        //Used in the registerCourse function
         function updateCoursesEnrolled($userID, $userCourses, $incOrDec)
         {
             try
@@ -480,7 +465,8 @@
                 return "Could not update courses enrolled.";
             }
         }
-        
+        //Purpose of this function is to retrieve the UserID based on the username
+        //Is used in the student-controller file.
         function getUserID($username)
         {
             try
@@ -499,7 +485,9 @@
                 return 'User not found';
             }
         }
-
+        //Purpose of this function is to add a new course based on information in 
+        //the Course object, as well as assign a specific instructor to the course
+        //Used in the admin-controller file
         function addCourse(Course $course)
         {
             try
@@ -538,7 +526,11 @@
                 return "Course not created";
             }
         }
-        
+        //Purpose of this course is to work in tandem with the addCourse function
+        //Its  use is to ensure that not duplicate courses for the term chosen 
+        //are added to the database, as courses with the same number and section should
+        //not exist.
+        //Used in the addCourse and updateCourse function
         function checkDuplicateCourseForTerm(Course $course)
         {
             try
@@ -557,7 +549,20 @@
                 $statement->closeCursor();
 
                 if(sizeof($result) != 0):
-                    return TRUE; //duplicate course found
+                    if(sizeof($result) == 1):
+                        $tempID = $result[0]['CourseID'];
+                        if(isset($course->courseID)):
+                            if($tempID == $course->courseID):
+                                return FALSE; //Specifically for when updating course with same number&section;
+                            else:
+                                return TRUE; //Occurs when updating to different course number&section
+                            endif;
+                        else:
+                            return TRUE; //Only occurs when adding a course
+                        endif;
+                    else:
+                        return TRUE; //multiple duplicates found, shouldn't be reachable.
+                    endif;
                 else:
                     return FALSE; //duplicate course not found;
                 endif;
@@ -567,79 +572,90 @@
                 return "Duplicate check could not completed";
             }
         }
-
-        function updateCourse($courseID, $courseTitle, $courseNumber,
-            $courseSection, $term, $description, $closed, $enrollment, $adminID,
-            $teacherID, $close)
+        //Purpose of this function is to update course information to whatever is
+        //entered. All validation is done prior to function call.
+        //It also calls the checkDuplicateCourseForTerm function in order to ensure
+        //that it does not update to a course that already exists. for the term.
+        function updateCourse(Course $course)
         {
             try
             {
                 $dbObj = new Database();
                 $db = $dbObj->getConnection();
-                $db->beginTransaction();
-                $query = "Update Courses "
-                    . "SET CourseTitle=:cTitle, CourseNumber=:cNumber, "
-                    . "CourseSection=:cSection, Term=:term, "
-                    . "Description =:desc, Closed=:closed, "
-                    . "EnrollmentTotal=:enrollment, "
-                    . "AdminID= :aID, TeacherID=:tID , "
-                    . "CloseDate= :close "
-                    . "WHERE CourseID=:cID;";
-                $statement = $db->prepare($query);
-                $statement->bindValue(':cTitle', $courseTitle, PDO::PARAM_STR);
-                $statement->bindValue(':cNumber', $courseNumber, PDO::PARAM_INT);
-                $statement->bindValue(':cSection', $courseSection, PDO::PARAM_INT);
-                $statement->bindValue(':term', $term, PDO::PARAM_STR);
-                $statement->bindValue(':desc', $description, PDO::PARAM_STR);
-                $statement->bindValue(':closed', $closed, PDO::PARAM_BOOL);
-                $statement->bindValue(':enrollment', $enrollment, PDO::PARAM_INT);
-                $statement->bindValue(':aID', $adminID, PDO::PARAM_INT);
-                $statement->bindValue(':tID', $teacherID, PDO::PARAM_INT);
-                $statement->bindValue(':cID', $courseID, PDO::PARAM_INT);
-                $statement->bindValue(':close', $close, PDO::PARAM_STR);
-                $statement->execute();
-                $count = $statement->rowCount();
-                $statement->closeCursor();
+                $result = $this->checkDuplicateCourseForTerm($course);
+                if($result == FALSE):
+                    $db->beginTransaction();
+                    $query = "Update Courses "
+                        . "SET CourseTitle=:cTitle, CourseNumber=:cNumber, "
+                        . "CourseSection=:cSection, Term=:term, "
+                        . "Description =:desc, Closed=:closed, "
+                        . "EnrollmentTotal=:enrollment, "
+                        . "AdminID= :aID, TeacherID=:tID , "
+                        . "CloseDate= :close "
+                        . "WHERE CourseID=:cID;";
+                    $statement = $db->prepare($query);
 
-                if ($count == 1):
-                    $db->commit();
-                    return "Course updated";
+                    $statement->bindValue(':cTitle', $course->courseTitle, PDO::PARAM_STR);
+                    $statement->bindValue(':cNumber', $course->courseNumber, PDO::PARAM_INT);
+                    $statement->bindValue(':cSection', $course->courseSection, PDO::PARAM_INT);
+                    $statement->bindValue(':term', $course->term, PDO::PARAM_STR);
+                    $statement->bindValue(':desc', $course->description, PDO::PARAM_STR);
+                    $statement->bindValue(':closed', $course->closed, PDO::PARAM_BOOL);
+                    $statement->bindValue(':enrollment', $course->enrollment, PDO::PARAM_INT);
+                    $statement->bindValue(':aID', $course->adminID, PDO::PARAM_INT);
+                    $statement->bindValue(':tID', $course->teacherID, PDO::PARAM_INT);
+                    $statement->bindValue(':close', $course->closeDate, PDO::PARAM_STR);
+                    $statement->bindValue(':cID', $course->courseID, PDO::PARAM_INT);
+                    $statement->execute();
+                    $count = $statement->rowCount();
+                    $statement->closeCursor();
+
+                    if ($count == 1):
+                        $db->commit();
+                        return "Course updated";
+                    else:
+                        $db->rollBack();
+                        throw new PDOException;
+                    endif;
                 else:
-                    $db->rollBack();
-                    throw new PDOException;
+                    return "Course already exists";
                 endif;
             } catch (PDOException $e)
-            {
+            {                
                 //$error_message = $e->getMessage();
                 //error_log($error_message, (int)0,"./error.txt");
 
                 return "Course not updated";
             }
         }
-        
+        //Purpose of this function is to update a course's course key.
+        //This covers both adding a course key for the first time and changing a course key
+        //Used in instructor-controller file
         function updateCourseKey($courseID, $courseKey)
         {
             try
             {
                 $dbObj = new Database();
                 $db = $dbObj->getConnection();
-                $db->beginTransaction();
-                $query = "Update Courses "
-                    . "Set CourseKey = :cKey "
-                    . "Where CourseID= :cid";
-                $statement = $db->prepare($query);
-                $statement->bindValue(':cKey', $courseKey, PDO::PARAM_STR);
-                $statement->bindValue(':cid', $courseID, PDO::PARAM_INT);
-                $statement->execute();
-                $count = $statement->rowCount();
-                $statement->closeCursor();
-
-                if ($count == 1):
-                    $db->commit();
-                    return "Course key changed.";
-                else:
-                    $db->rollBack();
-                    throw new PDOException;
+                $result = $this->checkDuplicateCourseKey($courseID, $courseKey);
+                if($result == FALSE):
+                    $db->beginTransaction();
+                    $query = "Update Courses "
+                        . "Set CourseKey = :cKey "
+                        . "Where CourseID= :cid";
+                    $statement = $db->prepare($query);
+                    $statement->bindValue(':cKey', $courseKey, PDO::PARAM_STR);
+                    $statement->bindValue(':cid', $courseID, PDO::PARAM_INT);
+                    $statement->execute();
+                    $count = $statement->rowCount();
+                    $statement->closeCursor();
+                    if ($count == 1):
+                        $db->commit();
+                        return "Course key changed.";
+                    else:
+                        $db->rollBack();
+                        throw new PDOException;
+                    endif;
                 endif;
             } catch (PDOException $e)
             {
@@ -647,7 +663,44 @@
                 return "Could not change course key.";
             }
         }
+        //Purpose of this function is to ensure no duplicate course keys are
+        //used in the database.
+        //Used in updateCourseKey function
+        //NOTE: Can be taken out if unique modifier is added to the CourseKey column
+        function checkDuplicateCourseKey($courseID, $courseKey)
+        {
+            try{
+                $dbObj = new Database();
+                $db = $dbObj->getConnection();
+                $query = "Select CourseID From Courses "
+                    . "Where CourseKey = :cKey;";
+                $statement = $db->prepare($query);
+                $statement->bindValue(':cKey', $courseKey, PDO::PARAM_STR);
+                $statement->execute();
+                $result = $statement->fetchAll();
+                $statement->closeCursor();
 
+                if(sizeof($result) != 0):
+                    if(sizeof($result) == 1):
+                        $tempID = $result[0]['CourseID'];
+                        if($tempID == $courseID):
+                            return FALSE; //Specifically for when pressing update without changing key;
+                        else:
+                            return TRUE; //Occurs when updating to different course's key
+                        endif;
+                    else:
+                        return TRUE; //multiple duplicates found, shouldn't be reachable.
+                    endif;
+                else:
+                    return FALSE; //duplicate course key not found;
+                endif;
+            } catch (PDOException $ex) {
+
+            }
+        }
+        //Purpose of this function is to retrieve course information give a courseID
+        //Used in getUserCourses function, admin, instructor, profile, project, and 
+        //student controller files
         function getCourse($courseID)
         {
             try
@@ -676,11 +729,8 @@
                 return "Could not retrieve course";
             }
         }
-
-        /* Retrieves entire list of course with all course information
-         * Done via admin dashboard TO ONLY BE USED THERE
-         */
-
+        //Purpose of this function is to retrieve all courseIDs without restriction
+        //Used in admin-controller file
         function getAllCourses()
         {
             try
@@ -702,7 +752,10 @@
             }
         }
 
-        //retrieve the courses of a term by instructor
+        //Purpose of this function is to retrieve all the course ids  for a specific
+        //instructor and a specific term. Used to due instructors only being able to
+        //view courses of current term.
+        //Used in instructor-controller file
         function getCoursesInstructorTerm($teacherID, $term)
         {
             try
@@ -729,7 +782,8 @@
             }
         }
 
-        //retrieve the courses of a term
+        //Purpose of this function is to retrieve all course ids for a specific term
+        //Used in admin-controller file
         function getCoursesByTerm($term)
         {
             try
@@ -753,7 +807,9 @@
                 return "Could not retrieve complete course list";
             }
         }
-
+        
+        //Purpose of this function is to retrieve all course ids for a specific instructor
+        //Used in instructor-controller file
         function getInstuctorCourses($teacherID)
         {
             try
@@ -778,6 +834,8 @@
             }
         }
 
+        //Purpose of this function is to retrieve all of the course terms in the database
+        //Used in the admin-controller file
         function getTerms()
         {
             try
@@ -799,7 +857,9 @@
                 return "Could not retrieve list of terms";
             }
         }
-
+        //Purpose of this function is to retrieve all of the terms in the database
+        //for a specific instructor
+        //Used in the instructor-controller file
         function getTermsbyInstructor($teacherID)
         {
             try
@@ -823,30 +883,10 @@
                 return "Could not retrieve list of terms";
             }
         }
-
-        function getCoursesOfTerm($term)
-        {
-            try
-            {
-                $dbObj = new Database();
-                $db = $dbObj->getConnection();
-                $query = "Select CourseID From Courses "
-                    . "Where Term = :term";
-                $statement = $db->prepare($query);
-                $statement->bindValue(':term', $term, PDO::PARAM_STR);
-                $statement->execute();
-                $courses = $statement->fetchAll();
-                $statement->closeCursor();
-
-                return $courses;
-            } catch (PDOException $e)
-            {
-                //$error_message = $e->getMessage();
-                //error_log($error_message, (int)0,"./error.txt");
-                return "Could not retrieve courses of $term term";
-            }
-        }
-
+        //Purpose of this function is to add a new assignment for specific course
+        //to the database. After this point, the assignment is available for viewing 
+        //in the other dashboards. There is currently no way to update an assignment by standard means
+        //Used in the instructor-controller file
         function addAssignment($assignmentName, $description, $date, $pdf,
             $courseID, $teacherID, $type)
         {
@@ -877,48 +917,9 @@
                 return "Assignment not created";
             }
         }
-
-        function updateAssignment($assignmentID, $assignmentName, $description,
-            $type, $date, $courseID, $teacherID, $pdf = NULL)
-        {
-            try
-            {
-                $dbObj = new Database();
-                $db = $dbObj->getConnection();
-                $db->beginTransaction();
-                $query = "Update Assignments "
-                    . "Set AssignmentName=:aName, Description=:desc, "
-                    . "AssignmentDate=:date, PDFLocation=:pdf, CourseID=:cID, "
-                    . "TeacherID=:tID, Type = :type "
-                    . "Where AssignmentID = :aID;";
-                $statement = $db->prepare($query);
-                $statement->bindValue(':aID', $assignmentID, PDO::PARAM_INT);
-                $statement->bindValue(':aName', $assignmentName, PDO::PARAM_STR);
-                $statement->bindValue(':desc', $description, PDO::PARAM_STR);
-                $statement->bindValue(':date', $date);
-                $statement->bindValue(':pdf', $pdf, PDO::PARAM_STR);
-                $statement->bindValue(':cID', $courseID, PDO::PARAM_INT);
-                $statement->bindValue(':tID', $teacherID, PDO::PARAM_INT);
-                $statement->bindValue(':type', $type, PDO::PARAM_STR);
-                $statement->execute();
-                $count = $statement->rowCount();
-                $statement->closeCursor();
-
-                if ($count == 1):
-                    $db->commit();
-                    return "Assignment updated";
-                else:
-                    $db->rollBack();
-                    throw new PDOException;
-                endif;
-            } catch (PDOException $e)
-            {
-                //$error_message = $e->getMessage();
-                //error_log($error_message, (int)0,"./error.txt");
-                return "Assignment not updated";
-            }
-        }
-
+        //Purpose of this function is to retrieve all assignment data for a specific
+        //assignment based on its ID. It is then put in an Assignment object
+        //Used in the profile, project, and student controller
         function getAssignment($assignmentID)
         {
             try
@@ -946,8 +947,9 @@
             }
         }
 
-        //returns list of assignment for singular course based on its id, very limited.
-        //Done in multiple dashboards.
+        //Purpose of this function is to get the assignment IDs and names of 
+        //all assignments for a specific course based on the course id.
+        //Used in getUserAssignments function, admin, instructor, and student controllers
         function getAssignments($courseID)
         {
             try
@@ -970,7 +972,9 @@
                 return "Could not retreive assignment list";
             }
         }
-        
+        //Purpose of this function is to pre-place results from getAssignments into an array
+        //Has no other function
+        //Used in student-controller file
         function getUserAssignments($courseID)
         {
             $assignments = $this->getAssignments($courseID);
@@ -982,7 +986,8 @@
 
             return $assignmentsList;
         }
-
+        //Purpose of this function is to add a student assignment submission to the database
+        //Used by the readdStudentAssignment function and student-controller file
         function addStudentAssignment($studentID, $assignmentID, $dir,
             $dateCreated, $screenshot, $featured, $group)
         {
@@ -1011,10 +1016,13 @@
             {
                 //$error_message = $e->getMessage();
                 //error_log($error_message, (int)0,"./error.txt");
-                return "Assignment already exists";
+                return "Could not create student assignment";
             }
         }
 
+        //Purpose of this function is to delete a student submission before readding it
+        //using the addStudentAssignment function. 
+        //Used by the student-controller file
         function readdStudentAssignment($studentID, $assignmentID, $dir,
             $dateCreated, $screenshot, $featured, $group)
         {
@@ -1048,47 +1056,10 @@
                 return "Student assignment not updated.";
             }
         }
-
-        function updateStudentAssignment($studentID, $assignmentID, $dir,
-            $dateCreated, $screenshot = NULL, $featured = NULL, $group = NULL)
-        {
-            try
-            {
-                $dbObj = new Database();
-                $db = $dbObj->getConnection();
-                $db->beginTransaction();
-                $query = "Update Student_Assignment "
-                    . "Set Directory`=:dir, "
-                    . "DateCreated=:date, Screenshot=:screen, "
-                    . "Featured=:featured, `Group`=:group "
-                    . "Where StudentID=:sID And AssignmentID = :aID;";
-                $statement = $db->prepare($query);
-                $statement->bindValue(':dir', $dir, PDO::PARAM_STR);
-                $statement->bindValue(':date', $dateCreated);
-                $statement->bindValue(':screen', $screenshot, PDO::PARAM_STR);
-                $statement->bindValue(':featured', $featured, PDO::PARAM_BOOL);
-                $statement->bindValue(':group', $group, PDO::PARAM_BOOL);
-                $statement->bindValue(':sID', $studentID, PDO::PARAM_INT);
-                $statement->bindValue(':aID', $assignmentID, PDO::PARAM_INT);
-                $statement->execute();
-                $count = $statement->rowCount();
-                $statement->closeCursor();
-
-                if ($count == 1):
-                    $db->commit();
-                    return "Student assignment updated";
-                else:
-                    $db->rollBack();
-                    throw new PDOException;
-                endif;
-            } catch (PDOException $e)
-            {
-                //$error_message = $e->getMessage();
-                //error_log($error_message, (int)0,"./error.txt");
-                return "Student assignment not updated";
-            }
-        }
-
+        //Purpose of this function is to return all student assignment submission
+        //information that is stored in the database based on the assignment's id
+        //and the student who the assignment belongs to.
+        //Used in the profile, project, and student controller files
         function getStudentAssignment($studentID, $assignmentID)
         {
             try
@@ -1112,7 +1083,9 @@
                 return "Could not retrieve student assignment";
             }
         }
-
+        //Purpose of this function is to retrieve all the assignment ids related
+        //to the assignments submitted by a specific student.
+        //Used by the profile-controller file
         function getStudentAssignments($studentID)
         {
             try
@@ -1135,7 +1108,9 @@
                 return "Could not retrieve student assignments";
             }
         }
-
+        //Purpose of this function is to retrieve all the student ids of specific assignment
+        //submissions to be used elsewhere.
+        //Used in the getSubmissionsOfCourse function and project-controller file
         function getStudentsOfAssignment($assignmentID)
         {
             try
@@ -1158,7 +1133,10 @@
                 return "Could not retrieve student assignment submissions";
             }
         }
-
+        //Purpose of this function is to reset all student assignment submissions
+        //for a specific student to not be featured, and set a new assignment submission
+        //to be featured.
+        //Used in the student-controller file
         function changeFeaturedAssignment($studentID, $assignmentID)
         {
             try
@@ -1194,7 +1172,9 @@
                 return "Featured Assignment could not be changed.";
             }
         }
-        
+        //Purpose of this function is to add a student to the list of 
+        //students of a given course.
+        //Used in the registerCourse function
         function addStudentCourse($studentID, $courseID, $date)
         {
             try
@@ -1219,7 +1199,9 @@
                 return "Student not added to course";
             }
         }
-        
+        //Purpose of this function is to add a student to a course, which
+        //in turn will allow them to access assignments to make submissions.
+        //Used in the student-controller file
         function registerCourse($username, $key, $date)
         {
             try
@@ -1279,31 +1261,10 @@
                 echo "You have entered an incorrect course key.";
             }
         }
-
-        function getStudentCourse($studentID, $courseID)
-        {
-            try
-            {
-                $dbObj = new Database();
-                $db = $dbObj->getConnection();
-                $query = "Select * From Student_Course "
-                    . "Where StudentID = :sID AND CourseID = :cID;";
-                $statement = $db->prepare($query);
-                $statement->bindValue(':sID', $studentID, PDO::PARAM_INT);
-                $statement->bindValue(':cID', $courseID, PDO::PARAM_INT);
-                $statement->execute();
-                $studentCourse = $statement->fetch();
-                $statement->closeCursor();
-
-                return $studentCourse;
-            } catch (PDOException $e)
-            {
-                //$error_message = $e->getMessage();
-                //error_log($error_message, (int)0,"./error.txt");
-                return "Could not retrieve course of student";
-            }
-        }
-        
+        //Purpose of this function is to get all of the courses that a student belongs to
+        //Once that occurs, it gets all the course information tied to the id's returned
+        //and puts them in an array
+        //Used in student-controller file
         function getUserCourses($userID)
         {
             try
@@ -1333,94 +1294,6 @@
                 return $e;
             }
         }
-
-        function getStudentCourses($studentID)
-        {
-            try
-            {
-                $dbObj = new Database();
-                $db = $dbObj->getConnection();
-                $query = "Select * From Student_Course "
-                    . "Where StudentID = :sID";
-                $statement = $db->prepare($query);
-                $statement->bindValue(':sID', $studentID, PDO::PARAM_INT);
-                $statement->execute();
-                $studentCourses = $statement->fetchAll();
-                $statement->closeCursor();
-
-                return $studentCourses;
-            } catch (PDOException $e)
-            {
-                //$error_message = $e->getMessage();
-                //error_log($error_message, (int)0,"./error.txt");
-                return "Could not retrieve student's courses";
-            }
-        }
-
-        function getStudentsEnrolled($courseID)
-        {
-            try
-            {
-                $dbObj = new Database();
-                $db = $dbObj->getConnection();
-                $query = "Select * From Student_Course "
-                    . "Where CourseID = :cID;";
-                $statement = $db->prepare($query);
-                $statement->bindValue(':cID', $courseID, PDO::PARAM_INT);
-                $statement->execute();
-                $studentEnrollment = $statement->fetchAll();
-                $statement->closeCursor();
-
-
-                return $studentEnrollment;
-            } catch (PDOException $e)
-            {
-                //$error_message = $e->getMessage();
-                //error_log($error_message, (int)0,"./error.txt");
-                return "Could not retrieve students enrolled in course";
-            }
-        }
-
-        function getSubmissionsOfCourse($courseID)
-        {
-            $dbObj = new Database();
-            $db = $dbObj->getConnection();
-            $query = "Select AssignmentID From Assignments "
-                . "Where CourseID=:cID";
-            $statement = $db->prepare($query);
-            $statement->bindValue(':cID', $courseID, PDO::PARAM_INT);
-            $result = $statement->execute();
-            $assignments = $statement->fetchAll();
-            $statement->closeCursor();
-
-            if ($result)
-            {
-                $listOfStudentAssignments = array();
-                foreach ($assignments as $assignment)
-                {
-                    $students = $this->getStudentsOfAssignment($assignment[0]);
-                    if (is_array($students))
-                    {
-                        foreach ($students as $student)
-                        {
-                            $studentAssignment = $this->getStudentAssignemnt($student[0], $assignment[0]);
-                            if (is_array($studentAssignment))
-                            {
-                                array_push($listOfStudentAssignments, $studentAssignment);
-                            }
-                            else
-                                    return "Could not retrieve student $student[0]'s assignment $assignment[0]";
-                        }
-                    }
-                    else
-                            return "Could not retrieve students of assignment $assignment[0]";
-                }
-                return $listOfStudentAssignments;
-            }
-            else
-                    return "Could not retrieve assignment ID's based on course id $courseID";
-        }
-
         
     }
 
