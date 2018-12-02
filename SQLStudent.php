@@ -1,6 +1,6 @@
 <?php
 
-    class StudentSQL
+    class SQLStudent
     {
 
         function __construct()

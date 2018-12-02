@@ -1,6 +1,6 @@
 <?php
     
-    class AdminSQL{
+    class SQLAdmin{
         
         function __construt(){
             

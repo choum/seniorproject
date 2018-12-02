@@ -1,6 +1,6 @@
 <?php
 
-    class SharedSQL{
+    class SQLShared{
         
         function __construct(){
             
