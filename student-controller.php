@@ -106,7 +106,7 @@
     function getTeacher($teacherID)
     {
         $db = new SQLHelper();
-        $teacher = $db->UserByID($teacherID);
+        $teacher = $db->getUserByID($teacherID);
         if ($teacher != "Could not retrieve instructor"):
             return $teacher->firstName . " " . $teacher->lastName;
         else:

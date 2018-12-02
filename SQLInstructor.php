@@ -34,11 +34,49 @@
                         $db->rollBack();
                         throw new PDOException;
                     endif;
+                else:
+                   throw new PDOException;     
                 endif;
             } catch (PDOException $e)
             {
                 //error_log($error_message, (int)0,"./error.txt");
                 return "Could not change course key.";
+            }
+        }
+        
+        //Purpose of this function is to ensure no duplicate course keys are
+        //used in the database.
+        //Used in updateCourseKey function
+        //NOTE: Can be taken out if unique modifier is added to the CourseKey column
+        function checkDuplicateCourseKey($courseID, $courseKey)
+        {
+            try{
+                $dbObj = new Database();
+                $db = $dbObj->getConnection();
+                $query = "Select CourseID From Courses "
+                    . "Where CourseKey = :cKey;";
+                $statement = $db->prepare($query);
+                $statement->bindValue(':cKey', $courseKey, PDO::PARAM_STR);
+                $statement->execute();
+                $result = $statement->fetchAll();
+                $statement->closeCursor();
+
+                if(sizeof($result) != 0):
+                    if(sizeof($result) == 1):
+                        $tempID = $result[0]['CourseID'];
+                        if($tempID == $courseID):
+                            return FALSE; //Specifically for when pressing update without changing key;
+                        else:
+                            return TRUE; //Occurs when updating to different course's key
+                        endif;
+                    else:
+                        return TRUE; //multiple duplicates found, shouldn't be reachable.
+                    endif;
+                else:
+                    return FALSE; //duplicate course key not found;
+                endif;
+            } catch (PDOException $ex) {
+                return "Error checking for duplicate";
             }
         }
         
