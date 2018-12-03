@@ -118,7 +118,7 @@
         $featuredDescription = $db->getAssignment($featuredAssignmentID)->description;
         $featuredPath = $assignmentDir;
         $featuredDirectory = $featuredAssignment[2];
-        if(array_search(",", $featuredAssignment)){
+        if(stripos($featuredAssignment[4], ",") != FALSE){
             $explodedScreenshots = explode(",", $featuredAssignment[4]);
         }else { $explodedScreenshots = $featuredAssignment[4]; }
         $featuredGroupProject = $featuredAssignment[6];
