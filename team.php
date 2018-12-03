@@ -54,9 +54,8 @@
         <div class="card-body">
           <h3 class="card-title">Justin Crest</h3>
           <h5>Database Developer / Quality Assurance</h5>
-          <p class="card-text">As a back-end developer, Justin was responsible for the creation of the student profile, 
-              project submission list, and nearly all of the queries that this website runs on. Along with this, Justin 
-              was responsible for bug testing and quality assurance of both front-end and back-end changes up until the first public implementation of the website.</p>
+          <p class="card-text">As one of the developers, Justin was responsible for back-end development, and nearly all of the queries that this website runs on. 
+              Along with this, Justin was responsible for bug testing and quality assurance of both front-end and back-end changes up until the first public implementation of the website.</p>
           <a href="https://www.linkedin.com/in/justin-crest-a1a679aa/" class="btn btn-primary" target='_blank'>LinkedIn</a>
         </div>
       </div>
