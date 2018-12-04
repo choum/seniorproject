@@ -37,5 +37,5 @@
     
     $pdfLocation = "";
     if($currentAssignment->pdf != NULL OR $currentAssignment->pdf != ""):
-        $pdfLocation = "/cap/instructor/" . $course . "/" . $currentAssignment->pdf;
+        $pdfLocation = "/cap/$currentInstructor->username/" . $course . "/" . $currentAssignment->pdf;
     endif;
