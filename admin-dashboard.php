@@ -156,7 +156,7 @@
               <select name='classInstructor'>
               <?php
                 foreach($instructors as $instructor) {
-                  if($instructor == $current_selected_course->teacherID) {
+                  if($instructor[0] == $current_selected_course->teacherID) {
                     echo "<option value='$instructor[0]' selected>" . $instructor[1] . "</option>";
                   } else {
                     echo "<option value='$instructor[0]'>" . $instructor[1] . "</option>";
