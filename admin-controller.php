@@ -4,6 +4,10 @@
     require_once "SQLHelper.php";
     require_once "Course.php";
 
+    $errorAddC = "";
+    $errorUpdateC = "";
+    $errorAddP = "";
+    $errorUpdateP = "";
     //get the action form the request
     $action = filter_input(INPUT_POST, 'action');
 
@@ -14,19 +18,19 @@
     }
     elseif ($action == 'add_instructor')
     {
-        addInstructor();
+        $errorAddP = addInstructor();
     }
     elseif ($action == 'update_instructor')
     {
-        updateInstructor();
+        $errorUpdateP = updateInstructor();
     }
     elseif ($action == 'add_class')
     {
-        addClass();
+        $errorAddC = addClass();
     }
     elseif ($action == 'update_class')
     {
-        updateClass();
+        $errorUpdateC = updateClass();
     }
 
     //get the username from session
@@ -143,23 +147,33 @@
         $email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
         $password_random = generateRandomString(25);
         $unsalted = $password_random;
-        $password_random = password_hash($password_random, PASSWORD_BCRYPT);
+        $password_hashed = password_hash($password_random, PASSWORD_BCRYPT);
         //create an instance of the User class
-        $temp_user = new User(substr($firstName, 0, 1) . $lastName, $password_random, $firstName, $lastName, "title", NULL, $email, NULL, NULL, NULL, 2, 0, "create", "");
+        $temp_user = new User(substr($firstName, 0, 1) . $lastName, $password_hashed, $firstName, $lastName, "title", NULL, $email, NULL, NULL, NULL, 2, 0, "create", "");
 
         //create an instance of the SQLHelper class
         //add user to database
         $db = new SQLHelper();
         $result = $db->addInstructor($temp_user);
-        if($result[0] == "Instructor created"){ emailInstructor($email, $result[1], $unsalted); }
+        if($result[0] == "Instructor created"){ 
+            $return = emailInstructor($email, $result[1], $unsalted); 
+            return $return;
+        }
+        else{
+            return $result;
+        }
+        
     }
 
     function emailInstructor($email, $username, $unsalted)
     {
-      // Message
-      $message = "Your portfolio has been created by an admin on this website. \nAccount username: $username \nPassword: $unsalted";
-      $bool = mail($email, 'CIS Application Portfolio Password', $message);
-      //var_dump($bool);
+        // Message
+        $message = "Your portfolio has been created by an admin on this website. \nAccount username: $username \nPassword: $unsalted";
+        $bool = mail($email, 'CIS Application Portfolio Password', $message);
+
+        if($bool == false){
+            return  "Could not send email";
+        }
     }
 //end of
     //update instructor
@@ -175,6 +189,9 @@
         //update user in database
         $db = new SQLHelper();
         $result = $db->updateInstructor($instructorID, $firstName, $lastName, $email);
+        if($result == "Instructor not updated"){
+            return $result;
+        }
     }
 
 //end of edit instructor
@@ -203,7 +220,9 @@
         //add CourseSection to database
 
         $result = $db->addCourse($course);
-
+        if($result !== TRUE){
+            return $result;
+        }
     }
 
 // end of add class function
@@ -225,15 +244,6 @@
         $dateOB = new Dates;
         $close = $dateOB->getCloseDate($term);
 
-        //create an instance of the Course class
-        /* $course = new Course( $classTitle ,
-          $courseID ,
-          $sectionNumber ,
-          $term ,
-          $classDescription ,
-          0 , 10 , 991 ,
-          $classInstructor); */
-
         //create an instance of the SQLHelper class
         //update CourseSection in database
         $db = new SQLHelper();
@@ -241,6 +251,10 @@
         $course = new Course($classTitle, $courseNumber, $sectionNumber, $term, $description, 0, 0, $classAdmin, $teacherID, $close);
         $course->setID($courseID);
         $result = $db->updateCourse($course);
+        
+        if($result != "Course updated"){
+            return $result;
+        }
     }
 
 // end of update class function

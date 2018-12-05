@@ -115,12 +115,12 @@
                         }
                     } catch (Exception $e)
                     {
-                        echo "You are already registered.";
+                        echo "You are already registered to this course.";
                     }
                 }
                 else
                 {
-                    echo "This is an invalid key";
+                    echo "This is an invalid key.";
                 }
             } catch (PDOException $e)
             {

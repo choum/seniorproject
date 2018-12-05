@@ -35,7 +35,7 @@
                         throw new PDOException;
                     endif;
                 else:
-                   throw new PDOException;     
+                   return "Course key already in use.";     
                 endif;
             } catch (PDOException $e)
             {

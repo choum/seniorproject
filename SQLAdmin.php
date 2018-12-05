@@ -136,7 +136,7 @@
                     $query = "INSERT INTO Courses"
                         . "(CourseTitle, CourseNumber, CourseSection, "
                         . "Term, Description, Closed, EnrollmentTotal, AdminID, "
-                        . "TeacherID , CloseDate)"
+                        . "TeacherID , CloseDate) "
                         . "VALUES(:cTitle, :cNumber, :cSection, :term, "
                         . ":desc, :closed, :enrolled, :adminID, :teacherID , :close);";
                     $statement = $db->prepare($query);
@@ -153,7 +153,12 @@
                     $output = $statement->execute();
                     $statement->closeCursor();
 
-                    return $output;
+                    if($output == TRUE){
+                        return $output;
+                    }
+                    else{
+                        throw new PDOException;
+                    }
                 else:
                     return "Course already exists.";
                 endif;
@@ -252,7 +257,7 @@
                     if ($count == 1):
                         $db->commit();
                         return "Course updated";
-                    else:
+                    elseif($count != 0):
                         $db->rollBack();
                         throw new PDOException;
                     endif;
