@@ -151,7 +151,7 @@ function addProject($id , $username , $message) {
               {
                   $uploadBool = move_uploaded_file($fileTmp, SITE_ROOT . $uploadDirectory . $fileDestination);
                   $db = new SQLHelper();
-                  $results = $db->addAssignment($name, $description, $today, $pdf, $course, $id, $type);
+                  $results = $db->addAssignment($name, $description, $today, $fileName, $course, $id, $type);
               } catch (Exception $e)
               {
                   echo 'Upload failed';
@@ -160,9 +160,9 @@ function addProject($id , $username , $message) {
       }
       else
       {
-        $pdf = null;
+        $fileName = null;
         $db = new SQLHelper();
-        $results = $db->addAssignment($name, $description, $today, $pdf, $course, $id, $type);
+        $results = $db->addAssignment($name, $description, $today, $fileName, $course, $id, $type);
       }
   } catch (Exception $e)
   {
