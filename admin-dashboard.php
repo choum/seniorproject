@@ -10,18 +10,6 @@
     <div class="col-md-4">
       <div class="card">
         <div class="card-header">
-          <h4 class="card-title">Check Accounts</h4>
-          <p>This button will find accounts with 0 classes and lock FTP access</p>
-        </div>
-        <div class="card-body">
-          <form>
-            <input type='hidden' name='action' value='' >
-            <input type="submit" class="btn" value="Check Accounts">
-          </form>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-header">
           <ul class="nav nav-pills card-header-pills" id="toggle">
             <li class="nav-item">
               <a class="nav-link active" href="#" id="class">Class</a>
