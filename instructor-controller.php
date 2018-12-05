@@ -100,57 +100,75 @@ function addProject($id , $username , $message) {
   $type = filter_input(INPUT_POST , 'type');
   $pdf = NULL;
 
-  //if there is a file to insert to database
-  if($_FILES['file']['size'] > 0 ){
-      //get the file from the input file
-      $errors= array();
-      $file_name = $_FILES['file']['name'];
-      $file_size =$_FILES['file']['size'];
-      $file_tmp =$_FILES['file']['tmp_name'];
-      $file_type=$_FILES['file']['type'];
-      $ext_arr = explode('.' , $file_name );
-      $ext = end($ext_arr);
-      $file_ext=strtolower($ext);
+  define('SITE_ROOT', realpath(dirname(__FILE__)));
+  $file = $_FILES['file'];
+  $uploadDirectory = "/cap/" . $username . "/" . $course . "/";
 
-      $expensions= array("jpeg","jpg","png" , "pdf");
+  try
+  {
+      if (isset($file) && $file['name'] != '')
+      {
+          $maxsize = 10000000;
+          $acceptable = array(
+              'image/jpeg',
+              'image/jpg',
+              'image/gif',
+              'image/png',
+              'application/pdf'
+          );
+          $errors = 0;
+          $fileName = $file['name'];
+          $fileSize = $file['size'];
+          $fileType = $file['type'];
+          $fileExtension = pathinfo($fileName, PATHINFO_EXTENSION);
+          $fileExtension = strtolower($fileExtension);
+          $fileTmp = $file['tmp_name'];
+          $fileDestination = $fileName;
+          if (!in_array($fileType, $acceptable) && !empty($fileType))
+          {
+              echo 'Invalid file type. Please upload an image.';
+              $errors++;
+              exit();
+          }
 
-      if(in_array($file_ext,$expensions)=== false){
-         array_push($errors,"extension not allowed, please choose a JPEG or PNG file.");
+          if ($fileSize >= $maxsize || $fileSize === 0)
+          {
+              echo 'File must be under 1MB';
+              $errors++;
+              exit();
+          }
+
+          if ($errors === 0)
+          {
+              if (!is_dir(SITE_ROOT . '/cap/' . $username)) {
+                  mkdir(SITE_ROOT . '/cap/' . $username, 0755, true);
+              }
+              if (!is_dir(SITE_ROOT . $uploadDirectory))
+              {
+                  mkdir(SITE_ROOT . $uploadDirectory, 0755, true);
+              }
+              try
+              {
+                  $uploadBool = move_uploaded_file($fileTmp, SITE_ROOT . $uploadDirectory . $fileDestination);
+                  $db = new SQLHelper();
+                  $results = $db->addAssignment($name, $description, $today, $pdf, $course, $id, $type);
+              } catch (Exception $e)
+              {
+                  echo 'Upload failed';
+              }
+          }
       }
-
-      if($file_size > 20971520){
-         array_push($errors, 'File size must be less than 20 MB');
+      else
+      {
+        $pdf = null;
+        $db = new SQLHelper();
+        $results = $db->addAssignment($name, $description, $today, $pdf, $course, $id, $type);
       }
+  } catch (Exception $e)
+  {
+      echo 'Failed';
+  }
 
-      if(empty($errors)==true){
-        $str_temp = "cap/" . $username;
-        if (!is_dir($str_temp)) {
-          mkdir($str_temp, 0777, true);
-        }
-
-        $str_temp = "cap/" . $username . "/" . $course;
-        if(!is_dir($str_temp)) {
-          mkdir($str_temp, 0777, true);
-        }
-         $bool = move_uploaded_file($file_tmp, $str_temp . "/" . $file_name);
-
-         if($bool) {
-           $db = new SQLHelper();
-           $results = $db->addAssignment($name, $description, $today, $file_name, $course, $id, $type);
-           //echo "Assignment uploaded successsfully.";
-         } else {
-           //echo "Could not add file to database.";
-
-         }
-
-      }//end of error is empty
-
-   } else {
-
-     $db = new SQLHelper();
-     $results = $db->addAssignment($name, $description, $today, $pdf, $course, $id, $type);
-     //echo "Assignment uploaded successsfully. No file";
-   }//end of is else for file is set
 
 }//end of addProjectS
 
