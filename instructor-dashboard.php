@@ -8,11 +8,11 @@ require('header.php');
     <div class="col-md-4">
       <div class="card">
         <div class="card-header">
-          <p id='message'><?php if(!empty($message)) {echo $memssage;} ?></p>
           <h4 class="card-title">Add Project</h4>
           <hr>
         </div>
         <div class="card-body" style="padding-top: 0px;">
+            <?php if(!empty($errorAdd)) {echo "<p style='color: red;'>$errorAdd</p>";} ?>
             <div class="form-group">
               <p><label for="classname">Available Classes</label></p>
               <form method="post" action=".">
@@ -29,7 +29,7 @@ require('header.php');
                 </select>
             </form>
             </div>
-            <form method="post" enctype="multipart/form-data">
+            <form method="post" enctype="multipart/form-data" action=".">
               <input  type='hidden' name='course' value="<?php echo $current_selected_course->courseID; ?>">
               <div class="form-group">
                 <label for="projectname">Project Name</label>
@@ -105,7 +105,7 @@ require('header.php');
                         echo "<ul>";
                             foreach ($user_course[2] as $assignment) {
                               echo "</li>
-                                      <form  method='post' action='#'>
+                                      <form  method='post' action='.'>
                                         <input type='hidden' name='action' value='project'>
                                         <input type='hidden' name='Course' value='" . $user_course[0]->courseID . "'>
                                         <input type='hidden' name='Assignment' value='" . $assignment[0] . "'>
@@ -129,11 +129,11 @@ require('header.php');
     <div class="col-md-4">
       <div class="card" id="updateKey">
         <div class="card-header">
-          <p id='message'><?php if(!empty($message)) {echo $memssage;} ?></p>
           <h4 class="card-title">Create/Update Course Key</h4>
           <hr>
         </div>
         <div class="card-body" style="padding-top: 0px;">
+            <?php if(!empty($errorKey)) {echo "<p style='color: red;'>$errorKey</p>";} ?>
             <form method="post" action="#updateKey">
                 <select onchange='this.form.submit()' name='current_selected_course' class="form-control">
                   <?php
@@ -147,7 +147,7 @@ require('header.php');
                   ?>
                 </select>
             </form>
-            <form method="post" enctype="multipart/form-data">
+            <form method="post" enctype="multipart/form-data" action="#updateKey">
               <input  type='hidden' name='course' value="<?php echo $current_selected_course->courseID; ?>">
               <div class="form-group">
                 <label for="projectname">Current Course Key</label>

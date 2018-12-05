@@ -24,7 +24,8 @@
           <hr>
         </div>
         <div class="card-body" style="padding-top: 0px;">
-          <form  method="post" >
+            <?php if(!empty($errorAddC)) {echo "<p style='color: red;'>$errorAddC</p>";} ?>
+          <form  method="post" action=".">
             <div class="form-group">
               <label for="classname">Course ID</label>
               <input required type="number" min="1" max="9999" step="1" class="form-control" name='courseID' id="courseid" placeholder="EX: 4290">
@@ -81,6 +82,7 @@
           <hr>
         </div>
         <div class="card-body">
+        <?php if(!empty($errorUpdateC)) {echo "<p style='color: red;'>$errorUpdateC</p>";} ?>
           <label>Select existing class</label>
           <form method="post" action='#updateClass'>
             <select onchange='this.form.submit()' name='course_change_select' class="form-control">
@@ -95,7 +97,7 @@
               ?>
             </select>
         </form>
-          <form method="post" >
+          <form method="post" action="#updateClass">
             <input type='hidden' name='course_change_select' value='<?php echo $current_selected_course->courseID; ?>'>
             <div class="form-group">
               <label for="classname">Course ID</label>
@@ -165,7 +167,8 @@
           <hr>
         </div>
         <div class="card-body" style="padding-top: 0px;">
-          <form method="post" >
+            <?php if(!empty($errorAddP)) {echo "<p style='color: red;'>$errorAddP</p>";} ?>
+          <form method="post" action=".">
             <div class="form-group">
               <label for="firstName">First Name</label>
               <input required type="text" name='firstName' class="form-control" id="firstName">
@@ -186,7 +189,8 @@
           <hr>
         </div>
         <div class="card-body" style="padding-top: 0px;">
-          <form  method="post" >
+            <?php if(!empty($errorUpdateP)) {echo "<p style='color: red;'>$errorUpdateP</p>";} ?>
+          <form  method="post" action=".">
             <label>Select existing professor</label>
             <select name='instructorID' id="current_intructor_select" onchange='changeInstructorVars()' class="form-control">
               <?php
@@ -196,7 +200,7 @@
               ?>
             </select>
           </form>
-          <form method="post">
+          <form method="post" action=".">
             <div class="form-group">
               <input type="hidden" id="update_instructor_id" name="instructorID" value="<?php echo $currrent_chosen_instructor[0]; ?>">
               <label for="classname">First Name</label>
@@ -221,7 +225,7 @@
           <hr />
           <div style="float: right;">
             <p class="card-text" >Filter by:
-              <form method='post'action='#welcome'>
+              <form method='post'action='.'>
                   <select onchange='this.form.submit()' name='user_selected_term'>
                     <?php
                       foreach($terms as $term) {
@@ -261,7 +265,7 @@
                         echo "<ul>";
                             foreach ($user_course[2] as $assignment) {
                               echo "</li>
-                                      <form  method='post' action='#'>
+                                      <form  method='post' action='.'>
                                         <input type='hidden' name='action' value='project'>
                                         <input type='hidden' name='Course' value='" . $user_course[0]->courseID . "'>
                                         <input type='hidden' name='Assignment' value='" . $assignment[0] . "'>

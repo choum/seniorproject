@@ -7,7 +7,8 @@ require_once "Course.php";
 //get the action form the request
 $action = filter_input(INPUT_POST , 'action');
 
-$message = "";
+$errorAdd = "";
+$errorKey = "";
 //create object of dates class and get the current semester and year
 $dateOB = new Dates;
 $semester_year = $dateOB->getSemesterYear();
@@ -26,11 +27,11 @@ if (empty($action)) {
 
 }
   elseif($action == 'add_project') {
-    addProject($current_user->id , $username , $message);
+    $errorAdd = addProject($current_user->id , $username);
 } else if($action == 'project') {
    viewProject();
 } else if($action == 'course_key'){
-    addUpdateCourseKey();
+    $errorKey = addUpdateCourseKey();
 }
 
 //get array of user terms
@@ -91,7 +92,7 @@ else:
     $createOrUpdate = "Create Course Key";
 endif;
 
-function addProject($id , $username , $message) {
+function addProject($id , $username) {
   //get all the variebles from the input post
   $today = date("Y/m/d");
   $name = filter_input(INPUT_POST , 'name');
@@ -126,16 +127,14 @@ function addProject($id , $username , $message) {
           $fileDestination = $fileName;
           if (!in_array($fileType, $acceptable) && !empty($fileType))
           {
-              echo 'Invalid file type. Please upload an image.';
+              $errorAdd = 'Invalid file type.';
               $errors++;
-              exit();
           }
 
           if ($fileSize >= $maxsize || $fileSize === 0)
           {
-              echo 'File must be under 1MB';
+              $errorAdd = 'File must be under 1MB';
               $errors++;
-              exit();
           }
 
           if ($errors === 0)
@@ -154,7 +153,7 @@ function addProject($id , $username , $message) {
                   $results = $db->addAssignment($name, $description, $today, $fileName, $course, $id, $type);
               } catch (Exception $e)
               {
-                  echo 'Upload failed';
+                  $errorAdd = 'File upload failed';
               }
           }
       }
@@ -166,7 +165,14 @@ function addProject($id , $username , $message) {
       }
   } catch (Exception $e)
   {
-      echo 'Failed';
+      $errorAdd = 'Failed';
+  }
+  
+  if ($errorAdd != null){
+      return $errorAdd;
+  }
+  else{
+      return null;
   }
 
 
@@ -180,6 +186,9 @@ function addUpdateCourseKey(){
     $currentCourseID = filter_input(INPUT_POST, 'course');
     $key = filter_input(INPUT_POST, 'key');
     $db = new SQLHelper();
-    $db->updateCourseKey($currentCourseID, $key);
+    $return = $db->updateCourseKey($currentCourseID, $key);
+    if($return != "Course key changed."):
+        return $return;
+    endif;
 }
 ?>

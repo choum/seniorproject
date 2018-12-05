@@ -246,7 +246,7 @@
                           $commands->updateUser($userID, $aboutMe, $fileDestination, $resumeLink, $personalWebsite);
                         } catch (Exception $e)
                         {
-                            echo 'SQL Error';
+                            echo 'SQL Error occured, could not update user info.';
                         }
                         echo 'Image has been uploaded successfully. Profile has been updated.';
                     } catch (Exception $e)
@@ -266,13 +266,13 @@
                 $commands->updateUser($userID, $aboutMe, $fileDestination, $resumeLink, $personalWebsite);
               } catch (Exception $e)
               {
-                  echo 'SQL Error';
+                  echo 'SQL Error occured, could not update user info.';
               }
               echo 'Profile has been updated.';
             }
         } catch (Exception $e)
         {
-            echo 'Failed';
+            echo "Could not update profile.";
         }
     }
 
