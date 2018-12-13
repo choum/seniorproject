@@ -1,5 +1,15 @@
 <?php
-
+    /*
+     * Created By: Justin Crest
+     * Description: This file serves as the controller portion of the student profile.
+     * After ensuring that the profile attempting to be accessed belongs to a student, as is given by their role #
+     * Information is gathered in order to be displayed on the view portion. Along with this, a dynamic header is created, allowing one who
+     * is logged in to return back to their appropriate dashboard or log out.
+     * In gather information about the user, a User class object is used and split into a variety of variables
+     * Along with this, All student courses and assignments, as well as assignment submissions, are gathered in order
+     * to be displayed. The featured assignment, if one exists, has its own variable assignments due to being in a distinct
+     * portion of the profile page and having the option to have images for display.
+     */
     include("./SQLHelper.php");
     $db = new SQLHelper();
     $user;

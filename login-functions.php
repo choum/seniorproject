@@ -1,4 +1,8 @@
 <?php
+    /*
+     * Created By: Heather Tran
+     * Description: This file  has all functions tied to logging in, registration, and contains some redirection.
+     */
 //functions for alerting, logging out, redirecting to dash
 function logout() {
     after_successful_logout();
@@ -7,6 +11,11 @@ function logout() {
 function alert($msg) {
     echo "<script type='text/javascript'>alert('$msg');</script>";
 }
+/*
+ * Depending on the role of the user that is logged in, they are allowed access to certain dashboards
+ * For example, role 3 can access the admin dashboard, whereas role 2 can access the instructor dashboard.
+ * If a user is not logged in, then they are shown the login page.
+ */
 function redirect() {
   try {
     if (is_logged_in()) {
@@ -47,6 +56,12 @@ function redirect() {
     error();
   }
 }
+/*
+ * This function is called whenever a user attempts to log in. The account is authorized as existing,
+ * the password is verified as matching what is in the database, and the last login date is updated.
+ * This function makes use of the getUserAuth and updateLastLoggedIn functions of the SQLHelper file
+ * please visit that for info on those functions.
+ */
 function login() {
   try {
     $sql = new SQLHelper;
@@ -84,6 +99,13 @@ function login() {
   }
 
 }
+/*
+ * This function is called after completing the first step of account registration, and serves
+ * as a way to validate the information entered by the user. Once all information, including the 
+ * validity of the file uploaded if one was given, the image file is uploaded, the user account
+ * is added to the database, and the user is redirected to the setup page which holds the second
+ * portion of their registration.
+ */
 function register() {
   //check to form tokens
   try {
@@ -234,7 +256,12 @@ function register() {
     error();
   }
 }
-
+/*
+ * The second part of account registration, this portion only needs to be validate that the password
+ * entered is valid, as the username for phpmyadmin is the same username decided in the first part of registration.
+ * Once that is successful, the database user is created and the user is redirected to the student dashboard.
+ * Again, only students need to register and make phpmyadmin users.
+ */
 function setup() {
   try {
     $createDB = new CreateDB;
@@ -272,6 +299,12 @@ function setup() {
     error();
   }
 }
+/*
+ * Purpose of this function is to allow users to change their password. This can be done by all user
+ * types, and has the same restrictions as password creation when registering ones account.
+ * It makes use of the getUserAuth and changePassword function of SQLHelper, please visit that file
+ * for more info.
+ */
 function change() {
   try {
     $sql = new SQLHelper;

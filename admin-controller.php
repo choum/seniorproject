@@ -1,5 +1,11 @@
 <?php
-
+    /*
+     * Created by: Nat Rivera
+     * Description: This file acts as the controller portion to the instructor dashboard, and
+     * as such gathers all information prior to being displayed on the view. Along with this
+     * it controls what occurs when adding or updating the instructor or class, generating
+     * the password for instructor accounts, and emailing instructors about their newly created accounts.
+     */
     require_once "Dates.php";
     require_once "SQLHelper.php";
     require_once "Course.php";
@@ -58,8 +64,6 @@
         $tempstr = $instructor[2] . ", " . $instructor[1];
         $temp_id = $instructor[0];
         $temp_email = $instructor[3];
-        //$temp_arr = [ $temp_id => $tempstr];
-        //array_push($instructors , $temp_arr);
         $instructors[$temp_id] = [$temp_id, $tempstr, $temp_email , $instructor[1] , $instructor[2]];
         asort($instructors);
     }
@@ -95,7 +99,6 @@
         }
         $temp_count = $dateOB->countTerm($temp_term);
         $temp_add = $temp_year . $temp_count . $temp_id . $temp_section;
-        //array_push($courses , $temp_course);
         $courses[$temp_add] = $temp_course;
     }
     krsort($courses);
@@ -127,7 +130,6 @@
         $temp_instructor_name = $temp_instructor->firstName . " " . $temp_instructor->lastName;
         $temp_arr = [$temp_course, $temp_instructor_name, $temp_assignments];
         array_push($current_user_courses, $temp_arr);
-        //$current_user_courses[$temp_course] = array($temp_instructor_name , $temp_assignments)
     }
 
 
@@ -137,7 +139,12 @@
         $error = $result;
     }
 
-    //add instructor
+    /*
+     * Purpose of this function is to gather all information needed to create an instructor account, 
+     * generates a random password, and adds the newly created account using the addInstructor
+     * function in SQLHelper. If this succeeds then an email is sent using emailInstructor to the email account
+     * given. It makes use of the User class object before calling the addInstructor function.
+     */
     function addInstructor()
     {
 
@@ -175,8 +182,11 @@
             return  "Could not send email";
         }
     }
-//end of
-    //update instructor
+    /*
+     * This function allows the updating of some account information, but does not currently change
+     * the username, which is tied to the first and last name, or send an email regarding the change.
+     * It makes use of the updateInstructor function of SQLHelper, more information about it can be found in that file.
+     */
     function updateInstructor()
     {
 
@@ -192,10 +202,14 @@
         if($result == "Instructor not updated"){
             return $result;
         }
-    }
+    }//end of edit instructor
 
-//end of edit instructor
-    //add class
+    /*
+     * Purpose of this function is to, if all information is valid, to add a course for use elsewhere.
+     * The course is givena close date, is packaged using the Course class object, and is sent to the
+     * addCourse function of the SQLHelper file. Information on  getUser and addCourse can be found in the SQLHelper
+     * file
+     */
     function addClass()
     {
         //get the variable from the request
@@ -223,10 +237,14 @@
         if($result !== TRUE){
             return $result;
         }
-    }
-
-// end of add class function
-    //update class
+    }// end of add class function
+ 
+    /*
+     * Purpose of the function is to update nearly if not all information of a given information of a selected course.
+     * On update, the close date is updated to match the chosen term, a Course class object is made before calling the 
+     * updateCourse function of the SQLHelper file. Information on getUser and updateCourse can be found in the 
+     * SQLHelper file.
+     */
     function updateClass()
     {
 
@@ -255,10 +273,12 @@
         if($result != "Course updated"){
             return $result;
         }
-    }
+    }// end of update class function
 
-// end of update class function
-
+    /*
+     * Purpose of this function is to generate a password for instructor accounts, as they are created
+     * using the instructor dashboard and not through the normal registration process. 
+     */
     function generateRandomString($length = 10)
     {
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';

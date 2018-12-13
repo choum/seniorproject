@@ -1,5 +1,10 @@
 <?php
-
+    /*
+     * Created By: Nat Rivera updated by Justin Crest
+     * Description: This file is used to create a class object for users, which is used
+     * whenever retrieving information about a user or when creating a new account, which is 
+     * done on account registration and on the creation of an instructor.
+     */
     class User
     {
 

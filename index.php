@@ -1,4 +1,10 @@
 <?php
+    /*
+     * Created By: Heather Tran
+     * Description: This file serves as the landing page to the site, and as such is the default controller.
+     * A massive majority of what this file does is access functions of other files, such as login
+     * and register of the login-functions file. 
+     */
 //require all docs needed to run this redirect controller
 require_once 'includes/cis4270CommonIncludes.php';
 require_once 'SQLHelper.php';
@@ -40,7 +46,8 @@ case 'instructorDash':
   //checks if user is logged in
   $bool = $_SESSION['logged_in'];
 
-  //runs check for both and redirects
+  //runs check for both and redirects. Since role 4 has access to both dashboards, the menu
+  //variable is set to allow for access to the other dashboard that it has access to.
   if (($role == 2 || $role == 4) && $bool) {
     $menu = '<form method="post" action="." id="admin">
       <input type="hidden" name="action" value="adminDash" />
@@ -63,7 +70,8 @@ case 'adminDash':
   //checks if user is logged in
   $bool = $_SESSION['logged_in'];
 
-  //runs check for both and redirects
+  //runs check for both and redirects. Since role 4 has access to both dashboards, the menu
+  //variable is set to allow for access to the other dashboard that it has access to.
   if (($role == 3 || $role == 4) && $bool) {
     $menu = '<form method="post" action="." id="instructor">
       <input type="hidden" name="action" value="instructorDash" />

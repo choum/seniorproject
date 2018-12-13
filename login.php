@@ -1,4 +1,11 @@
 <?php
+    /*
+     * Created By: Heather Tran
+     * Description: This page is an extension of the landing page, and is the first thing
+     * most people will see when accessing the website, with the other being the profile page.
+     * Purpose of this page is to allow users who already have accounts to log in, and give
+     * those who do not a button for registration.
+     */
 create_csrf_token();
 ?>
 <html lang="en">

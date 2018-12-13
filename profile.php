@@ -1,4 +1,14 @@
 <?php
+    /*
+     * Created By: Heather Tran and updated by Justin Crest
+     * Description: This page serves as the view portion of the profile page.
+     * It is meant to display all past courses and assignment submissions for a given student.
+     * Along with this, it displays a profile picture, bio, resume link, personal website link, and email
+     * if those items are given. Lastly, if one has been chosen, a featured assignment is displayed. 
+     * The main portion of the last section is to give a picture view of a chosen website, if such screenshots
+     * were uploaded at time of project submission.
+     * This is one of the few pages that can be accessed without needing to be logged in.
+     */
 session_name('caps');
 session_start();
 include("profile-controller.php"); ?>

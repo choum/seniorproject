@@ -1,4 +1,11 @@
 <?php
+    /*
+     * Created By: Nat Rivera, with updates to UI made by Justin Crest and Heather Tran.
+     * Description: This is the view segment of the project view portion of the website. It is used
+     * to access assignment submissions for a specific assignment of a specific course, and is able to accessed
+     * through the admin and instructor dashboards. In accessing assignment submissions, projects are able to viewed
+     * by clicking a link, which in turn goes to the index page of the project submitted.
+     */
     require_once('project-controller.php');
     require('header.php');
 ?>

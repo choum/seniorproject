@@ -1,5 +1,10 @@
 <?php
-
+/*
+ * Created By: Nat Rivera and Justin Crest
+ * Description: This file is treated as the controller section of the instructor dashboard
+ * and gathers all information prior to being displayed., including the user information,
+ * courses that the instructor teaches, assignments tied to said courses, and so on.
+ */
 require_once "Dates.php";
 require_once "SQLHelper.php";
 require_once "Course.php";
@@ -28,8 +33,6 @@ if (empty($action)) {
 }
   elseif($action == 'add_project') {
     $errorAdd = addProject($current_user->id , $username);
-} else if($action == 'project') {
-   viewProject();
 } else if($action == 'course_key'){
     $errorKey = addUpdateCourseKey();
 }
@@ -91,7 +94,14 @@ if($current_selected_course != ""):
 else:
     $createOrUpdate = "Create Course Key";
 endif;
-
+/*
+ * Purpose of this function is to add an assignment to a given course. If the assignment is 
+ * created and a file is given, that file is verified by type and size prior to being uploaded.
+ * Each assignment has its own directory in order to ensure that files are not accidentally overwritten,
+ * as there is no current way to warn the user that the file name already is in use.
+ * Once all is is said and done, the assignment is added to the database using the addAssignment function
+ * of SQLHelper. More info on this function can be found in the SQLHelper file.
+ */
 function addProject($id , $username) {
   //get all the variebles from the input post
   $today = date("Y/m/d");
@@ -176,12 +186,11 @@ function addProject($id , $username) {
   }
 
 
-}//end of addProjectS
-
-function viewProject() {
-
-}
-
+}//end of addProjects
+/*
+ * Purpose of this function is to call the updateCourseKey function of the SQLHelper file.
+ * More info about this function is located in the SQLHelper file. 
+ */
 function addUpdateCourseKey(){
     $currentCourseID = filter_input(INPUT_POST, 'course');
     $key = filter_input(INPUT_POST, 'key');

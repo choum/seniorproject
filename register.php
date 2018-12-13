@@ -1,4 +1,10 @@
 <?php
+    /*
+     * Created By: Heather Tran
+     * Description: The initial page of the registration, where all account information is submitted.
+     * The username, email, password, and name portions are all required, but everything else is considered optional
+     * and the user can continue with their registration process without entering anything into those fields.
+     */
 create_csrf_token();
 ?>
 <html>

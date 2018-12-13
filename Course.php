@@ -1,5 +1,9 @@
 <?php
-
+    /*
+     * Created By: Nat Rivera
+     * Description: This file is used to create a class object for courses, which is used
+     * whenever retrieving information about a course or when creating a new course
+     */
     class Course
     {
 

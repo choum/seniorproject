@@ -1,4 +1,9 @@
 <?php
+    /*
+     * Created By: Heather Tran
+     * Description: This file is able to accessed via each dashboard, and serves as a way for
+     * all account types to change their password, as long as it meets requirements. 
+     */
 ?>
 
 <!DOCTYPE HTML>

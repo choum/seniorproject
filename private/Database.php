@@ -1,5 +1,10 @@
 <?php
-
+    /*
+     * Created By: Nareg Khodanian
+     * Description: Using the db.ini file, this class creates a connection to the main database located in phpmyadmin
+     * It uses PDO in order to initalize the connection to the database.
+     * Along with this, an attribute default has been set so that any failed queries through an Exception.
+     */
     class Database
     {
 
@@ -12,7 +17,11 @@
             $this->createConnection();
 
         }
-
+        /* 
+         * Purpose of this function is to create the initial connection to the database, which is then stored in an 
+         * instance level object called db. It is here that access to the db.ini file and the setting of the 
+         * attribute occurs.
+         */
         private function createConnection()
         {
 
@@ -38,7 +47,7 @@
             }
         }
 
-        //Use this function to get the database object
+        //Use this function to get the database object which holds the connection.
         public function getConnection()
         {
             return $this->db;

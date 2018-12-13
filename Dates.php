@@ -1,4 +1,10 @@
 <?php
+    /*
+     * Created By: Nat Rivera
+     * Description: Purpose of this file is to handle all things related to semesters, namely
+     * the seperation of courses for display on instructor and admin dashboard, as well as proper
+     * assignment and closing of courses once the term is complete.
+     */
   class Dates {
 
     public $terms = ["Fall", "Winter" , "Spring" , "Summer" ];
@@ -8,7 +14,10 @@
     {
 
     }
-
+    /*
+     * Purpose of this function is to decide and return the year for the current semester.
+     * This is based around which semester one is currently, given the "end of" term dates
+     */
     function getSemesterYear() {
 
       $end_of_spring = date("Y-06-15");
@@ -39,7 +48,12 @@
       return $semester_year;
 
     }//end of semester function
-
+    /*
+     * This functions purpose is to decide when a course should be closed. This is based on 
+     * which term was chosen when creating a course, with the close date being set a short amount of
+     * time after that date is reached. After that point the course should no longer be able to accessed 
+     * by any place other than the administrator dashboard.
+     */
     function getCloseDate($term) {
 
       $year = substr($term, -4);

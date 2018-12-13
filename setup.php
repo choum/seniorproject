@@ -1,4 +1,9 @@
 <?php
+    /*
+     * Created By: Heather Tran
+     * Description: This file is for the SQL Account setup portion of account registration.
+     * Is it only able to be gotten to after completing the initial portion.
+     */
 create_csrf_token();
 ?>
 <html>

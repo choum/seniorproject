@@ -1,4 +1,10 @@
 <?php
+    /*
+     * Created By: Heather Tran and updated by Nat Rivera
+     * Description: This page serves as the view section of the administrator dashboard.
+     * It is split into multiple sections. Creation and update of courses, creation and update
+     * of instructors, and a list of every course and all of its assignments.
+     */
   include('admin-controller.php');
   require('header.php');
 ?>

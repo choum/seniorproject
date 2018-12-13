@@ -1,5 +1,15 @@
 <?php
-
+    /*
+     * Created By: Justin Crest
+     * Description: This file serves as the controller section of the project view.
+     * Its purpose is to gather all information necessary in order to display
+     * in the project-view file, as shown by the lack of class or functions. 
+     * It starts by retrieving the course information, as well as the assignment info for said course.
+     * From there it retrieves all the student submissions, including a link the each submissions index page.
+     * If a PDF was uploaded on the assignments initial creation, the path to it is gotten here.
+     * Information on getCourse, getAssignment, getUserByID, getStudentsOfAssignment, and getStudentAssignment
+     * functions are located in the SQLHelper file.
+     */
     $db = new SQLHelper();
     $currentCourse = $db->getCourse($course);
     $currentAssignment = $db->getAssignment($assignment);

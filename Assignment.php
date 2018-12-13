@@ -1,4 +1,9 @@
 <?PHP
+    /*
+     * Created By: Nat Rivera
+     * Description: This file is used to create a class object for Assignments, which is used
+     * whenever retrieving information about an assignment.
+     */
   class Assignment {
 
     //instance variables

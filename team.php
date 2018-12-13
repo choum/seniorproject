@@ -1,3 +1,12 @@
+<?php 
+    /*
+     * Created By: Nat Rivera
+     * Description: This pages serves as the place to find information and external links to the
+     * team behind this websites creation. As of right now, it holds the info and titles of the original
+     * four members in charge of this project. It is assumed that the next team will either add on to or
+     * replace this page with their own information.
+     */
+?>
 <!DOCTYPE HTML>
 <html lang="en">
 

@@ -1,4 +1,10 @@
 <?php
+    /*
+     * Created By: Heather Tran
+     * Description: This is the header file, which is displayed on each dashboard page. A modified version of this is
+     * used in the profile page. The only main differences account for is role 1, since they are given a direct
+     * link to their profile page, and role 4, since they are able to access both the instructor and admin dashboard.
+     */
 if (!isset($_SESSION)) {
   session_start();
 }

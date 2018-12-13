@@ -1,5 +1,12 @@
 <?php
-
+    /*
+     * Created By: Nareg Khodanian with assistance from Justin Crest
+     * Description: This file serves as the controller segment of the student dashboard.
+     * This file serves as the place for file uploads to occur. This means any zip uploads, 
+     * images for the profile carousel, and the image for the users profile picture.
+     * Along with this, this file is in charge of the course enrollment and gathering the various
+     * bits of information to be displayed on the view.
+     */
     require_once "SQLHelper.php";
     require_once "zip/Zip.php";
     require_once "includes/validationFunctions.php";
@@ -51,7 +58,11 @@
     {
         getAssignments($courseID);
     }
-
+    /*
+     * Purpose of this function is to call the registerCourse function in the SQLHelper file.
+     * based on the given information. More information about said function can be viewed
+     * in the SQLHelper file.
+     */
     function registerCourse($key, $date, $username)
     {
         // Load SQL Helper class
@@ -69,7 +80,10 @@
             echo "There was an error in your enrollment process.";
         }
     }
-
+    /*
+     * Purpose of this function is to call the getUser function in the SQLHelper file based on given info.
+     * For more information about getUser, please visit the SQLHelper file.
+     */
     function getUser($username)
     {
         $commands = new SQLHelper();
@@ -82,7 +96,10 @@
             echo "Invalid user";
         }
     }
-
+    /*
+     * Purpose of this function is to call the getUserID function in the SQLHelper file based on given info.
+     * For more information about getUserID, please visit the SQLHelper file.
+     */
     function getUserID($username)
     {
         $commands = new SQLHelper();
@@ -95,14 +112,20 @@
             return 'Error';
         }
     }
-
+    /*
+     * Purpose of this function is to call the getUserCourses function in the SQLHelper file based on given info.
+     * For more information about getUserCourses, please visit the SQLHelper file.
+     */
     function getCourses($userID)
     {
         $commands = new SQLHelper();
         $courses = $commands->getUserCourses($userID);
         return $courses;
     }
-
+    /*
+     * Purpose of this function is to call the getTeacher function in the SQLHelper file based on given info.
+     * For more information about getTeacher, please visit the SQLHelper file.
+     */
     function getTeacher($teacherID)
     {
         $db = new SQLHelper();
@@ -113,7 +136,12 @@
             return $teacher;
         endif;
     }
-
+    /*
+     * Purpose of this function is to call the getAssignments function for every course that a student is enrolled in.
+     * This information is then used to get info on every assignment under each course given.
+     * Each assignment with all its information is then stored in arraylist for use in the student-dashboard file.
+     * For more info on getAssignments and getAssignment, please visit the SQLHelper file.
+     */
     function getAssignmentsOfCourses($courses)
     {
         $db = new SQLHelper();
@@ -129,7 +157,12 @@
         endforeach;
         return $assignments;
     }
-
+    /*
+     * Purpose of this function is to go through every assignment for every course that a student in enrolled in
+     * and check if they have an assignment submission using the getStudentAssignment function of SQLHelper.
+     * Every submission is then put into an arraylist for later use in the view
+     * For more info on getStudentAssignment, please visit the SQLHelper file.
+     */
     function getStudentAssignments($userID, $assignments)
     {
         $db = new SQLHelper();
@@ -142,7 +175,12 @@
         endforeach;
         return $studentAssignments;
     }
-
+    /*
+     * Purpose of this function is to get all of the assignments for a selected course that the student is enrolled in.
+     * This information is then placed in HTML code, which is used and displayed in the upload assignment module.
+     * It works as a way to allow a dynamically displaying assignment list drop down without the need to reload an entire page.
+     * For more info on the getUserAssignments function, please visit the SQLHelper file.
+     */
     function getAssignments($courseID)
     {
         try
@@ -166,7 +204,16 @@
             echo 'Bad gateway';
         }
     }
-
+    /*
+     * Purpose of this function is to validate all changes made to the edit profile section
+     * of the student dashboard. This involves the creation of a User class object
+     * and validating any image chosen for the users profile picture.
+     * All profile edits are gathered and sent to the updateUser function of SQLHelper once validated.
+     * Files uploaded are under more scrutiny, which includes having an acceptable file type and size.
+     * Once validated, the file is permanently uploaded to the file directory under the profiles folder.
+     * If any files already exist in the directory specific to the student, they are deleted. 
+     * For more info on the updateUser function, please visit the SQLHelper file.
+     */
     function editProfile($username)
     {
         $uploadDirectory = '/profiles/' . $username . '/img/';
@@ -275,7 +322,19 @@
             echo "Could not update profile.";
         }
     }
-
+    /*
+     * Purpose of this function is to upload files for a specific assignment of a specific course
+     * Course and assignment information is used to decide the folder directory, and makes use of the
+     * getCourse and getAssignment functions of SQLHelper. Along with this it uses the unzip function of this file
+     * to allow for unzipping, storage, and later viewing of files uploaded.
+     * Along with this process, this function also takes care of any files uploaded for the carousel display of the profile page.
+     * If the student has chosen the upload project to be featured or shown as group work, that is added along with other information
+     * and sent to the addStudentAssignment function of SQLHelper. For uploading seperate files, the uploadImages function is used.
+     * the changeFeaturedAssignment function of SQLHelper is also used to ensure no more than one featured assignment is selected at a time
+     * per student.
+     * For more info on the getCourse, getAssignment, addStudentAssignment, and changeFeaturedAssignment functions, 
+     * please visit the SQLHelper file. All other function calls are located in this file.
+     */
     function uploadAssignment($username, $userID, $courseID, $assignmentID)
     {
 
@@ -381,7 +440,14 @@
 
         }
     }
-
+    /*
+     * Purpose of this function is to unzip the zip file given by the user on project upload
+     * This function takes care of directory creation to store the project files, as well as 
+     * placing all indiviual project files and subfolder in the newly created directory, 
+     * which in turn changes the name of the project itself. This is done to ensure uniformity
+     * and allowance for reupload to not rely on users keeping the same zip folder name.
+     * This function calls the deleteDirectoryContent, recurse_copy, and deleteDirectory functions of this file.
+     */
     function unzip($location, $new_location, $zipFile)
     {
         $fileDirectory = explode('.', $zipFile['name']);
@@ -406,7 +472,11 @@
             exit();
         }
     }
-
+    /*
+     * Purpose of this function is unpack all files inside of a zip and move them up one level.
+     * This is done to ensure the project files and folders are not hidden behind unecessary layers,
+     * and it is called recursively until hitting a certain point.
+     */
     function recurse_copy($src, $dst)
     {
         try{$dir = opendir($src);}
@@ -428,7 +498,10 @@
         }
         closedir($dir);
     }
-
+    /*
+     * Purpose of this function is to recursively call the delete directory function, which is
+     * done to enure no linger directory exists from the process of unzipping.
+     */
     function deleteDirectory($dirPath)
     {
         if (is_dir($dirPath))
@@ -452,7 +525,10 @@
             rmdir($dirPath);
         }
     }
-
+    /*
+     * Purpose of this function is to delete any directory contents prior to the deletion of a directoy.
+     * This is mainly done to ensure reuploads are performed without conflict of prexisting files.
+     */
     function deleteDirectoryContent($dirPath)
     {
         if (is_dir($dirPath))
@@ -475,7 +551,12 @@
             reset($objects);
         }
     }
-
+    /*
+     * Purpose of this function is for uploading images meant for the iamge carousel of the profile page.
+     * After being validated, the image in question is uploaded, with a new directory being created for the
+     * files to be stored if one does not already exist.
+     * If multiple files are selected for upload, this function is called for each one individually.
+     */
     function uploadImages($imageDirectory, $file, $counter, $assignmentID, $username)
     {
         $maxsize = 10000000;

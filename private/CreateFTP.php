@@ -1,9 +1,10 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: nareg
- * Date: 10/22/18
- * Time: 1:36 PM
+/*
+ * Created by Nareg Khodanian
+ * Description: While currently not in use, the purpose of this class is to create new users for the purpose of use SFTP access in order to upload
+ * and edit projects previously uploaded.
+ * Due to security risks and the lack of differing assigned roles and privileges, this classes use
+ * has been removed from all other sections of code and is kept in for possible use in later versions.
  */
 
 class CreateFTP {

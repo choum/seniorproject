@@ -1,4 +1,12 @@
 <?php
+    /*
+     * Created By: Heather Tran
+     * Description: This file serves as the view section of the instructor dashboard.
+     * It contains sections for adding assignments to a course, creating and updating course
+     * keys for a course, and the display of each course, assignment, and project view link
+     * If no courses are tied to the instructor, the ability to add assignments or update course keys are disabled.
+     * All information used is gathered from the instructor controller file.
+     */
 include('instructor-controller.php');
 require('header.php');
 ?>

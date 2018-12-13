@@ -1,4 +1,15 @@
 <?php
+    /*
+     * Created By: Heather Tran
+     * Description: This file serves as the view segment of the student dashboard. 
+     * It has four portions: Course Enrollment, Edit Profile, Upload Assignment, and View Assignments
+     * Course Enrollment allows students, given a course key, to upload add courses which in turn allows them to upload assignments.
+     * Edit profile allows the student user to change some details about their account, which is the bio, resume link, external website link, and profile picture. 
+     * Upload assignment allows users to upload zips and image files to be stored on the server for later viewing. This portion makes use of a module
+     * and ajax to allow for the transition between adding a course, uploading assignments, and viewing said uploaded assignments possible
+     * without the need to reload the page each time an action occurs.
+     * View assignments serves as a way for students to view their uploaded assignments for courses without needing to go the their profile page.
+     */
 include('student-controller.php');
 
 if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
@@ -149,7 +160,10 @@ else {
     </body>
     <script>
         $(document).ready(function() {
-
+            /*
+             * Instead of using a form inside this file, the upload assignment portion is done using the 
+             * module file named below.
+             */
             var loadForm = function () {
                 $.get("modules/assignment_upload_module.php", function (data) {
                     $("#form-header").after(data);
@@ -158,7 +172,10 @@ else {
                 console.log('Form loaded');
                 return r;
             }
-
+            /*
+             * The assignment drop down list portion is also dynamically loaded, based on which course is selected
+             * from another drop down list on the same form.
+             */
             var onSelectChange = function () {
                 $(document).on('change', '#user-courses', function () {
                     var courseID = $(this).find(":selected").val();
@@ -182,7 +199,10 @@ else {
             }
 
             loadForm().done(onSelectChange());
-
+            /*
+             * This portion is used by the add course section, and on proper enrollment
+             * reloads the upload project form to include the newly added course.
+             */
             $(function () {
                 var enrollment = $('#enrollment-form');
                 var enMessages = $('#enrollment-messages');
@@ -207,7 +227,9 @@ else {
                     })
                 });
             });
-
+            /*
+             * This portion affects the edit profile section of the page and allows for sending of information without page reload.
+             */
             $(function () {
                 var editProfile = $('#edit-profile-form');
                 var edMessages = $('#edit-messages');
@@ -227,7 +249,11 @@ else {
                 });
             });
 
-
+            /*
+             * This portion affects the upload assignment section, and submits the chosen ZIP and any images
+             * for unzipping and upload to the server on success. It also allows success or failure messages to be displayed
+             * regarding project upload.
+             */
             $('body').on('submit','#assignment-form', function(event) {
                 event.preventDefault();
                 if($('#user-assignments').val() == "" || $('#user-assignments').val() == null){
