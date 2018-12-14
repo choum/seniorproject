@@ -1,5 +1,10 @@
 <?php
-
+    /*
+     * Created By: Justin Crest and Nareg Khodanian
+     * Description: This class holds all queries specific to the student-dashboard and student-controller files
+     * Not all queries that are involved in the student dashboard are located on this file due to 
+     * dependencies of other files. Those files are located in the SQLShared file.
+     */
     class SQLStudent
     {
 

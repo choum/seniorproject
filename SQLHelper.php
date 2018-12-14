@@ -1,5 +1,11 @@
 <?php
-
+    /*
+     * Created By: Justin Crest
+     * Description: This file serves as a starting point for all other files starting with
+     * SQL. All other files in the code come to this file for queries and are redirected to where
+     * the query is actually located. This was done to split the query file into more manageable parts
+     * and allow for clearer distinction on what is used where.
+     */
     require_once("private/Database.php");
     require("User.php");
     require("Course.php");

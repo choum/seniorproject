@@ -1,5 +1,9 @@
 <?php
-
+    /*
+     * Created By: Justin Crest and Nareg Khodanian
+     * Description: This file holds all the queries that are either shared by multiple files
+     * or have dependcies that can not be resolved without duplicating functions
+     */
     class SQLShared{
         
         function __construct(){

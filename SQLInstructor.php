@@ -1,5 +1,9 @@
 <?php
-
+    /*
+     * Created By: Justin Crest
+     * Description: This file holds all of the SQL queries related to the instructor-dashboard and instructor-controller
+     * files.
+     */
     class SQLInstructor{
         
         function __construct(){

@@ -1,5 +1,9 @@
 <?php
-    
+    /*
+     * Created By: Justin Crest
+     * Description: This file is holds all queries pertaining to the admin-dashboard and
+     * admin-controller files. 
+     */
     class SQLAdmin{
         
         function __construt(){

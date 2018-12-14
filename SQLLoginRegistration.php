@@ -1,5 +1,9 @@
 <?php
-
+    /*
+     * Created By: Justin Crest
+     * Description: This file holds all of the SQL queries related to login, registration,
+     * and the changing of ones password.
+     */
     class SQLLoginRegistration
     {
         function __construct(){
